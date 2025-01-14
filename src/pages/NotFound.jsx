@@ -1,8 +1,10 @@
+import "../styles/pages/not-found.scss";
+
 const NotFound = () => {
   return (
-    <div>
+    <div className="not-found">
       <h1>404 Not Found</h1>
-      <p>Content for the overview page goes here...</p>
+      <p>This page either does not exist, or had its route moved.</p>
     </div>
   );
 };

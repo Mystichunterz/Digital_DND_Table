@@ -4,13 +4,15 @@ import "../styles/layout/tab-navigation.scss";
 
 const TabNavigation = () => {
   const tabs = [
-    { path: "/overview", label: "Overview" },
-    { path: "/details", label: "Details" },
-    { path: "/settings", label: "Settings" },
+    { path: "/main", label: "Main" },
+    { path: "/spellbook", label: "Spellbook" },
+    { path: "/calculator", label: "Calculator" },
+    { path: "/background", label: "Background" },
+    { path: "/familiars", label: "Familiars" },
   ];
 
   return (
-    <ul className="tab-list">
+    <ul className="navtab-list">
       {tabs.map((tab, index) => (
         <li key={index}>
           <NavLink to={tab.path} className={({ isActive }) => (isActive ? "active tab" : "tab")}>

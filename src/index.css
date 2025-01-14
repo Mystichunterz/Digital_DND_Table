@@ -1,9 +1,22 @@
 /* src > index.css */
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+P {
+    margin: 0;
+}
+
+/* Make p small */
+p {
+    font-size: 0.6em;
+}
+
 :root {
   font-family: 'Aldine 721bt', serif;
-  line-height: 1.5;
-  font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -30,11 +43,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {

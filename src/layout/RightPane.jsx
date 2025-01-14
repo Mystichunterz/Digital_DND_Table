@@ -8,7 +8,9 @@ const RightPane = () => {
       <div className="tab-navigation">
         <TabNavigation />
       </div>
-      <div className="pane-content">Pane Content</div>
+      <div className="pane-content">
+        <Outlet />
+      </div>
     </div>
   );
 };

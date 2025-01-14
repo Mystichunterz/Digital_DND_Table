@@ -15,7 +15,7 @@
         }
 
         .right-main-container {
-            width: 82.5%;
+            width: 77.5%;
             padding-left: 1rem;
             padding-right: 1rem;
             display: flex;
@@ -33,14 +33,14 @@
                 }
 
                 .pane-content {
-                    background: #16130f;
-                    border-color: #694a29;
-                    border-width: 2px;
-                    border-style: solid;
+                    background: radial-gradient(64.54% 67.91% at 50% 15.37%, rgba(173, 136, 114, 0.2) 0.38%, rgba(173, 136, 114, 0.16) 26.44%, rgba(119, 93, 78, 0.12) 63.51%, rgba(32, 27, 24, 0.08) 97.58%), #201B18;
+                    border: 2px solid #694a29;
+                    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 10.6px rgba(58, 47, 38, 0.25), inset 0px 4px 9.9px rgba(58, 47, 38, 0.1);
+                    border-radius: 0 0 10px 10px;
                     padding: 1rem;
                     flex: 1;
                     overflow-y: auto;
-                    z-index: 2;
+                    z-index: 500;
                 }
             }
         }
