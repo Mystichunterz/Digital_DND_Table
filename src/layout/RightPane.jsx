@@ -4,13 +4,11 @@ import TabNavigation from "./TabNavigation";
 
 const RightPane = () => {
   return (
-    <div className="right-pane-content">
-      <header className="tab-navigation">
+    <div className="right-pane">
+      <div className="tab-navigation">
         <TabNavigation />
-      </header>
-      <main className="pane-content">
-        <Outlet /> {/* Dynamically renders the selected view */}
-      </main>
+      </div>
+      <div className="pane-content">Pane Content</div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "../styles/layout/tab-navigation.scss";
 
 const TabNavigation = () => {
   const tabs = [
@@ -12,7 +13,7 @@ const TabNavigation = () => {
     <ul className="tab-list">
       {tabs.map((tab, index) => (
         <li key={index}>
-          <NavLink to={tab.path} className={({ isActive }) => (isActive ? "active-tab" : "tab")}>
+          <NavLink to={tab.path} className={({ isActive }) => (isActive ? "active tab" : "tab")}>
             {tab.label}
           </NavLink>
         </li>

@@ -1,4 +1,4 @@
-import "../styles/layout/leftdisplay.scss";
+import "../styles/layout/left-display.scss";
 
 const LeftDisplay = () => {
   return (
