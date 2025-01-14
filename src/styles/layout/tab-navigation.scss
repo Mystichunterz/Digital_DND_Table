@@ -23,7 +23,7 @@
 
     font-weight: bold;
     font-size: 1rem;
-    color: #333;
+    color: #ffffff;
     text-align: center;
 
     cursor: pointer;
@@ -38,7 +38,7 @@
     &.active {
         transform: translateY(0);
         background-color: #094963;
-        z-index: 2;
+        z-index: 3;
     }
 
     &::before {
