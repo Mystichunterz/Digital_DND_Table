@@ -179,7 +179,6 @@
             p {
                 margin: 0;
                 line-height: 1;
-                margin-left: 0.5rem;
             }
 
             &:hover {
@@ -195,7 +194,7 @@
         width: 100%;
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
-        .feature-item {
+        .feature-content {
             display: flex;
             align-items: center;
             padding: 0.25rem;
@@ -212,7 +211,6 @@
             p {
                 margin: 0;
                 line-height: 1;
-                margin-left: 0.5rem;
             }
 
             &:hover {
