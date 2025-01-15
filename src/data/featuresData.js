@@ -24,63 +24,75 @@ import Curse_Icon from "../assets/layout/left_display/120px-Bestow_Curse_Debuff_
 const featuresData = [
     {
         icon: Great_Weapon_Master_All_In,
-        text: "Great Weapon Master: All In",
-        popupContent: "Deal extra damage at the cost of accuracy.",
+        title: "Great Weapon Master: All In",
+        subtitle: "Toggleable Passive Feature",
+        text: "Deal extra damage at the cost of accuracy."
     },
     {
         icon: Great_Weapon_Master_Bonus_Attack,
-        text: "Great Weapon Master: Bonus Attack",
-        popupContent: "Gain an additional attack after a critical hit or reducing a creature to 0 HP.",
+        title: "Great Weapon Master: Bonus Attack",
+        subtitle: "Passive Feature",
+        text: "Gain an additional attack after a critical hit or reducing a creature to 0 HP."
     },
     {
         icon: Great_Weapon_Fighting,
-        text: "Great Weapon Fighting",
-        popupContent: "Reroll 1s and 2s on damage dice with two-handed weapons.",
+        title: "Great Weapon Fighting",
+        subtitle: "Passive Feature",
+        text: "Reroll 1s and 2s on damage dice with two-handed weapons."
     },
     {
         icon: Savage_Attacker_Icon,
-        text: "Savage Attacker",
-        popupContent: "Once per turn, reroll damage for a melee weapon attack.",
+        title: "Savage Attacker",
+        subtitle: "Passive Feature",
+        text: "Once per turn, reroll damage for a melee weapon attack."
     },
     {
         icon: Extra_Attack_Icon,
-        text: "Extra Attack",
-        popupContent: "Attack twice whenever you take the Attack action.",
+        title: "Extra Attack",
+        subtitle: "Passive Feature",
+        text: "Attack twice whenever you take the Attack action."
     },
     {
         icon: Divine_Health_Icon,
-        text: "Divine Health",
-        popupContent: "Immune to disease.",
+        title: "Divine Health",
+        subtitle: "Passive Feature",
+        text: "Immune to disease."
     },
     {
         icon: Divine_Tenets_Icon,
-        text: "Oath of Vengeance Tenets",
-        popupContent: "Sworn to uphold the tenets of vengeance.",
+        title: "Oath of Vengeance Tenets",
+        subtitle: "Passive Feature",
+        text: "Sworn to uphold the tenets of vengeance."
     },
     {
         icon: Divine_Intervention_Icon,
-        text: "Favoured by the Gods",
-        popupContent: "Once per short rest, add 2d4 to a failed saving throw or missed attack roll.",
+        title: "Favoured by the Gods",
+        subtitle: "Passive Feature",
+        text: "Once per short rest, add 2d4 to a failed saving throw or missed attack roll."
     },
     {
         icon: Darkvision_Icon,
-        text: "Darkvision",
-        popupContent: "See in dim light within 60 feet as if it were bright light.",
+        title: "Darkvision",
+        subtitle: "Passive Feature",
+        text: "See in dim light within 60 feet as if it were bright light."
     },
     {
         icon: Draconic_Resistance_Icon,
-        text: "Draconic Resilience",
-        popupContent: "Gain a +1 bonus to AC and resistance to a damage type.",
+        title: "Draconic Resilience",
+        subtitle: "Passive Feature",
+        text: "Gain a +1 bonus to AC and resistance to a damage type."
     },
     {
         icon: Fey_Ancestry_Icon,
-        text: "Fey Ancestry",
-        popupContent: "Advantage on saving throws against being charmed, and magic cannot put you to sleep.",
+        title: "Fey Ancestry",
+        subtitle: "Passive Feature",
+        text: "Advantage on saving throws against being charmed, and magic cannot put you to sleep."
     },
     {
         icon: Curse_Icon,
-        text: "Rhea's Divine Punishment",
-        popupContent: "Inflict a divine curse on enemies.",
+        title: "Rhea's Divine Punishment",
+        subtitle: "Passive Feature",
+        text: "Inflict a divine curse on enemies."
     },
 ];
 

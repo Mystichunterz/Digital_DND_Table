@@ -45,7 +45,7 @@ const LeftDisplay = () => {
         <img src={Vengeance_Paladin_Icon} alt="Paladin" className="class-image" />
       </div>
       <p className="shared-margin">Level 5 Paladin / Level 1 Sorcerer</p>
-      <div className="attributes shared-margin-small">
+      <div className="attributes shared-margin">
         {[
           { label: "STR", value: 16 },
           { label: "DEX", value: 12 },
@@ -90,10 +90,10 @@ const LeftDisplay = () => {
       </p>
       <div className="features shared-margin">
         {featuresData.map((feature, index) => (
-          <FeaturePopup key={index} popupContent={<p>{feature.popupContent}</p>}>
+          <FeaturePopup key={index} icon={feature.icon} title={feature.title} subtitle={feature.subtitle} text={feature.text}>
             <div className="feature-content">
-              <img src={feature.icon} alt={feature.text} className="hover-icon" />
-              <p>{feature.text}</p>
+              <img src={feature.icon} alt={feature.title} className="hover-icon" />
+              <p>{feature.title}</p>
             </div>
           </FeaturePopup>
         ))}
