@@ -66,11 +66,11 @@ const LeftDisplay = () => {
         Conditions
         <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
       </p>
-      <div className="conditions shared-margin-small">
+      {/* <div className="conditions shared-margin-small">
         {[{ icon: Aura_of_Protection_Icon, text: "Aura of Protection", popupContent: <p>Gives allies within 10 feet a +3 bonus to saving throws.</p> }].map((item, index) => (
           <FeaturePopup key={index} icon={item.icon} text={item.text} popupContent={item.popupContent} />
         ))}
-      </div>
+      </div> */}
 
       <p className="shared-margin subheading">
         <img src={Left_Curlicue_Icon} alt="Left Curlicue" className="curlicue" />
@@ -90,7 +90,12 @@ const LeftDisplay = () => {
       </p>
       <div className="features shared-margin">
         {featuresData.map((feature, index) => (
-          <FeaturePopup key={index} icon={feature.icon} text={feature.text} popupContent={<p>{feature.popupContent}</p>} />
+          <FeaturePopup key={index} popupContent={<p>{feature.popupContent}</p>}>
+            <div className="feature-content">
+              <img src={feature.icon} alt={feature.text} className="hover-icon" />
+              <p>{feature.text}</p>
+            </div>
+          </FeaturePopup>
         ))}
       </div>
     </div>

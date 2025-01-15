@@ -13,16 +13,12 @@ import "../../styles/components/layout/FeaturePopup.scss";
 //----------------------
 //  main
 //----------------------
-const FeaturePopup = ({ icon, text, popupContent }) => {
+const FeaturePopup = ({ popupContent, children }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="feature-popup-wrapper" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      {/* Feature icon and text */}
-      <div className="feature-content">
-        <img src={icon} alt={text} className="hover-icon" />
-        <p>{text}</p>
-      </div>
+      {children}
 
       {/* Popup shown on hover */}
       {isHovered && <div className="popup-window">{popupContent}</div>}
@@ -31,9 +27,8 @@ const FeaturePopup = ({ icon, text, popupContent }) => {
 };
 
 FeaturePopup.propTypes = {
-  icon: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
   popupContent: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 //----------------------
