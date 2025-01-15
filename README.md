@@ -1,4 +1,4 @@
-# Digital DND Table v1.0.0
+# Digital DND Table v1.0.1
 
 This project is a digital DND table that allows players to keep track of their character sheets digitally. The project is built using React and Vite.
 

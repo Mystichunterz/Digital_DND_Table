@@ -10,12 +10,12 @@
         padding: 2.5rem 1.5rem;
 
         .left-main-container {
-            width: 22.5%;
+            width: 25%;
             box-sizing: border-box;
         }
 
         .right-main-container {
-            width: 77.5%;
+            width: 75%;
             padding-left: 1rem;
             padding-right: 1rem;
             display: flex;
@@ -27,8 +27,6 @@
                 flex-direction: column;
 
                 .tab-navigation {
-                    // background: #ddd;
-                    // padding: 0.5rem;
                     flex: 0 0 7.5%;
                 }
 

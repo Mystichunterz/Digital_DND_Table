@@ -21,6 +21,9 @@ import Darkvision_Icon from "../assets/layout/left_display/120px-Darkvision_Icon
 import Draconic_Resistance_Icon from "../assets/layout/left_display/120px-Draconic_Resilience_Icon.webp.png";
 import Curse_Icon from "../assets/layout/left_display/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
 
+import Left_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_left.svg";
+import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_right.svg";
+
 const LeftDisplay = () => {
   return (
     <div className="left-display-content">
@@ -58,7 +61,11 @@ const LeftDisplay = () => {
           </div>
         ))}
       </div>
-      <p className="shared-margin">Conditions</p>
+      <p className="shared-margin subheading">
+        <img src={Left_Curlicue_Icon} alt="Left Curlicue" className="curlicue" />
+        Conditions
+        <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
+      </p>
       <div className="conditions shared-margin">
         {[{ icon: Aura_of_Protection_Icon, text: "Aura of Protection" }].map((item, index) => (
           <div key={index} className="condition-item">
@@ -67,13 +74,22 @@ const LeftDisplay = () => {
           </div>
         ))}
       </div>
-      <p className="shared-margin">Resistances</p>
+      <p className="shared-margin subheading">
+        <img src={Left_Curlicue_Icon} alt="Left Curlicue" className="curlicue" />
+        Resistances
+        <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
+      </p>
       <div className="resistances shared-margin">
         {[Slashing_Resistance_Icon, Piercing_Resistance_Icon].map((icon, index) => (
           <img key={index} src={icon} alt="Res" className="resistance-icon" />
         ))}
       </div>
-      <p className="shared-margin">Notable Features</p>
+
+      <p className="shared-margin subheading">
+        <img src={Left_Curlicue_Icon} alt="Left Curlicue" className="curlicue" />
+        Notable Features
+        <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
+      </p>
       <div className="features shared-margin">
         {[
           { icon: Great_Weapon_Master_All_In, text: "Great Weapon Master: All In" },

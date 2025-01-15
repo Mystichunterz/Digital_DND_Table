@@ -137,6 +137,21 @@
         }
     }
 
+    .subheading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: #ded3bb;
+
+        .curlicue {
+            height: 0.4em;
+            width: auto;
+            margin-top: 0.1em;
+        }
+    }
+
     .conditions,
     .features {
         display: flex;
