@@ -1,4 +1,10 @@
-import React from "react";
+//----------------------
+//  src > layout > LeftDisplay.jsx
+//----------------------
+
+//----------------------
+//  imports
+//----------------------
 import { Outlet } from "react-router-dom";
 import TabNavigation from "./TabNavigation";
 
@@ -15,4 +21,7 @@ const RightPane = () => {
   );
 };
 
+//----------------------
+//  exports
+//----------------------
 export default RightPane;

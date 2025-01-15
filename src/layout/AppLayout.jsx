@@ -1,9 +1,13 @@
 //----------------------
+//  src > layout > AppLayout.jsx
+//----------------------
+
+//----------------------
 //  imports
 //----------------------
-import React from "react";
 import LeftDisplay from "./LeftDisplay";
 import RightPane from "./RightPane";
+
 import "../styles/layout/layout.scss";
 
 //----------------------

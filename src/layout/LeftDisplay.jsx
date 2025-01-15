@@ -1,3 +1,10 @@
+//----------------------
+//  src > layout > LeftDisplay.jsx
+//----------------------
+
+//----------------------
+//  imports
+//----------------------
 import "../styles/layout/left-display.scss";
 import Sariel_PFP from "../assets/layout/left_display/sariel_pfp.png";
 import Vengeance_Paladin_Icon from "../assets/layout/left_display/Class_Paladin_Badge_Icon.png";
@@ -26,6 +33,9 @@ import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicu
 
 import FeaturePopup from "../components/layout/FeaturePopup";
 
+//----------------------
+//  main
+//----------------------
 const LeftDisplay = () => {
   return (
     <div className="left-display-content">
@@ -161,4 +171,7 @@ const LeftDisplay = () => {
   );
 };
 
+//----------------------
+//  exports
+//----------------------
 export default LeftDisplay;

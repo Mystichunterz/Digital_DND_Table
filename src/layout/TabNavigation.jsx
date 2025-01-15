@@ -1,7 +1,16 @@
-import React from "react";
+//----------------------
+//  src > layout > LeftDisplay.jsx
+//----------------------
+
+//----------------------
+//  imports
+//----------------------
 import { NavLink } from "react-router-dom";
 import "../styles/layout/tab-navigation.scss";
 
+//----------------------
+//  main
+//----------------------
 const TabNavigation = () => {
   const tabs = [
     { path: "/main", label: "Main" },
@@ -24,4 +33,7 @@ const TabNavigation = () => {
   );
 };
 
+//----------------------
+//  exports
+//----------------------
 export default TabNavigation;

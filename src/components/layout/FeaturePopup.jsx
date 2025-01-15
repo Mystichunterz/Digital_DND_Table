@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+//----------------------
+//  src > layout > FeaturePopup.jsx
+//----------------------
+
+//----------------------
+//  imports
+//----------------------
+import { useState } from "react";
 import PropTypes from "prop-types";
+
 import "../../styles/components/layout/FeaturePopup.scss";
 
+//----------------------
+//  main
+//----------------------
 const FeaturePopup = ({ icon, text, popupContent }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -25,4 +36,7 @@ FeaturePopup.propTypes = {
   popupContent: PropTypes.node.isRequired,
 };
 
+//----------------------
+//  exports
+//----------------------
 export default FeaturePopup;
