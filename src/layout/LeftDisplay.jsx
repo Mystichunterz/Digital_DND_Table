@@ -46,7 +46,7 @@ const LeftDisplay = () => {
         <img src={Vengeance_Paladin_Icon} alt="Paladin" className="class-image" />
       </div>
       <p className="shared-margin">Level 5 Paladin / Level 1 Sorcerer</p>
-      <div className="attributes shared-margin">
+      <div className="attributes shared-margin-small">
         {[
           { label: "STR", value: 16 },
           { label: "DEX", value: 12 },
@@ -66,7 +66,7 @@ const LeftDisplay = () => {
         Conditions
         <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
       </p>
-      <div className="conditions shared-margin">
+      <div className="conditions shared-margin-small">
         {[{ icon: Aura_of_Protection_Icon, text: "Aura of Protection" }].map((item, index) => (
           <div key={index} className="condition-item">
             <img src={item.icon} alt="Con" />
@@ -79,7 +79,7 @@ const LeftDisplay = () => {
         Resistances
         <img src={Right_Curlicue_Icon} alt="Right Curlicue" className="curlicue" />
       </p>
-      <div className="resistances shared-margin">
+      <div className="resistances shared-margin-small">
         {[Slashing_Resistance_Icon, Piercing_Resistance_Icon].map((icon, index) => (
           <img key={index} src={icon} alt="Res" className="resistance-icon" />
         ))}
