@@ -11,15 +11,20 @@ import Vengeance_Paladin_Icon from "../assets/layout/left_display/Class_Paladin_
 import AC_Icon from "../assets/layout/left_display/AC_Icon.png";
 import Gold_Icon from "../assets/layout/left_display/gold_icon.png";
 
+import Star_Icon from "../assets/layout/left_display/Gold_Star_Icon.png";
+import Dice_Icon from "../assets/layout/left_display/Ability_Score_Proficiency_Icon.png";
+
 import Slashing_Resistance_Icon from "../assets/layout/left_display/79px-Slashing_Resistance_NM.png";
 import Piercing_Resistance_Icon from "../assets/layout/left_display/79px-Piercing_Resistance_NM.png";
 
 import Left_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_left.svg";
 import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_right.svg";
 
+import AbilityScorePopup from "../components/popups/AbilityScorePopup";
 import FeaturePopup from "../components/popups/FeaturePopup";
 import ConditionPopup from "../components/popups/ConditionPopup";
 
+import abilityScoresData from "../data/abilityScoresData";
 import conditionsData from "../data/conditionsData";
 import featuresData from "../data/featuresData";
 
@@ -59,19 +64,22 @@ const LeftDisplay = () => {
         <img src={Vengeance_Paladin_Icon} alt="Paladin" className="class-image" />
       </div>
       <p className="shared-margin">Level 5 Paladin / Level 1 Sorcerer</p>
-      <div className="attributes shared-margin">
-        {[
-          { label: "STR", value: 16 },
-          { label: "DEX", value: 12 },
-          { label: "CON", value: 14 },
-          { label: "INT", value: 8 },
-          { label: "WIS", value: 10 },
-          { label: "CHA", value: 14 },
-        ].map((attr, index) => (
-          <div key={index} className="attribute">
-            <p>{attr.label}</p>
-            <p className="attribute-value">{attr.value}</p>
-          </div>
+      <div className="attributes">
+        {abilityScoresData.map((attr, index) => (
+          <AbilityScorePopup key={index} icon={attr.icon} title={attr.title} subtitle="Ability" text={attr.description} value={attr.value} isPrimary={attr.isPrimary} isProficient={attr.isProficient} savingThrows={attr.savingThrows} sources={attr.sources}>
+            <div className="attribute">
+              {/* Star icon for primary abilities */}
+              {attr.isPrimary && <img src={Star_Icon} alt="Primary Ability" className="primary-icon" />}
+
+              <p>{attr.label}</p>
+
+              {/* Dice icon for proficient abilities */}
+              <div className="attribute-value-container">
+                {attr.isProficient && <img src={Dice_Icon} alt="Proficient Ability" className="proficient-icon" />}
+                <p className="attribute-value">{attr.value}</p>
+              </div>
+            </div>
+          </AbilityScorePopup>
         ))}
       </div>
 
