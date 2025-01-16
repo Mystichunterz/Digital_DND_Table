@@ -5,8 +5,8 @@
 //----------------------
 //  imports
 //----------------------
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
 import "../../styles/components/layout/FeaturePopup.scss";
 
@@ -15,37 +15,112 @@ import "../../styles/components/layout/FeaturePopup.scss";
 //----------------------
 const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
   const [isHovered, setIsHovered] = useState(false);
-  console.log("Data received by FeaturePopup: ", icon, title, subtitle, text, children);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [popupRendered, setPopupRendered] = useState(false);
+  const popupRef = useRef(null);
+  const generatorRect = useRef(null);
 
-  return (
-    <div className="feature-popup-wrapper" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      {children}
+  const handleMouseEnter = (event) => {
+    setIsHovered(true);
+    const rect = event.currentTarget.getBoundingClientRect();
+    generatorRect.current = rect;
 
-      {/* Popup shown on hover */}
-      {isHovered && (
-        <div className="popup-window">
-          {/* Left container: title, subtitle, and text */}
-          <div className="popup-content">
-            <h5 className="popup-title">{title}</h5>
-            <p className="popup-subtitle">{subtitle}</p>
-            <p className="popup-text">{text}</p>
-          </div>
-          {/* Right container: image */}
-          <div className="popup-image-container">
-            <img src={icon} alt={title} className="popup-image" />
-          </div>
+    const initialPosition = { top: rect.bottom + 16, left: rect.left };
+    console.log("Initial position set:", initialPosition);
+    setPosition(initialPosition);
+
+    setPopupRendered(true);
+    requestAnimationFrame(() => {
+      if (popupRef.current) {
+        console.log("Forcing recheck of popup dimensions...");
+        setPopupRendered(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (popupRendered) {
+      console.log("Popup rendered, adjusting position...");
+    }
+  }, [popupRendered]);
+
+  useEffect(() => {
+    if (popupRendered && generatorRect.current) {
+      const popupHeight = popupRef.current?.offsetHeight || 0;
+      const popupWidth = popupRef.current?.offsetWidth || 0;
+      const padding = 32; // 2rem padding
+      const spacing = 16; // Space between generator and popup
+
+      setPosition((prevPosition) => {
+        const rect = generatorRect.current;
+        let top = prevPosition.top;
+        let left = prevPosition.left;
+
+        // Adjust vertical position
+        if (top + popupHeight > window.innerHeight - padding) {
+          top = Math.max(rect.top - popupHeight - spacing, padding);
+          console.log("Adjusted vertical position to avoid overflow:", top);
+        }
+
+        // Ensure popup doesn't overlap the generator
+        if (top < rect.bottom && top + popupHeight > rect.top) {
+          top = rect.top - popupHeight - spacing;
+          console.log("Adjusted vertical position to avoid overlap:", top);
+        }
+
+        // Adjust horizontal position
+        if (left + popupWidth > window.innerWidth - padding) {
+          left = Math.max(window.innerWidth - popupWidth - padding, padding);
+          console.log("Adjusted horizontal position to avoid overflow:", left);
+        }
+
+        if (left < padding) {
+          left = padding;
+          console.log("Adjusted horizontal position to stay within bounds:", left);
+        }
+
+        const adjustedPosition = { top, left };
+        console.log("Final adjusted position:", adjustedPosition);
+        return adjustedPosition;
+      });
+
+      setPopupRendered(false);
+    }
+  }, [popupRendered]);
+
+  // Note: Unused unless onMouseLeave={() => setIsHovered(false) is set to true
+  // Forces popup to stay on screen for debugging purposes
+  useEffect(() => {
+    if (isHovered) {
+      const timer = setTimeout(() => {
+        setIsHovered(false);
+      }, 3000000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isHovered]);
+
+  const popupContent = (
+    <div className="feature-popup-container">
+      <div className="feature-popup-window" style={{ top: position.top, left: position.left }} ref={popupRef}>
+        <div className="popup-content">
+          <h5 className="popup-title">{title}</h5>
+          <p className="popup-subtitle">{subtitle}</p>
+          <p className="popup-text">{text}</p>
         </div>
-      )}
+        <div className="popup-image-container">
+          <img src={icon} alt={title} className="popup-image" />
+        </div>
+      </div>
     </div>
   );
-};
 
-FeaturePopup.propTypes = {
-  icon: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  return (
+    <div className="feature-popup-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsHovered(true)}>
+      {children}
+      {isHovered && ReactDOM.createPortal(popupContent, document.getElementById("root"))}
+    </div>
+  );
 };
 
 //----------------------

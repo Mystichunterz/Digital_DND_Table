@@ -26,7 +26,7 @@ const featuresData = [
         icon: Great_Weapon_Master_All_In,
         title: "Great Weapon Master: All In",
         subtitle: "Toggleable Passive Feature",
-        text: "Deal extra damage at the cost of accuracy."
+        text: "When attacking with a melee weapon you are **Proficient** with and are wielding in both hands, **Attack Rolls** take a -5 penalty, but their damage increases by 10."
     },
     {
         icon: Great_Weapon_Master_Bonus_Attack,
