@@ -41,7 +41,7 @@
             flex-direction: column;
 
             .popup-title {
-                font-weight: bold;
+                font-weight: lighter;
                 margin: 0;
 
                 color: white;
@@ -76,5 +76,9 @@
                 transform: translate(15px, -9px);
             }
         }
+    }
+
+    .highlighted-text {
+        color: #e4d691;
     }
 }

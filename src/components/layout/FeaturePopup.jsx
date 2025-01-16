@@ -100,13 +100,32 @@ const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
     }
   }, [isHovered]);
 
+  const renderStyledText = (text) => {
+    const parts = text.split(/(\*\*.*?\*\*)|(\n)/); // Split by **...** and newlines
+    return parts
+      .filter((part) => part !== undefined && part !== "")
+      .map((part, index) => {
+        if (part === "\n") {
+          return <br key={index} />;
+        }
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <span key={index} className="highlighted-text">
+              {part.slice(2, -2)} {/* Remove the ** markers */}
+            </span>
+          );
+        }
+        return <span key={index}>{part}</span>;
+      });
+  };
+
   const popupContent = (
     <div className="feature-popup-container">
       <div className="feature-popup-window" style={{ top: position.top, left: position.left }} ref={popupRef}>
         <div className="popup-content">
           <h5 className="popup-title">{title}</h5>
           <p className="popup-subtitle">{subtitle}</p>
-          <p className="popup-text">{text}</p>
+          <p className="popup-text">{renderStyledText(text)}</p>
         </div>
         <div className="popup-image-container">
           <img src={icon} alt={title} className="popup-image" />
@@ -116,7 +135,7 @@ const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
   );
 
   return (
-    <div className="feature-popup-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsHovered(true)}>
+    <div className="feature-popup-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={() => setIsHovered(false)}>
       {children}
       {isHovered && ReactDOM.createPortal(popupContent, document.getElementById("root"))}
     </div>
