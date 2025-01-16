@@ -10,20 +10,34 @@ import Sariel_PFP from "../assets/layout/left_display/sariel_pfp.png";
 import Vengeance_Paladin_Icon from "../assets/layout/left_display/Class_Paladin_Badge_Icon.png";
 import AC_Icon from "../assets/layout/left_display/AC_Icon.png";
 import Gold_Icon from "../assets/layout/left_display/gold_icon.png";
-import Aura_of_Protection_Icon from "../assets/layout/left_display/120px-Aura_of_Protection_Icon.webp.png";
 
 import Slashing_Resistance_Icon from "../assets/layout/left_display/79px-Slashing_Resistance_NM.png";
 import Piercing_Resistance_Icon from "../assets/layout/left_display/79px-Piercing_Resistance_NM.png";
 
 import Left_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_left.svg";
 import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_right.svg";
-import FeaturePopup from "../components/layout/FeaturePopup";
+
+import FeaturePopup from "../components/popups/FeaturePopup";
+import ConditionPopup from "../components/popups/ConditionPopup";
+
+import conditionsData from "../data/conditionsData";
 import featuresData from "../data/featuresData";
 
 //----------------------
 //  main
 //----------------------
 const LeftDisplay = () => {
+  const processConditionDuration = (duration) => {
+    if (duration === "Permanent") {
+      return null;
+      // if condition has a number, return that only the number
+    } else if (duration.match(/\d+/)) {
+      return `${duration.match(/\d+/)[0]}`;
+    } else {
+      return duration;
+    }
+  };
+
   return (
     <div className="left-display-content">
       <div className="left-display-header shared-margin">
@@ -71,6 +85,20 @@ const LeftDisplay = () => {
           <FeaturePopup key={index} icon={item.icon} text={item.text} popupContent={item.popupContent} />
         ))}
       </div> */}
+
+      <div className="conditions shared-margin">
+        {conditionsData.map((condition, index) => (
+          <ConditionPopup key={index} icon={condition.icon} title={condition.title} subtitle={condition.subtitle} text={condition.text} {...(condition.duration ? { duration: condition.duration } : {})}>
+            <div className="condition-content">
+              <div className="condition-image-container">
+                <img src={condition.icon} alt={condition.title} className="condition-icon" />
+                {condition.duration && <p className="condition-duration">{processConditionDuration(condition.duration)}</p>}
+              </div>
+              <p>{condition.title}</p>
+            </div>
+          </ConditionPopup>
+        ))}
+      </div>
 
       <p className="shared-margin subheading">
         <img src={Left_Curlicue_Icon} alt="Left Curlicue" className="curlicue" />
