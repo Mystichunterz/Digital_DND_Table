@@ -5,18 +5,18 @@
 //----------------------
 //  imports
 //----------------------
-import Great_Weapon_Master_All_In from "../assets/popups/features/120px-Great_Weapon_Master_All_In_Icon.webp.png";
-import Great_Weapon_Master_Bonus_Attack from "../assets/popups/features/120px-Great_Weapon_Master_Icon.webp.png";
-import Divine_Health_Icon from "../assets/popups/features/120px-Divine_Health_Icon.png";
-import Extra_Attack_Icon from "../assets/popups/features/120px-Extra_Attack_Icon.webp.png";
-import Fey_Ancestry_Icon from "../assets/popups/features/120px-Fey_Ancestry_Icon.webp.png";
-import Great_Weapon_Fighting from "../assets/popups/features/120px-Great_Weapon_Fighting_Icon.webp.png";
-import Divine_Tenets_Icon from "../assets/popups/features/120px-Divine_Intervention_Arm_Thy_Servant_Icon.webp.png";
-import Savage_Attacker_Icon from "../assets/popups/features/120px-Savage_Attacker_Icon.webp.png";
-import Divine_Intervention_Icon from "../assets/popups/features/120px-Divine_Intervention_Sunder_the_Heretical_Icon.webp.png";
-import Darkvision_Icon from "../assets/popups/features/120px-Darkvision_Icon.webp.png";
-import Draconic_Resistance_Icon from "../assets/popups/features/120px-Draconic_Resilience_Icon.webp.png";
-import Curse_Icon from "../assets/popups/features/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
+import Great_Weapon_Master_All_In from "../assets/layout/left_display/120px-Great_Weapon_Master_All_In_Icon.webp.png";
+import Great_Weapon_Master_Bonus_Attack from "../assets/layout/left_display/120px-Great_Weapon_Master_Icon.webp.png";
+import Divine_Health_Icon from "../assets/layout/left_display/120px-Divine_Health_Icon.png";
+import Extra_Attack_Icon from "../assets/layout/left_display/120px-Extra_Attack_Icon.webp.png";
+import Fey_Ancestry_Icon from "../assets/layout/left_display/120px-Fey_Ancestry_Icon.webp.png";
+import Great_Weapon_Fighting from "../assets/layout/left_display/120px-Great_Weapon_Fighting_Icon.webp.png";
+import Divine_Tenets_Icon from "../assets/layout/left_display/120px-Divine_Intervention_Arm_Thy_Servant_Icon.webp.png";
+import Savage_Attacker_Icon from "../assets/layout/left_display/120px-Savage_Attacker_Icon.webp.png";
+import Divine_Intervention_Icon from "../assets/layout/left_display/120px-Divine_Intervention_Sunder_the_Heretical_Icon.webp.png";
+import Darkvision_Icon from "../assets/layout/left_display/120px-Darkvision_Icon.webp.png";
+import Draconic_Resistance_Icon from "../assets/layout/left_display/120px-Draconic_Resilience_Icon.webp.png";
+import Curse_Icon from "../assets/layout/left_display/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
 
 //----------------------
 //  main
