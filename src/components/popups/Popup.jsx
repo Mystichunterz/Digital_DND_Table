@@ -20,35 +20,44 @@ const Popup = ({ children, triggerRef, onClose }) => {
   useEffect(() => {
     if (triggerRef?.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      const initialPosition = { top: rect.bottom + 16, left: rect.left };
-      setPosition(initialPosition);
+      setPosition({
+        top: rect.bottom + 16,
+        left: rect.left,
+      });
       setIsVisible(true);
     }
   }, [triggerRef]);
 
   useEffect(() => {
-    if (isVisible && popupRef.current) {
+    if (isVisible && popupRef.current && triggerRef.current) {
       const popupHeight = popupRef.current.offsetHeight;
       const popupWidth = popupRef.current.offsetWidth;
-      const padding = 32;
+      const padding = 10;
       const spacing = 16;
 
       setPosition((prev) => {
-        let top = prev.top;
-        let left = prev.left;
+        let { top, left } = prev;
+        const triggerRect = triggerRef.current?.getBoundingClientRect();
 
+        if (!triggerRect) return prev;
+
+        // Adjust position to stay within the viewport
         if (top + popupHeight > window.innerHeight - padding) {
-          top = Math.max(prev.top - popupHeight - spacing, padding);
+          top = Math.max(triggerRect.top - popupHeight - spacing, padding);
         }
-
         if (left + popupWidth > window.innerWidth - padding) {
           left = Math.max(window.innerWidth - popupWidth - padding, padding);
+        }
+
+        // Ensure popup doesn't overlap the trigger
+        if (top < triggerRect.bottom && top + popupHeight > triggerRect.top) {
+          top = triggerRect.bottom + spacing;
         }
 
         return { top, left };
       });
     }
-  }, [isVisible]);
+  }, [isVisible, triggerRef]);
 
   return isVisible
     ? ReactDOM.createPortal(
