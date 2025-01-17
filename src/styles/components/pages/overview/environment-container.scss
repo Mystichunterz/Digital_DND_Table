@@ -1,0 +1,13 @@
+/* src > styles > components > pages > overview > environment-container.scss */
+
+.environment-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 229px;
+    border: 2px dotted #76665c;
+    border-radius: 9px;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+}

@@ -1,0 +1,38 @@
+.spellcasting-modifier-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 2px dotted #76665c;
+    border-radius: 9px;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    padding: 2px;
+    box-sizing: border-box;
+    font-size: 0.6em;
+
+    gap: 0.1rem;
+
+    .spellcasting-ability,
+    .spell-save-dc,
+    .spell-attack {
+        flex: 1;
+        max-width: 25%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        padding: 0.10rem 3px;
+        background-color: #241e1a;
+        border: 1px solid #696157;
+        border-radius: 2px;
+    }
+
+    .gold-star-icon,
+    .spell-save-icon,
+    .spell-attack-icon {
+        width: 10px;
+        height: 10px;
+    }
+}

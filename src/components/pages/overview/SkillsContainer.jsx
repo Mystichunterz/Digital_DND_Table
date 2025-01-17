@@ -1,4 +1,8 @@
 //----------------------
+//  src > components > pages > overview > SkillsContainer.jsx
+//----------------------
+
+//----------------------
 //  imports
 //----------------------
 import React from "react";
