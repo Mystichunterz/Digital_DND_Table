@@ -4,6 +4,9 @@
 import "../styles/pages/overview.scss";
 import HealthContainer from "../components/pages/overview/HealthContainer";
 import SkillsContainer from "../components/pages/overview/SkillsContainer";
+import SpellcastingModifierContainer from "../components/pages/overview/SpellcastingModifierContainer.jsx";
+
+import EnvironmentContainer from "../components/pages/overview/EnvironmentContainer.jsx";
 
 //----------------------
 //  main
@@ -14,14 +17,10 @@ const Overview = () => {
       <div className="overview-left-container">
         <HealthContainer />
         <SkillsContainer />
-        <div className="spellcasting-modifier-container">
-          <p>Spellcasting Modifiers</p>
-        </div>
+        <SpellcastingModifierContainer />
       </div>
       <div className="overview-right-container">
-        <div className="environment-container">
-          <p>Environment</p>
-        </div>
+        <EnvironmentContainer />
         <div className="action-container">
           <p>Actions</p>
         </div>
