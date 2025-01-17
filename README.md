@@ -4,7 +4,7 @@ This project is a digital DND table that allows players to keep track of their c
 
 Currently, it is a small project meant for personal use in my DnD campaign to address some pain points I have with the available online tools. The project is still in development, and I plan to add more features as I continue to work on it.
 
-Heavy inspiration is taken from Baldur's Gate 3, ain terms of UI design and functionality. Many of the icons are directly taken from the BG3 wiki.
+Heavy inspiration is taken from Baldur's Gate 3 in terms of UI design and functionality. Many of the icons are directly taken from the BG3 wiki.
 
 ## Features
 

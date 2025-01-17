@@ -12,7 +12,6 @@
         flex-direction: column;
         gap: 0.5rem;
 
-        .health-container,
         .skill-container,
         .saving-throw-container,
         .spellcasting-modifier-container {
@@ -23,15 +22,11 @@
         }
 
         .health-container {
-            height: 10%;
+            height: 15%;
         }
 
         .skill-container {
-            height: 50%;
-        }
-
-        .saving-throw-container {
-            height: 20%;
+            height: 65%;
         }
 
         .spellcasting-modifier-container {
