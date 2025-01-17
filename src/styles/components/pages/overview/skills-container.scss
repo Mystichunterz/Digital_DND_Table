@@ -1,3 +1,5 @@
+/* src > styles > components > pages > overview > skills-container.scss */
+
 .skills-container {
     display: flex;
     flex-direction: column;
@@ -12,24 +14,19 @@
     // Scrollbar styling
     &::-webkit-scrollbar {
         width: 8px;
-        /* Narrow scrollbar width */
     }
 
     &::-webkit-scrollbar-track {
         background: #3e2d22;
-        /* Darker dirty gold for the track */
     }
 
     &::-webkit-scrollbar-thumb {
         background: #b89d7b;
-        /* Dirty gold color for the thumb */
         border-radius: 4px;
-        /* Rounded scrollbar thumb */
     }
 
     &::-webkit-scrollbar-thumb:hover {
         background: #d4b68d;
-        /* Lighter dirty gold on hover */
     }
 
     /* Firefox scrollbar styling */
