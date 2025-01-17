@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 65%;
+    max-height: 229px;
     border: 2px dotted #76665c;
     border-radius: 9px;
     padding: 0.2rem;
@@ -32,6 +32,20 @@
     /* Firefox scrollbar styling */
     scrollbar-width: thin;
     scrollbar-color: #b89d7b #3e2d22;
+
+    .proficiency-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        margin-bottom: 0.35rem;
+        text-align: center;
+
+        .gold-star {
+            width: 10px;
+            height: 10px;
+        }
+    }
 
     .attribute-title {
         margin-bottom: 0.35rem;
@@ -63,9 +77,31 @@
 
         .skill-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             gap: 0.5rem;
             margin-bottom: 0.25rem;
+
+            .skill-info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-grow: 1;
+            }
+
+            .modifier {
+                display: flex;
+                align-items: center;
+                gap: 0.2rem;
+                justify-content: flex-end;
+                flex-shrink: 0;
+                min-width: 50px;
+
+                .gold-star {
+                    width: 10px;
+                    height: 10px;
+                }
+            }
         }
     }
 
