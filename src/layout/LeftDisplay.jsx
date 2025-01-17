@@ -60,15 +60,24 @@ const LeftDisplay = () => {
         <img src={AC_Icon} alt="AC" className="overlay-image" />
         <p className="overlay-text">18</p>
       </div>
-      <p className="race shared-margin">Wood Half-Elf</p>
+      <InformationPopup title="Wood Half-Elf" subtitle="Like their wood elf parent, these half-elves have a quickened stride and an eye for stealth. Yet many break away from isolation in Veraltia's forests to explore the rest of the Realm.">
+        <p className="race shared-margin">Wood Half-Elf</p>
+      </InformationPopup>
       <div className="image-container shared-margin">
         <img src={Vengeance_Paladin_Icon} alt="Paladin" className="class-image" />
       </div>
-      <p className="shared-margin">Level 5 Paladin / Level 1 Sorcerer</p>
+      <div className="class-info shared-margin">
+        <InformationPopup title="Paladin" subtitle="A promise made so deeply that it becomes divine in itself flows through a Paladin, burning bright enough to inspire allies and smite foes.">
+          <p className="class-level">Level 5 Paladin</p>
+        </InformationPopup>
+        <span className="class-separator"> / </span>
+        <InformationPopup title="Sorcerer" subtitle="Sorcerers are natural spellcasters, drawing on a gift or natural bloodline.">
+          <p className="class-level">Level 1 Sorcerer</p>
+        </InformationPopup>
+      </div>
       <div className="attributes">
         {abilityScoresData.map((attr, index) => (
           <div key={index} className="attribute-wrapper">
-            {/* Star icon for primary abilities - Independent InformationPopup */}
             {attr.isPrimary && (
               <InformationPopup title="Primary Ability" subtitle="This is your primary ability.">
                 <div className="primary-icon-container">
@@ -76,13 +85,9 @@ const LeftDisplay = () => {
                 </div>
               </InformationPopup>
             )}
-
-            {/* Ability Score Popup wraps only the attribute itself */}
             <AbilityScorePopup icon={attr.icon} title={attr.title} subtitle="Ability" text={attr.description} value={attr.value} isPrimary={attr.isPrimary} isProficient={attr.isProficient} savingThrows={attr.savingThrows} sources={attr.sources}>
               <div className="attribute">
                 <p>{attr.label}</p>
-
-                {/* Dice icon for proficient abilities */}
                 <div className="attribute-value-container">
                   {attr.isProficient && <img src={Dice_Icon} alt="Proficient Ability" className="proficient-icon" />}
                   <p className="attribute-value">{attr.value}</p>

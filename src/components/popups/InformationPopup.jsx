@@ -34,7 +34,7 @@ const InformationPopup = ({ icon, title, subtitle, description, children, positi
 
   useEffect(() => {
     if (isHovered) {
-      const timer = setTimeout(() => setIsHovered(false), 3000);
+      const timer = setTimeout(() => setIsHovered(false), 300000);
       return () => clearTimeout(timer);
     }
   }, [isHovered]);

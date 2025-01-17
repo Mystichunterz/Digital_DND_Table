@@ -13,7 +13,7 @@ import "../styles/layout/tab-navigation.scss";
 //----------------------
 const TabNavigation = () => {
   const tabs = [
-    { path: "/main", label: "Main" },
+    { path: "/overview", label: "Overview" },
     { path: "/spellbook", label: "Spellbook" },
     { path: "/calculator", label: "Calculator" },
     { path: "/background", label: "Background" },

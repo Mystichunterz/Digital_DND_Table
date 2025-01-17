@@ -13,26 +13,6 @@ import Blade_Ward_Icon from "../assets/popups/conditions/380px-Blade_Ward.webp.p
 //  main
 //----------------------
 const conditionsData = [
-    {
-        icon: Aura_of_Protection_Icon,
-        title: "Aura of Protection",
-        subtitle: "Condition",
-        duration: "Permanent",
-        text: "The paladin and any nearby allies within 10 feet of them gain a +2 bonus to all **saving throws**."
-    },
-    {
-        icon: Bless_Icon,
-        title: "Bless",
-        subtitle: "Condition",
-        duration: "10 turns remaining",
-        text: "Gain a +1d4 bonus to **Attack Rolls** and **Saving Throws**."
-    },
-    {
-        icon: Blade_Ward_Icon,
-        title: "Blade Ward",
-        subtitle: "Condition",
-        text: "Has **Resistance** against bludgeoning, piercing, and slashing damage."
-    }
 ];
 
 //----------------------
