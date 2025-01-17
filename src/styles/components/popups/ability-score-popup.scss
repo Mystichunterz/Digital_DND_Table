@@ -28,6 +28,72 @@
             padding-top: 0.35rem;
             color: #af8768;
         }
+
+        /* Styling for Checks Section */
+        .popup-check-container {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+
+            .popup-d20-icon {
+                width: 25px;
+                height: 25px;
+                margin-right: 5px;
+            }
+
+            .popup-check-title {
+                font-size: 0.6rem;
+            }
+        }
+
+        .popup-saves {
+            margin-top: 0.5rem;
+            padding: 0.2rem 0;
+
+            .popup-save-container {
+                display: flex;
+                align-items: flex-start;
+
+                .popup-icon-container {
+                    display: flex;
+                    justify-content: center;
+                    margin-right: 4px;
+
+                    .popup-d20-icon {
+                        width: 16px;
+                        height: 16px;
+                        margin-top: -3px;
+                    }
+                }
+
+                .popup-text-container {
+                    display: flex;
+                    flex-direction: column;
+
+                    .popup-save-title {
+                        color: white;
+                    }
+
+                    .popup-save {
+                        color: #af8768;
+                        padding: 0.1rem 0;
+                    }
+                }
+            }
+        }
+
+        .popup-sources {
+            padding: 0.2rem 0;
+
+            .popup-source-title {
+                color: #e4d691;
+            }
+
+            .popup-source {
+                color: #af8768;
+                padding: 0.1rem 0;
+            }
+        }
     }
 
     .popup-image-container {

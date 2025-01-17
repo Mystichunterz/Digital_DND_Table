@@ -23,6 +23,7 @@ import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicu
 import AbilityScorePopup from "../components/popups/AbilityScorePopup";
 import FeaturePopup from "../components/popups/FeaturePopup";
 import ConditionPopup from "../components/popups/ConditionPopup";
+import InformationPopup from "../components/popups/InformationPopup";
 
 import abilityScoresData from "../data/abilityScoresData";
 import conditionsData from "../data/conditionsData";
@@ -66,20 +67,29 @@ const LeftDisplay = () => {
       <p className="shared-margin">Level 5 Paladin / Level 1 Sorcerer</p>
       <div className="attributes">
         {abilityScoresData.map((attr, index) => (
-          <AbilityScorePopup key={index} icon={attr.icon} title={attr.title} subtitle="Ability" text={attr.description} value={attr.value} isPrimary={attr.isPrimary} isProficient={attr.isProficient} savingThrows={attr.savingThrows} sources={attr.sources}>
-            <div className="attribute">
-              {/* Star icon for primary abilities */}
-              {attr.isPrimary && <img src={Star_Icon} alt="Primary Ability" className="primary-icon" />}
+          <div key={index} className="attribute-wrapper">
+            {/* Star icon for primary abilities - Independent InformationPopup */}
+            {attr.isPrimary && (
+              <InformationPopup title="Primary Ability" subtitle="This is your primary ability.">
+                <div className="primary-icon-container">
+                  <img src={Star_Icon} alt="Primary Ability" className="primary-icon" />
+                </div>
+              </InformationPopup>
+            )}
 
-              <p>{attr.label}</p>
+            {/* Ability Score Popup wraps only the attribute itself */}
+            <AbilityScorePopup icon={attr.icon} title={attr.title} subtitle="Ability" text={attr.description} value={attr.value} isPrimary={attr.isPrimary} isProficient={attr.isProficient} savingThrows={attr.savingThrows} sources={attr.sources}>
+              <div className="attribute">
+                <p>{attr.label}</p>
 
-              {/* Dice icon for proficient abilities */}
-              <div className="attribute-value-container">
-                {attr.isProficient && <img src={Dice_Icon} alt="Proficient Ability" className="proficient-icon" />}
-                <p className="attribute-value">{attr.value}</p>
+                {/* Dice icon for proficient abilities */}
+                <div className="attribute-value-container">
+                  {attr.isProficient && <img src={Dice_Icon} alt="Proficient Ability" className="proficient-icon" />}
+                  <p className="attribute-value">{attr.value}</p>
+                </div>
               </div>
-            </div>
-          </AbilityScorePopup>
+            </AbilityScorePopup>
+          </div>
         ))}
       </div>
 
