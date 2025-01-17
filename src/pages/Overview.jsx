@@ -3,6 +3,7 @@
 //----------------------
 import "../styles/pages/overview.scss";
 import HealthContainer from "../components/pages/overview/HealthContainer";
+import SkillsContainer from "../components/pages/overview/SkillsContainer";
 
 //----------------------
 //  main
@@ -12,9 +13,7 @@ const Overview = () => {
     <div className="overview-container">
       <div className="overview-left-container">
         <HealthContainer />
-        <div className="skill-container">
-          <p>Skills</p>
-        </div>
+        <SkillsContainer />
         <div className="spellcasting-modifier-container">
           <p>Spellcasting Modifiers</p>
         </div>
