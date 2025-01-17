@@ -8,12 +8,13 @@
 import { Outlet } from "react-router-dom";
 import TabNavigation from "./TabNavigation";
 
+//----------------------
+//  main
+//----------------------
 const RightPane = () => {
   return (
     <div className="right-pane">
-      <div className="tab-navigation">
-        <TabNavigation />
-      </div>
+      <TabNavigation />
       <div className="pane-content">
         <Outlet />
       </div>

@@ -1,47 +1,51 @@
 /* src > styles > layout > layout.scss */
 
 .app-layout {
-    flex: 1;
     display: flex;
     height: 100vh;
     width: 100vw;
+    padding: 2.5rem 1.5rem;
+    box-sizing: border-box;
 
-    .main-container {
-        flex: 1;
+    .left-container {
+        width: 25%;
+        box-sizing: border-box;
+    }
+
+    .right-container {
+        width: 75%;
         display: flex;
-        padding: 2.5rem 1.5rem;
+        flex-direction: column;
+        padding: 0 1rem;
 
-        .left-main-container {
-            width: 25%;
-            box-sizing: border-box;
-        }
-
-        .right-main-container {
-            width: 75%;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .right-pane {
+            flex: 1;
             display: flex;
             flex-direction: column;
 
-            .right-pane {
+            .tab-navigation {
+                flex: 0 0 7.5%;
+            }
+
+            .pane-content {
                 flex: 1;
-                display: flex;
-                flex-direction: column;
+                overflow-y: auto;
+                z-index: 500;
+                padding: 1rem;
+                border-radius: 0 0 10px 10px;
+                height: 100%;
 
-                .tab-navigation {
-                    flex: 0 0 7.5%;
-                }
+                background: radial-gradient(64.54% 67.91% at 50% 15.37%,
+                        rgba(173, 136, 114, 0.2) 0.38%,
+                        rgba(173, 136, 114, 0.16) 26.44%,
+                        rgba(119, 93, 78, 0.12) 63.51%,
+                        rgba(32, 27, 24, 0.08) 97.58%), #201B18;
 
-                .pane-content {
-                    background: radial-gradient(64.54% 67.91% at 50% 15.37%, rgba(173, 136, 114, 0.2) 0.38%, rgba(173, 136, 114, 0.16) 26.44%, rgba(119, 93, 78, 0.12) 63.51%, rgba(32, 27, 24, 0.08) 97.58%), #201B18;
-                    border: 2px solid #694a29;
-                    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 10.6px rgba(58, 47, 38, 0.25), inset 0px 4px 9.9px rgba(58, 47, 38, 0.1);
-                    border-radius: 0 0 10px 10px;
-                    padding: 1rem;
-                    flex: 1;
-                    overflow-y: auto;
-                    z-index: 500;
-                }
+                border: 2px solid #694a29;
+                box-shadow:
+                    0px 4px 4px rgba(0, 0, 0, 0.25),
+                    inset 0px 4px 10.6px rgba(58, 47, 38, 0.25),
+                    inset 0px 4px 9.9px rgba(58, 47, 38, 0.1);
             }
         }
     }

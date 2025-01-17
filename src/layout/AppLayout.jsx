@@ -7,7 +7,6 @@
 //----------------------
 import LeftDisplay from "./LeftDisplay";
 import RightPane from "./RightPane";
-
 import "../styles/layout/layout.scss";
 
 //----------------------
@@ -16,16 +15,12 @@ import "../styles/layout/layout.scss";
 const AppLayout = () => {
   return (
     <div className="app-layout">
-      <div className="main-container">
-        <aside className="left-main-container">
-          <LeftDisplay />
-        </aside>
-        <section className="right-main-container">
-          <div className="right-pane">
-            <RightPane />
-          </div>
-        </section>
-      </div>
+      <aside className="left-container">
+        <LeftDisplay />
+      </aside>
+      <main className="right-container">
+        <RightPane />
+      </main>
     </div>
   );
 };
