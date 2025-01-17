@@ -21,30 +21,25 @@
     grid-column-gap: 10px;
     grid-row-gap: 10px;
 
-    > * {
+    >* {
       overflow: auto;
 
       // Scrollbar styling - copied from Mystic sorry :(
       &::-webkit-scrollbar {
         width: 8px;
-        /* Narrow scrollbar width */
       }
 
       &::-webkit-scrollbar-track {
         background: #3e2d22;
-        /* Darker dirty gold for the track */
       }
 
       &::-webkit-scrollbar-thumb {
         background: #b89d7b;
-        /* Dirty gold color for the thumb */
         border-radius: 4px;
-        /* Rounded scrollbar thumb */
       }
 
       &::-webkit-scrollbar-thumb:hover {
         background: #d4b68d;
-        /* Lighter dirty gold on hover */
       }
 
       /* Firefox scrollbar styling */
@@ -52,31 +47,38 @@
       scrollbar-color: #b89d7b #3e2d22;
     }
   }
+
   // Grid Children
   // => Flaws
   .div1 {
     grid-area: 1 / 2 / 5 / 3;
   }
+
   // => Personality Traits
   .div2 {
     grid-area: 1 / 3 / 5 / 4;
   }
+
   // => Ideals
   .div3 {
     grid-area: 1 / 4 / 5 / 5;
   }
+
   // => Backstory
   .div4 {
     grid-area: 5 / 2 / 9 / 5;
   }
+
   // => Bonds
   .div5 {
     grid-area: 1 / 1 / 9 / 2;
   }
+
   // Individual section styles
   section {
     background-color: #ded3bb14;
     padding: 15px;
+
     h2 {
       color: #ded3bb;
       text-align: center;
@@ -85,6 +87,7 @@
     border: 2px solid #ded3bb;
     border-radius: 5px;
     position: relative;
+
     p {
       font-size: 20px;
     }
