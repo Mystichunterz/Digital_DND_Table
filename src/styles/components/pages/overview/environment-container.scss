@@ -1,15 +1,14 @@
-/* src > styles > components > pages > overview > environment-container.scss */
-
 .environment-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-height: 229px;
+    max-height: 300px;
     border: 2px dotted #76665c;
     border-radius: 9px;
     padding: 0.2rem;
     box-sizing: border-box;
     overflow: hidden;
+    position: relative;
 
     /* Top Section */
     .environment-display {
@@ -23,12 +22,7 @@
         overflow: hidden;
     }
 
-    .placeholder-icon {
-        font-size: 3rem;
-        color: #aaa;
-    }
-
-    /* Image Styling */
+    /* Background */
     .background-image {
         position: absolute;
         width: 100%;
@@ -36,21 +30,26 @@
         object-fit: cover;
     }
 
-    .character {
+    /* Resizable and Draggable Characters */
+    .resizable-character {
         position: absolute;
-        bottom: 10px;
-        width: 25%;
-        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        cursor: grab;
+    }
+
+    /* Outline ONLY when selected */
+    .resizable-character.selected {
+        border: 2px dashed rgba(255, 255, 255, 0.8);
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .character {
+        width: 100%;
+        height: 100%;
         object-fit: contain;
-    }
-
-    /* Position Characters */
-    .left-character {
-        left: 10%;
-    }
-
-    .right-character {
-        right: 10%;
     }
 
     /* Bottom Section */
