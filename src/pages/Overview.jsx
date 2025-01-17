@@ -1,11 +1,8 @@
 //----------------------
-//  src > pages > Overview.jsx
-//----------------------
-
-//----------------------
 //  imports
 //----------------------
 import "../styles/pages/overview.scss";
+import HealthContainer from "../components/pages/overview/HealthContainer";
 
 //----------------------
 //  main
@@ -14,14 +11,9 @@ const Overview = () => {
   return (
     <div className="overview-container">
       <div className="overview-left-container">
-        <div className="health-container">
-          <p>Health</p>
-        </div>
+        <HealthContainer />
         <div className="skill-container">
           <p>Skills</p>
-        </div>
-        <div className="saving-throw-container">
-          <p>Saving Throws</p>
         </div>
         <div className="spellcasting-modifier-container">
           <p>Spellcasting Modifiers</p>
