@@ -16,6 +16,7 @@
         .saving-throw-container,
         .spellcasting-modifier-container {
             border: 2px dotted #76665c;
+            border-radius: 9px;
             padding-left: 1rem;
             padding-right: 1rem;
             padding-top: 0.25rem;
@@ -43,6 +44,7 @@
         .environment-container,
         .action-container {
             border: 2px dotted #76665c;
+            border-radius: 9px;
             padding: 1rem;
         }
 

@@ -11,29 +11,35 @@ const HealthContainer = () => {
   const [health, setHealth] = useState(50);
   const [maxHealth, setMaxHealth] = useState(50);
   const [tempHealth, setTempHealth] = useState(0);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(0);
 
-  const handleHeal = () => {
-    const healAmount = parseInt(inputValue) || 0;
-    setHealth((prev) => Math.min(prev + healAmount, maxHealth));
-    setInputValue("");
+  const handleHealthChange = (e) => {
+    const value = parseInt(e.target.innerText) || 0;
+    setHealth(value);
   };
 
-  const handleDamage = () => {
-    const damageAmount = parseInt(inputValue) || 0;
-    setHealth((prev) => Math.max(prev - damageAmount, 0));
-    setInputValue("");
+  const handleMaxHealthChange = (e) => {
+    const value = parseInt(e.target.innerText) || 0;
+    setMaxHealth(value);
+  };
+
+  const handleTempHealthChange = (e) => {
+    const value = parseInt(e.target.innerText) || 0;
+    setTempHealth(value);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(parseInt(e.target.value) || 0);
   };
 
   return (
     <div className="health-container">
-      {/* Left section: Heal Button, Input, Damage Button */}
       <div className="health-actions">
-        <button onClick={handleHeal} className="heal-button">
+        <button onClick={() => setHealth((prev) => Math.min(prev + inputValue, maxHealth))} className="heal-button">
           Heal
         </button>
-        <input type="number" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Enter HP" />
-        <button onClick={handleDamage} className="damage-button">
+        <input type="number" placeholder="Enter HP" value={inputValue} onChange={handleInputChange} />
+        <button onClick={() => setHealth((prev) => Math.max(prev - inputValue, 0))} className="damage-button">
           Damage
         </button>
       </div>
@@ -42,7 +48,13 @@ const HealthContainer = () => {
       <div className="health-info">
         <p className="label">Current&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max</p>
         <p className="value">
-          {health} / {maxHealth}
+          <span contentEditable suppressContentEditableWarning onBlur={handleHealthChange} className="editable">
+            {health}
+          </span>
+          &nbsp;/&nbsp;
+          <span contentEditable suppressContentEditableWarning onBlur={handleMaxHealthChange} className="editable">
+            {maxHealth}
+          </span>
         </p>
         <p className="label">Hit Points</p>
       </div>
@@ -50,7 +62,9 @@ const HealthContainer = () => {
       {/* Right section: Temp HP */}
       <div className="health-temp">
         <p className="label">Temp</p>
-        <p className="value">{tempHealth || "--"}</p>
+        <p className="value editable" contentEditable suppressContentEditableWarning onBlur={handleTempHealthChange}>
+          {tempHealth || "-"}
+        </p>
         <p className="label">&nbsp;</p>
       </div>
     </div>
