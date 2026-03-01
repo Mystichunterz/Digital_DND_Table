@@ -12,7 +12,7 @@ import "../../styles/components/popups/popup.scss";
 //----------------------
 //  main
 //----------------------
-const Popup = ({ children, triggerRef, onClose, positionPreference = "vertical" }) => {
+const Popup = ({ children, triggerRef, positionPreference = "vertical" }) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const popupRef = useRef(null);
@@ -86,11 +86,15 @@ const Popup = ({ children, triggerRef, onClose, positionPreference = "vertical" 
   return isVisible
     ? ReactDOM.createPortal(
         <div className="popup-container">
-          <div className="popup-window" style={{ top: position.top, left: position.left }} ref={popupRef}>
+          <div
+            className="popup-window"
+            style={{ top: position.top, left: position.left }}
+            ref={popupRef}
+          >
             {children}
           </div>
         </div>,
-        document.getElementById("root")
+        document.getElementById("root"),
       )
     : null;
 };

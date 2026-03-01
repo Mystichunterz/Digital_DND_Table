@@ -15,7 +15,7 @@ import Duration_Icon from "../../assets/popups/Duration_Icon.png";
 //----------------------
 //  main
 //----------------------
-const ConditionPopup = ({ icon, title, subtitle, text, duration = "", children }) => {
+const ConditionPopup = ({ title, subtitle, text, duration = "", children }) => {
   const [isHovered, setIsHovered] = useState(false);
   const triggerRef = useRef(null);
 
@@ -49,18 +49,29 @@ const ConditionPopup = ({ icon, title, subtitle, text, duration = "", children }
   }, [isHovered]);
 
   return (
-    <div className="condition-popup-wrapper" ref={triggerRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div
+      className="condition-popup-wrapper"
+      ref={triggerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {children}
       {isHovered && (
         <Popup triggerRef={triggerRef}>
           <div className="condition-popup-content">
             <div className="condition-popup-text">
               <h5 className="popup-title">{title}</h5>
-              <p className={`popup-subtitle ${!duration ? "no-duration" : ""}`}>{subtitle}</p>
+              <p className={`popup-subtitle ${!duration ? "no-duration" : ""}`}>
+                {subtitle}
+              </p>
 
               {duration ? (
                 <div className="popup-duration-container">
-                  <img src={Duration_Icon} alt="Duration Icon" className="popup-duration-icon" />
+                  <img
+                    src={Duration_Icon}
+                    alt="Duration Icon"
+                    className="popup-duration-icon"
+                  />
                   <p className="popup-duration">{duration}</p>
                 </div>
               ) : (
