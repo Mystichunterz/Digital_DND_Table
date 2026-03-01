@@ -38,8 +38,8 @@ const Background = () => {
         <section className="div3">
           <h2>Ideals</h2>
           <p>
-            <strong>Bland Food</strong> believes "Mystic Chicken" to be an
-            edible dish.
+            <strong>Bland Food</strong> believes &quot;Mystic Chicken&quot; to
+            be an edible dish.
           </p>
         </section>
         <section className="div5">
@@ -52,7 +52,7 @@ const Background = () => {
         </section>
         <section className="div1">
           <h2>Flaws</h2>
-          <p>Allergic to Milk🍼  </p>
+          <p>Allergic to Milk🍼 </p>
         </section>
       </div>
     </div>

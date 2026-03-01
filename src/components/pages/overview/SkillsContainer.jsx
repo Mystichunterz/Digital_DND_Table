@@ -5,8 +5,6 @@
 //----------------------
 //  imports
 //----------------------
-import React from "react";
-
 import Acrobatics_Icon from "../../../assets/skills/Acrobatics_Icon.png";
 import Animal_Handling_Icon from "../../../assets/skills/Animal_Handling_Icon.png";
 import Arcana_Icon from "../../../assets/skills/Arcana_Icon.png";
@@ -34,43 +32,135 @@ import "../../../styles/components/pages/overview/skills-container.scss";
 const skillsData = [
   {
     attribute: "Strength (+3)",
-    skills: [{ icon: Athletics_Icon, name: "Athletics", isProficient: true, modifier: "+6" }],
+    skills: [
+      {
+        icon: Athletics_Icon,
+        name: "Athletics",
+        isProficient: true,
+        modifier: "+6",
+      },
+    ],
   },
   {
     attribute: "Dexterity (+1)",
     skills: [
-      { icon: Acrobatics_Icon, name: "Acrobatics", isProficient: false, modifier: "+1" },
-      { icon: Stealth_Icon, name: "Stealth", isProficient: false, modifier: "+1" },
-      { icon: Sleight_of_Hand_Icon, name: "Sleight of Hand", isProficient: false, modifier: "+1" },
+      {
+        icon: Acrobatics_Icon,
+        name: "Acrobatics",
+        isProficient: false,
+        modifier: "+1",
+      },
+      {
+        icon: Stealth_Icon,
+        name: "Stealth",
+        isProficient: false,
+        modifier: "+1",
+      },
+      {
+        icon: Sleight_of_Hand_Icon,
+        name: "Sleight of Hand",
+        isProficient: false,
+        modifier: "+1",
+      },
     ],
   },
   {
     attribute: "Intelligence (-1)",
     skills: [
-      { icon: Investigation_Icon, name: "Investigation", isProficient: false, modifier: "-1" },
-      { icon: History_Icon, name: "History", isProficient: false, modifier: "-1" },
-      { icon: Arcana_Icon, name: "Arcana", isProficient: false, modifier: "-1" },
-      { icon: Nature_Icon, name: "Nature", isProficient: false, modifier: "-1" },
-      { icon: Religion_Icon, name: "Religion", isProficient: false, modifier: "-1" },
+      {
+        icon: Investigation_Icon,
+        name: "Investigation",
+        isProficient: false,
+        modifier: "-1",
+      },
+      {
+        icon: History_Icon,
+        name: "History",
+        isProficient: false,
+        modifier: "-1",
+      },
+      {
+        icon: Arcana_Icon,
+        name: "Arcana",
+        isProficient: false,
+        modifier: "-1",
+      },
+      {
+        icon: Nature_Icon,
+        name: "Nature",
+        isProficient: false,
+        modifier: "-1",
+      },
+      {
+        icon: Religion_Icon,
+        name: "Religion",
+        isProficient: false,
+        modifier: "-1",
+      },
     ],
   },
   {
     attribute: "Wisdom (0)",
     skills: [
-      { icon: Animal_Handling_Icon, name: "Animal Handling", isProficient: false, modifier: "0" },
-      { icon: Insight_Icon, name: "Insight", isProficient: true, modifier: "+3" },
-      { icon: Medicine_Icon, name: "Medicine", isProficient: false, modifier: "0" },
-      { icon: Perception_Icon, name: "Perception", isProficient: true, modifier: "+3" },
-      { icon: Survival_Icon, name: "Survival", isProficient: false, modifier: "0" },
+      {
+        icon: Animal_Handling_Icon,
+        name: "Animal Handling",
+        isProficient: false,
+        modifier: "0",
+      },
+      {
+        icon: Insight_Icon,
+        name: "Insight",
+        isProficient: true,
+        modifier: "+3",
+      },
+      {
+        icon: Medicine_Icon,
+        name: "Medicine",
+        isProficient: false,
+        modifier: "0",
+      },
+      {
+        icon: Perception_Icon,
+        name: "Perception",
+        isProficient: true,
+        modifier: "+3",
+      },
+      {
+        icon: Survival_Icon,
+        name: "Survival",
+        isProficient: false,
+        modifier: "0",
+      },
     ],
   },
   {
     attribute: "Charisma (+2)",
     skills: [
-      { icon: Performance_Icon, name: "Performance", isProficient: true, modifier: "+5" },
-      { icon: Deception_Icon, name: "Deception", isProficient: true, modifier: "+5" },
-      { icon: Intimidation_Icon, name: "Intimidation", isProficient: false, modifier: "+2" },
-      { icon: Persuasion_Icon, name: "Persuasion", isProficient: true, modifier: "+5" },
+      {
+        icon: Performance_Icon,
+        name: "Performance",
+        isProficient: true,
+        modifier: "+5",
+      },
+      {
+        icon: Deception_Icon,
+        name: "Deception",
+        isProficient: true,
+        modifier: "+5",
+      },
+      {
+        icon: Intimidation_Icon,
+        name: "Intimidation",
+        isProficient: false,
+        modifier: "+2",
+      },
+      {
+        icon: Persuasion_Icon,
+        name: "Persuasion",
+        isProficient: true,
+        modifier: "+5",
+      },
     ],
   },
 ];
@@ -82,7 +172,11 @@ const SkillsContainer = () => {
   return (
     <div className="skills-container">
       <p className="proficiency-title">
-        <img className="gold-star" src={Gold_Star_Icon} alt="Proficiency Star" />
+        <img
+          className="gold-star"
+          src={Gold_Star_Icon}
+          alt="Proficiency Star"
+        />
         Proficiency Bonus (+3)
       </p>
       {skillsData.map((attribute) => (
@@ -90,13 +184,22 @@ const SkillsContainer = () => {
           <p className="attribute-title">{attribute.attribute}</p>
           <ul className="skills-list">
             {attribute.skills.map((skill, index) => (
-              <li key={index} className={`skill-item ${skill.isProficient ? "proficient" : ""}`}>
+              <li
+                key={index}
+                className={`skill-item ${skill.isProficient ? "proficient" : ""}`}
+              >
                 <div className="skill-info">
                   <img className="icon" src={skill.icon} alt={skill.name} />
                   <p className="name">{skill.name}</p>
                 </div>
                 <span className="modifier">
-                  {skill.isProficient && <img className="gold-star" src={Gold_Star_Icon} alt="Proficient Star" />}
+                  {skill.isProficient && (
+                    <img
+                      className="gold-star"
+                      src={Gold_Star_Icon}
+                      alt="Proficient Star"
+                    />
+                  )}
                   <p>{skill.modifier}</p>
                 </span>
               </li>

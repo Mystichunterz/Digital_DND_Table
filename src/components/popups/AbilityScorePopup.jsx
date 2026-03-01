@@ -14,7 +14,17 @@ import D20_Icon from "../../assets/D20.png";
 //----------------------
 //  main
 //----------------------
-const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isProficient, savingThrows = [], sources = [], children, positionPreference = "vertical" }) => {
+const AbilityScorePopup = ({
+  icon,
+  title,
+  subtitle,
+  text,
+  value,
+  savingThrows = [],
+  sources = [],
+  children,
+  positionPreference = "vertical",
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const triggerRef = useRef(null);
 
@@ -36,7 +46,10 @@ const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isPr
 
   const processSavingThrows = (savingThrowsList) => {
     if (!Array.isArray(savingThrowsList)) {
-      console.error("Expected an array for savingThrows, received:", savingThrowsList);
+      console.error(
+        "Expected an array for savingThrows, received:",
+        savingThrowsList,
+      );
       return [];
     }
     return savingThrowsList.map((save) => {
@@ -71,7 +84,12 @@ const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isPr
   }, [isHovered]);
 
   return (
-    <div className="ability-score-popup-wrapper" ref={triggerRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div
+      className="ability-score-popup-wrapper"
+      ref={triggerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {children}
       {isHovered && (
         <Popup triggerRef={triggerRef} positionPreference={positionPreference}>
@@ -80,12 +98,18 @@ const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isPr
               <h5 className="popup-title">
                 {title} ({value})
               </h5>
-              <p className="popup-subtitle">{renderStyledText(`**${subtitle}**`)}</p>
+              <p className="popup-subtitle">
+                {renderStyledText(`**${subtitle}**`)}
+              </p>
 
               {/* Checks Section with D20 Icon */}
               <div className="popup-check-container">
                 <img src={D20_Icon} alt="D20" className="popup-d20-icon" />
-                <p className="popup-check-title">{renderStyledText(`${calculateCheck(value)} to ${title} **Checks**`)}</p>
+                <p className="popup-check-title">
+                  {renderStyledText(
+                    `${calculateCheck(value)} to ${title} **Checks**`,
+                  )}
+                </p>
               </div>
 
               <p className="popup-description">{renderStyledText(text)}</p>
@@ -96,15 +120,25 @@ const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isPr
                   <div className="popup-row">
                     <div className="popup-save-container">
                       <div className="popup-icon-container">
-                        <img src={D20_Icon} alt="D20" className="popup-d20-icon" />
+                        <img
+                          src={D20_Icon}
+                          alt="D20"
+                          className="popup-d20-icon"
+                        />
                       </div>
                       <div className="popup-text-container">
-                        <p className="popup-save-title">{renderStyledText(`${calculateOverallSavingThrow(savingThrows)} to Saving Throws`)}</p>
-                        {processSavingThrows(savingThrows).map((save, index) => (
-                          <p key={index} className="popup-save">
-                            {renderStyledText(save)}
-                          </p>
-                        ))}
+                        <p className="popup-save-title">
+                          {renderStyledText(
+                            `${calculateOverallSavingThrow(savingThrows)} to Saving Throws`,
+                          )}
+                        </p>
+                        {processSavingThrows(savingThrows).map(
+                          (save, index) => (
+                            <p key={index} className="popup-save">
+                              {renderStyledText(save)}
+                            </p>
+                          ),
+                        )}
                       </div>
                     </div>
                   </div>
@@ -114,7 +148,9 @@ const AbilityScorePopup = ({ icon, title, subtitle, text, value, isPrimary, isPr
               {/* Sources Section */}
               {sources.length > 0 && (
                 <div className="popup-sources">
-                  <p className="popup-source-title">Your Ability Points come from:</p>
+                  <p className="popup-source-title">
+                    Your Ability Points come from:
+                  </p>
                   {sources.map((source, index) => (
                     <p key={index} className="popup-source">
                       {renderStyledText(source)}
