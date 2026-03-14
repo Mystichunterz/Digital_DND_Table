@@ -5,7 +5,7 @@
 //----------------------
 //  imports
 //----------------------
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 import Overview from "./pages/Overview";
 import NotFound from "./pages/NotFound";
@@ -18,6 +18,7 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
+        <Route index element={<Navigate to="overview" replace />} />
         <Route path="overview" element={<Overview />} />
         <Route path="background" element={<Background />} />
         <Route path="*" element={<NotFound />} />
