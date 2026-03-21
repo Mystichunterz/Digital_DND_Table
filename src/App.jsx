@@ -7,6 +7,7 @@
 //----------------------
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
+import VersionSwitcher from "./components/VersionSwitcher";
 
 //----------------------
 //  main
@@ -14,6 +15,7 @@ import Router from "./Router";
 const App = () => {
   return (
     <BrowserRouter>
+      <VersionSwitcher />
       <Router />
     </BrowserRouter>
   );

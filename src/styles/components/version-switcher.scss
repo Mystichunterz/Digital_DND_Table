@@ -1,0 +1,38 @@
+.version-switcher {
+  position: fixed;
+  top: 0.8rem;
+  right: 0.9rem;
+  z-index: 2500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #d9be8f;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #5b3b23 0%, #2d1f15 100%);
+  color: #f6ecdb;
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  .version-switcher-current {
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+}
