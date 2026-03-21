@@ -112,15 +112,25 @@
 .v2-left-panel .left-display-content .attributes .attribute-value {
   font-size: var(--v2-left-emphasis-size);
   line-height: 1.08;
+  margin-top: 0;
+}
+
+.v2-left-panel .left-display-content .attributes .attribute-value-container {
+  margin-top: 7px;
 }
 
 .v2-left-panel .left-display-content .attributes .proficient-icon {
-  width: clamp(1.55rem, 1.45vw, 1.95rem);
-  height: clamp(1.55rem, 1.45vw, 1.95rem);
+  width: clamp(1.94rem, 1.81vw, 2.44rem);
+  height: clamp(1.94rem, 1.81vw, 2.44rem);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .v2-left-panel .left-display-content .attributes .primary-icon-container {
   top: clamp(-1.1rem, -1vw, -0.8rem);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .v2-left-panel .left-display-content .subheading {
