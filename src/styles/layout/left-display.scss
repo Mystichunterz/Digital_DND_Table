@@ -21,7 +21,7 @@
 
     // Shared margin
     .shared-margin {
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
     }
 
     .shared-margin-small {
@@ -128,13 +128,13 @@
         gap: 0.15rem;
 
         .class-level {
-            color: #af8768;
+            color: #cdb19b;
             cursor: pointer;
         }
 
         .class-separator {
             font-size: 0.6em;
-            color: #af8768;
+            color: #cdb19b;
         }
     }
 
@@ -147,7 +147,8 @@
         display: flex;
         justify-content: space-around;
         width: 100%;
-        margin-top: 0.8rem;
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
 
         .attribute-wrapper {
             position: relative; // Ensures star stays in place

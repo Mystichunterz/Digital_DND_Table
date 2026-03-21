@@ -24,6 +24,7 @@
 .v2-left-panel .left-display-content {
   --v2-left-font-p: clamp(1.05rem, 0.28vw + 0.94rem, 1.22rem);
   --v2-left-font-p-125: calc(var(--v2-left-font-p) * 1.25);
+  --v2-left-emphasis-size: clamp(1.12rem, 0.26vw + 1rem, 1.3rem);
 
   padding: clamp(1.15rem, 1.35vw, 1.6rem);
   font-size: clamp(17px, 0.35vw + 16px, 21px);
@@ -95,7 +96,7 @@
 
 .v2-left-panel .left-display-content .attributes {
   justify-content: center;
-  gap: 0.075rem;
+  gap: 0.5rem;
 }
 
 .v2-left-panel .left-display-content .attributes .attribute {
@@ -104,12 +105,12 @@
 }
 
 .v2-left-panel .left-display-content .attributes .attribute p {
-  font-size: var(--v2-left-font-p-125);
+  font-size: var(--v2-left-emphasis-size);
   line-height: 1.08;
 }
 
 .v2-left-panel .left-display-content .attributes .attribute-value {
-  font-size: var(--v2-left-font-p-125);
+  font-size: var(--v2-left-emphasis-size);
   line-height: 1.08;
 }
 
@@ -123,7 +124,12 @@
 }
 
 .v2-left-panel .left-display-content .subheading {
-  font-size: clamp(1.12rem, 0.26vw + 1rem, 1.3rem);
+  font-size: var(--v2-left-emphasis-size);
+}
+
+.v2-left-panel .left-display-content .features .feature-content p {
+  font-size: var(--v2-left-emphasis-size);
+  line-height: 1.15;
 }
 
 .v2-left-panel
