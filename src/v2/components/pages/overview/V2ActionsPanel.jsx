@@ -42,8 +42,31 @@ const TOTAL_SECTION_COLUMNS = SECTION_CONFIG.reduce(
 const DEFAULT_SECTION_COLUMNS = SECTION_CONFIG.map(
   (section) => section.defaultColumns,
 );
+const SECTION_SLOT_ROWS = 5;
+const SECTION_SLOT_COUNT = TOTAL_SECTION_COLUMNS * SECTION_SLOT_ROWS;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+const buildInitialCategoryLayout = (actions) => {
+  const layout = {};
+
+  SECTION_CONFIG.forEach((section) => {
+    const sectionActions = actions.filter(
+      (item) => item.section === section.id,
+    );
+    const slots = Array(SECTION_SLOT_COUNT).fill(null);
+
+    sectionActions.forEach((item, index) => {
+      if (index < SECTION_SLOT_COUNT) {
+        slots[index] = item.id;
+      }
+    });
+
+    layout[section.id] = slots;
+  });
+
+  return layout;
+};
 
 const ACTION_LIBRARY = {
   common: [
@@ -401,6 +424,17 @@ const V2ActionsPanel = () => {
   const [sectionColumns, setSectionColumns] = useState(DEFAULT_SECTION_COLUMNS);
   const [draggedDivider, setDraggedDivider] = useState(null);
   const [dragPreviewRatio, setDragPreviewRatio] = useState(null);
+  const [actionLayouts, setActionLayouts] = useState(() => {
+    const initialLayouts = {};
+
+    Object.entries(ACTION_LIBRARY).forEach(([categoryId, actions]) => {
+      initialLayouts[categoryId] = buildInitialCategoryLayout(actions);
+    });
+
+    return initialLayouts;
+  });
+  const [draggedAction, setDraggedAction] = useState(null);
+  const [dropTarget, setDropTarget] = useState(null);
   const gridClusterRef = useRef(null);
 
   const getPointerRatio = useCallback((pointerX) => {
@@ -519,6 +553,11 @@ const V2ActionsPanel = () => {
     [activeCategory],
   );
 
+  const actionById = useMemo(
+    () => Object.fromEntries(actions.map((item) => [item.id, item])),
+    [actions],
+  );
+
   const filteredActions = useMemo(() => {
     if (activeFilter === "all") {
       return actions;
@@ -531,40 +570,95 @@ const V2ActionsPanel = () => {
     return actions.filter((item) => item.tier === activeFilter);
   }, [actions, activeFilter]);
 
-  const actionsBySection = useMemo(() => {
-    const map = {
-      mobility: [],
-      offense: [],
-      support: [],
-    };
+  const filteredActionIds = useMemo(
+    () => new Set(filteredActions.map((item) => item.id)),
+    [filteredActions],
+  );
 
-    filteredActions.forEach((item) => {
-      if (map[item.section]) {
-        map[item.section].push(item);
-      }
-    });
+  useEffect(() => {
+    setDraggedAction(null);
+    setDropTarget(null);
+  }, [activeCategory, activeFilter]);
 
-    return map;
-  }, [filteredActions]);
+  const activeLayout =
+    actionLayouts[activeCategory] ?? buildInitialCategoryLayout(actions);
 
-  const renderTilesForSection = (sectionId, columns) => {
-    const sectionItems = actionsBySection[sectionId] ?? [];
-    const minimumTiles = columns * 5;
-    const tiles = [...sectionItems];
-
-    while (tiles.length < minimumTiles) {
-      tiles.push(null);
+  const handleActionDrop = (targetSectionId, targetIndex) => {
+    if (!draggedAction) {
+      return;
     }
 
-    return tiles.slice(0, minimumTiles).map((item, index) => {
-      if (!item) {
+    setActionLayouts((currentLayouts) => {
+      const categoryLayout = currentLayouts[activeCategory];
+
+      if (!categoryLayout) {
+        return currentLayouts;
+      }
+
+      const nextCategoryLayout = {
+        mobility: [...(categoryLayout.mobility ?? [])],
+        offense: [...(categoryLayout.offense ?? [])],
+        support: [...(categoryLayout.support ?? [])],
+      };
+
+      const sourceSlots = nextCategoryLayout[draggedAction.sectionId];
+      const targetSlots = nextCategoryLayout[targetSectionId];
+
+      if (!sourceSlots || !targetSlots) {
+        return currentLayouts;
+      }
+
+      const sourceValue = sourceSlots[draggedAction.slotIndex] ?? null;
+      const targetValue = targetSlots[targetIndex] ?? null;
+
+      if (sourceValue === null && targetValue === null) {
+        return currentLayouts;
+      }
+
+      sourceSlots[draggedAction.slotIndex] = targetValue;
+      targetSlots[targetIndex] = sourceValue;
+
+      return {
+        ...currentLayouts,
+        [activeCategory]: nextCategoryLayout,
+      };
+    });
+  };
+
+  const renderTilesForSection = (sectionId) => {
+    const slots =
+      activeLayout[sectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
+
+    return slots.slice(0, SECTION_SLOT_COUNT).map((itemId, index) => {
+      const item = itemId ? actionById[itemId] : null;
+      const isVisible = item ? filteredActionIds.has(item.id) : false;
+      const isDragging =
+        draggedAction?.sectionId === sectionId &&
+        draggedAction?.slotIndex === index;
+      const isDropTarget =
+        dropTarget?.sectionId === sectionId && dropTarget?.slotIndex === index;
+
+      if (!item || !isVisible) {
         return (
           <button
             key={`${sectionId}-empty-${index}`}
             type="button"
-            className="v2-action-tile v2-action-tile-empty"
+            className={
+              isDropTarget
+                ? "v2-action-tile v2-action-tile-empty is-drop-target"
+                : "v2-action-tile v2-action-tile-empty"
+            }
             aria-hidden="true"
             tabIndex={-1}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDropTarget({ sectionId, slotIndex: index });
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              handleActionDrop(sectionId, index);
+              setDropTarget(null);
+            }}
           />
         );
       }
@@ -573,8 +667,33 @@ const V2ActionsPanel = () => {
         <button
           key={item.id}
           type="button"
-          className={`v2-action-tile tone-${item.tone}`}
+          className={
+            isDragging
+              ? `v2-action-tile tone-${item.tone} is-dragging`
+              : isDropTarget
+                ? `v2-action-tile tone-${item.tone} is-drop-target`
+                : `v2-action-tile tone-${item.tone}`
+          }
           title={`${item.name} (${item.kind})`}
+          draggable
+          onDragStart={(event) => {
+            setDraggedAction({ sectionId, slotIndex: index, itemId: item.id });
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", item.id);
+          }}
+          onDragEnd={() => {
+            setDraggedAction(null);
+            setDropTarget(null);
+          }}
+          onDragOver={(event) => {
+            event.preventDefault();
+            setDropTarget({ sectionId, slotIndex: index });
+          }}
+          onDrop={(event) => {
+            event.preventDefault();
+            handleActionDrop(sectionId, index);
+            setDropTarget(null);
+          }}
         >
           {item.keybind && (
             <span className="v2-action-keybind">{item.keybind}</span>
@@ -640,10 +759,7 @@ const V2ActionsPanel = () => {
                           width: `${sectionWidthPercent}%`,
                         }}
                       >
-                        {renderTilesForSection(
-                          section.id,
-                          TOTAL_SECTION_COLUMNS,
-                        )}
+                        {renderTilesForSection(section.id)}
                       </div>
                     );
                   })()}
