@@ -7,6 +7,29 @@ import {
   useState,
 } from "react";
 
+import banishingSmiteIcon from "../../../../assets/actions/spells/Banishing_Smite_Unfaded_Icon.webp";
+import blindingSmiteIcon from "../../../../assets/actions/spells/Blinding_Smite_Unfaded_Icon.webp";
+import brandingSmiteIcon from "../../../../assets/actions/spells/Branding_Smite_Unfaded_Icon.webp";
+import commandIcon from "../../../../assets/actions/spells/Command_Unfaded_Icon.webp";
+import compelledDuelIcon from "../../../../assets/actions/spells/Compelled_Duel_Unfaded_Icon.webp";
+import divineFavorIcon from "../../../../assets/actions/spells/Divine_Favor_Unfaded_Icon.webp";
+import divineSmiteIcon from "../../../../assets/actions/spells/Divine_Smite_Unfaded_Icon.webp";
+import layOnHandsIcon from "../../../../assets/actions/spells/Lay_on_Hands_Unfaded_Icon.webp";
+import thunderousSmiteIcon from "../../../../assets/actions/spells/Thunderous_Smite_Unfaded_Icon.webp";
+import vowOfEnmityIcon from "../../../../assets/actions/spells/Vow_of_Enmity_Unfaded_Icon.webp";
+import wrathfulSmiteIcon from "../../../../assets/actions/spells/Wrathful_Smite_Unfaded_Icon.webp";
+import dashIcon from "../../../../assets/actions/common/Dash_Unfaded_Icon.webp";
+import disengageIcon from "../../../../assets/actions/common/Disengage_Unfaded_Icon.webp";
+import helpIcon from "../../../../assets/actions/common/Help_Unfaded_Icon.webp";
+import hideIcon from "../../../../assets/actions/common/Hide_Unfaded_Icon.webp";
+import improvisedMeleeWeaponIcon from "../../../../assets/actions/common/Improvised_Melee_Weapon_Unfaded_Icon.webp";
+import jumpIcon from "../../../../assets/actions/common/Jump_Unfaded_Icon.webp";
+import throwIcon from "../../../../assets/actions/common/Throw_Unfaded_Icon.webp";
+import throwWeaponIcon from "../../../../assets/actions/common/Throw_Weapon_Unfaded_Icon.webp";
+import toggleNonLethalAttacksIcon from "../../../../assets/actions/common/Toggle_Non-Lethal_Attacks_Unfaded_Icon.webp";
+import mainHandAttackIcon from "../../../../assets/actions/weapons/Main_Hand_Attack_Unfaded_Icon.webp";
+import rangedAttackIcon from "../../../../assets/actions/weapons/Ranged_Attack_Unfaded_Icon.webp";
+
 const CATEGORY_TABS = [
   { id: "common", label: "Common" },
   { id: "paladin", label: "Paladin" },
@@ -74,6 +97,7 @@ const ACTION_LIBRARY = {
       id: "dash",
       name: "Dash",
       short: "DA",
+      icon: dashIcon,
       keybind: "Z",
       section: "mobility",
       kind: "action",
@@ -84,6 +108,7 @@ const ACTION_LIBRARY = {
       id: "jump",
       name: "Jump",
       short: "JP",
+      icon: jumpIcon,
       keybind: "X",
       section: "mobility",
       kind: "bonus",
@@ -94,6 +119,7 @@ const ACTION_LIBRARY = {
       id: "shove",
       name: "Shove",
       short: "SH",
+      icon: improvisedMeleeWeaponIcon,
       section: "mobility",
       kind: "bonus",
       tier: "I",
@@ -103,6 +129,7 @@ const ACTION_LIBRARY = {
       id: "disengage",
       name: "Disengage",
       short: "DG",
+      icon: disengageIcon,
       section: "mobility",
       kind: "action",
       tier: "I",
@@ -112,6 +139,7 @@ const ACTION_LIBRARY = {
       id: "help",
       name: "Help",
       short: "HP",
+      icon: helpIcon,
       section: "support",
       kind: "action",
       tier: "I",
@@ -121,6 +149,7 @@ const ACTION_LIBRARY = {
       id: "throw",
       name: "Throw",
       short: "TH",
+      icon: throwIcon,
       section: "offense",
       kind: "action",
       tier: "I",
@@ -130,6 +159,7 @@ const ACTION_LIBRARY = {
       id: "main-attack",
       name: "Main Attack",
       short: "AT",
+      icon: mainHandAttackIcon,
       section: "offense",
       kind: "action",
       tier: "I",
@@ -139,6 +169,7 @@ const ACTION_LIBRARY = {
       id: "offhand-attack",
       name: "Offhand",
       short: "OH",
+      icon: throwWeaponIcon,
       section: "offense",
       kind: "bonus",
       tier: "I",
@@ -148,6 +179,7 @@ const ACTION_LIBRARY = {
       id: "ranged-attack",
       name: "Ranged",
       short: "RA",
+      icon: rangedAttackIcon,
       section: "offense",
       kind: "action",
       tier: "I",
@@ -157,6 +189,7 @@ const ACTION_LIBRARY = {
       id: "hide",
       name: "Hide",
       short: "HD",
+      icon: hideIcon,
       section: "mobility",
       kind: "bonus",
       tier: "I",
@@ -166,6 +199,7 @@ const ACTION_LIBRARY = {
       id: "dodge",
       name: "Dodge",
       short: "DD",
+      icon: toggleNonLethalAttacksIcon,
       section: "support",
       kind: "action",
       tier: "I",
@@ -184,6 +218,7 @@ const ACTION_LIBRARY = {
       id: "improvise",
       name: "Improvise",
       short: "IM",
+      icon: improvisedMeleeWeaponIcon,
       section: "support",
       kind: "utility",
       tier: "II",
@@ -195,6 +230,7 @@ const ACTION_LIBRARY = {
       id: "smite",
       name: "Divine Smite",
       short: "SM",
+      icon: divineSmiteIcon,
       section: "offense",
       kind: "action",
       tier: "I",
@@ -204,6 +240,7 @@ const ACTION_LIBRARY = {
       id: "thunderous-smite",
       name: "Thunderous Smite",
       short: "TS",
+      icon: thunderousSmiteIcon,
       section: "offense",
       kind: "bonus",
       tier: "I",
@@ -213,6 +250,7 @@ const ACTION_LIBRARY = {
       id: "wrathful-smite",
       name: "Wrathful Smite",
       short: "WS",
+      icon: wrathfulSmiteIcon,
       section: "offense",
       kind: "bonus",
       tier: "I",
@@ -222,6 +260,7 @@ const ACTION_LIBRARY = {
       id: "compelled-duel",
       name: "Compelled Duel",
       short: "CD",
+      icon: compelledDuelIcon,
       section: "support",
       kind: "action",
       tier: "I",
@@ -231,6 +270,7 @@ const ACTION_LIBRARY = {
       id: "vow-of-enmity",
       name: "Vow of Enmity",
       short: "VE",
+      icon: vowOfEnmityIcon,
       section: "support",
       kind: "bonus",
       tier: "II",
@@ -240,6 +280,7 @@ const ACTION_LIBRARY = {
       id: "lay-on-hands",
       name: "Lay on Hands",
       short: "LH",
+      icon: layOnHandsIcon,
       section: "support",
       kind: "action",
       tier: "I",
@@ -249,6 +290,7 @@ const ACTION_LIBRARY = {
       id: "divine-favor",
       name: "Divine Favor",
       short: "DF",
+      icon: divineFavorIcon,
       section: "support",
       kind: "bonus",
       tier: "I",
@@ -258,6 +300,7 @@ const ACTION_LIBRARY = {
       id: "command",
       name: "Command",
       short: "CM",
+      icon: commandIcon,
       section: "offense",
       kind: "action",
       tier: "I",
@@ -267,6 +310,7 @@ const ACTION_LIBRARY = {
       id: "branding-smite",
       name: "Branding Smite",
       short: "BS",
+      icon: brandingSmiteIcon,
       section: "offense",
       kind: "bonus",
       tier: "II",
@@ -276,6 +320,7 @@ const ACTION_LIBRARY = {
       id: "blinding-smite",
       name: "Blinding Smite",
       short: "BL",
+      icon: blindingSmiteIcon,
       section: "offense",
       kind: "bonus",
       tier: "III",
@@ -285,6 +330,7 @@ const ACTION_LIBRARY = {
       id: "banishing-smite",
       name: "Banishing Smite",
       short: "BN",
+      icon: banishingSmiteIcon,
       section: "offense",
       kind: "bonus",
       tier: "V",
@@ -675,6 +721,7 @@ const V2ActionsPanel = () => {
                 : `v2-action-tile tone-${item.tone}`
           }
           title={`${item.name} (${item.kind})`}
+          aria-label={`${item.name} (${item.kind})`}
           draggable
           onDragStart={(event) => {
             setDraggedAction({ sectionId, slotIndex: index, itemId: item.id });
@@ -695,10 +742,19 @@ const V2ActionsPanel = () => {
             setDropTarget(null);
           }}
         >
+          {item.icon ? (
+            <img
+              src={item.icon}
+              alt=""
+              className="v2-action-icon"
+              draggable={false}
+            />
+          ) : (
+            <span className="v2-action-short">{item.short}</span>
+          )}
           {item.keybind && (
             <span className="v2-action-keybind">{item.keybind}</span>
           )}
-          <span className="v2-action-short">{item.short}</span>
           {item.kind === "bonus" && <span className="v2-action-plus">+</span>}
         </button>
       );
