@@ -220,11 +220,11 @@ const V2ProficienciesPanel = () => {
     <article className="v2-overview-panel v2-proficiencies-panel">
       <header className="v2-overview-panel-header v2-proficiencies-header">
         <div className="v2-proficiencies-heading-group">
-          <h2>{isScrollView ? "Proficiencies" : "Detailed View"}</h2>
+          <h2>{isScrollView ? "Proficiencies" : "Character"}</h2>
           {isScrollView && (
             <p className="v2-proficiency-bonus">
               <img src={Gold_Star_Icon} alt="Proficiency" />
-              +3 Bonus
+              Proficiency Bonus (+3)
             </p>
           )}
         </div>
@@ -241,7 +241,7 @@ const V2ProficienciesPanel = () => {
             aria-selected={isScrollView}
             onClick={() => setViewMode("scroll")}
           >
-            Scroll
+            Proficiencies
           </button>
           <button
             type="button"
@@ -250,7 +250,7 @@ const V2ProficienciesPanel = () => {
             aria-selected={!isScrollView}
             onClick={() => setViewMode("detailed")}
           >
-            Detailed
+            Character
           </button>
         </div>
       </header>
