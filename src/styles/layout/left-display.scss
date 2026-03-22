@@ -219,6 +219,7 @@
         .primary-icon {
             width: 10px;
             height: 10px;
+            margin-bottom: 2px;
             cursor: pointer;
         }
 
@@ -244,7 +245,6 @@
         .attribute-value {
             margin-top: 5px;
             color: white;
-            font-weight: bold;
             position: relative;
             z-index: 1;
         }

@@ -51,8 +51,8 @@
 
 .v2-left-panel .left-display-content .currency-icon,
 .v2-left-panel .left-display-content .primary-icon {
-  width: clamp(0.9rem, 0.75vw, 1.15rem);
-  height: clamp(0.9rem, 0.75vw, 1.15rem);
+  width: clamp(1.1rem, 0.75vw, 1.15rem);
+  height: clamp(1.1rem, 0.75vw, 1.15rem);
 }
 
 .v2-left-panel .left-display-content .image-container .character-image {
@@ -116,12 +116,12 @@
 }
 
 .v2-left-panel .left-display-content .attributes .attribute-value-container {
-  margin-top: 7px;
+  margin-top: 15px;
 }
 
 .v2-left-panel .left-display-content .attributes .proficient-icon {
-  width: clamp(1.94rem, 1.81vw, 2.44rem);
-  height: clamp(1.94rem, 1.81vw, 2.44rem);
+  width: clamp(2.9rem, 2.18rem, 2.93rem);
+  height: clamp(2.9rem, 2.18rem, 2.93rem);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
