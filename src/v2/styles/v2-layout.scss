@@ -87,7 +87,8 @@
 }
 
 .v2-left-panel .left-display-content .class-info .class-separator {
-  font-size: clamp(0.98rem, 0.2vw + 0.86rem, 1.12rem);
+  font-size: var(--v2-left-font-p-125);
+  line-height: 1.1;
 }
 
 .v2-left-panel .left-display-content .race {
