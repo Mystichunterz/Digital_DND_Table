@@ -43,7 +43,7 @@
 }
 
 .v2-overview-right-stack {
-  grid-template-rows: minmax(0, 1fr) minmax(11rem, auto);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
 .v2-overview-panel {
@@ -513,8 +513,9 @@
 }
 
 .v2-environment-stage {
+  flex: 1;
   position: relative;
-  min-height: clamp(11rem, 32vh, 19.5rem);
+  min-height: 0;
   border: 1px solid rgba(122, 90, 62, 0.72);
   border-radius: 8px;
   overflow: hidden;
@@ -581,6 +582,7 @@
 }
 
 .v2-actions-list {
+  flex: 1;
   min-height: 0;
   margin: 0;
   padding: 0;
@@ -642,7 +644,7 @@
   }
 
   .v2-overview-right-stack {
-    grid-template-rows: minmax(0, 1fr) minmax(10rem, auto);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 }
 
