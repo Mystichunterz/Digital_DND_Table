@@ -8,14 +8,6 @@ import {
 } from "react";
 import { ACTION_LIBRARY } from "../../../data/actionsCatalog";
 
-const CATEGORY_TABS = [
-  { id: "common", label: "Common" },
-  { id: "paladin", label: "Paladin" },
-  { id: "items", label: "Items" },
-  { id: "passives", label: "Passives" },
-  { id: "custom", label: "Custom" },
-];
-
 const FILTER_TABS = [
   { id: "all", label: "All" },
   { id: "action", label: "Act" },
@@ -30,10 +22,20 @@ const FILTER_TABS = [
 ];
 
 const SECTION_CONFIG = [
-  { id: "mobility", defaultColumns: 4 },
-  { id: "offense", defaultColumns: 5 },
-  { id: "support", defaultColumns: 4 },
+  { id: "common", categoryId: "common", label: "Common", defaultColumns: 4 },
+  {
+    id: "paladin",
+    categoryId: "paladin",
+    label: "Paladin",
+    defaultColumns: 5,
+  },
+  { id: "items", categoryId: "items", label: "Items", defaultColumns: 4 },
 ];
+
+const CATEGORY_TABS = SECTION_CONFIG.map((section) => ({
+  id: section.id,
+  label: section.label,
+}));
 
 const TOTAL_SECTION_COLUMNS = SECTION_CONFIG.reduce(
   (sum, section) => sum + section.defaultColumns,
@@ -46,119 +48,115 @@ const DEFAULT_SECTION_COLUMNS = SECTION_CONFIG.map(
 const SECTION_SLOT_ROWS = 5;
 const SECTION_SLOT_COUNT = TOTAL_SECTION_COLUMNS * SECTION_SLOT_ROWS;
 const SECTION_IDS = SECTION_CONFIG.map((section) => section.id);
+const LEGACY_LAYOUT_SECTION_IDS = ["mobility", "offense", "support"];
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-const buildInitialCategoryLayout = (actions) => {
-  const layout = {};
+const buildInitialSectionLayout = (sectionConfig) => {
+  const actions = ACTION_LIBRARY[sectionConfig.categoryId] ?? [];
+  const slots = Array(SECTION_SLOT_COUNT).fill(null);
 
-  SECTION_CONFIG.forEach((section) => {
-    const sectionActions = actions.filter(
-      (item) => item.section === section.id,
-    );
-    const slots = Array(SECTION_SLOT_COUNT).fill(null);
-
-    sectionActions.forEach((item, index) => {
-      if (index < SECTION_SLOT_COUNT) {
-        slots[index] = item.id;
-      }
-    });
-
-    layout[section.id] = slots;
+  actions.forEach((action, index) => {
+    if (index < SECTION_SLOT_COUNT) {
+      slots[index] = action.id;
+    }
   });
 
-  return layout;
+  return slots;
 };
 
-const createInitialActionLayouts = () => {
+const createInitialSectionLayouts = () => {
   const layouts = {};
 
-  Object.entries(ACTION_LIBRARY).forEach(([categoryId, actions]) => {
-    layouts[categoryId] = buildInitialCategoryLayout(actions);
+  SECTION_CONFIG.forEach((section) => {
+    layouts[section.id] = buildInitialSectionLayout(section);
   });
 
   return layouts;
 };
 
-const normalizeImportedCategoryLayout = (
-  categoryId,
-  importedCategoryLayout,
-) => {
-  const categoryActions = ACTION_LIBRARY[categoryId] ?? [];
-  const actionById = Object.fromEntries(
-    categoryActions.map((action) => [action.id, action]),
-  );
-  const normalizedCategoryLayout = {};
+const getImportedSlots = (importedSectionLayout) => {
+  if (Array.isArray(importedSectionLayout)) {
+    return importedSectionLayout;
+  }
 
-  SECTION_IDS.forEach((sectionId) => {
-    const importedSlots = Array.isArray(importedCategoryLayout?.[sectionId])
-      ? importedCategoryLayout[sectionId]
-      : [];
-    const sanitizedSlots = Array(SECTION_SLOT_COUNT).fill(null);
+  if (!importedSectionLayout || typeof importedSectionLayout !== "object") {
+    return [];
+  }
 
-    for (let index = 0; index < SECTION_SLOT_COUNT; index += 1) {
-      const maybeActionId = importedSlots[index];
+  const legacySlots = [];
 
-      if (typeof maybeActionId === "string" && actionById[maybeActionId]) {
-        sanitizedSlots[index] = maybeActionId;
-      }
+  LEGACY_LAYOUT_SECTION_IDS.forEach((legacySectionId) => {
+    const maybeSlots = importedSectionLayout[legacySectionId];
+
+    if (Array.isArray(maybeSlots)) {
+      legacySlots.push(...maybeSlots);
     }
-
-    normalizedCategoryLayout[sectionId] = sanitizedSlots;
   });
+
+  return legacySlots;
+};
+
+const normalizeImportedSectionLayout = (
+  sectionConfig,
+  importedSectionLayout,
+) => {
+  const actions = ACTION_LIBRARY[sectionConfig.categoryId] ?? [];
+  const allowedActionIds = new Set(actions.map((action) => action.id));
+  const importedSlots = getImportedSlots(importedSectionLayout);
+  const normalizedSlots = Array(SECTION_SLOT_COUNT).fill(null);
+
+  for (let index = 0; index < SECTION_SLOT_COUNT; index += 1) {
+    const maybeActionId = importedSlots[index];
+
+    if (
+      typeof maybeActionId === "string" &&
+      allowedActionIds.has(maybeActionId)
+    ) {
+      normalizedSlots[index] = maybeActionId;
+    }
+  }
 
   const seenActionIds = new Set();
 
-  SECTION_IDS.forEach((sectionId) => {
-    normalizedCategoryLayout[sectionId] = normalizedCategoryLayout[
-      sectionId
-    ].map((actionId) => {
-      if (!actionId || seenActionIds.has(actionId)) {
-        return null;
-      }
+  for (let index = 0; index < normalizedSlots.length; index += 1) {
+    const actionId = normalizedSlots[index];
 
-      seenActionIds.add(actionId);
-      return actionId;
-    });
-  });
+    if (!actionId || seenActionIds.has(actionId)) {
+      normalizedSlots[index] = null;
+      continue;
+    }
 
-  const missingActionIds = categoryActions
+    seenActionIds.add(actionId);
+  }
+
+  const missingActionIds = actions
     .map((action) => action.id)
     .filter((actionId) => !seenActionIds.has(actionId));
 
   missingActionIds.forEach((actionId) => {
-    const preferredSection = actionById[actionId].section;
-    const sectionPriority = [
-      preferredSection,
-      ...SECTION_IDS.filter((sectionId) => sectionId !== preferredSection),
-    ];
+    const slotIndex = normalizedSlots.indexOf(null);
 
-    for (let index = 0; index < sectionPriority.length; index += 1) {
-      const sectionId = sectionPriority[index];
-      const slotIndex = normalizedCategoryLayout[sectionId].indexOf(null);
-
-      if (slotIndex !== -1) {
-        normalizedCategoryLayout[sectionId][slotIndex] = actionId;
-        seenActionIds.add(actionId);
-        break;
-      }
+    if (slotIndex !== -1) {
+      normalizedSlots[slotIndex] = actionId;
+      seenActionIds.add(actionId);
     }
   });
 
-  return normalizedCategoryLayout;
+  return normalizedSlots;
 };
 
 const normalizeImportedLayouts = (importedLayouts) => {
-  const baseLayouts = createInitialActionLayouts();
+  const baseLayouts = createInitialSectionLayouts();
 
   if (!importedLayouts || typeof importedLayouts !== "object") {
     return baseLayouts;
   }
 
-  Object.keys(ACTION_LIBRARY).forEach((categoryId) => {
-    baseLayouts[categoryId] = normalizeImportedCategoryLayout(
-      categoryId,
-      importedLayouts[categoryId],
+  SECTION_CONFIG.forEach((section) => {
+    baseLayouts[section.id] = normalizeImportedSectionLayout(
+      section,
+      importedLayouts[section.id] ?? importedLayouts[section.categoryId],
     );
   });
 
@@ -177,13 +175,12 @@ const QUICK_ITEMS = [
 ];
 
 const V2ActionsPanel = () => {
-  const [activeCategory, setActiveCategory] = useState("common");
   const [activeFilter, setActiveFilter] = useState("all");
   const [sectionColumns, setSectionColumns] = useState(DEFAULT_SECTION_COLUMNS);
   const [draggedDivider, setDraggedDivider] = useState(null);
   const [dragPreviewRatio, setDragPreviewRatio] = useState(null);
-  const [actionLayouts, setActionLayouts] = useState(
-    createInitialActionLayouts,
+  const [sectionLayouts, setSectionLayouts] = useState(
+    createInitialSectionLayouts,
   );
   const [draggedAction, setDraggedAction] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
@@ -307,9 +304,9 @@ const V2ActionsPanel = () => {
     const timestamp = now.toISOString().replace(/[.:]/g, "-");
     const exportPayload = {
       type: "v2-actions-layout",
-      version: 1,
+      version: 2,
       exportedAt: now.toISOString(),
-      layouts: actionLayouts,
+      sectionLayouts,
     };
     const jsonBlob = new Blob([JSON.stringify(exportPayload, null, 2)], {
       type: "application/json",
@@ -344,15 +341,21 @@ const V2ActionsPanel = () => {
       const rawText = await file.text();
       const parsedJson = JSON.parse(rawText);
       const importedLayouts =
-        parsedJson && typeof parsedJson === "object" && "layouts" in parsedJson
-          ? parsedJson.layouts
+        parsedJson &&
+        typeof parsedJson === "object" &&
+        "sectionLayouts" in parsedJson
+          ? parsedJson.sectionLayouts
           : parsedJson &&
               typeof parsedJson === "object" &&
-              "actionLayouts" in parsedJson
-            ? parsedJson.actionLayouts
-            : parsedJson;
+              "layouts" in parsedJson
+            ? parsedJson.layouts
+            : parsedJson &&
+                typeof parsedJson === "object" &&
+                "actionLayouts" in parsedJson
+              ? parsedJson.actionLayouts
+              : parsedJson;
 
-      setActionLayouts(normalizeImportedLayouts(importedLayouts));
+      setSectionLayouts(normalizeImportedLayouts(importedLayouts));
       setLayoutTransferMessage({
         type: "success",
         text: `Imported layout from ${file.name}.`,
@@ -367,90 +370,129 @@ const V2ActionsPanel = () => {
     }
   };
 
-  const actions = useMemo(
-    () => ACTION_LIBRARY[activeCategory] ?? [],
-    [activeCategory],
-  );
+  const actionsBySection = useMemo(() => {
+    const map = {};
 
-  const actionById = useMemo(
-    () => Object.fromEntries(actions.map((item) => [item.id, item])),
-    [actions],
-  );
+    SECTION_CONFIG.forEach((section) => {
+      map[section.id] = ACTION_LIBRARY[section.categoryId] ?? [];
+    });
 
-  const filteredActions = useMemo(() => {
-    if (activeFilter === "all") {
-      return actions;
-    }
+    return map;
+  }, []);
 
-    if (["action", "bonus", "reaction", "utility"].includes(activeFilter)) {
-      return actions.filter((item) => item.kind === activeFilter);
-    }
+  const actionBySection = useMemo(() => {
+    const map = {};
 
-    return actions.filter((item) => item.tier === activeFilter);
-  }, [actions, activeFilter]);
+    SECTION_IDS.forEach((sectionId) => {
+      const actions = actionsBySection[sectionId] ?? [];
+      map[sectionId] = Object.fromEntries(
+        actions.map((item) => [item.id, item]),
+      );
+    });
 
-  const filteredActionIds = useMemo(
-    () => new Set(filteredActions.map((item) => item.id)),
-    [filteredActions],
-  );
+    return map;
+  }, [actionsBySection]);
+
+  const filteredActionIdsBySection = useMemo(() => {
+    const map = {};
+
+    SECTION_IDS.forEach((sectionId) => {
+      const actions = actionsBySection[sectionId] ?? [];
+      let filteredActions = actions;
+
+      if (activeFilter !== "all") {
+        filteredActions = ["action", "bonus", "reaction", "utility"].includes(
+          activeFilter,
+        )
+          ? actions.filter((item) => item.kind === activeFilter)
+          : actions.filter((item) => item.tier === activeFilter);
+      }
+
+      map[sectionId] = new Set(filteredActions.map((item) => item.id));
+    });
+
+    return map;
+  }, [actionsBySection, activeFilter]);
 
   useEffect(() => {
     setDraggedAction(null);
     setDropTarget(null);
-  }, [activeCategory, activeFilter]);
+  }, [activeFilter]);
 
-  const activeLayout =
-    actionLayouts[activeCategory] ?? buildInitialCategoryLayout(actions);
+  const maximizedSectionId = useMemo(() => {
+    const maxIndex = sectionColumns.findIndex(
+      (columnCount) => columnCount === TOTAL_SECTION_COLUMNS,
+    );
 
-  const handleActionDrop = (targetSectionId, targetIndex) => {
-    if (!draggedAction) {
+    if (maxIndex === -1) {
+      return null;
+    }
+
+    const allOtherSectionsCollapsed = sectionColumns.every(
+      (columnCount, index) => index === maxIndex || columnCount === 0,
+    );
+
+    return allOtherSectionsCollapsed ? SECTION_CONFIG[maxIndex].id : null;
+  }, [sectionColumns]);
+
+  const toggleSectionMaximize = (sectionId) => {
+    const targetIndex = SECTION_CONFIG.findIndex(
+      (section) => section.id === sectionId,
+    );
+
+    if (targetIndex === -1) {
       return;
     }
 
-    setActionLayouts((currentLayouts) => {
-      const categoryLayout = currentLayouts[activeCategory];
+    if (maximizedSectionId === sectionId) {
+      resetDividers();
+      return;
+    }
 
-      if (!categoryLayout) {
-        return currentLayouts;
-      }
+    setSectionColumns(
+      SECTION_CONFIG.map((_, index) =>
+        index === targetIndex ? TOTAL_SECTION_COLUMNS : 0,
+      ),
+    );
+  };
 
-      const nextCategoryLayout = {
-        mobility: [...(categoryLayout.mobility ?? [])],
-        offense: [...(categoryLayout.offense ?? [])],
-        support: [...(categoryLayout.support ?? [])],
-      };
+  const handleActionDrop = (targetSectionId, targetIndex) => {
+    if (!draggedAction || draggedAction.sectionId !== targetSectionId) {
+      return;
+    }
 
-      const sourceSlots = nextCategoryLayout[draggedAction.sectionId];
-      const targetSlots = nextCategoryLayout[targetSectionId];
-
-      if (!sourceSlots || !targetSlots) {
-        return currentLayouts;
-      }
-
-      const sourceValue = sourceSlots[draggedAction.slotIndex] ?? null;
-      const targetValue = targetSlots[targetIndex] ?? null;
+    setSectionLayouts((currentLayouts) => {
+      const currentSlots =
+        currentLayouts[targetSectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
+      const nextSlots = [...currentSlots];
+      const sourceValue = nextSlots[draggedAction.slotIndex] ?? null;
+      const targetValue = nextSlots[targetIndex] ?? null;
 
       if (sourceValue === null && targetValue === null) {
         return currentLayouts;
       }
 
-      sourceSlots[draggedAction.slotIndex] = targetValue;
-      targetSlots[targetIndex] = sourceValue;
+      nextSlots[draggedAction.slotIndex] = targetValue;
+      nextSlots[targetIndex] = sourceValue;
 
       return {
         ...currentLayouts,
-        [activeCategory]: nextCategoryLayout,
+        [targetSectionId]: nextSlots,
       };
     });
   };
 
   const renderTilesForSection = (sectionId) => {
     const slots =
-      activeLayout[sectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
+      sectionLayouts[sectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
+    const actionById = actionBySection[sectionId] ?? {};
+    const visibleActionIds = filteredActionIdsBySection[sectionId] ?? new Set();
+    const canDropInSection =
+      !draggedAction || draggedAction.sectionId === sectionId;
 
     return slots.slice(0, SECTION_SLOT_COUNT).map((itemId, index) => {
       const item = itemId ? actionById[itemId] : null;
-      const isVisible = item ? filteredActionIds.has(item.id) : false;
+      const isVisible = item ? visibleActionIds.has(item.id) : false;
       const isDragging =
         draggedAction?.sectionId === sectionId &&
         draggedAction?.slotIndex === index;
@@ -470,10 +512,18 @@ const V2ActionsPanel = () => {
             aria-hidden="true"
             tabIndex={-1}
             onDragOver={(event) => {
+              if (!canDropInSection) {
+                return;
+              }
+
               event.preventDefault();
               setDropTarget({ sectionId, slotIndex: index });
             }}
             onDrop={(event) => {
+              if (!canDropInSection) {
+                return;
+              }
+
               event.preventDefault();
               handleActionDrop(sectionId, index);
               setDropTarget(null);
@@ -506,10 +556,18 @@ const V2ActionsPanel = () => {
             setDropTarget(null);
           }}
           onDragOver={(event) => {
+            if (!canDropInSection) {
+              return;
+            }
+
             event.preventDefault();
             setDropTarget({ sectionId, slotIndex: index });
           }}
           onDrop={(event) => {
+            if (!canDropInSection) {
+              return;
+            }
+
             event.preventDefault();
             handleActionDrop(sectionId, index);
             setDropTarget(null);
@@ -665,16 +723,16 @@ const V2ActionsPanel = () => {
         <div
           className="v2-actions-category-tabs"
           role="tablist"
-          aria-label="Action categories"
+          aria-label="Category focus controls"
         >
           {CATEGORY_TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
-              className={activeCategory === tab.id ? "is-active" : ""}
+              className={maximizedSectionId === tab.id ? "is-active" : ""}
               role="tab"
-              aria-selected={activeCategory === tab.id}
-              onClick={() => setActiveCategory(tab.id)}
+              aria-selected={maximizedSectionId === tab.id}
+              onClick={() => toggleSectionMaximize(tab.id)}
             >
               {tab.label}
             </button>
