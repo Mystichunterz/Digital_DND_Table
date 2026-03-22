@@ -1,9 +1,9 @@
-import LeftDisplay from "../../layout/LeftDisplay";
+import V2LeftDisplay from "../components/V2LeftDisplay";
 
 const V2LeftPanel = () => {
   return (
     <div className="v2-left-display-wrap">
-      <LeftDisplay />
+      <V2LeftDisplay />
     </div>
   );
 };
