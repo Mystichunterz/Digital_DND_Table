@@ -1,0 +1,178 @@
+.v2-asset-manager-page {
+  min-height: 100%;
+}
+
+.v2-asset-manager-grid {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(0.6rem, 0.8vw, 0.95rem);
+}
+
+.v2-asset-manager-card {
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  padding: clamp(0.7rem, 1.1vw, 0.95rem);
+  border: 1px solid rgba(126, 93, 65, 0.75);
+  border-radius: 10px;
+  background: linear-gradient(
+    165deg,
+    rgba(30, 22, 18, 0.82) 0%,
+    rgba(20, 14, 12, 0.9) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(230, 201, 166, 0.08),
+    0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.v2-asset-manager-card header h2 {
+  margin: 0;
+  color: #f2e5d1;
+  font-size: clamp(0.95rem, 0.22vw + 0.9rem, 1.12rem);
+  font-weight: 600;
+}
+
+.v2-asset-manager-card header p {
+  margin: 0.2rem 0 0;
+  color: rgba(214, 191, 160, 0.82);
+  font-size: clamp(0.74rem, 0.14vw + 0.7rem, 0.84rem);
+}
+
+.v2-asset-manager-form {
+  min-height: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.v2-asset-manager-form label {
+  display: grid;
+  gap: 0.2rem;
+  color: #e7d0b3;
+  font-size: clamp(0.68rem, 0.11vw + 0.65rem, 0.76rem);
+}
+
+.v2-asset-manager-form input,
+.v2-asset-manager-form select,
+.v2-asset-manager-form button {
+  border: 1px solid rgba(122, 90, 62, 0.82);
+  border-radius: 6px;
+  background: rgba(20, 15, 13, 0.8);
+  color: #f2e3cd;
+  min-height: clamp(1.8rem, 2vw, 2.05rem);
+  padding: 0.2rem 0.45rem;
+  font-size: clamp(0.7rem, 0.12vw + 0.68rem, 0.8rem);
+}
+
+.v2-asset-manager-form input::file-selector-button {
+  margin-right: 0.5rem;
+  border: 1px solid rgba(136, 105, 76, 0.84);
+  border-radius: 4px;
+  background: rgba(46, 33, 24, 0.9);
+  color: #f3dfc0;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+}
+
+.v2-asset-manager-form button {
+  background: linear-gradient(
+    180deg,
+    rgba(102, 73, 49, 0.86) 0%,
+    rgba(58, 39, 26, 0.92) 100%
+  );
+  cursor: pointer;
+}
+
+.v2-asset-manager-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.v2-asset-manager-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.v2-asset-manager-form-row-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.v2-asset-manager-library-card {
+  grid-column: 1 / -1;
+}
+
+.v2-asset-manager-table-wrap {
+  min-height: 0;
+  max-height: clamp(12rem, 34vh, 22rem);
+  overflow: auto;
+  border: 1px solid rgba(118, 86, 60, 0.72);
+  border-radius: 8px;
+}
+
+.v2-asset-manager-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.68rem, 0.11vw + 0.65rem, 0.78rem);
+}
+
+.v2-asset-manager-table-wrap th,
+.v2-asset-manager-table-wrap td {
+  text-align: left;
+  padding: 0.3rem 0.4rem;
+  border-bottom: 1px solid rgba(117, 86, 61, 0.35);
+}
+
+.v2-asset-manager-table-wrap th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(45, 31, 22, 0.96);
+  color: #f4e5ce;
+}
+
+.v2-asset-manager-table-wrap td {
+  color: rgba(233, 214, 190, 0.9);
+}
+
+.v2-asset-manager-empty {
+  margin: 0;
+  color: rgba(213, 189, 156, 0.86);
+  font-size: clamp(0.72rem, 0.12vw + 0.68rem, 0.82rem);
+}
+
+.v2-asset-manager-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(107, 143, 93, 0.7);
+  border-radius: 8px;
+  background: rgba(21, 40, 26, 0.45);
+  color: rgba(198, 236, 195, 0.95);
+  font-size: clamp(0.7rem, 0.1vw + 0.67rem, 0.8rem);
+}
+
+.v2-asset-manager-status.is-error {
+  border-color: rgba(166, 84, 78, 0.78);
+  background: rgba(46, 20, 18, 0.55);
+  color: rgba(241, 181, 171, 0.98);
+}
+
+@media (max-width: 1150px) {
+  .v2-asset-manager-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-asset-manager-library-card {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 820px) {
+  .v2-asset-manager-form-row,
+  .v2-asset-manager-form-row-three {
+    grid-template-columns: 1fr;
+  }
+}

@@ -50,6 +50,27 @@ npm run dev
 
 4. Open `localhost:5173` in your browser
 
+## Local Asset Manager
+
+Use the local asset manager when you want to bulk upload action icons and add abilities without manually editing component files.
+
+1. Start the web app and local API together:
+
+```bash
+npm run dev:assets
+```
+
+2. Open the Vite local URL shown in terminal (for example `http://localhost:5173/v2/assets`).
+3. Upload images into `common`, `weapons`, `spells`, or other action folders.
+4. Add or update ability entries in the UI form.
+
+The UI writes to:
+
+- `src/assets/actions/*` for icon files
+- `src/v2/data/actions-manifest.json` for ability metadata
+
+`V2ActionsPanel` reads this manifest and auto-resolves icon files, so new abilities appear in the in-game actions UI without manual import wiring.
+
 ## Contributing
 
 ### Committing

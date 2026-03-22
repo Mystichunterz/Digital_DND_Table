@@ -6,29 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-
-import banishingSmiteIcon from "../../../../assets/actions/spells/Banishing_Smite_Unfaded_Icon.webp";
-import blindingSmiteIcon from "../../../../assets/actions/spells/Blinding_Smite_Unfaded_Icon.webp";
-import brandingSmiteIcon from "../../../../assets/actions/spells/Branding_Smite_Unfaded_Icon.webp";
-import commandIcon from "../../../../assets/actions/spells/Command_Unfaded_Icon.webp";
-import compelledDuelIcon from "../../../../assets/actions/spells/Compelled_Duel_Unfaded_Icon.webp";
-import divineFavorIcon from "../../../../assets/actions/spells/Divine_Favor_Unfaded_Icon.webp";
-import divineSmiteIcon from "../../../../assets/actions/spells/Divine_Smite_Unfaded_Icon.webp";
-import layOnHandsIcon from "../../../../assets/actions/spells/Lay_on_Hands_Unfaded_Icon.webp";
-import thunderousSmiteIcon from "../../../../assets/actions/spells/Thunderous_Smite_Unfaded_Icon.webp";
-import vowOfEnmityIcon from "../../../../assets/actions/spells/Vow_of_Enmity_Unfaded_Icon.webp";
-import wrathfulSmiteIcon from "../../../../assets/actions/spells/Wrathful_Smite_Unfaded_Icon.webp";
-import dashIcon from "../../../../assets/actions/common/Dash_Unfaded_Icon.webp";
-import disengageIcon from "../../../../assets/actions/common/Disengage_Unfaded_Icon.webp";
-import helpIcon from "../../../../assets/actions/common/Help_Unfaded_Icon.webp";
-import hideIcon from "../../../../assets/actions/common/Hide_Unfaded_Icon.webp";
-import improvisedMeleeWeaponIcon from "../../../../assets/actions/common/Improvised_Melee_Weapon_Unfaded_Icon.webp";
-import jumpIcon from "../../../../assets/actions/common/Jump_Unfaded_Icon.webp";
-import throwIcon from "../../../../assets/actions/common/Throw_Unfaded_Icon.webp";
-import throwWeaponIcon from "../../../../assets/actions/common/Throw_Weapon_Unfaded_Icon.webp";
-import toggleNonLethalAttacksIcon from "../../../../assets/actions/common/Toggle_Non-Lethal_Attacks_Unfaded_Icon.webp";
-import mainHandAttackIcon from "../../../../assets/actions/weapons/Main_Hand_Attack_Unfaded_Icon.webp";
-import rangedAttackIcon from "../../../../assets/actions/weapons/Ranged_Attack_Unfaded_Icon.webp";
+import { ACTION_LIBRARY } from "../../../data/actionsCatalog";
 
 const CATEGORY_TABS = [
   { id: "common", label: "Common" },
@@ -67,6 +45,7 @@ const DEFAULT_SECTION_COLUMNS = SECTION_CONFIG.map(
 );
 const SECTION_SLOT_ROWS = 5;
 const SECTION_SLOT_COUNT = TOTAL_SECTION_COLUMNS * SECTION_SLOT_ROWS;
+const SECTION_IDS = SECTION_CONFIG.map((section) => section.id);
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -91,366 +70,99 @@ const buildInitialCategoryLayout = (actions) => {
   return layout;
 };
 
-const ACTION_LIBRARY = {
-  common: [
-    {
-      id: "dash",
-      name: "Dash",
-      short: "DA",
-      icon: dashIcon,
-      keybind: "Z",
-      section: "mobility",
-      kind: "action",
-      tier: "I",
-      tone: "steel",
-    },
-    {
-      id: "jump",
-      name: "Jump",
-      short: "JP",
-      icon: jumpIcon,
-      keybind: "X",
-      section: "mobility",
-      kind: "bonus",
-      tier: "I",
-      tone: "steel",
-    },
-    {
-      id: "shove",
-      name: "Shove",
-      short: "SH",
-      icon: improvisedMeleeWeaponIcon,
-      section: "mobility",
-      kind: "bonus",
-      tier: "I",
-      tone: "steel",
-    },
-    {
-      id: "disengage",
-      name: "Disengage",
-      short: "DG",
-      icon: disengageIcon,
-      section: "mobility",
-      kind: "action",
-      tier: "I",
-      tone: "steel",
-    },
-    {
-      id: "help",
-      name: "Help",
-      short: "HP",
-      icon: helpIcon,
-      section: "support",
-      kind: "action",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "throw",
-      name: "Throw",
-      short: "TH",
-      icon: throwIcon,
-      section: "offense",
-      kind: "action",
-      tier: "I",
-      tone: "red",
-    },
-    {
-      id: "main-attack",
-      name: "Main Attack",
-      short: "AT",
-      icon: mainHandAttackIcon,
-      section: "offense",
-      kind: "action",
-      tier: "I",
-      tone: "gold",
-    },
-    {
-      id: "offhand-attack",
-      name: "Offhand",
-      short: "OH",
-      icon: throwWeaponIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "I",
-      tone: "gold",
-    },
-    {
-      id: "ranged-attack",
-      name: "Ranged",
-      short: "RA",
-      icon: rangedAttackIcon,
-      section: "offense",
-      kind: "action",
-      tier: "I",
-      tone: "red",
-    },
-    {
-      id: "hide",
-      name: "Hide",
-      short: "HD",
-      icon: hideIcon,
-      section: "mobility",
-      kind: "bonus",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "dodge",
-      name: "Dodge",
-      short: "DD",
-      icon: toggleNonLethalAttacksIcon,
-      section: "support",
-      kind: "action",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "ready",
-      name: "Ready",
-      short: "RD",
-      section: "support",
-      kind: "reaction",
-      tier: "II",
-      tone: "purple",
-    },
-    {
-      id: "improvise",
-      name: "Improvise",
-      short: "IM",
-      icon: improvisedMeleeWeaponIcon,
-      section: "support",
-      kind: "utility",
-      tier: "II",
-      tone: "purple",
-    },
-  ],
-  paladin: [
-    {
-      id: "smite",
-      name: "Divine Smite",
-      short: "SM",
-      icon: divineSmiteIcon,
-      section: "offense",
-      kind: "action",
-      tier: "I",
-      tone: "gold",
-    },
-    {
-      id: "thunderous-smite",
-      name: "Thunderous Smite",
-      short: "TS",
-      icon: thunderousSmiteIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "I",
-      tone: "purple",
-    },
-    {
-      id: "wrathful-smite",
-      name: "Wrathful Smite",
-      short: "WS",
-      icon: wrathfulSmiteIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "I",
-      tone: "purple",
-    },
-    {
-      id: "compelled-duel",
-      name: "Compelled Duel",
-      short: "CD",
-      icon: compelledDuelIcon,
-      section: "support",
-      kind: "action",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "vow-of-enmity",
-      name: "Vow of Enmity",
-      short: "VE",
-      icon: vowOfEnmityIcon,
-      section: "support",
-      kind: "bonus",
-      tier: "II",
-      tone: "purple",
-    },
-    {
-      id: "lay-on-hands",
-      name: "Lay on Hands",
-      short: "LH",
-      icon: layOnHandsIcon,
-      section: "support",
-      kind: "action",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "divine-favor",
-      name: "Divine Favor",
-      short: "DF",
-      icon: divineFavorIcon,
-      section: "support",
-      kind: "bonus",
-      tier: "I",
-      tone: "gold",
-    },
-    {
-      id: "command",
-      name: "Command",
-      short: "CM",
-      icon: commandIcon,
-      section: "offense",
-      kind: "action",
-      tier: "I",
-      tone: "red",
-    },
-    {
-      id: "branding-smite",
-      name: "Branding Smite",
-      short: "BS",
-      icon: brandingSmiteIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "II",
-      tone: "gold",
-    },
-    {
-      id: "blinding-smite",
-      name: "Blinding Smite",
-      short: "BL",
-      icon: blindingSmiteIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "III",
-      tone: "gold",
-    },
-    {
-      id: "banishing-smite",
-      name: "Banishing Smite",
-      short: "BN",
-      icon: banishingSmiteIcon,
-      section: "offense",
-      kind: "bonus",
-      tier: "V",
-      tone: "gold",
-    },
-  ],
-  items: [
-    {
-      id: "throw-potion",
-      name: "Throw Potion",
-      short: "PT",
-      section: "support",
-      kind: "action",
-      tier: "I",
-      tone: "green",
-    },
-    {
-      id: "coat-weapon",
-      name: "Coat Weapon",
-      short: "CW",
-      section: "offense",
-      kind: "bonus",
-      tier: "I",
-      tone: "green",
-    },
-    {
-      id: "bomb",
-      name: "Bomb",
-      short: "BM",
-      section: "offense",
-      kind: "action",
-      tier: "II",
-      tone: "red",
-    },
-    {
-      id: "scroll",
-      name: "Scroll",
-      short: "SC",
-      section: "support",
-      kind: "utility",
-      tier: "II",
-      tone: "blue",
-    },
-    {
-      id: "elixir",
-      name: "Elixir",
-      short: "EX",
-      section: "support",
-      kind: "utility",
-      tier: "III",
-      tone: "green",
-    },
-  ],
-  passives: [
-    {
-      id: "great-weapon-master",
-      name: "GWM",
-      short: "GW",
-      section: "offense",
-      kind: "utility",
-      tier: "I",
-      tone: "red",
-    },
-    {
-      id: "opportunity-attack",
-      name: "Opportunity",
-      short: "OA",
-      section: "support",
-      kind: "reaction",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "divine-health",
-      name: "Divine Health",
-      short: "DH",
-      section: "support",
-      kind: "utility",
-      tier: "I",
-      tone: "gold",
-    },
-    {
-      id: "aura",
-      name: "Aura",
-      short: "AU",
-      section: "support",
-      kind: "utility",
-      tier: "II",
-      tone: "purple",
-    },
-  ],
-  custom: [
-    {
-      id: "quick-heal",
-      name: "Quick Heal",
-      short: "QH",
-      section: "support",
-      kind: "bonus",
-      tier: "I",
-      tone: "blue",
-    },
-    {
-      id: "burst",
-      name: "Burst",
-      short: "BU",
-      section: "offense",
-      kind: "action",
-      tier: "III",
-      tone: "red",
-    },
-    {
-      id: "gap-close",
-      name: "Gap Close",
-      short: "GC",
-      section: "mobility",
-      kind: "bonus",
-      tier: "II",
-      tone: "steel",
-    },
-  ],
+const createInitialActionLayouts = () => {
+  const layouts = {};
+
+  Object.entries(ACTION_LIBRARY).forEach(([categoryId, actions]) => {
+    layouts[categoryId] = buildInitialCategoryLayout(actions);
+  });
+
+  return layouts;
+};
+
+const normalizeImportedCategoryLayout = (
+  categoryId,
+  importedCategoryLayout,
+) => {
+  const categoryActions = ACTION_LIBRARY[categoryId] ?? [];
+  const actionById = Object.fromEntries(
+    categoryActions.map((action) => [action.id, action]),
+  );
+  const normalizedCategoryLayout = {};
+
+  SECTION_IDS.forEach((sectionId) => {
+    const importedSlots = Array.isArray(importedCategoryLayout?.[sectionId])
+      ? importedCategoryLayout[sectionId]
+      : [];
+    const sanitizedSlots = Array(SECTION_SLOT_COUNT).fill(null);
+
+    for (let index = 0; index < SECTION_SLOT_COUNT; index += 1) {
+      const maybeActionId = importedSlots[index];
+
+      if (typeof maybeActionId === "string" && actionById[maybeActionId]) {
+        sanitizedSlots[index] = maybeActionId;
+      }
+    }
+
+    normalizedCategoryLayout[sectionId] = sanitizedSlots;
+  });
+
+  const seenActionIds = new Set();
+
+  SECTION_IDS.forEach((sectionId) => {
+    normalizedCategoryLayout[sectionId] = normalizedCategoryLayout[
+      sectionId
+    ].map((actionId) => {
+      if (!actionId || seenActionIds.has(actionId)) {
+        return null;
+      }
+
+      seenActionIds.add(actionId);
+      return actionId;
+    });
+  });
+
+  const missingActionIds = categoryActions
+    .map((action) => action.id)
+    .filter((actionId) => !seenActionIds.has(actionId));
+
+  missingActionIds.forEach((actionId) => {
+    const preferredSection = actionById[actionId].section;
+    const sectionPriority = [
+      preferredSection,
+      ...SECTION_IDS.filter((sectionId) => sectionId !== preferredSection),
+    ];
+
+    for (let index = 0; index < sectionPriority.length; index += 1) {
+      const sectionId = sectionPriority[index];
+      const slotIndex = normalizedCategoryLayout[sectionId].indexOf(null);
+
+      if (slotIndex !== -1) {
+        normalizedCategoryLayout[sectionId][slotIndex] = actionId;
+        seenActionIds.add(actionId);
+        break;
+      }
+    }
+  });
+
+  return normalizedCategoryLayout;
+};
+
+const normalizeImportedLayouts = (importedLayouts) => {
+  const baseLayouts = createInitialActionLayouts();
+
+  if (!importedLayouts || typeof importedLayouts !== "object") {
+    return baseLayouts;
+  }
+
+  Object.keys(ACTION_LIBRARY).forEach((categoryId) => {
+    baseLayouts[categoryId] = normalizeImportedCategoryLayout(
+      categoryId,
+      importedLayouts[categoryId],
+    );
+  });
+
+  return baseLayouts;
 };
 
 const QUICK_ITEMS = [
@@ -470,18 +182,14 @@ const V2ActionsPanel = () => {
   const [sectionColumns, setSectionColumns] = useState(DEFAULT_SECTION_COLUMNS);
   const [draggedDivider, setDraggedDivider] = useState(null);
   const [dragPreviewRatio, setDragPreviewRatio] = useState(null);
-  const [actionLayouts, setActionLayouts] = useState(() => {
-    const initialLayouts = {};
-
-    Object.entries(ACTION_LIBRARY).forEach(([categoryId, actions]) => {
-      initialLayouts[categoryId] = buildInitialCategoryLayout(actions);
-    });
-
-    return initialLayouts;
-  });
+  const [actionLayouts, setActionLayouts] = useState(
+    createInitialActionLayouts,
+  );
   const [draggedAction, setDraggedAction] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
+  const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
   const gridClusterRef = useRef(null);
+  const layoutFileInputRef = useRef(null);
 
   const getPointerRatio = useCallback((pointerX) => {
     const cluster = gridClusterRef.current;
@@ -592,6 +300,71 @@ const V2ActionsPanel = () => {
 
   const resetDividers = () => {
     setSectionColumns(DEFAULT_SECTION_COLUMNS);
+  };
+
+  const exportLayoutAsJson = () => {
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[.:]/g, "-");
+    const exportPayload = {
+      type: "v2-actions-layout",
+      version: 1,
+      exportedAt: now.toISOString(),
+      layouts: actionLayouts,
+    };
+    const jsonBlob = new Blob([JSON.stringify(exportPayload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(jsonBlob);
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = url;
+    downloadLink.download = `v2-actions-layout-${timestamp}.json`;
+    document.body.append(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    URL.revokeObjectURL(url);
+    setLayoutTransferMessage({
+      type: "success",
+      text: "Layout exported.",
+    });
+  };
+
+  const triggerLayoutImport = () => {
+    layoutFileInputRef.current?.click();
+  };
+
+  const importLayoutFromJson = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      const rawText = await file.text();
+      const parsedJson = JSON.parse(rawText);
+      const importedLayouts =
+        parsedJson && typeof parsedJson === "object" && "layouts" in parsedJson
+          ? parsedJson.layouts
+          : parsedJson &&
+              typeof parsedJson === "object" &&
+              "actionLayouts" in parsedJson
+            ? parsedJson.actionLayouts
+            : parsedJson;
+
+      setActionLayouts(normalizeImportedLayouts(importedLayouts));
+      setLayoutTransferMessage({
+        type: "success",
+        text: `Imported layout from ${file.name}.`,
+      });
+    } catch {
+      setLayoutTransferMessage({
+        type: "error",
+        text: "Import failed. Use a valid layout JSON file.",
+      });
+    } finally {
+      event.target.value = "";
+    }
   };
 
   const actions = useMemo(
@@ -786,6 +559,32 @@ const V2ActionsPanel = () => {
                 {filter.label}
               </button>
             ))}
+          </div>
+
+          <div className="v2-actions-layout-controls">
+            <button type="button" onClick={exportLayoutAsJson}>
+              Export Layout
+            </button>
+            <button type="button" onClick={triggerLayoutImport}>
+              Import Layout
+            </button>
+            <input
+              ref={layoutFileInputRef}
+              type="file"
+              accept="application/json,.json"
+              className="v2-actions-layout-file-input"
+              onChange={importLayoutFromJson}
+            />
+            <span
+              className={
+                layoutTransferMessage?.type === "error"
+                  ? "v2-actions-layout-status is-error"
+                  : "v2-actions-layout-status"
+              }
+            >
+              {layoutTransferMessage?.text ??
+                "Import or export icon layout JSON"}
+            </span>
           </div>
         </div>
 

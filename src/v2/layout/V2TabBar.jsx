@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 const tabs = [
   { path: "overview", label: "Overview" },
   { path: "background", label: "Background" },
+  { path: "assets", label: "Asset Manager" },
 ];
 
 const getTabClassName = ({ isActive }) =>
