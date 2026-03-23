@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ACTION_LIBRARY } from "../../../data/actionsCatalog";
+import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
 
 const FILTER_TABS = [
   { id: "all", label: "All" },
@@ -174,6 +174,34 @@ const QUICK_ITEMS = [
   { id: "bag", short: "BG", count: 3, tone: "neutral" },
 ];
 
+const SPELLBOOK_TABS = [
+  {
+    id: "paladin",
+    label: "Paladin",
+    getItems: (actions) =>
+      actions.filter((action) => action.category === "paladin"),
+  },
+  {
+    id: "common",
+    label: "Common",
+    getItems: (actions) =>
+      actions.filter((action) => action.category === "common"),
+  },
+  {
+    id: "reactions",
+    label: "Reactions",
+    getItems: (actions) =>
+      actions.filter((action) => action.kind === "reaction"),
+  },
+  {
+    id: "all",
+    label: "All",
+    getItems: (actions) => actions,
+  },
+];
+
+const SPELLBOOK_TIER_ORDER = ["V", "IV", "III", "II", "I"];
+
 const V2ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
   const [sectionColumns, setSectionColumns] = useState(DEFAULT_SECTION_COLUMNS);
@@ -184,6 +212,8 @@ const V2ActionsPanel = () => {
   );
   const [draggedAction, setDraggedAction] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
+  const [isSpellbookOpen, setIsSpellbookOpen] = useState(false);
+  const [activeSpellbookTab, setActiveSpellbookTab] = useState("paladin");
   const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
   const gridClusterRef = useRef(null);
   const layoutFileInputRef = useRef(null);
@@ -285,6 +315,24 @@ const V2ActionsPanel = () => {
     };
   }, [draggedDivider, dragPreviewRatio, getPointerRatio, getSnappedColumns]);
 
+  useEffect(() => {
+    if (!isSpellbookOpen) {
+      return undefined;
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsSpellbookOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isSpellbookOpen]);
+
   const startDividerDrag = (dividerIndex, event) => {
     if (event.button !== 0) {
       return;
@@ -368,6 +416,87 @@ const V2ActionsPanel = () => {
     } finally {
       event.target.value = "";
     }
+  };
+
+  const spellbookActions = useMemo(
+    () =>
+      ACTIONS.filter(
+        (action) =>
+          typeof action.iconKey === "string" &&
+          action.iconKey.startsWith("spells/") &&
+          !!action.icon,
+      ),
+    [],
+  );
+
+  const spellbookActionsByTab = useMemo(() => {
+    const map = {};
+
+    SPELLBOOK_TABS.forEach((tab) => {
+      map[tab.id] = tab.getItems(spellbookActions);
+    });
+
+    return map;
+  }, [spellbookActions]);
+
+  const activeSpellbookActions = useMemo(
+    () =>
+      spellbookActionsByTab[activeSpellbookTab] ??
+      spellbookActionsByTab.paladin ??
+      [],
+    [spellbookActionsByTab, activeSpellbookTab],
+  );
+
+  const spellbookActionRows = useMemo(() => {
+    const classActions = activeSpellbookActions.filter(
+      (action) => action.kind === "action",
+    );
+    const spellActions = activeSpellbookActions.filter(
+      (action) => action.kind !== "action",
+    );
+    const preparedActions = activeSpellbookActions.slice(0, 18);
+    const tierRows = SPELLBOOK_TIER_ORDER.map((tierId) => ({
+      tierId,
+      actions: activeSpellbookActions.filter(
+        (action) => action.tier === tierId,
+      ),
+    })).filter((row) => row.actions.length > 0);
+
+    return {
+      classActions,
+      spellActions,
+      preparedActions,
+      tierRows,
+    };
+  }, [activeSpellbookActions]);
+
+  const getSectionIdForAction = useCallback(
+    (action) =>
+      SECTION_CONFIG.find((section) => section.categoryId === action.category)
+        ?.id ?? null,
+    [],
+  );
+
+  const handleSpellbookDragStart = (event, action) => {
+    const sectionId = getSectionIdForAction(action);
+
+    if (!sectionId) {
+      event.preventDefault();
+      return;
+    }
+
+    setDraggedAction({
+      source: "spellbook",
+      sectionId,
+      itemId: action.id,
+    });
+    event.dataTransfer.effectAllowed = "copyMove";
+    event.dataTransfer.setData("text/plain", action.id);
+  };
+
+  const handleSpellbookDragEnd = () => {
+    setDraggedAction(null);
+    setDropTarget(null);
   };
 
   const actionsBySection = useMemo(() => {
@@ -465,15 +594,38 @@ const V2ActionsPanel = () => {
       const currentSlots =
         currentLayouts[targetSectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
       const nextSlots = [...currentSlots];
-      const sourceValue = nextSlots[draggedAction.slotIndex] ?? null;
-      const targetValue = nextSlots[targetIndex] ?? null;
 
-      if (sourceValue === null && targetValue === null) {
-        return currentLayouts;
+      if (draggedAction.source === "spellbook") {
+        const itemId = draggedAction.itemId;
+        const existingIndex = nextSlots.indexOf(itemId);
+        const displacedValue = nextSlots[targetIndex] ?? null;
+
+        if (existingIndex === targetIndex) {
+          return currentLayouts;
+        }
+
+        if (existingIndex !== -1) {
+          nextSlots[existingIndex] = displacedValue;
+        } else if (displacedValue !== null) {
+          const emptySlotIndex = nextSlots.indexOf(null);
+
+          if (emptySlotIndex !== -1) {
+            nextSlots[emptySlotIndex] = displacedValue;
+          }
+        }
+
+        nextSlots[targetIndex] = itemId;
+      } else {
+        const sourceValue = nextSlots[draggedAction.slotIndex] ?? null;
+        const targetValue = nextSlots[targetIndex] ?? null;
+
+        if (sourceValue === null && targetValue === null) {
+          return currentLayouts;
+        }
+
+        nextSlots[draggedAction.slotIndex] = targetValue;
+        nextSlots[targetIndex] = sourceValue;
       }
-
-      nextSlots[draggedAction.slotIndex] = targetValue;
-      nextSlots[targetIndex] = sourceValue;
 
       return {
         ...currentLayouts,
@@ -547,7 +699,12 @@ const V2ActionsPanel = () => {
           aria-label={`${item.name} (${item.kind})`}
           draggable
           onDragStart={(event) => {
-            setDraggedAction({ sectionId, slotIndex: index, itemId: item.id });
+            setDraggedAction({
+              source: "bar",
+              sectionId,
+              slotIndex: index,
+              itemId: item.id,
+            });
             event.dataTransfer.effectAllowed = "move";
             event.dataTransfer.setData("text/plain", item.id);
           }}
@@ -592,6 +749,32 @@ const V2ActionsPanel = () => {
     });
   };
 
+  const renderSpellbookIcons = (actions) => {
+    if (!actions.length) {
+      return (
+        <span className="v2-spellbook-row-empty">No spells in this group.</span>
+      );
+    }
+
+    return actions.map((action) => (
+      <button
+        key={action.id}
+        type="button"
+        className="v2-spellbook-icon"
+        title={`${action.name} (${action.tier})`}
+        draggable
+        onDragStart={(event) => handleSpellbookDragStart(event, action)}
+        onDragEnd={handleSpellbookDragEnd}
+      >
+        {action.icon ? (
+          <img src={action.icon} alt="" draggable={false} />
+        ) : (
+          <span>{action.short}</span>
+        )}
+      </button>
+    ));
+  };
+
   return (
     <article className="v2-overview-panel v2-actions-panel">
       <header className="v2-overview-panel-header">
@@ -620,6 +803,15 @@ const V2ActionsPanel = () => {
           </div>
 
           <div className="v2-actions-layout-controls">
+            <button
+              type="button"
+              className={isSpellbookOpen ? "is-active" : ""}
+              onClick={() =>
+                setIsSpellbookOpen((currentValue) => !currentValue)
+              }
+            >
+              Spellbook
+            </button>
             <button type="button" onClick={exportLayoutAsJson}>
               Export Layout
             </button>
@@ -739,6 +931,110 @@ const V2ActionsPanel = () => {
           ))}
         </div>
       </div>
+
+      {isSpellbookOpen && (
+        <div className="v2-spellbook-layer" aria-hidden={!isSpellbookOpen}>
+          <section
+            className="v2-spellbook-popup"
+            role="dialog"
+            aria-modal="false"
+            aria-label="Spellbook"
+          >
+            <header className="v2-spellbook-header">
+              <nav
+                className="v2-spellbook-tab-strip"
+                aria-label="Spellbook tabs"
+              >
+                {SPELLBOOK_TABS.map((tab) => {
+                  const count = spellbookActionsByTab[tab.id]?.length ?? 0;
+
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      className={
+                        activeSpellbookTab === tab.id
+                          ? "v2-spellbook-tab is-active"
+                          : "v2-spellbook-tab"
+                      }
+                      onClick={() => setActiveSpellbookTab(tab.id)}
+                    >
+                      <span>{tab.label}</span>
+                      <small>{count}</small>
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <div className="v2-spellbook-toolbar">
+                <button type="button" onClick={() => setIsSpellbookOpen(false)}>
+                  Close
+                </button>
+              </div>
+            </header>
+
+            <div className="v2-spellbook-subheader">
+              <div className="v2-spellbook-oath">Oath of Vengeance</div>
+              <div
+                className="v2-spellbook-stat-strip"
+                aria-label="Spellbook stats"
+              >
+                <span>CHA</span>
+                <span>17</span>
+                <span>DC 16</span>
+              </div>
+            </div>
+
+            <div className="v2-spellbook-body">
+              <aside className="v2-spellbook-class-rail" aria-hidden="true">
+                <div className="v2-spellbook-class-badge">Lv 6</div>
+                <div className="v2-spellbook-slot-pips">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              </aside>
+
+              <div className="v2-spellbook-grid">
+                <section className="v2-spellbook-row">
+                  <h3>Class Actions</h3>
+                  <div className="v2-spellbook-icon-row">
+                    {renderSpellbookIcons(spellbookActionRows.classActions)}
+                  </div>
+                </section>
+
+                <section className="v2-spellbook-row">
+                  <h3>Spells</h3>
+                  <div className="v2-spellbook-icon-row">
+                    {renderSpellbookIcons(spellbookActionRows.spellActions)}
+                  </div>
+                </section>
+
+                <section
+                  className="v2-spellbook-prepared-row"
+                  aria-label="Prepared strip"
+                >
+                  <span className="v2-spellbook-prepared-label">Prepared</span>
+                  <div className="v2-spellbook-icon-row is-prepared">
+                    {renderSpellbookIcons(spellbookActionRows.preparedActions)}
+                  </div>
+                </section>
+
+                {spellbookActionRows.tierRows.map((row) => (
+                  <section key={row.tierId} className="v2-spellbook-tier-row">
+                    <span className="v2-spellbook-tier-label">
+                      {row.tierId}
+                    </span>
+                    <div className="v2-spellbook-icon-row">
+                      {renderSpellbookIcons(row.actions)}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
     </article>
   );
 };

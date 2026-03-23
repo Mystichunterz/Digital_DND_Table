@@ -28,6 +28,7 @@ const normalizeAbility = (ability) => {
 
   return {
     ...ability,
+    iconKey,
     icon: iconKey && iconByKey[iconKey] ? iconByKey[iconKey] : null,
   };
 };

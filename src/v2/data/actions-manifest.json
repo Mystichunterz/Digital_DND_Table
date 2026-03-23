@@ -246,6 +246,17 @@
       "icon": "spells/Branding_Smite_Unfaded_Icon.webp"
     },
     {
+      "id": "branding-smite-ranged",
+      "name": "Branding Smite (Ranged)",
+      "short": "BR",
+      "category": "paladin",
+      "section": "offense",
+      "kind": "bonus",
+      "tier": "II",
+      "tone": "gold",
+      "icon": "spells/Branding_Smite_Ranged_Unfaded_Icon.webp"
+    },
+    {
       "id": "blinding-smite",
       "name": "Blinding Smite",
       "short": "BL",
@@ -266,6 +277,17 @@
       "tier": "V",
       "tone": "gold",
       "icon": "spells/Banishing_Smite_Unfaded_Icon.webp"
+    },
+    {
+      "id": "banishing-smite-ranged",
+      "name": "Banishing Smite (Ranged)",
+      "short": "BG",
+      "category": "paladin",
+      "section": "offense",
+      "kind": "bonus",
+      "tier": "V",
+      "tone": "gold",
+      "icon": "spells/Banishing_Smite_Ranged_Unfaded_Icon.webp"
     },
     {
       "id": "throw-potion",

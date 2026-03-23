@@ -583,6 +583,7 @@
 
 .v2-actions-panel {
   min-height: 0;
+  position: relative;
 }
 
 .v2-actions-menu {
@@ -630,7 +631,7 @@
 
 .v2-actions-layout-controls {
   display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr);
+  grid-template-columns: auto auto auto minmax(0, 1fr);
   align-items: center;
   gap: 0.28rem;
 }
@@ -651,6 +652,15 @@
 .v2-actions-layout-controls button:focus-visible {
   color: var(--v2-overview-highlight);
   box-shadow: inset 0 1px 0 rgba(245, 233, 209, 0.25);
+}
+
+.v2-actions-layout-controls button.is-active {
+  background: linear-gradient(
+    180deg,
+    rgba(122, 90, 62, 0.78) 0%,
+    rgba(53, 37, 25, 0.9) 100%
+  );
+  color: var(--v2-overview-highlight);
 }
 
 .v2-actions-layout-file-input {
@@ -919,6 +929,277 @@
   gap: 0.3rem;
 }
 
+.v2-spellbook-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  pointer-events: none;
+}
+
+.v2-spellbook-popup {
+  pointer-events: auto;
+  position: fixed;
+  top: clamp(3.4rem, 5.2vw, 5.1rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(60rem, 94vw);
+  max-height: min(31rem, 78vh);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 0.55rem;
+  padding: clamp(0.65rem, 0.9vw, 0.95rem);
+  border: 1px solid rgba(161, 117, 71, 0.9);
+  border-radius: 12px;
+  background: radial-gradient(
+      75% 85% at 50% 38%,
+      rgba(168, 121, 83, 0.22) 0%,
+      rgba(57, 41, 30, 0.15) 48%,
+      rgba(15, 11, 9, 0.9) 100%
+    ),
+    linear-gradient(
+      165deg,
+      rgba(42, 30, 21, 0.94) 0%,
+      rgba(20, 14, 11, 0.97) 100%
+    );
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(233, 206, 170, 0.12);
+  color: #ecd7b8;
+}
+
+.v2-spellbook-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.v2-spellbook-tab-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.v2-spellbook-tab {
+  border: 1px solid rgba(132, 97, 63, 0.9);
+  border-radius: 7px;
+  background: rgba(19, 14, 11, 0.82);
+  color: rgba(226, 201, 167, 0.9);
+  min-height: clamp(1.9rem, 2.1vw, 2.2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
+  padding: 0.26rem 0.46rem;
+  cursor: pointer;
+}
+
+.v2-spellbook-tab small {
+  color: rgba(173, 197, 235, 0.92);
+  font-size: clamp(0.63rem, 0.09vw + 0.6rem, 0.72rem);
+}
+
+.v2-spellbook-tab.is-active {
+  background: linear-gradient(
+    180deg,
+    rgba(76, 109, 146, 0.32) 0%,
+    rgba(45, 31, 22, 0.95) 100%
+  );
+  color: #f2e7d6;
+}
+
+.v2-spellbook-toolbar button {
+  border: 1px solid rgba(132, 97, 63, 0.9);
+  border-radius: 7px;
+  background: rgba(22, 16, 13, 0.86);
+  color: #e5ceb0;
+  min-height: clamp(1.9rem, 2.1vw, 2.2rem);
+  padding: 0.15rem 0.7rem;
+  cursor: pointer;
+}
+
+.v2-spellbook-subheader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.v2-spellbook-oath {
+  border: 1px solid rgba(131, 97, 64, 0.84);
+  border-radius: 8px;
+  min-height: clamp(1.75rem, 2vw, 2rem);
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  background: rgba(23, 17, 14, 0.72);
+}
+
+.v2-spellbook-stat-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.v2-spellbook-stat-strip span {
+  border: 1px solid rgba(120, 88, 61, 0.84);
+  border-radius: 6px;
+  background: rgba(18, 14, 12, 0.82);
+  min-height: 1.55rem;
+  padding: 0.15rem 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(0.66rem, 0.1vw + 0.63rem, 0.76rem);
+}
+
+.v2-spellbook-body {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(3rem, 3.6rem) minmax(0, 1fr);
+  gap: 0.45rem;
+}
+
+.v2-spellbook-class-rail {
+  min-height: 0;
+  border: 1px solid rgba(131, 97, 64, 0.82);
+  border-radius: 10px;
+  background: rgba(20, 14, 12, 0.8);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: center;
+  padding: 0.4rem 0.25rem;
+  gap: 0.55rem;
+}
+
+.v2-spellbook-class-badge {
+  width: 100%;
+  border: 1px solid rgba(144, 104, 67, 0.86);
+  border-radius: 8px;
+  background: rgba(39, 27, 19, 0.8);
+  text-align: center;
+  font-size: clamp(0.66rem, 0.09vw + 0.63rem, 0.74rem);
+  padding: 0.18rem 0.2rem;
+}
+
+.v2-spellbook-slot-pips {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.v2-spellbook-slot-pips span {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 2px;
+  border: 1px solid rgba(125, 172, 221, 0.8);
+  background: rgba(102, 181, 255, 0.9);
+}
+
+.v2-spellbook-grid {
+  min-height: 0;
+  border: 1px solid rgba(127, 94, 66, 0.84);
+  border-radius: 10px;
+  background: rgba(23, 17, 14, 0.62);
+  padding: 0.42rem;
+  display: grid;
+  align-content: start;
+  gap: 0.34rem;
+  overflow-y: auto;
+}
+
+.v2-spellbook-row {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.v2-spellbook-row h3 {
+  margin: 0;
+  font-size: clamp(0.66rem, 0.08vw + 0.64rem, 0.74rem);
+  color: rgba(234, 212, 181, 0.92);
+  font-weight: 500;
+}
+
+.v2-spellbook-icon-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1.6rem, 1fr));
+  gap: 0.2rem;
+}
+
+.v2-spellbook-prepared-row {
+  border: 1px solid rgba(137, 104, 74, 0.84);
+  border-radius: 8px;
+  background: rgba(203, 188, 167, 0.08);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.28rem 0.36rem;
+}
+
+.v2-spellbook-prepared-label {
+  font-size: clamp(0.62rem, 0.08vw + 0.6rem, 0.7rem);
+  color: rgba(245, 226, 197, 0.86);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.v2-spellbook-icon-row.is-prepared {
+  grid-template-columns: repeat(auto-fill, minmax(1.35rem, 1fr));
+}
+
+.v2-spellbook-tier-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.v2-spellbook-tier-label {
+  width: 1.3rem;
+  text-align: center;
+  font-size: clamp(0.67rem, 0.08vw + 0.64rem, 0.75rem);
+  color: rgba(232, 206, 173, 0.9);
+}
+
+.v2-spellbook-row-empty {
+  font-size: clamp(0.62rem, 0.08vw + 0.59rem, 0.7rem);
+  color: rgba(199, 171, 138, 0.75);
+}
+
+.v2-spellbook-icon {
+  border: 1px solid rgba(126, 91, 62, 0.88);
+  border-radius: 5px;
+  aspect-ratio: 1 / 1;
+  padding: 0.1rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    160deg,
+    rgba(45, 32, 24, 0.92) 0%,
+    rgba(16, 12, 10, 0.94) 100%
+  );
+  color: #ead9c1;
+  cursor: grab;
+}
+
+.v2-spellbook-icon:active {
+  cursor: grabbing;
+}
+
+.v2-spellbook-icon:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 205, 157, 0.7),
+    0 0 0 1px rgba(92, 58, 35, 0.85);
+}
+
+.v2-spellbook-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
 @media (max-width: 1350px) {
   .v2-overview-grid {
     gap: 0.65rem;
@@ -947,11 +1228,15 @@
   }
 
   .v2-actions-layout-controls {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .v2-actions-layout-status {
     grid-column: 1 / -1;
+  }
+
+  .v2-spellbook-popup {
+    width: min(54rem, 96vw);
   }
 
   .v2-actions-menu-body {
@@ -992,5 +1277,28 @@
 
   .v2-actions-category-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-spellbook-popup {
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+
+  .v2-spellbook-header,
+  .v2-spellbook-subheader,
+  .v2-spellbook-body,
+  .v2-spellbook-prepared-row,
+  .v2-spellbook-tier-row {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-spellbook-tab-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-spellbook-class-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    align-items: center;
   }
 }
