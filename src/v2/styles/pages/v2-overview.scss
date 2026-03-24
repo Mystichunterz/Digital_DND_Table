@@ -967,11 +967,54 @@
   color: #ecd7b8;
 }
 
+.v2-spellbook-popup.is-moved {
+  transform: none;
+}
+
+.v2-spellbook-popup.is-dragging {
+  user-select: none;
+}
+
+.v2-spellbook-drag-handle {
+  border: 1px solid rgba(131, 97, 64, 0.84);
+  border-radius: 8px;
+  min-height: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.45rem;
+  background: rgba(23, 17, 14, 0.72);
+  color: rgba(236, 215, 184, 0.88);
+  font-size: clamp(0.62rem, 0.08vw + 0.6rem, 0.72rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: grab;
+}
+
+.v2-spellbook-drag-grip {
+  width: 1.2rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  border: 1px solid rgba(170, 128, 86, 0.88);
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(234, 204, 167, 0.8) 0,
+    rgba(234, 204, 167, 0.8) 2px,
+    rgba(73, 52, 34, 0.95) 2px,
+    rgba(73, 52, 34, 0.95) 4px
+  );
+}
+
 .v2-spellbook-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.5rem;
   align-items: center;
+}
+
+.v2-spellbook-popup.is-dragging .v2-spellbook-drag-handle {
+  cursor: grabbing;
 }
 
 .v2-spellbook-tab-strip {
