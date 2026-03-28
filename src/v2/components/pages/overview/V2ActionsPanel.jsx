@@ -201,6 +201,7 @@ const SPELLBOOK_TABS = [
 ];
 
 const SPELLBOOK_TIER_ORDER = ["V", "IV", "III", "II", "I"];
+const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
 const V2ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -214,9 +215,33 @@ const V2ActionsPanel = () => {
   const [dropTarget, setDropTarget] = useState(null);
   const [isSpellbookOpen, setIsSpellbookOpen] = useState(false);
   const [activeSpellbookTab, setActiveSpellbookTab] = useState("paladin");
+  const [spellbookPosition, setSpellbookPosition] = useState(null);
+  const [spellbookDragState, setSpellbookDragState] = useState(null);
   const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
   const gridClusterRef = useRef(null);
   const layoutFileInputRef = useRef(null);
+  const spellbookPopupRef = useRef(null);
+
+  const clampSpellbookPosition = useCallback((left, top) => {
+    const popupElement = spellbookPopupRef.current;
+    const popupWidth =
+      popupElement?.offsetWidth ?? Math.max(320, window.innerWidth * 0.94);
+    const popupHeight =
+      popupElement?.offsetHeight ?? Math.max(240, window.innerHeight * 0.78);
+    const maxLeft = Math.max(
+      SPELLBOOK_VIEWPORT_MARGIN,
+      window.innerWidth - popupWidth - SPELLBOOK_VIEWPORT_MARGIN,
+    );
+    const maxTop = Math.max(
+      SPELLBOOK_VIEWPORT_MARGIN,
+      window.innerHeight - popupHeight - SPELLBOOK_VIEWPORT_MARGIN,
+    );
+
+    return {
+      left: clamp(left, SPELLBOOK_VIEWPORT_MARGIN, maxLeft),
+      top: clamp(top, SPELLBOOK_VIEWPORT_MARGIN, maxTop),
+    };
+  }, []);
 
   const getPointerRatio = useCallback((pointerX) => {
     const cluster = gridClusterRef.current;
@@ -333,6 +358,69 @@ const V2ActionsPanel = () => {
     };
   }, [isSpellbookOpen]);
 
+  useEffect(() => {
+    if (!spellbookDragState) {
+      return undefined;
+    }
+
+    const handlePointerMove = (event) => {
+      const nextLeft = event.clientX - spellbookDragState.offsetX;
+      const nextTop = event.clientY - spellbookDragState.offsetY;
+
+      setSpellbookPosition(clampSpellbookPosition(nextLeft, nextTop));
+    };
+
+    const stopDragging = () => {
+      setSpellbookDragState(null);
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", stopDragging);
+    window.addEventListener("pointercancel", stopDragging);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", stopDragging);
+      window.removeEventListener("pointercancel", stopDragging);
+    };
+  }, [spellbookDragState, clampSpellbookPosition]);
+
+  useEffect(() => {
+    if (!isSpellbookOpen) {
+      return;
+    }
+
+    setSpellbookPosition((currentPosition) => {
+      if (!currentPosition) {
+        return currentPosition;
+      }
+
+      return clampSpellbookPosition(currentPosition.left, currentPosition.top);
+    });
+  }, [isSpellbookOpen, clampSpellbookPosition]);
+
+  useEffect(() => {
+    if (!isSpellbookOpen) {
+      return undefined;
+    }
+
+    const handleResize = () => {
+      setSpellbookPosition((currentPosition) => {
+        if (!currentPosition) {
+          return currentPosition;
+        }
+
+        return clampSpellbookPosition(currentPosition.left, currentPosition.top);
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSpellbookOpen, clampSpellbookPosition]);
+
   const startDividerDrag = (dividerIndex, event) => {
     if (event.button !== 0) {
       return;
@@ -345,6 +433,35 @@ const V2ActionsPanel = () => {
 
   const resetDividers = () => {
     setSectionColumns(DEFAULT_SECTION_COLUMNS);
+  };
+
+  const handleSpellbookHeaderPointerDown = (event) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const popupElement = spellbookPopupRef.current;
+
+    if (!popupElement) {
+      return;
+    }
+
+    const popupRect = popupElement.getBoundingClientRect();
+    const basePosition = spellbookPosition ?? {
+      left: popupRect.left,
+      top: popupRect.top,
+    };
+
+    if (!spellbookPosition) {
+      setSpellbookPosition(basePosition);
+    }
+
+    setSpellbookDragState({
+      offsetX: event.clientX - basePosition.left,
+      offsetY: event.clientY - basePosition.top,
+    });
   };
 
   const exportLayoutAsJson = () => {
@@ -939,11 +1056,36 @@ const V2ActionsPanel = () => {
       {isSpellbookOpen && (
         <div className="v2-spellbook-layer" aria-hidden={!isSpellbookOpen}>
           <section
-            className="v2-spellbook-popup"
+            ref={spellbookPopupRef}
+            className={
+              spellbookDragState
+                ? "v2-spellbook-popup is-moved is-dragging"
+                : spellbookPosition
+                  ? "v2-spellbook-popup is-moved"
+                  : "v2-spellbook-popup"
+            }
             role="dialog"
             aria-modal="false"
             aria-label="Spellbook"
+            style={
+              spellbookPosition
+                ? {
+                    left: `${spellbookPosition.left}px`,
+                    top: `${spellbookPosition.top}px`,
+                  }
+                : undefined
+            }
           >
+            <div
+              className="v2-spellbook-drag-handle"
+              onPointerDown={handleSpellbookHeaderPointerDown}
+              role="presentation"
+              aria-hidden="true"
+            >
+              <span className="v2-spellbook-drag-grip" />
+              <span>Spellbook</span>
+            </div>
+
             <header className="v2-spellbook-header">
               <nav
                 className="v2-spellbook-tab-strip"
