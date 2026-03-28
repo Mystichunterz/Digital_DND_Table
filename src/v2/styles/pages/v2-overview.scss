@@ -1200,6 +1200,13 @@
   pointer-events: none;
 }
 
+.v2-spellbook-icon-text {
+  font-size: clamp(0.58rem, 0.08vw + 0.56rem, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f0dfc4;
+}
+
 @media (max-width: 1350px) {
   .v2-overview-grid {
     gap: 0.65rem;

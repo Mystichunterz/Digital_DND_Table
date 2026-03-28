@@ -54,6 +54,12 @@
   font-size: clamp(0.68rem, 0.11vw + 0.65rem, 0.76rem);
 }
 
+.v2-asset-manager-form-hint {
+  color: rgba(206, 182, 151, 0.78);
+  font-size: clamp(0.6rem, 0.08vw + 0.58rem, 0.68rem);
+  line-height: 1.35;
+}
+
 .v2-asset-manager-form input,
 .v2-asset-manager-form select,
 .v2-asset-manager-form button {

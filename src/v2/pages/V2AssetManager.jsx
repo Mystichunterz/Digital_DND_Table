@@ -538,6 +538,10 @@ const V2AssetManager = () => {
                   <option key={iconKey} value={iconKey} />
                 ))}
               </datalist>
+              <small className="v2-asset-manager-form-hint">
+                Optional. Paladin spells without an icon automatically show
+                initials in the action tile.
+              </small>
             </label>
 
             <button type="submit" disabled={isSavingAbility}>

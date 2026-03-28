@@ -422,9 +422,9 @@ const V2ActionsPanel = () => {
     () =>
       ACTIONS.filter(
         (action) =>
-          typeof action.iconKey === "string" &&
-          action.iconKey.startsWith("spells/") &&
-          !!action.icon,
+          action.category === "paladin" ||
+          (typeof action.iconKey === "string" &&
+            action.iconKey.startsWith("spells/")),
       ),
     [],
   );
@@ -738,7 +738,9 @@ const V2ActionsPanel = () => {
               draggable={false}
             />
           ) : (
-            <span className="v2-action-short">{item.short}</span>
+            <span className="v2-action-short">
+              {item.fallbackIconText ?? item.short}
+            </span>
           )}
           {item.keybind && (
             <span className="v2-action-keybind">{item.keybind}</span>
@@ -769,7 +771,9 @@ const V2ActionsPanel = () => {
         {action.icon ? (
           <img src={action.icon} alt="" draggable={false} />
         ) : (
-          <span>{action.short}</span>
+          <span className="v2-spellbook-icon-text">
+            {action.fallbackIconText ?? action.short}
+          </span>
         )}
       </button>
     ));
