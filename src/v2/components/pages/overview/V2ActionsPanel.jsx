@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
+import SpellHoverPopup from "../../popups/SpellHoverPopup";
 
 const FILTER_TABS = [
   { id: "all", label: "All" },
@@ -202,6 +203,10 @@ const SPELLBOOK_TABS = [
 ];
 
 const SPELLBOOK_TIER_ORDER = ["C", "I", "II", "III", "IV", "V"];
+
+const isSpellAction = (action) =>
+  action?.category === "paladin" ||
+  (typeof action?.iconKey === "string" && action.iconKey.startsWith("spells/"));
 const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
 const V2ActionsPanel = () => {
@@ -805,9 +810,8 @@ const V2ActionsPanel = () => {
         );
       }
 
-      return (
+      const tileButton = (
         <button
-          key={item.id}
           type="button"
           className={
             isDragging
@@ -869,6 +873,16 @@ const V2ActionsPanel = () => {
           {item.kind === "bonus" && <span className="v2-action-plus">+</span>}
         </button>
       );
+
+      if (!isSpellAction(item)) {
+        return <Fragment key={item.id}>{tileButton}</Fragment>;
+      }
+
+      return (
+        <SpellHoverPopup key={item.id} spell={item}>
+          {tileButton}
+        </SpellHoverPopup>
+      );
     });
   };
 
@@ -879,25 +893,36 @@ const V2ActionsPanel = () => {
       );
     }
 
-    return actions.map((action) => (
-      <button
-        key={action.id}
-        type="button"
-        className="v2-spellbook-icon"
-        title={`${action.name} (${action.tier})`}
-        draggable
-        onDragStart={(event) => handleSpellbookDragStart(event, action)}
-        onDragEnd={handleSpellbookDragEnd}
-      >
-        {action.icon ? (
-          <img src={action.icon} alt="" draggable={false} />
-        ) : (
-          <span className="v2-spellbook-icon-text">
-            {action.fallbackIconText ?? action.short}
-          </span>
-        )}
-      </button>
-    ));
+    return actions.map((action) => {
+      const iconButton = (
+        <button
+          type="button"
+          className="v2-spellbook-icon"
+          title={`${action.name} (${action.tier})`}
+          draggable
+          onDragStart={(event) => handleSpellbookDragStart(event, action)}
+          onDragEnd={handleSpellbookDragEnd}
+        >
+          {action.icon ? (
+            <img src={action.icon} alt="" draggable={false} />
+          ) : (
+            <span className="v2-spellbook-icon-text">
+              {action.fallbackIconText ?? action.short}
+            </span>
+          )}
+        </button>
+      );
+
+      return (
+        <SpellHoverPopup
+          key={action.id}
+          spell={action}
+          positionPreference="vertical"
+        >
+          {iconButton}
+        </SpellHoverPopup>
+      );
+    });
   };
 
   return (
