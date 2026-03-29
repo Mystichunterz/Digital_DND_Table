@@ -24,7 +24,7 @@ const VALID_CATEGORIES = new Set([
 ]);
 const VALID_SECTIONS = new Set(["mobility", "offense", "support"]);
 const VALID_KINDS = new Set(["action", "bonus", "reaction", "utility"]);
-const VALID_TIERS = new Set(["I", "II", "III", "IV", "V"]);
+const VALID_TIERS = new Set(["C", "I", "II", "III", "IV", "V"]);
 const VALID_TONES = new Set([
   "steel",
   "red",

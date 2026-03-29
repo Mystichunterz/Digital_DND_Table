@@ -14,6 +14,7 @@ const FILTER_TABS = [
   { id: "bonus", label: "Bon" },
   { id: "reaction", label: "Rct" },
   { id: "utility", label: "Utl" },
+  { id: "C", label: "C" },
   { id: "I", label: "I" },
   { id: "II", label: "II" },
   { id: "III", label: "III" },
@@ -200,7 +201,7 @@ const SPELLBOOK_TABS = [
   },
 ];
 
-const SPELLBOOK_TIER_ORDER = ["V", "IV", "III", "II", "I"];
+const SPELLBOOK_TIER_ORDER = ["C", "I", "II", "III", "IV", "V"];
 const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
 const V2ActionsPanel = () => {
@@ -410,7 +411,10 @@ const V2ActionsPanel = () => {
           return currentPosition;
         }
 
-        return clampSpellbookPosition(currentPosition.left, currentPosition.top);
+        return clampSpellbookPosition(
+          currentPosition.left,
+          currentPosition.top,
+        );
       });
     };
 

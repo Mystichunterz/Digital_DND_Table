@@ -23,6 +23,7 @@ const KIND_OPTIONS = [
 ];
 
 const TIER_OPTIONS = [
+  { value: "C", label: "C" },
   { value: "I", label: "I" },
   { value: "II", label: "II" },
   { value: "III", label: "III" },
