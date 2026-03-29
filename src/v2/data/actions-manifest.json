@@ -556,7 +556,8 @@
       "section": "support",
       "kind": "action",
       "tier": "II",
-      "tone": "blue"
+      "tone": "blue",
+      "icon": "spells/Zone_Of_Truth_Unfaded_Icon.webp"
     },
     {
       "id": "locate-object",
@@ -566,7 +567,8 @@
       "section": "support",
       "kind": "utility",
       "tier": "II",
-      "tone": "blue"
+      "tone": "blue",
+      "icon": "spells/Find_Object_Unfaded_Icon.webp"
     },
     {
       "id": "abjure-enemy",
