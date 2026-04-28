@@ -462,6 +462,98 @@ app.post("/api/asset-manager/abilities", async (request, response, next) => {
   }
 });
 
+app.get("/api/journal/notes", async (request, response, next) => {
+  try {
+    const entries = await fs.readdir(NOTES_ROOT, { withFileTypes: true });
+    const summaries = [];
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+      const id = entry.name.slice(0, -3);
+      try {
+        const note = await readNoteFile(id);
+        summaries.push({
+          id: note.id,
+          title: note.title,
+          tags: note.tags,
+          created: note.created,
+          updated: note.updated,
+        });
+      } catch {
+        // Skip unreadable / malformed files silently.
+      }
+    }
+    summaries.sort((a, b) => b.updated.localeCompare(a.updated));
+    response.json({ notes: summaries });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/journal/notes/:id", async (request, response, next) => {
+  try {
+    const id = sanitizeNoteId(request.params.id);
+    if (!id || !NOTE_ID_RE.test(id)) {
+      response.status(400).json({ message: "Invalid note id." });
+      return;
+    }
+    try {
+      const note = await readNoteFile(id);
+      response.json(note);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        response.status(404).json({ message: "Note not found." });
+        return;
+      }
+      throw error;
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/journal/notes", async (request, response, next) => {
+  try {
+    const rawTitle = String(request.body?.title ?? "").trim();
+    if (!rawTitle) {
+      response.status(400).json({ message: "title is required." });
+      return;
+    }
+    if (rawTitle.length > MAX_TITLE_LEN) {
+      response.status(400).json({ message: "title too long." });
+      return;
+    }
+    const body = String(request.body?.body ?? "");
+    if (Buffer.byteLength(body, "utf8") > MAX_BODY_BYTES) {
+      response.status(400).json({ message: "body too large." });
+      return;
+    }
+    const tags = validateTags(request.body?.tags);
+
+    let id = generateNoteId(rawTitle);
+    while (true) {
+      try {
+        await fs.access(noteFilePath(id));
+        id = generateNoteId(rawTitle);
+      } catch {
+        break;
+      }
+    }
+    const now = new Date().toISOString();
+    const note = {
+      id,
+      title: rawTitle,
+      tags,
+      created: now,
+      updated: now,
+      body,
+    };
+    await writeNoteFile(note);
+    response.status(201).json(note);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use((error, request, response, _next) => {
   const message = error instanceof Error ? error.message : "Unknown API error.";
   response.status(400).json({ message });
