@@ -2,6 +2,8 @@ import express from "express";
 import multer from "multer";
 import fs from "node:fs/promises";
 import path from "node:path";
+import matter from "gray-matter";
+import crypto from "node:crypto";
 
 const PORT = Number(process.env.ASSET_MANAGER_PORT ?? 5180);
 
@@ -14,6 +16,96 @@ const ACTIONS_MANIFEST_PATH = path.join(
   "actions-manifest.json",
 );
 const ACTIONS_ASSET_ROOT = path.join(ROOT_DIR, "src", "assets", "actions");
+
+const NOTES_ROOT = path.join(ROOT_DIR, "notes");
+
+const MAX_TITLE_LEN = 200;
+const MAX_BODY_BYTES = 1024 * 1024;
+const MAX_TAGS = 20;
+const MAX_TAG_LEN = 40;
+const NOTE_ID_RE = /^[a-z0-9][a-z0-9-]{0,80}$/;
+const TAG_RE = /^[a-zA-Z0-9 _-]{1,40}$/;
+
+const sanitizeNoteId = (rawId) =>
+  String(rawId ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const slugifyTitle = (title) =>
+  String(title ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "note";
+
+const generateNoteId = (title) =>
+  `${slugifyTitle(title)}-${crypto.randomBytes(2).toString("hex")}`;
+
+const noteFilePath = (id) => path.join(NOTES_ROOT, `${id}.md`);
+
+const ensureNotesDirectoryExists = async () => {
+  await fs.mkdir(NOTES_ROOT, { recursive: true });
+};
+
+const validateTags = (rawTags) => {
+  if (rawTags === undefined) return [];
+  if (!Array.isArray(rawTags)) {
+    throw new Error("tags must be an array of strings.");
+  }
+  if (rawTags.length > MAX_TAGS) {
+    throw new Error(`tags array exceeds limit of ${MAX_TAGS}.`);
+  }
+  return rawTags.map((tag) => {
+    const trimmed = String(tag ?? "").trim();
+    if (!TAG_RE.test(trimmed)) {
+      throw new Error(`Invalid tag: ${trimmed}`);
+    }
+    return trimmed;
+  });
+};
+
+const readNoteFile = async (id) => {
+  const filePath = noteFilePath(id);
+  const resolved = path.resolve(filePath);
+  if (!isPathInside(NOTES_ROOT, resolved)) {
+    throw new Error("Note path escapes notes directory.");
+  }
+  const raw = await fs.readFile(filePath, "utf8");
+  const parsed = matter(raw);
+  const data = parsed.data ?? {};
+  return {
+    id: String(data.id ?? id),
+    title: String(data.title ?? "Untitled"),
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    created: String(data.created ?? new Date().toISOString()),
+    updated: String(data.updated ?? new Date().toISOString()),
+    body: parsed.content ?? "",
+  };
+};
+
+const writeNoteFile = async (note) => {
+  const front = {
+    id: note.id,
+    title: note.title,
+    tags: note.tags,
+    created: note.created,
+    updated: note.updated,
+  };
+  const serialized = matter.stringify(note.body ?? "", front);
+  const filePath = noteFilePath(note.id);
+  const tempPath = `${filePath}.${Date.now()}.${Math.random()
+    .toString(16)
+    .slice(2)}.tmp`;
+  await fs.writeFile(tempPath, serialized, "utf8");
+  await fs.rename(tempPath, filePath);
+};
 
 const VALID_CATEGORIES = new Set([
   "common",
@@ -377,6 +469,7 @@ app.use((error, request, response, _next) => {
 });
 
 await ensureManifestExists();
+await ensureNotesDirectoryExists();
 
 app.listen(PORT, () => {
   console.log(`[asset-manager-api] listening on http://localhost:${PORT}`);
