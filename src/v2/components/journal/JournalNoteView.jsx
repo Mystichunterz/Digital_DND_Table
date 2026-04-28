@@ -1,18 +1,53 @@
+import { useCallback, useEffect, useState } from "react";
 import JournalEditor from "./JournalEditor";
 import JournalRenderer from "./JournalRenderer";
 import JournalTagInput from "./JournalTagInput";
+import { useDebouncedSave } from "./useDebouncedSave";
+import { updateNote } from "../../data/journalApi";
+
+const STATUS_LABEL = {
+  saving: "Saving...",
+  saved: "Saved",
+};
+
+const worstStatus = (a, b) => {
+  if (a === "saving" || b === "saving") return "saving";
+  if (a === "saved" || b === "saved") return "saved";
+  if (a === "dirty" || b === "dirty") return "dirty";
+  return "idle";
+};
 
 const JournalNoteView = ({
   note,
-  draftBody,
-  onDraftBodyChange,
-  editMode,
-  onToggleMode,
-  onTitleChange,
+  onSaved,
   onTagsChange,
   onDelete,
-  saving,
+  editMode,
+  onToggleMode,
 }) => {
+  const [editorStatus, setEditorStatus] = useState("idle");
+
+  const titleSave = useCallback(
+    async (next) => {
+      const trimmed = next.trim();
+      if (!note || !trimmed) return;
+      const updated = await updateNote(note.id, { title: trimmed });
+      if (onSaved) onSaved(updated);
+    },
+    [note, onSaved],
+  );
+
+  const {
+    value: titleDraft,
+    setValue: setTitleDraft,
+    status: titleStatus,
+    reset: resetTitleDraft,
+  } = useDebouncedSave(note ? note.title : "", titleSave);
+
+  useEffect(() => {
+    if (note) resetTitleDraft(note.title);
+  }, [note?.id]);
+
   if (!note) {
     return (
       <div className="v2-journal-empty-pane">
@@ -21,25 +56,32 @@ const JournalNoteView = ({
     );
   }
 
+  const combinedStatus = worstStatus(editorStatus, titleStatus);
+  const statusLabel = STATUS_LABEL[combinedStatus] || "";
+
   return (
     <article className="v2-journal-note-view">
       <header className="v2-journal-note-header">
         <input
           type="text"
           className="v2-journal-title-input"
-          value={note.title}
+          value={titleDraft}
           maxLength={200}
-          onChange={(event) => onTitleChange(event.target.value, false)}
-          onBlur={(event) => onTitleChange(event.target.value, true)}
+          onChange={(event) => setTitleDraft(event.target.value)}
         />
         <div className="v2-journal-note-actions">
+          <span
+            className={`v2-journal-status v2-journal-status-${combinedStatus}`}
+            aria-live="polite"
+          >
+            {statusLabel}
+          </span>
           <button
             type="button"
             className={`v2-journal-mode-toggle ${
               editMode ? "is-edit" : "is-preview"
             }`}
             onClick={onToggleMode}
-            disabled={saving}
           >
             {editMode ? "Preview" : "Edit"}
           </button>
@@ -57,13 +99,17 @@ const JournalNoteView = ({
 
       <div className="v2-journal-body">
         {editMode ? (
-          <JournalEditor value={draftBody} onChange={onDraftBodyChange} />
+          <JournalEditor
+            key={note.id}
+            noteId={note.id}
+            initialBody={note.body}
+            onSaved={onSaved}
+            onStatusChange={setEditorStatus}
+          />
         ) : (
           <JournalRenderer body={note.body} />
         )}
       </div>
-
-      {saving ? <div className="v2-journal-saving">Saving...</div> : null}
     </article>
   );
 };
