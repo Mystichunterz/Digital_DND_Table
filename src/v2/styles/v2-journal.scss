@@ -222,22 +222,82 @@
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
 }
 
+.v2-journal-title-input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: "\270E";
+    position: absolute;
+    left: 0.45rem;
+    color: rgba(212, 175, 55, 0.7);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: color 0.15s ease;
+  }
+
+  &:hover::before,
+  &:focus-within::before {
+    color: #f4e9c1;
+  }
+
+  .v2-journal-title-input {
+    border-bottom-style: dotted;
+    border-bottom-color: rgba(212, 175, 55, 0.45);
+
+    &:hover {
+      border-bottom-style: solid;
+      border-bottom-color: rgba(212, 175, 55, 0.85);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(212, 175, 55, 0.6);
+      border-bottom-style: solid;
+      background: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
 .v2-journal-title-input {
   flex: 1;
   background: transparent;
   border: 1px solid transparent;
+  border-bottom: 1px dotted rgba(212, 175, 55, 0.45);
   color: #f4e9c1;
   font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 1.2rem;
   letter-spacing: 0.04em;
-  padding: 0.25rem 0.4rem;
+  padding: 0.25rem 0.4rem 0.25rem 1.55rem;
   border-radius: 0.25rem;
 
-  &:focus {
-    outline: none;
-    border-color: rgba(212, 175, 55, 0.6);
-    background: rgba(0, 0, 0, 0.25);
+  &::placeholder {
+    color: rgba(244, 233, 193, 0.5);
   }
+}
+
+.v2-journal-status {
+  font-size: 0.78rem;
+  color: #c9b27a;
+  min-width: 4.5rem;
+  text-align: right;
+  font-style: italic;
+  align-self: center;
+}
+
+.v2-journal-status-saving {
+  color: #f4d479;
+}
+
+.v2-journal-status-saved {
+  color: #9ec97a;
+}
+
+.v2-journal-status-idle,
+.v2-journal-status-dirty {
+  color: transparent;
 }
 
 .v2-journal-note-actions {

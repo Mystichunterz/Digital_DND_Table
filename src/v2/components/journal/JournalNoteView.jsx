@@ -62,13 +62,16 @@ const JournalNoteView = ({
   return (
     <article className="v2-journal-note-view">
       <header className="v2-journal-note-header">
-        <input
-          type="text"
-          className="v2-journal-title-input"
-          value={titleDraft}
-          maxLength={200}
-          onChange={(event) => setTitleDraft(event.target.value)}
-        />
+        <div className="v2-journal-title-input-wrap">
+          <input
+            type="text"
+            className="v2-journal-title-input"
+            value={titleDraft}
+            maxLength={200}
+            onChange={(event) => setTitleDraft(event.target.value)}
+            placeholder="Untitled"
+          />
+        </div>
         <div className="v2-journal-note-actions">
           <span
             className={`v2-journal-status v2-journal-status-${combinedStatus}`}
