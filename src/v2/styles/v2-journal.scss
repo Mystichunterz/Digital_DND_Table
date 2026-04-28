@@ -1,0 +1,393 @@
+.v2-journal {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.v2-journal-sidebar {
+  width: 22rem;
+  min-width: 18rem;
+  max-width: 26rem;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  gap: 0.6rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+
+  .v2-journal-sidebar-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    h2 {
+      margin: 0;
+      font-family: "Cinzel", "Trajan Pro", serif;
+      color: #d4af37;
+      letter-spacing: 0.08em;
+      font-size: 1.15rem;
+    }
+  }
+
+  .v2-journal-new-button {
+    background: linear-gradient(180deg, #6e2828, #3a1212);
+    color: #f4e9c1;
+    border: 1px solid #d4af37;
+    border-radius: 0.25rem;
+    padding: 0.3rem 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background: linear-gradient(180deg, #8a3232, #4a1818);
+    }
+  }
+
+  .v2-journal-sort {
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #c9b27a;
+      font-size: 0.85rem;
+    }
+
+    select {
+      flex: 1;
+      background: #1a140d;
+      color: #f4e9c1;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 0.25rem 0.4rem;
+      border-radius: 0.2rem;
+    }
+  }
+
+  .v2-journal-tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+}
+
+.v2-journal-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(60, 45, 30, 0.7);
+  color: #e8d8a4;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(90, 70, 40, 0.85);
+    border-color: #d4af37;
+  }
+
+  &.is-active {
+    background: linear-gradient(180deg, #d4af37, #8a6f1c);
+    color: #1a140d;
+    border-color: #f4e9c1;
+  }
+
+  &.is-mini {
+    font-size: 0.7rem;
+    padding: 0.05rem 0.45rem;
+  }
+
+  &.is-disabled,
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.v2-journal-tag-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0;
+}
+
+.v2-journal-empty,
+.v2-journal-empty-pane {
+  color: #a89870;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.v2-journal-note-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.v2-journal-note-row {
+  padding: 0.55rem 0.6rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 0.3rem;
+
+  &:hover {
+    background: rgba(80, 60, 30, 0.4);
+  }
+
+  &.is-selected {
+    background: rgba(120, 90, 35, 0.55);
+    border-color: rgba(212, 175, 55, 0.7);
+  }
+
+  .v2-journal-note-row-title {
+    color: #f4e9c1;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .v2-journal-note-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: #b59c66;
+  }
+}
+
+.v2-journal-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.v2-journal-error {
+  background: #6e2828;
+  color: #f4e9c1;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.3rem;
+  border: 1px solid #d4af37;
+  cursor: pointer;
+}
+
+.v2-journal-note-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.v2-journal-note-header {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  background: rgba(40, 30, 20, 0.85);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.v2-journal-title-input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #f4e9c1;
+  font-family: "Cinzel", "Trajan Pro", serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.25rem;
+
+  &:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.6);
+    background: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.v2-journal-note-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.v2-journal-mode-toggle,
+.v2-journal-delete-button {
+  border: 1px solid #d4af37;
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+}
+
+.v2-journal-mode-toggle.is-edit {
+  background: linear-gradient(180deg, #6e2828, #3a1212);
+  color: #f4e9c1;
+}
+
+.v2-journal-mode-toggle.is-preview {
+  background: linear-gradient(180deg, #d4af37, #8a6f1c);
+  color: #1a140d;
+}
+
+.v2-journal-delete-button {
+  background: transparent;
+  color: #d49797;
+  border-color: #6e2828;
+
+  &:hover {
+    background: #6e2828;
+    color: #f4e9c1;
+  }
+}
+
+.v2-journal-tag-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(30, 22, 15, 0.7);
+
+  .v2-journal-tag-row,
+  .v2-journal-tag-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .v2-journal-tag-form {
+    display: flex;
+    gap: 0.4rem;
+
+    input {
+      flex: 1;
+      background: #1a140d;
+      color: #f4e9c1;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 0.2rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    button {
+      background: rgba(212, 175, 55, 0.2);
+      color: #f4e9c1;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 0.2rem;
+      padding: 0.25rem 0.7rem;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.v2-journal-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 240, 200, 0.06), transparent 60%),
+    linear-gradient(180deg, #f4ead2 0%, #ecdfba 100%);
+  color: #2a1c10;
+  overflow: auto;
+}
+
+.v2-journal-editor {
+  flex: 1;
+  width: 100%;
+  min-height: 22rem;
+  resize: none;
+  border: none;
+  background: transparent;
+  color: #2a1c10;
+  font-family: "EB Garamond", "Crimson Text", Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  outline: none;
+}
+
+.v2-journal-rendered {
+  flex: 1;
+  font-family: "EB Garamond", "Crimson Text", Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
+
+  h1, h2, h3, h4 {
+    font-family: "Cinzel", "Trajan Pro", serif;
+    color: #5a3a14;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.55);
+    padding-bottom: 0.15rem;
+    margin-top: 1.2rem;
+  }
+
+  blockquote {
+    border-left: 3px solid #8a6f1c;
+    margin: 0.75rem 0;
+    padding: 0.25rem 0.85rem;
+    color: #5a3a14;
+    font-style: italic;
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  code {
+    background: rgba(58, 18, 18, 0.08);
+    padding: 0 0.25rem;
+    border-radius: 0.2rem;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    font-size: 0.92em;
+  }
+
+  pre {
+    background: rgba(20, 16, 12, 0.92);
+    color: #f4e9c1;
+    padding: 0.75rem 1rem;
+    border-radius: 0.3rem;
+    overflow-x: auto;
+
+    code {
+      background: transparent;
+      color: inherit;
+    }
+  }
+
+  a {
+    color: #6e2828;
+    text-decoration: underline;
+  }
+
+  ul, ol {
+    padding-left: 1.5rem;
+  }
+}
+
+.v2-journal-saving {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  color: #c9b27a;
+  padding: 0 0.85rem 0.4rem;
+}
