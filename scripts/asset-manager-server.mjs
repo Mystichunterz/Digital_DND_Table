@@ -22,7 +22,6 @@ const NOTES_ROOT = path.join(ROOT_DIR, "notes");
 const MAX_TITLE_LEN = 200;
 const MAX_BODY_BYTES = 1024 * 1024;
 const MAX_TAGS = 20;
-const MAX_TAG_LEN = 40;
 const NOTE_ID_RE = /^[a-z0-9][a-z0-9-]{0,80}$/;
 const TAG_RE = /^[a-zA-Z0-9 _-]{1,40}$/;
 
