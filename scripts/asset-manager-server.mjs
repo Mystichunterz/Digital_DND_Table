@@ -554,6 +554,83 @@ app.post("/api/journal/notes", async (request, response, next) => {
   }
 });
 
+app.put("/api/journal/notes/:id", async (request, response, next) => {
+  try {
+    const id = sanitizeNoteId(request.params.id);
+    if (!id || !NOTE_ID_RE.test(id)) {
+      response.status(400).json({ message: "Invalid note id." });
+      return;
+    }
+    let existing;
+    try {
+      existing = await readNoteFile(id);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        response.status(404).json({ message: "Note not found." });
+        return;
+      }
+      throw error;
+    }
+    const updates = request.body ?? {};
+    if (updates.title !== undefined) {
+      const t = String(updates.title).trim();
+      if (!t) {
+        response.status(400).json({ message: "title cannot be empty." });
+        return;
+      }
+      if (t.length > MAX_TITLE_LEN) {
+        response.status(400).json({ message: "title too long." });
+        return;
+      }
+      existing.title = t;
+    }
+    if (updates.tags !== undefined) {
+      existing.tags = validateTags(updates.tags);
+    }
+    if (updates.body !== undefined) {
+      const b = String(updates.body);
+      if (Buffer.byteLength(b, "utf8") > MAX_BODY_BYTES) {
+        response.status(400).json({ message: "body too large." });
+        return;
+      }
+      existing.body = b;
+    }
+    existing.updated = new Date().toISOString();
+    await writeNoteFile(existing);
+    response.json(existing);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete("/api/journal/notes/:id", async (request, response, next) => {
+  try {
+    const id = sanitizeNoteId(request.params.id);
+    if (!id || !NOTE_ID_RE.test(id)) {
+      response.status(400).json({ message: "Invalid note id." });
+      return;
+    }
+    const filePath = noteFilePath(id);
+    const resolved = path.resolve(filePath);
+    if (!isPathInside(NOTES_ROOT, resolved)) {
+      response.status(400).json({ message: "Invalid note path." });
+      return;
+    }
+    try {
+      await fs.unlink(filePath);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        response.status(404).json({ message: "Note not found." });
+        return;
+      }
+      throw error;
+    }
+    response.json({ deleted: id });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use((error, request, response, _next) => {
   const message = error instanceof Error ? error.message : "Unknown API error.";
   response.status(400).json({ message });
