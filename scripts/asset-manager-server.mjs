@@ -464,6 +464,10 @@ app.post("/api/asset-manager/abilities", async (request, response, next) => {
 
 app.get("/api/journal/notes", async (request, response, next) => {
   try {
+    const includeBody = String(request.query.include ?? "")
+      .split(",")
+      .map((part) => part.trim())
+      .includes("body");
     const entries = await fs.readdir(NOTES_ROOT, { withFileTypes: true });
     const summaries = [];
     for (const entry of entries) {
@@ -471,13 +475,15 @@ app.get("/api/journal/notes", async (request, response, next) => {
       const id = entry.name.slice(0, -3);
       try {
         const note = await readNoteFile(id);
-        summaries.push({
+        const summary = {
           id: note.id,
           title: note.title,
           tags: note.tags,
           created: note.created,
           updated: note.updated,
-        });
+        };
+        if (includeBody) summary.body = note.body;
+        summaries.push(summary);
       } catch (error) {
         console.warn(`[journal] Skipped malformed note file ${id}.md:`, error.message);
       }

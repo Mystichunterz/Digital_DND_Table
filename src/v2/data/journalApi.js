@@ -14,8 +14,9 @@ const handle = async (response) => {
   return response.json();
 };
 
-export const listNotes = async () => {
-  const data = await handle(await fetch(BASE));
+export const listNotes = async ({ includeBody = false } = {}) => {
+  const url = includeBody ? `${BASE}?include=body` : BASE;
+  const data = await handle(await fetch(url));
   return Array.isArray(data?.notes) ? data.notes : [];
 };
 

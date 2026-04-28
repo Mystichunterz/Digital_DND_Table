@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import JournalNoteList from "./JournalNoteList";
+import JournalSearchInput from "./JournalSearchInput";
 
 const SORT_OPTIONS = [
   { value: "updated", label: "Last modified" },
@@ -17,6 +18,18 @@ const sortNotes = (notes, sortBy) => {
   return copy;
 };
 
+const matchesSearch = (note, query) => {
+  if (!query) return true;
+  const haystack = [
+    note.title || "",
+    (note.tags || []).join(" "),
+    note.body || "",
+  ]
+    .join("\n")
+    .toLowerCase();
+  return haystack.includes(query);
+};
+
 const JournalSidebar = ({
   notes,
   selectedId,
@@ -24,6 +37,8 @@ const JournalSidebar = ({
   onSortChange,
   tagFilter,
   onTagFilterChange,
+  searchQuery,
+  onSearchChange,
   onSelect,
   onCreate,
 }) => {
@@ -33,12 +48,18 @@ const JournalSidebar = ({
     return Array.from(set).sort();
   }, [notes]);
 
+  const normalizedQuery = (searchQuery || "").trim().toLowerCase();
+
   const filtered = useMemo(() => {
-    const list = tagFilter
-      ? notes.filter((note) => note.tags.includes(tagFilter))
-      : notes;
+    let list = notes;
+    if (tagFilter) {
+      list = list.filter((note) => note.tags.includes(tagFilter));
+    }
+    if (normalizedQuery) {
+      list = list.filter((note) => matchesSearch(note, normalizedQuery));
+    }
     return sortNotes(list, sortBy);
-  }, [notes, sortBy, tagFilter]);
+  }, [notes, sortBy, tagFilter, normalizedQuery]);
 
   return (
     <aside className="v2-journal-sidebar">
@@ -52,6 +73,8 @@ const JournalSidebar = ({
           + New
         </button>
       </div>
+
+      <JournalSearchInput value={searchQuery} onChange={onSearchChange} />
 
       <div className="v2-journal-sort">
         <label>
@@ -97,11 +120,15 @@ const JournalSidebar = ({
         </div>
       ) : null}
 
-      <JournalNoteList
-        notes={filtered}
-        selectedId={selectedId}
-        onSelect={onSelect}
-      />
+      {filtered.length === 0 && normalizedQuery ? (
+        <p className="v2-journal-empty">No entries match your search.</p>
+      ) : (
+        <JournalNoteList
+          notes={filtered}
+          selectedId={selectedId}
+          onSelect={onSelect}
+        />
+      )}
     </aside>
   );
 };

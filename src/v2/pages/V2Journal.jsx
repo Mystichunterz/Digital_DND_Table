@@ -16,6 +16,7 @@ const summarize = (note) => ({
   tags: note.tags,
   created: note.created,
   updated: note.updated,
+  body: note.body ?? "",
 });
 
 const V2Journal = () => {
@@ -25,11 +26,12 @@ const V2Journal = () => {
   const [editMode, setEditMode] = useState(false);
   const [sortBy, setSortBy] = useState("updated");
   const [tagFilter, setTagFilter] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(null);
 
   const refreshList = async () => {
     try {
-      setNotes(await listNotes());
+      setNotes(await listNotes({ includeBody: true }));
     } catch (err) {
       setError(err.message);
     }
@@ -128,6 +130,8 @@ const V2Journal = () => {
         onSortChange={setSortBy}
         tagFilter={tagFilter}
         onTagFilterChange={setTagFilter}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
         onSelect={selectNote}
         onCreate={handleCreate}
       />
