@@ -46,6 +46,9 @@ const JournalNoteView = ({
 
   useEffect(() => {
     if (note) resetTitleDraft(note.title);
+    // Only re-seed the draft when switching notes; every save updates `note`
+    // and we don't want to clobber the in-flight title the user is typing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note?.id]);
 
   if (!note) {
