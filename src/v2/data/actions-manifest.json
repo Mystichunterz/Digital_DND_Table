@@ -407,7 +407,8 @@
       "section": "support",
       "kind": "utility",
       "tier": "I",
-      "tone": "blue"
+      "tone": "blue",
+      "icon": "spells/Sanctuary_Unfaded_Icon.webp"
     },
     {
       "id": "blade-of-blood-and-bone",
@@ -417,7 +418,8 @@
       "section": "offense",
       "kind": "action",
       "tier": "I",
-      "tone": "red"
+      "tone": "red",
+      "icon": "spells/Inflict_Wounds_Unfaded_Icon.webp"
     },
     {
       "id": "cure-wounds",
@@ -449,7 +451,8 @@
       "section": "support",
       "kind": "utility",
       "tier": "I",
-      "tone": "blue"
+      "tone": "blue",
+      "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp"
     },
     {
       "id": "detect-poison-and-disease",
@@ -459,7 +462,8 @@
       "section": "support",
       "kind": "utility",
       "tier": "I",
-      "tone": "blue"
+      "tone": "blue",
+      "icon": "items/POT_Antidote_Unfaded.png"
     },
     {
       "id": "heroism",
@@ -513,7 +517,8 @@
       "section": "offense",
       "kind": "action",
       "tier": "II",
-      "tone": "red"
+      "tone": "red",
+      "icon": "spells/Hellish_Rebuke_Unfaded_Icon.webp"
     },
     {
       "id": "lesser-restoration",

@@ -93,6 +93,22 @@ SPELL_ICON_MAPPINGS = {
         "Misty_Step_Unfaded_Icon.webp",
         ["Misty Step Unfaded Icon.webp"],
     ),
+    "ceremony": (
+        "Sanctuary_Unfaded_Icon.webp",
+        ["Sanctuary Unfaded Icon.webp"],
+    ),
+    "blade-of-blood-and-bone": (
+        "Inflict_Wounds_Unfaded_Icon.webp",
+        ["Inflict Wounds Unfaded Icon.webp"],
+    ),
+    "detect-magic": (
+        "Detect_Thoughts_Unfaded_Icon.webp",
+        ["Detect Thoughts Unfaded Icon.webp"],
+    ),
+    "infernal-challenge": (
+        "Hellish_Rebuke_Unfaded_Icon.webp",
+        ["Hellish Rebuke Unfaded Icon.webp"],
+    ),
 }
 
 
