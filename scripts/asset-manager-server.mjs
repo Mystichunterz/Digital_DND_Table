@@ -478,8 +478,8 @@ app.get("/api/journal/notes", async (request, response, next) => {
           created: note.created,
           updated: note.updated,
         });
-      } catch {
-        // Skip unreadable / malformed files silently.
+      } catch (error) {
+        console.warn(`[journal] Skipped malformed note file ${id}.md:`, error.message);
       }
     }
     summaries.sort((a, b) => b.updated.localeCompare(a.updated));
