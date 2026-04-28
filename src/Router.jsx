@@ -13,6 +13,7 @@ import LegacyBackground from "./legacy/pages/LegacyBackground";
 import V2Layout from "./v2/layout/V2Layout";
 import V2Overview from "./v2/pages/V2Overview";
 import V2Background from "./v2/pages/V2Background";
+import V2Journal from "./v2/pages/V2Journal";
 import V2AssetManager from "./v2/pages/V2AssetManager";
 import V2NotFound from "./v2/pages/V2NotFound";
 
@@ -35,6 +36,7 @@ const Router = () => {
         <Route index element={<Navigate to="overview" replace />} />
         <Route path="overview" element={<V2Overview />} />
         <Route path="background" element={<V2Background />} />
+        <Route path="journal" element={<V2Journal />} />
         <Route path="assets" element={<V2AssetManager />} />
         <Route path="*" element={<V2NotFound />} />
       </Route>

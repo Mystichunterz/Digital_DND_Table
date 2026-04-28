@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 const tabs = [
   { path: "overview", label: "Overview" },
   { path: "background", label: "Background" },
+  { path: "journal", label: "Journal" },
   { path: "assets", label: "Asset Manager" },
 ];
 
