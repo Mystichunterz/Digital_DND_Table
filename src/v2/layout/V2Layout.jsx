@@ -13,6 +13,21 @@ const V2Layout = () => {
     };
   }, []);
 
+  // Warm the lazy journal chunk in the background after the shell is
+  // interactive so the first navigation to /v2/journal doesn't pay the
+  // module-compile + chunk-fetch cost.
+  useEffect(() => {
+    const warm = () => {
+      import("../journal/V2Journal");
+    };
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(warm, { timeout: 1500 });
+      return () => window.cancelIdleCallback?.(handle);
+    }
+    const handle = window.setTimeout(warm, 250);
+    return () => window.clearTimeout(handle);
+  }, []);
+
   return (
     <div className="v2-shell">
       <aside className="v2-left-panel">

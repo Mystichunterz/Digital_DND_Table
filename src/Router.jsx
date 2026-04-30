@@ -17,7 +17,7 @@ import V2NotFound from "./v2/pages/V2NotFound";
 // react-markdown. Both are rare-entry pages, so we don't pay for
 // them on the Overview boot path. Legacy is reference-only and
 // loads on demand when the user toggles.
-const V2Journal = lazy(() => import("./v2/pages/V2Journal"));
+const V2Journal = lazy(() => import("./v2/journal/V2Journal"));
 const V2AssetManager = lazy(() => import("./v2/pages/V2AssetManager"));
 const LegacyLayout = lazy(() => import("./legacy/layout/AppLayout"));
 const LegacyOverview = lazy(() => import("./legacy/pages/Overview"));
