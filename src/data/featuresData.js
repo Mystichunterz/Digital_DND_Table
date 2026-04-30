@@ -12,10 +12,10 @@ import Extra_Attack_Icon from "../assets/popups/features/120px-Extra_Attack_Icon
 import Fey_Ancestry_Icon from "../assets/popups/features/120px-Fey_Ancestry_Icon.webp.png";
 import Great_Weapon_Fighting from "../assets/popups/features/120px-Great_Weapon_Fighting_Icon.webp.png";
 import Divine_Tenets_Icon from "../assets/popups/features/120px-Divine_Intervention_Arm_Thy_Servant_Icon.webp.png";
-import Savage_Attacker_Icon from "../assets/popups/features/120px-Savage_Attacker_Icon.webp.png";
 import Divine_Intervention_Icon from "../assets/popups/features/120px-Divine_Intervention_Sunder_the_Heretical_Icon.webp.png";
 import Darkvision_Icon from "../assets/popups/features/120px-Darkvision_Icon.webp.png";
-import Draconic_Resistance_Icon from "../assets/popups/features/120px-Draconic_Resilience_Icon.webp.png";
+import Krades_Resilience_Icon from "../assets/popups/features/120px-Draconic_Resilience_Icon.webp.png";
+import Aura_of_Protection_Icon from "../assets/actions/passives/Aura_of_Protection_Unfaded_Icon.webp";
 import Curse_Icon from "../assets/popups/features/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
 
 //----------------------
@@ -41,16 +41,16 @@ const featuresData = [
         text: "When you roll a 1 or 2 on a damage die for an attack with a two-handed **melee weapon**, that die is rerolled once."
     },
     {
-        icon: Savage_Attacker_Icon,
-        title: "Savage Attacker",
-        subtitle: "Passive Feature",
-        text: "Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target."
-    },
-    {
         icon: Extra_Attack_Icon,
         title: "Extra Attack",
         subtitle: "Passive Feature",
         text: "You can attack twice instead of once whenever you take the Attack action on your turn."
+    },
+    {
+        icon: Aura_of_Protection_Icon,
+        title: "Aura of Protection",
+        subtitle: "Passive Feature",
+        text: "You emit a 10-foot invisible aura. While you are not incapacitated, you and any friendly creatures within the aura gain a **+2** bonus to **saving throws** (equal to your **Charisma modifier**, minimum +1)."
     },
     {
         icon: Divine_Health_Icon,
@@ -77,10 +77,10 @@ const featuresData = [
         text: "Thanks to your elven blood, you have superior vision in dark and dim conditions. \n\nYou can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. \n\nYou can't discern color in darkness, only shades of gray."
     },
     {
-        icon: Draconic_Resistance_Icon,
-        title: "Draconic Resilience",
-        subtitle: "Passive Feature",
-        text: "Your skin hardens to the touch. You have **Resistance** to non-magical **Slashing** and **Piercing** damage."
+        icon: Krades_Resilience_Icon,
+        title: "Krade's Resilience",
+        subtitle: "Divine Blessing",
+        text: "Your skin toughens, making you resistant to certain types of physical harm. You gain **resistance** to **piercing** and **slashing** damage."
     },
     {
         icon: Fey_Ancestry_Icon,

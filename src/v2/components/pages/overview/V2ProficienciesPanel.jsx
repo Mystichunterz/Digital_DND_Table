@@ -34,25 +34,25 @@ const proficienciesData = [
     ],
   },
   {
-    attribute: "Dexterity (+1)",
+    attribute: "Dexterity (+2)",
     skills: [
       {
         icon: Acrobatics_Icon,
         name: "Acrobatics",
         isProficient: false,
-        modifier: "+1",
+        modifier: "+2",
       },
       {
         icon: Stealth_Icon,
         name: "Stealth",
         isProficient: false,
-        modifier: "+1",
+        modifier: "+2",
       },
       {
         icon: Sleight_of_Hand_Icon,
         name: "Sleight of Hand",
         isProficient: false,
-        modifier: "+1",
+        modifier: "+2",
       },
     ],
   },
@@ -132,8 +132,8 @@ const proficienciesData = [
       {
         icon: Performance_Icon,
         name: "Performance",
-        isProficient: true,
-        modifier: "+5",
+        isProficient: false,
+        modifier: "+2",
       },
       {
         icon: Deception_Icon,
@@ -144,8 +144,8 @@ const proficienciesData = [
       {
         icon: Intimidation_Icon,
         name: "Intimidation",
-        isProficient: false,
-        modifier: "+2",
+        isProficient: true,
+        modifier: "+5",
       },
       {
         icon: Persuasion_Icon,
@@ -158,9 +158,9 @@ const proficienciesData = [
 ];
 
 const detailedIdentityRows = [
-  { label: "Hit Points", value: "142 / 142" },
-  { label: "Temporary Hit Points", value: "3 / 3" },
-  { label: "Armour Class", value: "21" },
+  { label: "Hit Points", value: "61 / 61" },
+  { label: "Temporary Hit Points", value: "0 / 0" },
+  { label: "Armour Class", value: "18" },
   {
     label: "Class",
     value: "Lv 6 Paladin",
@@ -168,40 +168,48 @@ const detailedIdentityRows = [
   },
   {
     label: "Class",
-    value: "Lv 6 Sorcerer",
-    detail: "Draconic Bloodline",
+    value: "Lv 3 Sorcerer",
+    detail: "Divine Soul",
   },
   { label: "Race", value: "Wood Half-Elf" },
   { label: "Background", value: "Soldier" },
 ];
 
 const detailedAttributeRows = [
-  { label: "Initiative", value: "+4" },
-  { label: "Movement Speed", value: "14m" },
-  { label: "Darkvision Range", value: "12m" },
+  { label: "Initiative", value: "+2" },
+  { label: "Movement Speed", value: "35ft" },
+  { label: "Darkvision Range", value: "60ft" },
   { label: "Type", value: "Humanoid" },
-  { label: "Size", value: "Large" },
-  { label: "Weight", value: "205kg" },
-  { label: "Carrying Capacity", value: "300kg" },
+  { label: "Size", value: "Medium" },
+  { label: "Weight", value: "75kg" },
+  { label: "Carrying Capacity", value: "240lb" },
 ];
 
 const detailedProficiencyRows = [
   { count: "x4", label: "Armour" },
-  { count: "x12", label: "Simple Weapons" },
-  { count: "x19", label: "Martial Weapons" },
-  { count: "OK", label: "Musical Instrument" },
+  { count: "ALL", label: "Simple Weapons" },
+  { count: "ALL", label: "Martial Weapons" },
+  { count: "OK", label: "Deck of Cards" },
 ];
 
 const savingThrowBonuses = [
-  { ability: "STR", bonus: "+13" },
-  { ability: "DEX", bonus: "+13" },
-  { ability: "CON", bonus: "+14" },
-  { ability: "INT", bonus: "+7" },
-  { ability: "WIS", bonus: "+15" },
-  { ability: "CHA", bonus: "+17" },
+  { ability: "STR", bonus: "+3" },
+  { ability: "DEX", bonus: "+2" },
+  { ability: "CON", bonus: "+1" },
+  { ability: "INT", bonus: "-1" },
+  { ability: "WIS", bonus: "+3" },
+  { ability: "CHA", bonus: "+5" },
 ];
 
-const detailedTags = ["Humanoid", "Melee", "Frontline", "Paladin", "Sorcerer"];
+const detailedTags = [
+  "Humanoid",
+  "Melee",
+  "Frontline",
+  "Paladin",
+  "Sorcerer",
+  "Oath of Vengeance",
+  "Divine Soul",
+];
 
 const renderDivider = (title) => (
   <h3 className="v2-detailed-divider">
@@ -306,7 +314,7 @@ const V2ProficienciesPanel = () => {
             ))}
           </section>
 
-          {renderDivider("Proficiency Bonus (+4)")}
+          {renderDivider("Proficiency Bonus (+3)")}
 
           <section className="v2-detailed-card v2-proficiency-summary-list">
             {detailedProficiencyRows.map((row) => (

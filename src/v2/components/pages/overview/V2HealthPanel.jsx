@@ -8,8 +8,8 @@ const parseNumberInput = (value) => {
 };
 
 const V2HealthPanel = () => {
-  const [currentHp, setCurrentHp] = useState(50);
-  const [maxHp, setMaxHp] = useState(50);
+  const [currentHp, setCurrentHp] = useState(61);
+  const [maxHp, setMaxHp] = useState(61);
   const [tempHp, setTempHp] = useState(0);
   const [adjustment, setAdjustment] = useState(8);
 

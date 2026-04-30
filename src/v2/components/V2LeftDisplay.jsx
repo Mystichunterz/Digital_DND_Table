@@ -38,7 +38,7 @@ const V2LeftDisplay = () => {
       <div className="left-display-header shared-margin">
         <h5 className="character-name">Sariel Hewlett</h5>
         <div className="currency">
-          <p>6</p>
+          <p>860</p>
           <img src={Gold_Icon} alt="GP" className="currency-icon" />
         </div>
       </div>
@@ -64,17 +64,17 @@ const V2LeftDisplay = () => {
       </div>
       <div className="class-info shared-margin">
         <InformationPopup
-          title="Paladin"
+          title="Paladin (Oath of Vengeance)"
           subtitle="A promise made so deeply that it becomes divine in itself flows through a Paladin, burning bright enough to inspire allies and smite foes."
         >
-          <p className="class-level">Level 5 Paladin</p>
+          <p className="class-level">Level 6 Paladin</p>
         </InformationPopup>
         <span className="class-separator"> / </span>
         <InformationPopup
-          title="Sorcerer"
-          subtitle="Sorcerers are natural spellcasters, drawing on a gift or natural bloodline."
+          title="Sorcerer (Divine Soul)"
+          subtitle="Divine Soul sorcerers channel innate divine magic, blending sorcerous power with the cleric spell list and a destiny guarded by the gods."
         >
-          <p className="class-level">Level 1 Sorcerer</p>
+          <p className="class-level">Level 3 Sorcerer</p>
         </InformationPopup>
       </div>
       <div className="attributes">
