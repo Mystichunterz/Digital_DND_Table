@@ -268,28 +268,6 @@
       "icon": "spells/Blinding_Smite_Unfaded_Icon.webp"
     },
     {
-      "id": "banishing-smite",
-      "name": "Banishing Smite",
-      "short": "BN",
-      "category": "paladin",
-      "section": "offense",
-      "kind": "bonus",
-      "tier": "V",
-      "tone": "gold",
-      "icon": "spells/Banishing_Smite_Unfaded_Icon.webp"
-    },
-    {
-      "id": "banishing-smite-ranged",
-      "name": "Banishing Smite (Ranged)",
-      "short": "BG",
-      "category": "paladin",
-      "section": "offense",
-      "kind": "bonus",
-      "tier": "V",
-      "tone": "gold",
-      "icon": "spells/Banishing_Smite_Ranged_Unfaded_Icon.webp"
-    },
-    {
       "id": "firebolt",
       "name": "Firebolt",
       "short": "FB",
@@ -323,8 +301,8 @@
       "icon": "spells/Green_Flame_Blade_Icon.webp"
     },
     {
-      "id": "sorcererous-burst",
-      "name": "Sorcererous Burst",
+      "id": "sorcerous-burst",
+      "name": "Sorcerous Burst",
       "short": "SB",
       "category": "paladin",
       "section": "offense",

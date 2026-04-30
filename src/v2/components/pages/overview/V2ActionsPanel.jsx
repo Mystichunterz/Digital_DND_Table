@@ -8,6 +8,37 @@ import {
 } from "react";
 import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
 import SpellHoverPopup from "../../popups/SpellHoverPopup";
+import V2ResourcePips from "./V2ResourcePips";
+
+const PERSISTED_CHARACTER_ID = "default";
+const PERSIST_DEBOUNCE_MS = 500;
+
+const TIER_TO_SLOT_LEVEL = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6 };
+
+const DEFAULT_RESOURCE_MAX = {
+  action: 1,
+  bonus: 1,
+  reaction: 1,
+  channelOath: 1,
+  divineSense: 3,
+  layOnHands: 30,
+  sorceryPoints: 3,
+  spellSlots: { 1: 4, 2: 3, 3: 3, 4: 0, 5: 0, 6: 0 },
+};
+
+const buildInitialResources = (resourceMax) => ({
+  action: resourceMax.action,
+  bonus: resourceMax.bonus,
+  reaction: resourceMax.reaction,
+  channelOath: resourceMax.channelOath,
+  divineSense: resourceMax.divineSense,
+  layOnHands: resourceMax.layOnHands,
+  sorceryPoints: resourceMax.sorceryPoints,
+  spellSlots: { ...resourceMax.spellSlots },
+});
+
+const clampResourceValue = (value, min, max) =>
+  Math.min(Math.max(value, min), max);
 
 const FILTER_TABS = [
   { id: "all", label: "All" },
@@ -166,14 +197,9 @@ const normalizeImportedLayouts = (importedLayouts) => {
 };
 
 const QUICK_ITEMS = [
-  { id: "bomb", short: "BM", count: 13, tone: "red" },
-  { id: "oil", short: "OL", count: 10, tone: "red" },
-  { id: "healing-potion", short: "HP", count: 3, tone: "green" },
-  { id: "superior-potion", short: "SP", count: 3, tone: "red" },
-  { id: "scroll", short: "SC", count: 10, tone: "blue" },
-  { id: "poison", short: "PS", count: 9, tone: "green" },
-  { id: "stone", short: "ST", count: 2, tone: "neutral" },
-  { id: "bag", short: "BG", count: 3, tone: "neutral" },
+  { id: "javelin", short: "JV", count: 6, tone: "neutral" },
+  { id: "healing-potion", short: "HP", count: 1, tone: "green" },
+  { id: "potion-of-speed", short: "SP", count: 1, tone: "red" },
 ];
 
 const SPELLBOOK_TABS = [
@@ -224,6 +250,11 @@ const V2ActionsPanel = () => {
   const [spellbookPosition, setSpellbookPosition] = useState(null);
   const [spellbookDragState, setSpellbookDragState] = useState(null);
   const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
+  const [resourceMax, setResourceMax] = useState(DEFAULT_RESOURCE_MAX);
+  const [resources, setResources] = useState(() =>
+    buildInitialResources(DEFAULT_RESOURCE_MAX),
+  );
+  const [isHydrated, setIsHydrated] = useState(false);
   const gridClusterRef = useRef(null);
   const layoutFileInputRef = useRef(null);
   const spellbookPopupRef = useRef(null);
@@ -306,6 +337,99 @@ const V2ActionsPanel = () => {
     },
     [draggedDivider],
   );
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const hydrate = async () => {
+      try {
+        const response = await fetch(
+          `/api/state/${PERSISTED_CHARACTER_ID}`,
+        );
+
+        if (isCancelled) {
+          return;
+        }
+
+        if (response.ok) {
+          const saved = await response.json();
+
+          if (isCancelled) {
+            return;
+          }
+
+          if (saved && typeof saved === "object") {
+            if (saved.resourceMax && typeof saved.resourceMax === "object") {
+              setResourceMax({
+                ...DEFAULT_RESOURCE_MAX,
+                ...saved.resourceMax,
+                spellSlots: {
+                  ...DEFAULT_RESOURCE_MAX.spellSlots,
+                  ...(saved.resourceMax.spellSlots ?? {}),
+                },
+              });
+            }
+            if (saved.resources && typeof saved.resources === "object") {
+              setResources({
+                ...buildInitialResources(DEFAULT_RESOURCE_MAX),
+                ...saved.resources,
+                spellSlots: {
+                  ...DEFAULT_RESOURCE_MAX.spellSlots,
+                  ...(saved.resources.spellSlots ?? {}),
+                },
+              });
+            }
+            if (saved.sectionLayouts) {
+              setSectionLayouts(normalizeImportedLayouts(saved.sectionLayouts));
+            }
+            if (
+              Array.isArray(saved.sectionColumns) &&
+              saved.sectionColumns.length === DEFAULT_SECTION_COLUMNS.length
+            ) {
+              setSectionColumns(saved.sectionColumns);
+            }
+          }
+        }
+      } catch {
+        // Server unavailable — fall back to defaults silently.
+      } finally {
+        if (!isCancelled) {
+          setIsHydrated(true);
+        }
+      }
+    };
+
+    hydrate();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) {
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(() => {
+      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          resources,
+          resourceMax,
+          sectionLayouts,
+          sectionColumns,
+        }),
+      }).catch(() => {
+        // Server unavailable — drop the write silently.
+      });
+    }, PERSIST_DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isHydrated, resources, resourceMax, sectionLayouts, sectionColumns]);
 
   useEffect(() => {
     if (draggedDivider === null) {
@@ -711,6 +835,115 @@ const V2ActionsPanel = () => {
     );
   };
 
+  const restoreResources = () => {
+    setResources(buildInitialResources(resourceMax));
+  };
+
+  const resetResourceDefaults = () => {
+    setResourceMax(DEFAULT_RESOURCE_MAX);
+    setResources(buildInitialResources(DEFAULT_RESOURCE_MAX));
+  };
+
+  const adjustResource = (resourceKey, delta, tier) => {
+    setResources((current) => {
+      const next = { ...current, spellSlots: { ...current.spellSlots } };
+
+      if (tier !== undefined) {
+        const tierMax = resourceMax.spellSlots?.[tier] ?? 0;
+        next.spellSlots[tier] = clampResourceValue(
+          (next.spellSlots[tier] ?? 0) + delta,
+          0,
+          tierMax,
+        );
+      } else {
+        const keyMax = resourceMax[resourceKey] ?? 0;
+        next[resourceKey] = clampResourceValue(
+          (next[resourceKey] ?? 0) + delta,
+          0,
+          keyMax,
+        );
+      }
+
+      return next;
+    });
+  };
+
+  const updateResourceMax = (resourceKey, value, tier) => {
+    const safeValue = Math.max(0, Math.floor(Number(value) || 0));
+
+    setResourceMax((current) => {
+      const next = { ...current, spellSlots: { ...current.spellSlots } };
+
+      if (tier !== undefined) {
+        next.spellSlots[tier] = safeValue;
+      } else {
+        next[resourceKey] = safeValue;
+      }
+
+      return next;
+    });
+
+    setResources((current) => {
+      const next = { ...current, spellSlots: { ...current.spellSlots } };
+
+      if (tier !== undefined) {
+        next.spellSlots[tier] = Math.min(
+          next.spellSlots[tier] ?? 0,
+          safeValue,
+        );
+      } else {
+        next[resourceKey] = Math.min(next[resourceKey] ?? 0, safeValue);
+      }
+
+      return next;
+    });
+  };
+
+  const consumeForAction = (item) => {
+    if (!item) {
+      return;
+    }
+
+    setResources((current) => {
+      const next = {
+        ...current,
+        spellSlots: { ...current.spellSlots },
+      };
+
+      if (item.kind === "action") {
+        if (next.action <= 0) {
+          return current;
+        }
+        next.action -= 1;
+      } else if (item.kind === "bonus") {
+        if (next.bonus <= 0) {
+          return current;
+        }
+        next.bonus -= 1;
+      } else if (item.kind === "reaction") {
+        if (next.reaction <= 0) {
+          return current;
+        }
+        next.reaction -= 1;
+      }
+
+      const consumesSpellSlot =
+        isSpellAction(item) && item.tier && item.tier !== "C";
+
+      if (consumesSpellSlot) {
+        const slotLevel = TIER_TO_SLOT_LEVEL[item.tier];
+
+        if (!slotLevel || (next.spellSlots[slotLevel] ?? 0) <= 0) {
+          return current;
+        }
+
+        next.spellSlots[slotLevel] -= 1;
+      }
+
+      return next;
+    });
+  };
+
   const handleActionDrop = (targetSectionId, targetIndex) => {
     if (!draggedAction || draggedAction.sectionId !== targetSectionId) {
       return;
@@ -823,6 +1056,7 @@ const V2ActionsPanel = () => {
           title={`${item.name} (${item.kind})`}
           aria-label={`${item.name} (${item.kind})`}
           draggable
+          onClick={() => consumeForAction(item)}
           onDragStart={(event) => {
             setDraggedAction({
               source: "bar",
@@ -932,6 +1166,15 @@ const V2ActionsPanel = () => {
       </header>
 
       <div className="v2-actions-menu">
+        <V2ResourcePips
+          resources={resources}
+          max={resourceMax}
+          onRest={restoreResources}
+          onAdjust={adjustResource}
+          onUpdateMax={updateResourceMax}
+          onResetDefaults={resetResourceDefaults}
+        />
+
         <div className="v2-actions-menu-top">
           <div
             className="v2-actions-filter-strip"
@@ -1155,14 +1398,14 @@ const V2ActionsPanel = () => {
                 aria-label="Spellbook stats"
               >
                 <span>CHA</span>
-                <span>17</span>
-                <span>DC 16</span>
+                <span>14</span>
+                <span>DC 13</span>
               </div>
             </div>
 
             <div className="v2-spellbook-body">
               <aside className="v2-spellbook-class-rail" aria-hidden="true">
-                <div className="v2-spellbook-class-badge">Lv 6</div>
+                <div className="v2-spellbook-class-badge">Lv 9</div>
                 <div className="v2-spellbook-slot-pips">
                   <span />
                   <span />

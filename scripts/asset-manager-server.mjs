@@ -1,6 +1,8 @@
 import express from "express";
 import multer from "multer";
+import Database from "better-sqlite3";
 import fs from "node:fs/promises";
+import fsSync from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import crypto from "node:crypto";
@@ -16,6 +18,33 @@ const ACTIONS_MANIFEST_PATH = path.join(
   "actions-manifest.json",
 );
 const ACTIONS_ASSET_ROOT = path.join(ROOT_DIR, "src", "assets", "actions");
+const STATE_DB_DIR = path.join(ROOT_DIR, "data");
+const STATE_DB_PATH = path.join(STATE_DB_DIR, "state.db");
+
+fsSync.mkdirSync(STATE_DB_DIR, { recursive: true });
+const stateDb = new Database(STATE_DB_PATH);
+stateDb.pragma("journal_mode = WAL");
+stateDb.exec(`
+  CREATE TABLE IF NOT EXISTS character_state (
+    character_id TEXT PRIMARY KEY,
+    state_json TEXT NOT NULL,
+    updated_at INTEGER NOT NULL
+  );
+`);
+
+const getCharacterStateStmt = stateDb.prepare(
+  "SELECT state_json FROM character_state WHERE character_id = ?",
+);
+const upsertCharacterStateStmt = stateDb.prepare(`
+  INSERT INTO character_state (character_id, state_json, updated_at)
+  VALUES (?, ?, ?)
+  ON CONFLICT(character_id) DO UPDATE SET
+    state_json = excluded.state_json,
+    updated_at = excluded.updated_at
+`);
+
+const isValidCharacterId = (value) =>
+  typeof value === "string" && /^[a-zA-Z0-9_-]{1,64}$/.test(value);
 
 const NOTES_ROOT = path.join(ROOT_DIR, "notes");
 
@@ -632,6 +661,58 @@ app.delete("/api/journal/notes/:id", async (request, response, next) => {
       throw error;
     }
     response.json({ deleted: id });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/state/:characterId", (request, response, next) => {
+  try {
+    const characterId = request.params.characterId;
+
+    if (!isValidCharacterId(characterId)) {
+      response.status(400).json({ message: "Invalid character id." });
+      return;
+    }
+
+    const row = getCharacterStateStmt.get(characterId);
+
+    if (!row) {
+      response.status(404).json({ message: "No state for this character." });
+      return;
+    }
+
+    response.json(JSON.parse(row.state_json));
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put("/api/state/:characterId", (request, response, next) => {
+  try {
+    const characterId = request.params.characterId;
+
+    if (!isValidCharacterId(characterId)) {
+      response.status(400).json({ message: "Invalid character id." });
+      return;
+    }
+
+    if (
+      !request.body ||
+      typeof request.body !== "object" ||
+      Array.isArray(request.body)
+    ) {
+      response.status(400).json({ message: "Body must be a JSON object." });
+      return;
+    }
+
+    upsertCharacterStateStmt.run(
+      characterId,
+      JSON.stringify(request.body),
+      Date.now(),
+    );
+
+    response.json({ ok: true });
   } catch (error) {
     next(error);
   }
