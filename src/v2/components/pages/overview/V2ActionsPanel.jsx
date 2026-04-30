@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
+import healingPotionIcon from "../../../../assets/actions/items/POT_Potion_of_Healing_Unfaded_Icon.png";
+import potionOfSpeedIcon from "../../../../assets/actions/items/POT_Potion_of_Speed_Unfaded_Icon.png";
 import SpellHoverPopup from "../../popups/SpellHoverPopup";
 import V2ResourcePips from "./V2ResourcePips";
 
@@ -198,8 +200,22 @@ const normalizeImportedLayouts = (importedLayouts) => {
 
 const QUICK_ITEMS = [
   { id: "javelin", short: "JV", count: 6, tone: "neutral" },
-  { id: "healing-potion", short: "HP", count: 1, tone: "green" },
-  { id: "potion-of-speed", short: "SP", count: 1, tone: "red" },
+  {
+    id: "healing-potion",
+    name: "Potion of Healing",
+    short: "HP",
+    count: 1,
+    tone: "green",
+    icon: healingPotionIcon,
+  },
+  {
+    id: "potion-of-speed",
+    name: "Potion of Speed",
+    short: "SP",
+    count: 1,
+    tone: "red",
+    icon: potionOfSpeedIcon,
+  },
 ];
 
 const SPELLBOOK_TABS = [
@@ -1297,8 +1313,19 @@ const V2ActionsPanel = () => {
                 key={item.id}
                 type="button"
                 className={`v2-item-slot tone-${item.tone}`}
+                title={item.name ?? item.short}
+                aria-label={item.name ?? item.short}
               >
-                <span className="v2-item-short">{item.short}</span>
+                {item.icon ? (
+                  <img
+                    src={item.icon}
+                    alt=""
+                    className="v2-item-icon"
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="v2-item-short">{item.short}</span>
+                )}
                 <span className="v2-item-count">{item.count}</span>
               </button>
             ))}

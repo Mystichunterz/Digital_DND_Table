@@ -155,7 +155,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "gold",
-      "icon": "spells/Divine_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Divine_Smite_Unfaded_Icon.webp",
+      "description": "After hitting with a melee weapon attack, expend a spell slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st (max 5d8). +1d8 more vs. fiends or undead. (Level 2 slot: 3d8.)"
     },
     {
       "id": "thunderous-smite",
@@ -166,7 +167,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "purple",
-      "icon": "spells/Thunderous_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Thunderous_Smite_Unfaded_Icon.webp",
+      "description": "Bonus action. Your next melee hit this turn deals +2d6 thunder damage. Target must succeed on a Strength save or be pushed 10 ft. and knocked prone. Upcast: +1d6 per slot level above 1st."
     },
     {
       "id": "wrathful-smite",
@@ -177,7 +179,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "purple",
-      "icon": "spells/Wrathful_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Wrathful_Smite_Unfaded_Icon.webp",
+      "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute."
     },
     {
       "id": "compelled-duel",
@@ -188,7 +191,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Compelled_Duel_Unfaded_Icon.webp"
+      "icon": "spells/Compelled_Duel_Unfaded_Icon.webp",
+      "description": "One creature within 30 ft. that fails a Wisdom save has disadvantage on attacks against anyone but you and can't willingly move more than 30 ft. away. Spell ends if you attack or target someone else, an ally damages the target, or you end your turn 30+ ft. away. Concentration, 1 min."
     },
     {
       "id": "vow-of-enmity",
@@ -199,7 +203,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Vow_of_Enmity_Unfaded_Icon.webp"
+      "icon": "spells/Vow_of_Enmity_Unfaded_Icon.webp",
+      "description": "Channel Divinity. Bonus action. Choose one creature within 10 ft. as your sworn enemy. You have advantage on attack rolls against it for 1 minute or until it drops to 0 HP."
     },
     {
       "id": "lay-on-hands",
@@ -210,7 +215,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Lay_on_Hands_Unfaded_Icon.webp"
+      "icon": "spells/Lay_on_Hands_Unfaded_Icon.webp",
+      "description": "Touch a creature to restore HP from a pool of 5 x paladin level (currently 30). Spend 5 points instead to cure one disease or neutralize one poison. Pool refreshes on a long rest."
     },
     {
       "id": "divine-favor",
@@ -221,7 +227,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "gold",
-      "icon": "spells/Divine_Favor_Unfaded_Icon.webp"
+      "icon": "spells/Divine_Favor_Unfaded_Icon.webp",
+      "description": "Bonus action. Your weapon attacks deal an extra 1d4 radiant damage on hit. Concentration, up to 1 minute."
     },
     {
       "id": "command",
@@ -232,7 +239,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "red",
-      "icon": "spells/Command_Unfaded_Icon.webp"
+      "icon": "spells/Command_Unfaded_Icon.webp",
+      "description": "One creature within 60 ft. must succeed on a Wisdom save or follow a one-word command on its next turn (Approach, Drop, Flee, Grovel, Halt). Fails against undead, creatures that don't understand you, or directly harmful commands. Upcast: +1 creature per slot level above 1st (within 30 ft. of one another)."
     },
     {
       "id": "branding-smite",
@@ -243,7 +251,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "gold",
-      "icon": "spells/Branding_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Branding_Smite_Unfaded_Icon.webp",
+      "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute."
     },
     {
       "id": "branding-smite-ranged",
@@ -254,7 +263,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "gold",
-      "icon": "spells/Branding_Smite_Ranged_Unfaded_Icon.webp"
+      "icon": "spells/Branding_Smite_Ranged_Unfaded_Icon.webp",
+      "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute."
     },
     {
       "id": "blinding-smite",
@@ -265,7 +275,8 @@
       "kind": "bonus",
       "tier": "III",
       "tone": "gold",
-      "icon": "spells/Blinding_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Blinding_Smite_Unfaded_Icon.webp",
+      "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute."
     },
     {
       "id": "firebolt",
@@ -276,7 +287,8 @@
       "kind": "action",
       "tier": "C",
       "tone": "red",
-      "icon": "spells/Fire_Bolt_Unfaded_Icon.webp"
+      "icon": "spells/Fire_Bolt_Unfaded_Icon.webp",
+      "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried."
     },
     {
       "id": "booming-blade",
@@ -287,7 +299,8 @@
       "kind": "action",
       "tier": "C",
       "tone": "blue",
-      "icon": "spells/Booming_Blade_Unfaded_Icon.webp"
+      "icon": "spells/Booming_Blade_Unfaded_Icon.webp",
+      "description": "Make a melee attack against a creature within 5 ft. On hit, the target takes weapon damage and is sheathed in booming energy until the start of your next turn — if it moves willingly, it takes 1d8 thunder damage. Damage scales at higher levels."
     },
     {
       "id": "green-flame-blade",
@@ -298,7 +311,8 @@
       "kind": "action",
       "tier": "C",
       "tone": "green",
-      "icon": "spells/Green_Flame_Blade_Icon.webp"
+      "icon": "spells/Green_Flame_Blade_Icon.webp",
+      "description": "Make a melee attack against a creature within 5 ft. On hit, weapon damage as normal; green fire then leaps to a second creature within 5 ft. of the first for 1d8 + spellcasting modifier fire damage."
     },
     {
       "id": "sorcerous-burst",
@@ -309,7 +323,8 @@
       "kind": "action",
       "tier": "C",
       "tone": "purple",
-      "icon": "spells/Sorcerous_Burst_Unfaded_Icon.webp"
+      "icon": "spells/Sorcerous_Burst_Unfaded_Icon.webp",
+      "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice)."
     },
     {
       "id": "mage-hand",
@@ -320,7 +335,8 @@
       "kind": "utility",
       "tier": "C",
       "tone": "blue",
-      "icon": "spells/Mage_Hand_Unfaded_Icon.webp"
+      "icon": "spells/Mage_Hand_Unfaded_Icon.webp",
+      "description": "Conjure a spectral hand within 30 ft. for 1 minute. As an action, move it 30 ft. and use it to manipulate objects, open unlocked containers, or carry up to 10 lb. Cannot attack, activate magic items, or carry more than 10 lb."
     },
     {
       "id": "bless",
@@ -331,7 +347,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "gold",
-      "icon": "spells/Bless_Unfaded_Icon.webp"
+      "icon": "spells/Bless_Unfaded_Icon.webp",
+      "description": "Bless up to three creatures within 30 ft. They each add 1d4 to attack rolls and saving throws while the spell lasts. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
     },
     {
       "id": "shield",
@@ -342,7 +359,8 @@
       "kind": "reaction",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Shield_spell_Unfaded_Icon.webp"
+      "icon": "spells/Shield_spell_Unfaded_Icon.webp",
+      "description": "Reaction triggered by being hit by an attack or targeted by Magic Missile. Gain +5 AC until the start of your next turn — this can retroactively cause the triggering attack to miss, and grants immunity to Magic Missile."
     },
     {
       "id": "healing-word",
@@ -353,7 +371,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Healing_Word_Unfaded_Icon.webp"
+      "icon": "spells/Healing_Word_Unfaded_Icon.webp",
+      "description": "Bonus action. A creature within 60 ft. regains 2d4 + spellcasting modifier (~4) HP. Upcast: +2d4 per slot level above 1st."
     },
     {
       "id": "mirror-image",
@@ -364,7 +383,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Mirror_Image_Unfaded_Icon.webp"
+      "icon": "spells/Mirror_Image_Unfaded_Icon.webp",
+      "description": "Three illusory duplicates appear in your space for 1 minute. When a creature targets you with an attack, roll a d20: with three duplicates, 6+ hits a duplicate; with two, 8+; with one, 11+. AC of duplicate = 10 + Dex mod; one hit destroys it."
     },
     {
       "id": "suggestion",
@@ -375,7 +395,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Suggestion_Unfaded_Icon.webp"
+      "icon": "spells/Suggestion_Unfaded_Icon.webp",
+      "description": "Suggest a course of action to one creature within 30 ft. that can hear and understand you. On a failed Wisdom save it pursues the suggestion to the best of its ability for up to 8 hours. Obviously harmful suggestions auto-fail. Concentration."
     },
     {
       "id": "ceremony",
@@ -386,7 +407,8 @@
       "kind": "utility",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Sanctuary_Unfaded_Icon.webp"
+      "icon": "spells/Sanctuary_Unfaded_Icon.webp",
+      "description": "1-hour ritual. Perform one of: Atonement, Bless Water, Coming of Age, Dedication, Funeral Rite, or Wedding. Each grants a small lasting boon to its subject(s)."
     },
     {
       "id": "blade-of-blood-and-bone",
@@ -397,7 +419,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "red",
-      "icon": "spells/Inflict_Wounds_Unfaded_Icon.webp"
+      "icon": "spells/Inflict_Wounds_Unfaded_Icon.webp",
+      "description": "Make a melee spell attack against a creature within 5 ft. On hit, the target takes 3d10 necrotic damage. Upcast: +1d10 per slot level above 1st."
     },
     {
       "id": "cure-wounds",
@@ -408,7 +431,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Cure_Wounds_Unfaded_Icon.webp"
+      "icon": "spells/Cure_Wounds_Unfaded_Icon.webp",
+      "description": "Touch a creature to restore 2d8 + spellcasting modifier HP. No effect on undead or constructs. Upcast: +2d8 per slot level above 1st."
     },
     {
       "id": "detect-evil-and-good",
@@ -419,7 +443,8 @@
       "kind": "utility",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Detect_Evil_and_Good_Unfaded_Icon.webp"
+      "icon": "spells/Detect_Evil_and_Good_Unfaded_Icon.webp",
+      "description": "For up to 10 minutes, sense the presence and location of any aberration, celestial, elemental, fey, fiend, or undead within 30 ft., as well as any consecrated or desecrated object/place. Concentration."
     },
     {
       "id": "detect-magic",
@@ -430,7 +455,8 @@
       "kind": "utility",
       "tier": "I",
       "tone": "blue",
-      "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp"
+      "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp",
+      "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min. Ritual."
     },
     {
       "id": "detect-poison-and-disease",
@@ -441,7 +467,8 @@
       "kind": "utility",
       "tier": "I",
       "tone": "blue",
-      "icon": "items/POT_Antidote_Unfaded.png"
+      "icon": "items/POT_Antidote_Unfaded.png",
+      "description": "Sense the presence and location of poisons, poisonous creatures, and diseases within 30 ft., and identify each kind. Concentration, up to 10 minutes. Ritual."
     },
     {
       "id": "heroism",
@@ -452,7 +479,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "gold",
-      "icon": "spells/Heroism_Unfaded_Icon.webp"
+      "icon": "spells/Heroism_Unfaded_Icon.webp",
+      "description": "Touch a willing creature. It is immune to being frightened and gains spellcasting-modifier temporary HP at the start of each of its turns. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
     },
     {
       "id": "searing-smite",
@@ -463,7 +491,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "red",
-      "icon": "spells/Searing_Smite_Unfaded_Icon.webp"
+      "icon": "spells/Searing_Smite_Unfaded_Icon.webp",
+      "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute."
     },
     {
       "id": "magic-weapon",
@@ -474,7 +503,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "gold",
-      "icon": "spells/Magic_Weapon_Unfaded_Icon.webp"
+      "icon": "spells/Magic_Weapon_Unfaded_Icon.webp",
+      "description": "Bonus action. A nonmagical weapon you touch becomes magical with a +1 bonus to attack and damage rolls for 1 hour. +2 when cast with a 4th-level slot."
     },
     {
       "id": "aid",
@@ -485,7 +515,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "blue",
-      "icon": "spells/Aid_Unfaded_Icon.webp"
+      "icon": "spells/Aid_Unfaded_Icon.webp",
+      "description": "Up to three creatures within 30 ft. each gain 5 temporary HP and have their HP maximum raised by 5 for 8 hours. Upcast: +5 HP per slot level above 2nd."
     },
     {
       "id": "infernal-challenge",
@@ -496,7 +527,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "red",
-      "icon": "spells/Hellish_Rebuke_Unfaded_Icon.webp"
+      "icon": "spells/Hellish_Rebuke_Unfaded_Icon.webp",
+      "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st."
     },
     {
       "id": "lesser-restoration",
@@ -507,7 +539,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "blue",
-      "icon": "spells/Lesser_Restoration_Unfaded_Icon.webp"
+      "icon": "spells/Lesser_Restoration_Unfaded_Icon.webp",
+      "description": "Touch a creature to end one disease or one of these conditions: blinded, deafened, paralyzed, or poisoned."
     },
     {
       "id": "find-steed",
@@ -518,7 +551,8 @@
       "kind": "utility",
       "tier": "II",
       "tone": "gold",
-      "icon": "spells/SummonSteed_Unfaded_Icon.webp"
+      "icon": "spells/SummonSteed_Unfaded_Icon.webp",
+      "description": "Summon a celestial, fey, or fiendish spirit (Medium or Large) that takes the form of a loyal mount within 30 ft. for 1 hour. You can communicate telepathically with it while mounted, and it shares spell effects targeting you."
     },
     {
       "id": "protection-from-poison",
@@ -529,7 +563,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "green",
-      "icon": "spells/Protection_from_Poison_Unfaded_Icon.webp"
+      "icon": "spells/Protection_from_Poison_Unfaded_Icon.webp",
+      "description": "Touch a creature: neutralize one poison currently affecting it. For 1 hour the target has advantage on saves against being poisoned and resistance to poison damage."
     },
     {
       "id": "zone-of-truth",
@@ -540,7 +575,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "blue",
-      "icon": "spells/Zone_Of_Truth_Unfaded_Icon.webp"
+      "icon": "spells/Zone_Of_Truth_Unfaded_Icon.webp",
+      "description": "Create a 15-ft. radius sphere within 60 ft. for 10 minutes. A creature that fails a Charisma save when entering or starting its turn there can't speak deliberate lies; on success it knows it's affected and can avoid topics."
     },
     {
       "id": "locate-object",
@@ -551,7 +587,8 @@
       "kind": "utility",
       "tier": "II",
       "tone": "blue",
-      "icon": "spells/Find_Object_Unfaded_Icon.webp"
+      "icon": "spells/Find_Object_Unfaded_Icon.webp",
+      "description": "Sense the direction of a familiar object within 1,000 ft.; if it is moving, you know which way. You can also locate the nearest object of a kind you describe (e.g., a particular weapon or piece of jewelry) seen within 30 ft. before. Blocked by lead. Concentration, up to 10 minutes."
     },
     {
       "id": "abjure-enemy",
@@ -562,7 +599,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Abjure_Enemy_Unfaded_Icon.webp"
+      "icon": "spells/Abjure_Enemy_Unfaded_Icon.webp",
+      "description": "Channel Divinity. Choose a creature within 60 ft. It must succeed on a Wisdom save (with disadvantage if you've sworn vengeance against it) or be frightened and have its speed reduced to 0 for 1 minute. The target repeats the save at the end of its turns; taking damage also ends the effect. Creatures immune to fear are unaffected."
     },
     {
       "id": "bane",
@@ -573,7 +611,8 @@
       "kind": "action",
       "tier": "I",
       "tone": "purple",
-      "icon": "spells/Bane_Unfaded_Icon.webp"
+      "icon": "spells/Bane_Unfaded_Icon.webp",
+      "description": "Up to three creatures within 30 ft. that fail a Charisma save subtract 1d4 from each attack roll and saving throw they make. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
     },
     {
       "id": "hunters-mark",
@@ -584,7 +623,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "gold",
-      "icon": "spells/Hunters_Mark_Unfaded_Icon.webp"
+      "icon": "spells/Hunters_Mark_Unfaded_Icon.webp",
+      "description": "Bonus action. Mark a creature within 90 ft. as your quarry. Your weapon attacks against it deal an extra 1d6 damage, and you have advantage on Wisdom (Perception) and (Survival) checks to find it. If it drops to 0 HP, you can re-mark a new target on a later turn. Concentration, up to 1 hour."
     },
     {
       "id": "hold-person",
@@ -595,7 +635,8 @@
       "kind": "action",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Hold_Person_Unfaded_Icon.webp"
+      "icon": "spells/Hold_Person_Unfaded_Icon.webp",
+      "description": "A humanoid within 60 ft. that fails a Wisdom save is paralyzed for the duration. The target repeats the save at the end of each of its turns. Concentration, up to 1 minute. Upcast: +1 humanoid per slot level above 2nd (each within 30 ft. of one another)."
     },
     {
       "id": "misty-step",
@@ -606,7 +647,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "steel",
-      "icon": "spells/Misty_Step_Unfaded_Icon.webp"
+      "icon": "spells/Misty_Step_Unfaded_Icon.webp",
+      "description": "Bonus action. Surrounded by silvery mist, teleport up to 30 ft. to an unoccupied space you can see."
     },
     {
       "id": "throw-potion",
@@ -716,7 +758,8 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "blue",
-      "icon": "custom/Healing_Word_Unfaded_Icon.webp"
+      "icon": "custom/Healing_Word_Unfaded_Icon.webp",
+      "description": "Quickened Healing Word. Bonus action via 2 sorcery points: a creature within 60 ft. regains 2d4 + spellcasting modifier HP."
     },
     {
       "id": "burst",
@@ -727,7 +770,8 @@
       "kind": "action",
       "tier": "III",
       "tone": "red",
-      "icon": "custom/Shatter_Unfaded_Icon.webp"
+      "icon": "custom/Shatter_Unfaded_Icon.webp",
+      "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd."
     },
     {
       "id": "gap-close",
@@ -738,7 +782,8 @@
       "kind": "bonus",
       "tier": "II",
       "tone": "steel",
-      "icon": "custom/Misty_Step_Unfaded_Icon.webp"
+      "icon": "custom/Misty_Step_Unfaded_Icon.webp",
+      "description": "Misty Step. Bonus action: teleport up to 30 ft. to an unoccupied space you can see — useful for closing the gap on a sworn enemy."
     }
   ]
 }

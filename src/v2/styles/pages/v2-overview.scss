@@ -1224,6 +1224,13 @@
   font-weight: 600;
 }
 
+.v2-item-slot .v2-item-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .v2-item-slot .v2-item-count {
   position: absolute;
   right: 0.18rem;
