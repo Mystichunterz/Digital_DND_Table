@@ -13,6 +13,10 @@ export default defineConfig({
     },
   },
   build: {
+    // Inline action/item icons (all <10KB) into the JS bundle so they
+    // render at full size on first paint instead of flashing tiny while
+    // their HTTP requests resolve.
+    assetsInlineLimit: 12288,
     rollupOptions: {
       output: {
         manualChunks: {
