@@ -2,9 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import "../../styles/components/popups/popup.scss";
 
-const Popup = ({ children, triggerRef, positionPreference = "vertical" }) => {
+const Popup = ({
+  children,
+  triggerRef,
+  positionPreference = "vertical",
+  inspectable = true,
+  onPinChange,
+}) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const popupRef = useRef(null);
 
   useEffect(() => {
@@ -69,20 +76,98 @@ const Popup = ({ children, triggerRef, positionPreference = "vertical" }) => {
     }
   }, [isVisible, triggerRef, positionPreference]);
 
-  return isVisible
-    ? ReactDOM.createPortal(
-        <div className="popup-container">
-          <div
-            className="popup-window"
-            style={{ top: position.top, left: position.left }}
-            ref={popupRef}
-          >
-            {children}
-          </div>
-        </div>,
-        document.getElementById("root"),
-      )
-    : null;
+  useEffect(() => {
+    if (!isVisible || !inspectable) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key !== "t" && event.key !== "T") return;
+
+      const target = event.target;
+      const tag = target?.tagName;
+      if (
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      setIsPinned((prev) => {
+        const next = !prev;
+        onPinChange?.(next);
+        return next;
+      });
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isVisible, inspectable, onPinChange]);
+
+  const handleBackdropClick = () => {
+    setIsPinned(false);
+    onPinChange?.(false);
+  };
+
+  const toggleInspect = () => {
+    setIsPinned((prev) => {
+      const next = !prev;
+      onPinChange?.(next);
+      return next;
+    });
+  };
+
+  if (!isVisible) return null;
+
+  const containerClassName = isPinned
+    ? "popup-container is-pinned"
+    : "popup-container";
+  const windowClassName = isPinned ? "popup-window is-pinned" : "popup-window";
+  const tabClassName = isPinned
+    ? "popup-inspect-tab is-pinned"
+    : "popup-inspect-tab";
+
+  return ReactDOM.createPortal(
+    <div className={containerClassName}>
+      {isPinned && (
+        <div
+          className="popup-backdrop"
+          onClick={handleBackdropClick}
+          aria-hidden="true"
+        />
+      )}
+      <div
+        className={windowClassName}
+        style={{ top: position.top, left: position.left }}
+        ref={popupRef}
+      >
+        {children}
+      </div>
+      {inspectable && (
+        <button
+          type="button"
+          className={tabClassName}
+          style={{
+            top: position.top,
+            left: `calc(${position.left}px + 1.1rem)`,
+          }}
+          onClick={toggleInspect}
+          aria-pressed={isPinned}
+          aria-label={isPinned ? "Unpin popup" : "Pin popup for inspection"}
+          title={isPinned ? "Press T to unpin" : "Press T to pin"}
+        >
+          <kbd className="popup-inspect-tab-key" aria-hidden="true">
+            T
+          </kbd>
+          <span className="popup-inspect-tab-label">Inspect</span>
+        </button>
+      )}
+    </div>,
+    document.getElementById("root"),
+  );
 };
 
 export default Popup;

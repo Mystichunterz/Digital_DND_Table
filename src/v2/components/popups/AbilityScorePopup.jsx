@@ -16,6 +16,7 @@ const AbilityScorePopup = ({
   positionPreference = "vertical",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
   const renderStyledText = (text) => {
@@ -81,8 +82,12 @@ const AbilityScorePopup = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
-      {isHovered && (
-        <Popup triggerRef={triggerRef} positionPreference={positionPreference}>
+      {(isHovered || isPinned) && (
+        <Popup
+          triggerRef={triggerRef}
+          positionPreference={positionPreference}
+          onPinChange={setIsPinned}
+        >
           <div className="ability-score-popup-content">
             <div className="ability-score-popup-text">
               <h5 className="popup-title">

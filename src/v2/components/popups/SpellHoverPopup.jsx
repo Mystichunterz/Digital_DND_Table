@@ -25,6 +25,7 @@ const SpellHoverPopup = ({
   positionPreference = "horizontal",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
   const tierLabel = TIER_LABELS[spell?.tier] ?? "Spell";
@@ -59,11 +60,13 @@ const SpellHoverPopup = ({
     >
       {children}
 
-      {isHovered && (
-        <Popup triggerRef={triggerRef} positionPreference={positionPreference}>
+      {(isHovered || isPinned) && (
+        <Popup
+          triggerRef={triggerRef}
+          positionPreference={positionPreference}
+          onPinChange={setIsPinned}
+        >
           <div className="spell-hover-popup-content">
-            <div className="spell-hover-popup-inspect">T Inspect</div>
-
             <div className="spell-hover-popup-header">
               <div className="spell-hover-popup-title-block">
                 <h5 className="popup-title">{spell?.name ?? "Spell"}</h5>

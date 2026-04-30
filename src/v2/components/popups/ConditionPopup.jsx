@@ -7,6 +7,7 @@ import Duration_Icon from "../../../assets/popups/Duration_Icon.png";
 
 const ConditionPopup = ({ title, subtitle, text, duration = "", children }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
   const renderStyledText = (popupText) => {
@@ -44,8 +45,8 @@ const ConditionPopup = ({ title, subtitle, text, duration = "", children }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
-      {isHovered && (
-        <Popup triggerRef={triggerRef}>
+      {(isHovered || isPinned) && (
+        <Popup triggerRef={triggerRef} onPinChange={setIsPinned}>
           <div className="condition-popup-content">
             <div className="condition-popup-text">
               <h5 className="popup-title">{title}</h5>

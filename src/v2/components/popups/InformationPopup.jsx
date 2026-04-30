@@ -11,6 +11,7 @@ const InformationPopup = ({
   positionPreference = "vertical",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
   const renderStyledText = (text) => {
@@ -44,8 +45,12 @@ const InformationPopup = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
-      {isHovered && (
-        <Popup triggerRef={triggerRef} positionPreference={positionPreference}>
+      {(isHovered || isPinned) && (
+        <Popup
+          triggerRef={triggerRef}
+          positionPreference={positionPreference}
+          onPinChange={setIsPinned}
+        >
           <div className="information-popup-content">
             <div className="information-popup-text">
               <h5 className="popup-title">{title}</h5>

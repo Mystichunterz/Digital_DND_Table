@@ -5,6 +5,7 @@ import "../../styles/components/popups/feature-popup.scss";
 
 const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
   const renderStyledText = (popupText) => {
@@ -42,8 +43,8 @@ const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
-      {isHovered && (
-        <Popup triggerRef={triggerRef}>
+      {(isHovered || isPinned) && (
+        <Popup triggerRef={triggerRef} onPinChange={setIsPinned}>
           <div className="feature-popup-content">
             <div className="feature-popup-text">
               <h5 className="popup-title">{title}</h5>
