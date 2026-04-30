@@ -9,7 +9,7 @@ import { useRef, useState, useEffect } from "react";
 import Popup from "./Popup";
 
 import "../../styles/components/popups/ability-score-popup.scss";
-import D20_Icon from "../../assets/D20.png";
+import D20_Icon from "../../../assets/D20.png";
 
 //----------------------
 //  main

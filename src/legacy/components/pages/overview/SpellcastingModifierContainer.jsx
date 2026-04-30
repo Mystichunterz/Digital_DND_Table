@@ -7,9 +7,9 @@
 //----------------------
 import "../../../styles/components/pages/overview/spellcasting-modifier-container.scss";
 
-import D6_Icon from "../../../assets/spellcasting/D6_Physical.png";
-import Spell_Save_Icon from "../../../assets/spellcasting/Spell_Save_DC_HUD_Icon.png";
-import Gold_Star_Icon from "../../../assets/layout/left_display/Gold_Star_Icon.png";
+import D6_Icon from "../../../../assets/spellcasting/D6_Physical.png";
+import Spell_Save_Icon from "../../../../assets/spellcasting/Spell_Save_DC_HUD_Icon.png";
+import Gold_Star_Icon from "../../../../assets/layout/left_display/Gold_Star_Icon.png";
 
 //----------------------
 //  main

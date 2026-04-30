@@ -10,7 +10,7 @@ import Popup from "./Popup";
 
 import "../../styles/components/popups/condition-popup.scss";
 
-import Duration_Icon from "../../assets/popups/Duration_Icon.png";
+import Duration_Icon from "../../../assets/popups/Duration_Icon.png";
 
 //----------------------
 //  main

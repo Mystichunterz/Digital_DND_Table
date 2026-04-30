@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/components/version-switcher.scss";
+import "./version-switcher.scss";
 
 const SUPPORTED_SUBPATHS = new Set(["/overview", "/background"]);
 

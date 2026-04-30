@@ -6,28 +6,28 @@
 //  imports
 //----------------------
 import "../styles/layout/left-display.scss";
-import Sariel_PFP from "../assets/layout/left_display/sariel_pfp.png";
-import Vengeance_Paladin_Icon from "../assets/layout/left_display/Class_Paladin_Badge_Icon.png";
-import AC_Icon from "../assets/layout/left_display/AC_Icon.png";
-import Gold_Icon from "../assets/layout/left_display/gold_icon.png";
+import Sariel_PFP from "../../assets/layout/left_display/sariel_pfp.png";
+import Vengeance_Paladin_Icon from "../../assets/layout/left_display/Class_Paladin_Badge_Icon.png";
+import AC_Icon from "../../assets/layout/left_display/AC_Icon.png";
+import Gold_Icon from "../../assets/layout/left_display/gold_icon.png";
 
-import Star_Icon from "../assets/layout/left_display/Gold_Star_Icon.png";
-import Dice_Icon from "../assets/layout/left_display/Ability_Score_Proficiency_Icon.png";
+import Star_Icon from "../../assets/layout/left_display/Gold_Star_Icon.png";
+import Dice_Icon from "../../assets/layout/left_display/Ability_Score_Proficiency_Icon.png";
 
-import Slashing_Resistance_Icon from "../assets/layout/left_display/79px-Slashing_Resistance_NM.png";
-import Piercing_Resistance_Icon from "../assets/layout/left_display/79px-Piercing_Resistance_NM.png";
+import Slashing_Resistance_Icon from "../../assets/layout/left_display/79px-Slashing_Resistance_NM.png";
+import Piercing_Resistance_Icon from "../../assets/layout/left_display/79px-Piercing_Resistance_NM.png";
 
-import Left_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_left.svg";
-import Right_Curlicue_Icon from "../assets/layout/left_display/gold_curl_curlicue_right.svg";
+import Left_Curlicue_Icon from "../../assets/layout/left_display/gold_curl_curlicue_left.svg";
+import Right_Curlicue_Icon from "../../assets/layout/left_display/gold_curl_curlicue_right.svg";
 
 import AbilityScorePopup from "../components/popups/AbilityScorePopup";
 import FeaturePopup from "../components/popups/FeaturePopup";
 import ConditionPopup from "../components/popups/ConditionPopup";
 import InformationPopup from "../components/popups/InformationPopup";
 
-import abilityScoresData from "../data/abilityScoresData";
-import conditionsData from "../data/conditionsData";
-import featuresData from "../data/featuresData";
+import abilityScoresData from "../../data/abilityScoresData";
+import conditionsData from "../../data/conditionsData";
+import featuresData from "../../data/featuresData";
 
 //----------------------
 //  main

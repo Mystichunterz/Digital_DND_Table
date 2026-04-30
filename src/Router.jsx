@@ -6,10 +6,10 @@
 //  imports
 //----------------------
 import { Routes, Route, Navigate } from "react-router-dom";
-import LegacyLayout from "./legacy/layout/LegacyLayout";
-import LegacyOverview from "./legacy/pages/LegacyOverview";
-import LegacyNotFound from "./legacy/pages/LegacyNotFound";
-import LegacyBackground from "./legacy/pages/LegacyBackground";
+import LegacyLayout from "./legacy/layout/AppLayout";
+import LegacyOverview from "./legacy/pages/Overview";
+import LegacyNotFound from "./legacy/pages/NotFound";
+import LegacyBackground from "./legacy/pages/Background";
 import V2Layout from "./v2/layout/V2Layout";
 import V2Overview from "./v2/pages/V2Overview";
 import V2Background from "./v2/pages/V2Background";
