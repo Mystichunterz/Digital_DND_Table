@@ -158,7 +158,7 @@ const V2AssetManager = () => {
           text:
             error instanceof Error
               ? error.message
-              : "Unable to reach local asset manager API. Start npm run dev:assets.",
+              : "Unable to reach local asset manager API. Start npm run dev.",
         });
       } finally {
         if (active) {

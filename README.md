@@ -1,82 +1,110 @@
 # Digital DND Table v1.0.1
 
-This project is a digital DND table that allows players to keep track of their character sheets digitally. The project is built using React and Vite.
+A personal D&D companion app: BG3-styled character sheet, action HUD,
+spellbook, journal, and asset uploads. React 18 + Vite frontend with a
+small local Express + SQLite API server for persistence.
 
-Currently, it is a small project meant for personal use in my DnD campaign to address some pain points I have with the available online tools. The project is still in development, and I plan to add more features as I continue to work on it.
-
-Heavy inspiration is taken from Baldur's Gate 3 in terms of UI design and functionality. Many of the icons are directly taken from the BG3 wiki.
+Heavy inspiration is taken from Baldur's Gate 3 in terms of UI design
+and functionality. Many of the icons are sourced from the BG3 wiki.
 
 ## Features
 
-- [x] Character Sidebar
-  - A sidebar that displays the important information of the character, including the character's name, class, level, resistances, conditions, and features.
-- [] Character Sheet
-  - A character sheet that displays the character's skills, spell modifiers, health, and other important information.
-  - It also contains a section to upload an image of the current DnD environment.
-  - Finally, it contains a section to keep track of the character's action economy and available actions.
-- [] Spellbook
-  - A spellbook that displays the character's spells and their descriptions.
-  - It also contains a section of unprepared spells, allowing the player to prepare spells for the day.
-- [] Calculator
-  - A calculator that allows the player to generate the discord commands to roll dice for an input attack combination for the Avrae bot.
-- [] Background
-  - A background that displays the character's background, including their backstory, personality traits, ideals, bonds, and flaws.
-- [] Pets
-  - A section that allows the player to keep track of their pets, including their health, actions, and other important information.
+- [x] **Character sidebar** — name, class, level, resistances,
+      conditions, features (with hover popups for each).
+- [x] **Overview HUD** — health panel, draggable Actions panel,
+      spellcasting modifiers, proficiencies, and resource pips
+      (action / bonus / reaction / channel oath, lay on hands,
+      sorcery points, divine sense, spell slots — persisted to a
+      local SQLite database per character).
+- [x] **Spellbook** — full spell list with hover popups for each
+      spell description.
+- [x] **Asset Manager** (`/v2/assets`) — bulk-upload icons by category
+      (`common` / `weapons` / `spells` / `items` / `passives` /
+      `custom`) and edit ability metadata. Writes to
+      `src/assets/actions/*` and `src/v2/data/actions-manifest.json`;
+      `V2ActionsPanel` reads this manifest and resolves icons
+      automatically — no code edits needed to add an ability.
+- [x] **Background** (`/v2/background`) — battle-map image upload.
+- [x] **Journal** (`/v2/journal`) — markdown notes with YAML
+      frontmatter, full-text search, tag filters, debounced auto-save,
+      and an Edit ↔ Preview toggle. Notes persist as `.md` files
+      under `notes/`.
+- [ ] **Calculator** — Avrae-compatible dice command generator. Not
+      started.
+- [ ] **Pets** — track pet HP, actions, etc. Not started.
+
+A `/legacy/*` route still mounts the original (pre-v2) UI for
+reference; toggle between them with the Version Switcher in the
+top-right.
 
 ## Installation
 
-1. Clone the repository
-
 ```bash
-git clone
-```
-
-```bash
-cd digital-dnd-table
-```
-
-2. Run `npm install`
-
-```bash
+git clone https://github.com/Mystichunterz/Digital_DND_Table.git
+cd Digital_DND_Table
 npm install
 ```
 
-3. Run `npm run dev`
+Optionally copy `.env.example` to `.env` if you want a non-default API
+port.
+
+## Running
 
 ```bash
 npm run dev
 ```
 
-4. Open `localhost:5173` in your browser
+Boots both the Vite dev server (port 5173) and the local API server
+(port 5180) via `concurrently`. Open `http://localhost:5173`.
 
-## Local Asset Manager
+Other scripts:
 
-Use the local asset manager when you want to bulk upload action icons and add abilities without manually editing component files.
+| Script | Purpose |
+|---|---|
+| `npm run dev` | Frontend + API together (the usual one). |
+| `npm run dev:web` | Vite only — useful if you don't need persistence. |
+| `npm run dev:api` | API only — `node scripts/asset-manager-server.mjs`. |
+| `npm run build` | Production build to `dist/`. |
+| `npm run preview` | Serve the production build locally. |
+| `npm run lint` | ESLint over `src/` and `scripts/`. |
 
-1. Start the web app and local API together:
+## Architecture at a glance
 
-```bash
-npm run dev:assets
+```
+src/
+  v2/             — current UI (default mount; routed under /v2/*)
+    api/          — HTTP clients for the local API server
+    components/   — UI components grouped by feature
+    hooks/        — generic hooks (useDebouncedSave, …)
+    layout/       — V2Layout shell, left panel, tab bar
+    pages/        — route components
+    styles/       — SCSS organised by feature
+    data/         — actions catalog + manifest
+  legacy/         — pre-v2 UI, mounted under /legacy/* (reference only)
+  components/     — shared (VersionSwitcher)
+  data/           — shared character data
+  assets/         — shared images
+scripts/
+  asset-manager-server.mjs  — local API entrypoint (port 5180)
+  server/
+    journal.mjs   — journal endpoints + helpers
+    utils.mjs     — shared server helpers (path-safe checks)
+notes/            — markdown journal entries (.md per note)
+data/             — local SQLite database for character state (gitignored)
 ```
 
-2. Open the Vite local URL shown in terminal (for example `http://localhost:5173/v2/assets`).
-3. Upload images into `common`, `weapons`, `spells`, or other action folders.
-4. Add or update ability entries in the UI form.
-
-The UI writes to:
-
-- `src/assets/actions/*` for icon files
-- `src/v2/data/actions-manifest.json` for ability metadata
-
-`V2ActionsPanel` reads this manifest and auto-resolves icon files, so new abilities appear in the in-game actions UI without manual import wiring.
+The Vite dev server proxies `/api/*` to port 5180.
 
 ## Contributing
 
 ### Committing
 
-If you would like to contribute to the project, please create a pull request with your changes. Make sure to follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard when creating your commits.
+Follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+standard with a scoped prefix — e.g. `feat(journal): …`,
+`refactor(legacy): …`, `chore(character): …`. The git log reads as a
+narrative this way.
 
 ### Versioning
 
-The project uses [Semantic Versioning](https://semver.org/) for versioning. Please update the version in the README.md file to reflect the changes you have made.
+The project uses [Semantic Versioning](https://semver.org/). Bump the
+version in this README and `package.json` when shipping changes.

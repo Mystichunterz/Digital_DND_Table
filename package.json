@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "asset-manager-api": "node scripts/asset-manager-server.mjs",
-    "dev:assets": "concurrently -n api,web -c cyan,magenta \"npm run asset-manager-api\" \"npm run dev\"",
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"vite\"",
+    "dev:web": "vite",
+    "dev:api": "node scripts/asset-manager-server.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
