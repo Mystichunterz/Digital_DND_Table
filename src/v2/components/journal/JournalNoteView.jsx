@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import JournalEditor from "./JournalEditor";
 import JournalRenderer from "./JournalRenderer";
 import JournalTagInput from "./JournalTagInput";
-import { useDebouncedSave } from "./useDebouncedSave";
-import { updateNote } from "../../data/journalApi";
+import { useDebouncedSave } from "../../hooks/useDebouncedSave";
+import { updateNote } from "../../api/journal";
 
 const STATUS_LABEL = {
   saving: "Saving...",

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useDebouncedSave } from "./useDebouncedSave";
-import { updateNote } from "../../data/journalApi";
+import { useDebouncedSave } from "../../hooks/useDebouncedSave";
+import { updateNote } from "../../api/journal";
 
 const JournalEditor = ({ noteId, initialBody, onSaved, onStatusChange }) => {
   const { value, setValue, status } = useDebouncedSave(

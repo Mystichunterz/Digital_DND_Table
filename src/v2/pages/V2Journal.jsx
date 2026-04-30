@@ -7,7 +7,7 @@ import {
   getNote,
   listNotes,
   updateNote,
-} from "../data/journalApi";
+} from "../api/journal";
 import "../styles/v2-journal.scss";
 
 const summarize = (note) => ({
