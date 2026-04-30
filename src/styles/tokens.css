@@ -1,0 +1,67 @@
+/* src > styles > tokens.css
+ *
+ * Single source of truth for design tokens. Defined as CSS custom
+ * properties so plain CSS and SCSS files can both consume them with
+ * `var(--token-name)` — no `@use` / `@import` wiring needed.
+ *
+ * Token names group by role, not by appearance:
+ *   --color-bg-*       surfaces (page, panel, input)
+ *   --color-text-*     text on dark surfaces
+ *   --color-accent-*   gold/copper highlights
+ *   --color-border-*   panel/section borders
+ *   --color-status-*   success / error / link
+ *   --font-size-*      type scale (rem)
+ *   --space-*          spacing scale (rem)
+ */
+
+:root {
+  /* surfaces */
+  --color-bg-page: #201b18;
+  --color-bg-panel: #1a140d;
+  --color-bg-input: #1a140d;
+  --color-bg-parchment: #f4ead2;
+
+  /* text on dark surfaces */
+  --color-text-primary: #eadcc3;
+  --color-text-muted: #af8768;
+  --color-text-highlight: #fff4e6;
+  --color-text-on-parchment: #2a1c10;
+
+  /* accent (gold / copper family) */
+  --color-accent-gold: #d4af37;
+  --color-accent-gold-light: #f4e9c1;
+  --color-accent-gold-muted: #c9b27a;
+  --color-accent-gold-dark: #8a6f1c;
+
+  /* borders */
+  --color-border-brown: #694a29;
+  --color-border-brown-light: #7a5a3e;
+
+  /* scrollbar */
+  --color-scrollbar-track: #3e2d22;
+  --color-scrollbar-thumb: #b89d7b;
+
+  /* status */
+  --color-status-success: #6ce5ba;
+  --color-status-error: #e77373;
+  --color-status-error-bg: #6e2828;
+
+  /* fonts */
+  --font-display: 'Aldine 721bt', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+
+  /* type scale (rem) — derived from current SCSS usage */
+  --font-size-xs: 0.72rem;
+  --font-size-sm: 0.78rem;
+  --font-size-base: 0.9rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.15rem;
+  --font-size-xl: 1.3rem;
+
+  /* spacing scale (rem) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
+}
