@@ -1576,6 +1576,15 @@ const V2ActionsPanel = () => {
                   </button>
                 );
               })}
+              <button
+                type="button"
+                className="v2-spellbook-close"
+                onClick={() => setIsSpellbookOpen(false)}
+                aria-label="Close spellbook"
+                title="Close (Esc)"
+              >
+                ×
+              </button>
             </nav>
 
             <div
