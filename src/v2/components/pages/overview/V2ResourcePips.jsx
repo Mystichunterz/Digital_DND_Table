@@ -9,6 +9,7 @@ import SorceryPointsIcon from "../../../../assets/resources/sorcery_points.png";
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 import ShortRestIcon from "../../../../assets/resources/short_rest.webp";
 import LongRestIcon from "../../../../assets/resources/long_rest.png";
+import NewTurnIcon from "../../../../assets/resources/new_turn.png";
 
 const TIER_LABELS = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
 const TIER_KEYS = [1, 2, 3, 4, 5, 6];
@@ -248,6 +249,7 @@ const ConfigRow = ({ iconSrc, label, value, onChange, onToggleVisible }) => {
 const V2ResourcePips = ({
   resources,
   max,
+  onNewTurn,
   onShortRest,
   onLongRest,
   onAdjust,
@@ -344,6 +346,16 @@ const V2ResourcePips = ({
           role="group"
           aria-label="Rest and configuration"
         >
+          <button
+            type="button"
+            className="v2-resource-rest v2-resource-rest-new-turn"
+            onClick={onNewTurn}
+            title="New turn (restore Action, Bonus Action, and Reaction)"
+            aria-label="New turn"
+          >
+            <img src={NewTurnIcon} alt="" draggable={false} />
+          </button>
+
           <button
             type="button"
             className="v2-resource-rest v2-resource-rest-short"
