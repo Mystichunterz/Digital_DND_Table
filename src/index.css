@@ -34,7 +34,7 @@ textarea {
   color: rgba(255, 255, 255, 0.87);
   /* Body fallback bg — deeper than --color-bg-page, which is the
    * warm-dark surface color used inside panels. */
-  background-color: #0d0d0d;
+  background-color: var(--color-bg-body);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

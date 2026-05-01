@@ -5,17 +5,20 @@
  * `var(--token-name)` — no `@use` / `@import` wiring needed.
  *
  * Token names group by role, not by appearance:
- *   --color-bg-*       surfaces (page, panel, input)
+ *   --color-bg-*       surfaces (body, page, panel, input)
  *   --color-text-*     text on dark surfaces
  *   --color-accent-*   gold/copper highlights
  *   --color-border-*   panel/section borders
- *   --color-status-*   success / error / link
+ *   --color-status-*   success / warning / error / link
+ *   --gradient-*       reusable multi-stop fills
  *   --font-size-*      type scale (rem)
  *   --space-*          spacing scale (rem)
+ *   --z-*              cross-component stacking layers
  */
 
 :root {
   /* surfaces */
+  --color-bg-body: #0d0d0d;
   --color-bg-page: #201b18;
   --color-bg-panel: #1a140d;
   --color-bg-input: #1a140d;
@@ -32,6 +35,9 @@
   --color-accent-gold-light: #f4e9c1;
   --color-accent-gold-muted: #c9b27a;
   --color-accent-gold-dark: #8a6f1c;
+  /* RGB triplet for arbitrary-alpha use:
+   *   rgba(var(--color-accent-gold-rgb), 0.35) */
+  --color-accent-gold-rgb: 212, 175, 55;
 
   /* borders */
   --color-border-brown: #694a29;
@@ -43,8 +49,20 @@
 
   /* status */
   --color-status-success: #6ce5ba;
+  --color-status-warning: #f3cf6a;
   --color-status-error: #e77373;
   --color-status-error-bg: #6e2828;
+
+  /* gradients — reach for these before introducing a new gradient inline.
+   * Stops resolve to existing tokens where one exists; literal hexes
+   * elsewhere mark colors with no broader role yet. */
+  --gradient-accent-gold: linear-gradient(180deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+  --gradient-parchment: linear-gradient(180deg, var(--color-bg-parchment) 0%, #ecdfba 100%);
+  --gradient-status-success: linear-gradient(90deg, #4ea876, var(--color-status-success));
+  --gradient-status-warning: linear-gradient(90deg, #c69a3a, var(--color-status-warning));
+  --gradient-status-error: linear-gradient(90deg, #b53b3b, var(--color-status-error));
+  --gradient-error-fill: linear-gradient(180deg, var(--color-status-error-bg), #3a1212);
+  --gradient-error-fill-hover: linear-gradient(180deg, #8a3232, #4a1818);
 
   /* fonts */
   --font-display: 'Quadraat', 'Aldine 721 BT', 'Palatino Linotype', Georgia, serif;
@@ -64,4 +82,12 @@
   --space-lg: 1rem;
   --space-xl: 1.5rem;
   --space-2xl: 2rem;
+
+  /* z-index — cross-component surfaces only. Intra-component layering
+   * (1, 2, 3) belongs inline inside its own stacking context. */
+  --z-left-display: 900;
+  --z-version-switcher: 2500;
+  --z-popup-shadow: 9997;
+  --z-popup-backdrop: 9998;
+  --z-popup: 9999;
 }
