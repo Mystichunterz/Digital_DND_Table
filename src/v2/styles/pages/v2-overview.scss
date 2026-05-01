@@ -1,12 +1,15 @@
 .v2-overview-page {
-  --v2-overview-border: #7a5a3e;
+  // Page-scoped aliases: where a global token exists, ride it so palette
+  // tweaks cascade. Where the page wants a different shade (creamier
+  // muted/highlight, semi-opaque panel bgs), keep the local literal.
+  --v2-overview-border: var(--color-border-brown-light);
   --v2-overview-panel-bg: rgba(31, 24, 19, 0.86);
   --v2-overview-panel-bg-soft: rgba(22, 17, 14, 0.78);
-  --v2-overview-text: #eadcc3;
+  --v2-overview-text: var(--color-text-primary);
   --v2-overview-muted: #ccb190;
   --v2-overview-highlight: #f5e6ca;
-  --v2-overview-good: #6ce5ba;
-  --v2-overview-bad: #e77373;
+  --v2-overview-good: var(--color-status-success);
+  --v2-overview-bad: var(--color-status-error);
 
   width: 100%;
   height: 100%;
@@ -332,14 +335,14 @@
   height: 100%;
   border-radius: inherit;
   transition: width 220ms ease, background-color 220ms ease;
-  background: linear-gradient(90deg, #4ea876, #6ce5ba);
+  background: var(--gradient-status-success);
 
   .v2-health-bar.tone-wounded & {
-    background: linear-gradient(90deg, #c69a3a, #f3cf6a);
+    background: var(--gradient-status-warning);
   }
 
   .v2-health-bar.tone-critical & {
-    background: linear-gradient(90deg, #b53b3b, #e77373);
+    background: var(--gradient-status-error);
   }
 
   .v2-health-bar.tone-down & {
@@ -498,13 +501,13 @@
 
 .v2-death-save-pip.is-filled.is-successes {
   background: radial-gradient(circle at 32% 32%, #a8f4d4, #4ea876 70%);
-  border-color: #6ce5ba;
+  border-color: var(--v2-overview-good);
   box-shadow: 0 0 6px rgba(108, 229, 186, 0.55);
 }
 
 .v2-death-save-pip.is-filled.is-failures {
   background: radial-gradient(circle at 32% 32%, #ff9c9c, #b53b3b 70%);
-  border-color: #e77373;
+  border-color: var(--v2-overview-bad);
   box-shadow: 0 0 6px rgba(231, 115, 115, 0.55);
 }
 
@@ -552,17 +555,17 @@
 }
 
 .v2-proficiencies-panel::-webkit-scrollbar-track {
-  background: #3e2d22;
+  background: var(--color-scrollbar-track);
 }
 
 .v2-proficiencies-panel::-webkit-scrollbar-thumb {
-  background: #b89d7b;
+  background: var(--color-scrollbar-thumb);
   border-radius: 4px;
 }
 
 .v2-proficiencies-panel {
   scrollbar-width: thin;
-  scrollbar-color: #b89d7b #3e2d22;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
 }
 
 .v2-proficiency-bonus {
@@ -693,17 +696,17 @@
 }
 
 .v2-saving-throws-grid::-webkit-scrollbar-track {
-  background: #3e2d22;
+  background: var(--color-scrollbar-track);
 }
 
 .v2-saving-throws-grid::-webkit-scrollbar-thumb {
-  background: #b89d7b;
+  background: var(--color-scrollbar-thumb);
   border-radius: 4px;
 }
 
 .v2-saving-throws-grid {
   scrollbar-width: thin;
-  scrollbar-color: #b89d7b #3e2d22;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
 }
 
 .v2-saving-throw-chip {
@@ -757,7 +760,7 @@
 
 .v2-proficiency-group h3 {
   margin: 0 0 0.4rem;
-  color: #af8768;
+  color: var(--color-text-muted);
   font-size: clamp(0.9rem, 0.16vw + 0.84rem, 1.02rem);
   font-weight: normal;
   line-height: 1.2;
@@ -801,7 +804,7 @@
 }
 
 .v2-proficiency-skill span {
-  color: #af8768;
+  color: var(--color-text-muted);
   font-size: clamp(0.9rem, 0.18vw + 0.84rem, 1.02rem);
   line-height: 1.25;
 }
@@ -820,7 +823,7 @@
 }
 
 .v2-proficiency-modifier span {
-  color: #af8768;
+  color: var(--color-text-muted);
   font-size: clamp(0.9rem, 0.18vw + 0.84rem, 1.02rem);
 }
 
@@ -1827,7 +1830,7 @@
   min-width: clamp(7rem, 9vw, 10.5rem);
   min-height: clamp(2.35rem, 5.4vh, 3.1rem);
   padding: 0.35rem clamp(0.75rem, 1vw, 1.1rem);
-  border: 2px solid #694a29;
+  border: 2px solid var(--color-border-brown);
   border-bottom: 0;
   border-radius: 10px 10px 0 0;
   background: linear-gradient(
@@ -1852,7 +1855,7 @@
 }
 
 .v2-spellbook-tab:hover {
-  color: #fff4e6;
+  color: var(--color-text-highlight);
   transform: translateY(clamp(0.08rem, 0.55vh, 0.34rem));
 }
 
@@ -1877,7 +1880,7 @@
   grid-template-rows: auto minmax(0, 1fr);
   gap: 0.72rem;
   padding: clamp(0.9rem, 1.05vw, 1.2rem);
-  border: 2px solid #694a29;
+  border: 2px solid var(--color-border-brown);
   border-radius: 0 10px 10px 10px;
   background: radial-gradient(
       75% 85% at 50% 38%,
