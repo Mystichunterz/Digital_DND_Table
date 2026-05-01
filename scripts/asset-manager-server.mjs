@@ -33,6 +33,16 @@ stateDb.exec(`
     state_json TEXT NOT NULL,
     updated_at INTEGER NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS moodboard_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character_id TEXT NOT NULL,
+    label TEXT,
+    moodboard_json TEXT NOT NULL,
+    item_count INTEGER NOT NULL,
+    created_at INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_moodboard_snapshots_character_created
+    ON moodboard_snapshots(character_id, created_at DESC);
 `);
 
 const getCharacterStateStmt = stateDb.prepare(
@@ -45,6 +55,25 @@ const upsertCharacterStateStmt = stateDb.prepare(`
     state_json = excluded.state_json,
     updated_at = excluded.updated_at
 `);
+const insertMoodboardSnapshotStmt = stateDb.prepare(`
+  INSERT INTO moodboard_snapshots
+    (character_id, label, moodboard_json, item_count, created_at)
+  VALUES (?, ?, ?, ?, ?)
+`);
+const listMoodboardSnapshotsStmt = stateDb.prepare(`
+  SELECT id, label, item_count, created_at
+  FROM moodboard_snapshots
+  WHERE character_id = ?
+  ORDER BY created_at DESC
+`);
+const getMoodboardSnapshotStmt = stateDb.prepare(`
+  SELECT id, label, moodboard_json, item_count, created_at
+  FROM moodboard_snapshots
+  WHERE character_id = ? AND id = ?
+`);
+const deleteMoodboardSnapshotStmt = stateDb.prepare(
+  "DELETE FROM moodboard_snapshots WHERE character_id = ? AND id = ?",
+);
 
 const isValidCharacterId = (value) =>
   typeof value === "string" && /^[a-zA-Z0-9_-]{1,64}$/.test(value);
@@ -484,6 +513,156 @@ app.patch("/api/state/:characterId", (request, response, next) => {
     next(error);
   }
 });
+
+app.post(
+  "/api/state/:characterId/moodboard/snapshots",
+  (request, response, next) => {
+    try {
+      const characterId = request.params.characterId;
+
+      if (!isValidCharacterId(characterId)) {
+        response.status(400).json({ message: "Invalid character id." });
+        return;
+      }
+
+      const row = getCharacterStateStmt.get(characterId);
+
+      if (!row) {
+        response
+          .status(404)
+          .json({ message: "No saved state for this character." });
+        return;
+      }
+
+      const state = JSON.parse(row.state_json);
+      const moodboard = state?.moodboard;
+
+      if (!moodboard || typeof moodboard !== "object") {
+        response
+          .status(404)
+          .json({ message: "No moodboard found in saved state." });
+        return;
+      }
+
+      const items = Array.isArray(moodboard.items) ? moodboard.items : [];
+      const rawLabel =
+        typeof request.body?.label === "string" ? request.body.label.trim() : "";
+      const label = rawLabel.slice(0, 120) || null;
+      const createdAt = Date.now();
+
+      const result = insertMoodboardSnapshotStmt.run(
+        characterId,
+        label,
+        JSON.stringify(moodboard),
+        items.length,
+        createdAt,
+      );
+
+      response.status(201).json({
+        id: Number(result.lastInsertRowid),
+        label,
+        itemCount: items.length,
+        createdAt,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+app.get(
+  "/api/state/:characterId/moodboard/snapshots",
+  (request, response, next) => {
+    try {
+      const characterId = request.params.characterId;
+
+      if (!isValidCharacterId(characterId)) {
+        response.status(400).json({ message: "Invalid character id." });
+        return;
+      }
+
+      const rows = listMoodboardSnapshotsStmt.all(characterId);
+      response.json({
+        snapshots: rows.map((row) => ({
+          id: row.id,
+          label: row.label,
+          itemCount: row.item_count,
+          createdAt: row.created_at,
+        })),
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+app.get(
+  "/api/state/:characterId/moodboard/snapshots/:snapshotId",
+  (request, response, next) => {
+    try {
+      const characterId = request.params.characterId;
+      const snapshotId = Number(request.params.snapshotId);
+
+      if (!isValidCharacterId(characterId)) {
+        response.status(400).json({ message: "Invalid character id." });
+        return;
+      }
+
+      if (!Number.isInteger(snapshotId) || snapshotId <= 0) {
+        response.status(400).json({ message: "Invalid snapshot id." });
+        return;
+      }
+
+      const row = getMoodboardSnapshotStmt.get(characterId, snapshotId);
+
+      if (!row) {
+        response.status(404).json({ message: "Snapshot not found." });
+        return;
+      }
+
+      response.json({
+        id: row.id,
+        label: row.label,
+        itemCount: row.item_count,
+        createdAt: row.created_at,
+        moodboard: JSON.parse(row.moodboard_json),
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+app.delete(
+  "/api/state/:characterId/moodboard/snapshots/:snapshotId",
+  (request, response, next) => {
+    try {
+      const characterId = request.params.characterId;
+      const snapshotId = Number(request.params.snapshotId);
+
+      if (!isValidCharacterId(characterId)) {
+        response.status(400).json({ message: "Invalid character id." });
+        return;
+      }
+
+      if (!Number.isInteger(snapshotId) || snapshotId <= 0) {
+        response.status(400).json({ message: "Invalid snapshot id." });
+        return;
+      }
+
+      const result = deleteMoodboardSnapshotStmt.run(characterId, snapshotId);
+
+      if (result.changes === 0) {
+        response.status(404).json({ message: "Snapshot not found." });
+        return;
+      }
+
+      response.json({ ok: true });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 app.use((error, request, response, _next) => {
   const message = error instanceof Error ? error.message : "Unknown API error.";
