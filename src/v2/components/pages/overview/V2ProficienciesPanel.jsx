@@ -21,7 +21,9 @@ import Gold_Star_Icon from "../../../../assets/layout/left_display/Gold_Star_Ico
 import Left_Curlicue_Icon from "../../../../assets/layout/left_display/gold_curl_curlicue_left.svg";
 import Right_Curlicue_Icon from "../../../../assets/layout/left_display/gold_curl_curlicue_right.svg";
 import AbilityScorePopup from "../../popups/AbilityScorePopup";
+import SkillPopup from "../../popups/SkillPopup";
 import abilityScoresData from "../../../../data/abilityScoresData";
+import skillsData from "../../../../data/skillsData";
 
 const proficienciesData = [
   {
@@ -271,20 +273,32 @@ const V2ProficienciesPanel = () => {
             <section key={group.attribute} className="v2-proficiency-group">
               <h3>{group.attribute}</h3>
               <ul>
-                {group.skills.map((skill) => (
-                  <li key={skill.name} className="v2-proficiency-row">
-                    <div className="v2-proficiency-skill">
-                      <img src={skill.icon} alt={skill.name} />
-                      <span>{skill.name}</span>
-                    </div>
-                    <div className="v2-proficiency-modifier">
-                      {skill.isProficient && (
-                        <img src={Gold_Star_Icon} alt="Proficient" />
-                      )}
-                      <span>{skill.modifier}</span>
-                    </div>
-                  </li>
-                ))}
+                {group.skills.map((skill) => {
+                  const meta = skillsData[skill.name] || {};
+                  return (
+                    <SkillPopup
+                      key={skill.name}
+                      as="li"
+                      className="v2-proficiency-row"
+                      name={skill.name}
+                      ability={meta.ability}
+                      modifier={skill.modifier}
+                      description={meta.description}
+                      effect={meta.effect}
+                    >
+                      <div className="v2-proficiency-skill">
+                        <img src={skill.icon} alt={skill.name} />
+                        <span>{skill.name}</span>
+                      </div>
+                      <div className="v2-proficiency-modifier">
+                        {skill.isProficient && (
+                          <img src={Gold_Star_Icon} alt="Proficient" />
+                        )}
+                        <span>{skill.modifier}</span>
+                      </div>
+                    </SkillPopup>
+                  );
+                })}
               </ul>
             </section>
           ))}
