@@ -1,0 +1,429 @@
+                                                                       Current Standard CS v1.4
+
+        Sariel Hewlett                                                                                 Level 9 Sorcadin (3/6)                                               Soldier                                                  Mystic
+
+    CHARACTER NAME                                                                                     CLASS & LEVEL                                                        BACKGROUND                                               PLAYER NAME
+
+                                                                                                       Half-Elf (Wood Elf/Human)                                            Neutral Good                                             10000
+
+                                                                                                       RACE                                                                 ALIGNMENT                                                EXPERIENCE POINTS
+
+    16                           3 SAVING THROW                                                           18                                                                                                                         INSPIRATION
+                           q 6 ATHLETICS
+ 3                                                                                         CONDITIONS         ARMOR                        BOONS                                                                 Loyal, Brave, True
+                                 2 SAVING THROW                                                                 CLASS
+STRENGTH                         2 ACROBATICS                                  +2                                                         35                                                                                             PERSONALITY TRAITS
+                                 2 SLEIGHT OF HAND                                                                       TEMP HP                                                                                 Justice, Honour, Vengeance
+    14                           2 STEALTH                                        INITIATIVE                                                   SPEED
+                                                                               Current 6,3             61 61
+ 2                                                                                                                                            SUCCESSES
+                                                                               6d10+ 3d6                   CURRENT MAXIMUM                     FAILURES
+DEXTERITY                                                                                                 HIT POINTS HIT POINTS
+                                                                                   HIT DICE                                               DEATH SAVES
+                                                                                                                                                                                                                                     IDEALS
+
+                                       2 SAVING THROW                          NAME                    ATK BONUS DAMAGE/TYPE                                                                                     Chosen of Vulcan, God of Fire
+
+12                                                                             Longsword               +6 1d10+3 slashing
+
+   1                                                                                 Javelin           +6 1d6+3 piercing                                                                                                                              BONDS
+                                                                                                                                                                                                                    Haunted by Guilt, Stubborn, Reckless, Blinded by
+CONSTITUTION                                                                         Spear             +6 1d8+3 piercing                                                                                            Vengeance
+
+       8                               -1 SAVING THROW                         Sorcerous Burst +5                                         2d8 any                                                                                                      FLAWS
+                                       -1 ARCANA
+  -1                                   -1 HISTORY                              Fire Bolt               +5                         2d10 fire                                                                      Armor:
+                                       -1 INVESTIGATION                                                                                                                                                          Light, Medium & Heavy Armour, Shields
+INTELLIGENCE                           -1 NATURE                                [ Primary Weapon ] 
+                                       -1 RELIGION                             Longsword | +6 to Hit | 1d10+3 slashing
+
+    10                     x 3 SAVING THROW                                     [ Backup Weapon ]                                                                                                                Weapons:
+                                 0 ANIMAL HANDLING                                                                                                                                                               Simple weapons, Martial weapons
+ 0                                                                             Javelin | +6 to hit | 1d6+4 piercing | Range: 30/120 ft.
+                           q 3 INSIGHT                                         Simple Weapon (Ranged, Thrown)                                                                                                    Tools:
+ WISDOM                          0 MEDICINE                                                                                                                                                                      Deck of Cards
+                                                                                [ Armour ] 
+    14                     q 3 PERCEPTION                                                                                                                                                                        Languages:
+                                 0 SURVIVAL                                    Adamantine Plate | AC 18 | Disadvantage on Stealth                                                                                Common, Elvish, Draconic
+ 2                                                                             Heavy Armor
+                           x 5 SAVING THROW                                    * Magical Plate Attackers can't land Critical Hits on the                                                                                         PROFICIENCIES & LANGUAGES
+CHARISMA                   q 5 DECEPTION                                       wearer.
+                           q 5 INTIMIDATION                                                                                                                                                                       [ Smite ] 
+   3                                                                            [ Utility Spells ] 
+                                 2 PERFORMANCE                                                                                                                                                                   Divine Smite - Free Action (Paladin)
+                           q 5 PERSUASION                                      Shield - ReactionAT-TLAvCl 1KSSp&eSllPSEloLLt CASTING                                                                             After hitting a creature, spend an extra spell slot to deal
+                                                                               +5 AC until start of next turn; blocks Magic Missile.                                                                             extra 2d8 radiant damage.
+                            PROFICIENCY BONUS                                                                                                                                                                    +1d8 per spell slot level used beyond 1st level
+                                                                               HDievainliitny gChWarogred(2-)Bonqus Aqction (Divine Soul Sorcerer) - Lvl 1                                                       +1d8 extra if the target is a Fiend or Undead
+                                                                               Spell Slot                                                                                                                        - Level 2 Spellslot: 3d8
+                                                                               HDievainl e2dS4en+s2e ((s4p)ell mqodiqfier)q q
+                                                                               - Upcasting: Increases by +2d4 per higher level slot.
+
+                                                                               MSoisrcteyrySPteopin-ts(O(3a) th Sqpellq) - Bqonus Action (Oath of                                                                 [ Combat Modifiers ] 
+
+        13                                                                     Vengeance Paladin) - Lvl 2 Spell Slot
+
+           CURRENT WEIGHT  PASSIVE WISDOM (PERCEPTION)                         TLaeyleopnoHrat n3d0s f(t6.xt5o) a sqpaceqyouqcanqseeq. q                                                                         Aura of Protection
+                                                                                                                                                                                                                 You emit a 10-foot invisible aura. While not incapacitated,
+CP
+SP                                                                             Abjure Enemy - (Channel Divinity) - Action (Oath of                                                                               you and your allies gain a +2 bonus to saving throws
+EP
+                                                                               Vengeance Paladin)                                                                                                                (equal to your Charisma modifier).
+GP 860
+                           153.5       240                 MAX WEIGHT          Choose a creature within 60 ft. It must succeed on a DC 13
+PP                                                                             Wisdom save or be frightened and immobilized for 1
+                                                                                                                                                                                                                 Great Weapon Master (Feat, Lvl 4 Paladin)
+
+                                                                               minute,   eunCndaLifAnfegScSitfeRitdEt.SaOkeUsRdCaEmSa, gAeM. MCrOea&tuCreHsAimRGmEuSne  to                                       Great Weapon Master: Bonus Attack
+                                                                               fear are                                                                                                                          When you land a Critical Hit or kill a target with a melee
+
+                                                                                                                                                                                                                 weapon attack, you can make another melee weapon
+
+                            [ Primary Equipment ]                              AVVttoeanwcgkoeaRf [nEoRcnlelo:mlP!lriCtaoyllhal -e1d(adiCnt2)hS0ah+nen9eet-l]D5/iv!rinoiltly1)d-2B0o+nu6s-A5ction (Oath of       attack as a bonus action that turn.
+                                                                               DCahmoaogsee oRnoellcfroeraGturreeawtsitwhionr1d0: !frto. lFl o2rd16m+in5u+te1,0you gain
+                           - Adamantine Plate / 65 lb. / 2000 GP               DAadmvaangteagReoollnfoarllLaottnagckswroollrsda:g!raoinlls1tdt1h0e +ch3os+e1n0target.                                            Attacks with Heavy melee weapons you are Proficient
+                           - Longsword / 3 lb. / 15 GP                         Great Weapon Fighting: Reroll all 1s and 2s from damage                                                                           with, can deal an additional 10 damage at the cost of a -5
+                                                                                                                                                                                                                 Attack Roll penalty.
+
+                            [ Backup Equipment ]                         2014        dice [ Ranged Offence Spells ]                                                                                         for         Great Weapon Fighting (Lvl 2 Paladin Feat: Fighting
+                                                           ]                         Smite (optional): !roll 2d8/3d8/4d8                                                                                                Style)
+                           - Spear / 3 lb. / 1 GP                                    DSaomrcaegreerRooulsl fBorurgsrte|e+n5fltaomheit b| 2ladd8eA/bcoido,mCionlgd,bFliared,e: !roll                                     When rolling damage for a melee weapon held with two
+                           - Shield / 6 lb. / 10 GP              TM & ©              1Ldi8ghtning, Poison, Psychic, or Thunder. | Range: 120 feet                                                                       hands, treat any 1 or 2 on a damage die as a 3. The
+                           - 6x Javelin / 2 lb. / 5 SP                               L(eSaoprcinegreDr)amage for green flame blade: !roll 1d8 + 2                                                                       weapon must have the Two-Handed or Versatile property.
+                           - Chain Mail / 55 lb. / 75 GP                              You cast sorcerous energy at one creature or object within
+                                                                                     range. M[ aBkaettlae rSatnragteedgya]ttackroll against the target.                                                                 Extra Attack (Lvl 5 Paladin)
+                            [ Treasure Equipment                                     - Vow of Enmity                                                                                                                    You can attack twice instead of once whenever you take
+                                                                                     -FAitrteacBko+ltE| x+t5ratoAhttiatc|k2(dc1o0nsFiidreer| GRWanMge: :A1ll2I0n)fewe/tB(Sooomrcienrger)                                the Attack action on your turn.
+                            [ Potions ]                                              BRlaadneg/eGdreaettnacFkla: mOen Bhilta,ddeeals +2d10 fire damage. Ignites
+                                                                                     -fSlammimteable objects not worn or carried.                                                                                       Favored by the Gods (Lvl 1 Divine Soul Sorcerer)
+                           - 1x healing                                                                                                                                                                                 Starting at 1st level, divine power guards your destiny. If
+                           - 1x speed                                                Bonus Actions:                                                                                                                    you fail a saving thrFoEwAoTrUmREisSs &wiTthRAanITaSttack roll, you can
+                                                                                     - Quicken Spell BooBmAinTgTBLlEadSeT/RGAreTeEnGFYlame Blade                                                                        roll 2d4 and add it to the total, possibly changing the
+                                    EQUIPMENT                                        - Quicken Utility                                                                                                                  outcome. Recharges on short or long rest.
+                           Extras (safekeeping for party)                      Wizard-sSoof trhceerCeoraosutsLLBCu. rPsetrmission is granted to photocopy this document                                          personal use.
+                           - 3x healing
+
+                           - 4x speed                                          - Mirror Image                                                                                                                     [ Utility ] 
+                           - 2x love                                           - Suggestion
+
+                           - 7x Miscellaneous Potions                          - Hold Person                                                                                                                     Lay on Hands (Paladin)
+                           - 3x Poisonous Potions                              - Infernal Challenge                                                                                                              Touch a creature to heal it, or spend 5 healing to cure a
+                                                                               - Blinding Smite                                                                                                                  poison or disease. Recharges on Long Rest.
+                                                                               - Thunderous Smite                                                                                                                *Available Healing: 30/30
+  Charisma                   5TH EDITION                                                                                                     Spellcasting Details                                                             ·
+                                     C 0 M PATI B LE
+SPELLCASTING ABILllY                                                                                                                 [ Paladin Spellcasting ] 
+                                                                                                                                    Spell Slots: You use your available spell slots (1st level or
+  2 SPELLCASTING ABILITY                              SPELL SLOTS                                                                   higher) to cast Paladin spells, regained after a long rest.
+                                                                                                                                    Prepared Spells: You can prepare (Charisma modifier +
+         MODIFIER                                                                                                                   half Paladin level, rounded down = 2 + 3 = 5) Paladin spells
+                                                                                                                                    of a level you have Paladin spell slots for.
+  13 SPELLCASTING DC                  Total Used      Total Used   Total Used                                                       Changing Spells: You can swap prepared spells after a long
+                             Level 1 3 q q q                                                                                        rest, spending 1 min per spell level in prayer.
+                                                      Level4  Level7                                                                Upcasting: You can cast lower-level spells with higher-level
+                             Level2 3                                                                                               slots for increased effect.
+                             Level3 3                 Levels  Levels 
+  +5 SPELL ATK MODIFIER
+                                                      Level6  Level9 
+
+                                                                                                                                                Spell Notes
+
+                             PREPARED SPELLS                                                                                         [ Command ] 
+                                                                                                                                    You speak a one-word command to a creature within range. It
+                             Casting Time & Duration  Concentration, Rituals Notes                                                  must succeed on a Wisdom save or obey the command on its
+                                                      and Readied.                                                                  next turn. The spell fails if the creature is undead, doesn't
+                             Action                    c R q M Vulcan's Blessing                                                    understand you, or if the command is directly harmful.
+
+C Firebolt                   Action, -, 1hr           C q R M Paladin Spell List                                                    Approach: Moves toward you.
+1 Ceremony                                                                                                                          Drop: Drops held items.
+1 Command                                                                                                                           Flee: Moves away from you.
+1 Compelled Duel                                                                                                                    Grovel: Falls prone.
+1 Blade of Blood and Bone                                                                                                           Halt: Takes no actions or movement.
+1 Cure Wounds
+1 Detect Evil and Good       Action, 60ft, 1rnd       C R q M Paladin Spell List                                                    At Higher Levels: Affect +1 creature per slot level above 1st
+1 Detect Magic               Bonus, 30ft*, 1m         q C R M Paladin Spell List                                                    (must be within 30 feet of each other).
+1 Detect Poison and Disease  Action, 1ft, 24h         c R M Paladin Spell List
+1 Heroism                                                                                                                            [ Detect Magic ] 
+1 Divine Favor               Action, 1ft, -           C R M Paladin Spell List                                                      Casting Time: Action/Ritual
+1 Wrathful Smite             Action, 30ft*, 10min     C R M Paladin Spell List
+1 Searing Smite              Action, 30ft*, 10min     q C q R M Paladin Spell List                                                  You sense magical effects within 30 feet. By taking the Magic
+1 Thunderous Smite           Action, 30ft*, 10min
+2 Blinding Smite             Action, -, 10min         q C q R M Paladin Spell List                                                  action, you see a faint aura around visible magical creatures
+2 Branding Smite             Bonus, Self, 1m          q c R q M Paladin Spell List
+2 Magic Weapon               Bonus, -, 1min           C R M Paladin Spell List                                                      ocarDuoisbvejiedncebtsySaaonsduplleeAlal.rlnigtnhemsecnhto:ol of magic if the effect was
+2 Aid                                                 q C R M Paladin Spell List
+2 Infernal Challenge                                                                                                                 Law
+2 Lesser Restoration
+2 Find Steed                                                                                                                        Blocked by 1 foot of stone, dirt, or wood; 1 inch of metal; or a
+2 Protection from Poison
+2 Zone of Truth                                                                                                                     thin sheet of lead.
+2 Locate Object
+- Abjure Enemy                                                                                                                           [ Compelled Duel ] 
+- Vow of Enmity
+1 Bane                                                                                                                                LANGUAGES You try to compel a creature into a duel. One creature that
+1 Hunter's Mark
+                                                                                                                                    [ ] you can see within range makes a Wisdom saving throw. On
+                                                                                                                                        Caofamilmedons,aEvelv,isthhe, Dtarragceotnhicas Disadvantage on attack rolls
+                                                                                                                                        against creatures other than you, and it can't willingly move to
+                                                                                                                                        a space that is more than 30 feet away from you.
+
+                                                                                                                                        The spell ends if you make an attack roll against a creature
+                                                                                                                                        other than the target, if you cast a spell on an enemy other
+                                                                                                                                        than the target, if an ally of yours damages the target, or if you
+
+                                                                                                                                      end your turn more thanM30efteaetmawaagyifcrom the target.
+
+                             Bonus, -, 1min           q C R M Paladin Spell List                                                    Quicken[eLdoScpateellObject ] 
+                             Bonus, 10ft*, 1m         q C R q M Paladin Spell List                                                  CYoosut:s2enSsoerctheerydPiroeicnttison of a familiar object within 1,000 feet. If
+                             Bonus, -, 1min           C R M Paladin Spell List                                                      Wit'shemnoyvoinugc, aysotuaksnpoewll itthsamt ohvaesmaecnatsdtiinregcttiimone. of 1 action, you
+                             Bonus, -, 1min           q C R M Paladin Spell List                                                    can spend 2 sorcery points to change the casting time to 1
+                             Bonus, -, 1hr            q C R q M Paladin Spell List                                                  bCoannusloacacttieona fsopretchiifsiccoabsjteincgt .you've seen within 30 feet before.
+                             Action, 30ft, 8h         C R M Paladin Spell List                                                      Can locate the nearest object of a particular kind (e.g.,
+                             Bonus, -, 1min           q C R M Paladin Spell List                                                    Twweianpnoend, jSewpeelllry).
+                             Bonus, -, -              C R M Paladin Spell List                                                      Cost: 1­9 Sorcery Points
+                             Action, -, -             C R q M Paladin Spell List                                                    WBlhoecnkeydoubycalesatdaosrpceellrttahiant mtaarggeictaslopnrloyteocnteiocnrse.ature and
+                             Action, 1ft, 1h          C R M Paladin Spell List                                                      doesn't have a range of self, you can spend a number of
+                             Action, 60ft, 10min      c R M Paladin Spell List                                                      sorceryp[oHinotsldePqeuraslotno ]thespell's level to target a second
+                             Action, 1000ft, 10m      q C R M Paladin Spell List                                                    cAreHautumreaninoirdanwgitehiwn irthanthgee smaumset mspaekell (a1Wsoisrcdeormy psoaivnet iof rthbee
+                             Action, 60ft, 1min       C R q M V Pala: Channel Div.                                                  sPpaerlal liyszaedcafonrtrtihpe). duration. The target repeats the save at the
+                             Action, 10ft, 1min       C R q M V Pala: Channel Div.                                                  end of each turn, ending the effect on a success.
+                             Action, 30 ft, 1min      q C R q M V Pala: Oath Spell
+                             Bonus, 30 ft, 1hr        q C R q M V Pala: Oath Spell                                                  To be eligible, a spell must be incapable of targeting more
+                                                                                                                                    tAhtaHn iognheercLreeavteulsre: Taat rtgheets+p1elHl'sumcuarnreonidt lpeevrels.loFtolreevxeal mabpolev,e
+                                                                                                                                    m2nadg.ic missile and scorching ray aren't eligible, but ray of frost
+                                                                                                                                    and chromatic orb are.
+                                                                                                                                     [ Thunderous Smite ] 
+                                                                                                                                    Bonus Action (Paladin) - Lvl 1 Spell Slot
+                                                                                                                                    Your next melee hit deals an extra 2d6 thunder damage. The
+                                                                                                                                    target must make a DC 13 STR save (Paladin Spell Save DC)
+                                                                                                                                    or be pushed 10 ft. and knocked prone.
+                                                                                                                                    - Upcasting: Increases damage by +1d6 for each spell slot
+
+                                                                                                                                    levMelaagbicovIete1mst. Attunements:
+
+                                                                                                                                      [ Shining Smite ] 
+
+                                                                                                                                    Bonus Action (Paladin) - Lvl 2 Spell Slot
+                                                                                                                                    Duration: Concentration, up to 1 minute
+
+                                                                                                                                    O n hit: +2d6 radiant damage. Until the spell ends, the target
+
+                                                                                                                                    emits bright light (5 ft.), attack rolls against it have Advantage,
+                                                                                                                                    and it can't become Invisible.
+
+                                                                                                                                     
+
+                                                                                                                                     [ Magic Weapon ] 
+
+                                                                                                                                    Bonus Action (Paladin) - Lvl 2 Spell Slot
+
+                                                                                                                                    Grant a weapon +1 attack/damage rolls for 1 hour (+2 at 4th
+
+                                                                                                                                    level).     COINS
+
+                                                                                                                                    -C-"P- -S-P"- -E-P"--G-"P- -p-p"-
+
+2 Hold Person                Action, 60 ft, 1min      q C R q M V Pala: Oath Spell                                                  V        V  V                              V  ·V
+
+2 Misty Step                 Bonus, 30 ft             C R q M V Pala: Oath Spell                                                    Character sheet made by u/Beaoudix. Made for personal
+                                                                                                                                    and non-commerial use only.
+......."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  Charisma                5TH EDITION                                                                                                                 Spellcasting Details                                                                                                                                                                                                                                                                                                                                                                                              ·
+                                  C 0 M PATI B LE
+SPELLCASTING ABILllY                                                                                                                      [ Sorcerer Spellcasting ] 
+                                                                                                                                         Spell Slots: You use Sorcerer spell slots to cast spells and
+  2 SPELLCASTING ABILITY                           SPELL SLOTS                                                                           regain all slots after a long rest.
+                                                                                                                                         Cantrips: You start with 4 Sorcerer cantrips and gain more at
+         MODIFIER                                                                                                                        levels 4 and 10.
+                                                                                                                                         Spells Known: You start with 2 Sorcerer spells and learn one
+  13 SPELLCASTING DC               Total Used      Total Used   Total Used                                                               more at each level (except 12, 14, 16, 18, 19, and 20), that
+                          Level 1 3 q q q                                                                                                you have the matching spell slot level for.
+                                                   Level4  Level7                                                                        Swapping Spells: When leveling up, you can replace one
+                          Level2 3                                                                                                       known spell with another from the Sorcerer spell list.
+                          Level3 3                 Levels  Levels 
+  +5 SPELL ATK MODIFIER
+                                                   Level6  Level9                                                                         [ Divine Soul Sorcerer Spellcasting ] 
+
+                          PREPARED SPELLS                                                                                                You can learn or replaceSpspeelllls Nfroomttehes Cleric spell list,
+
+C Firebolt                Casting Time & Duration  Concentration, Rituals Notes                                                          following all normal spell selection rules, and the chosen spell
+C Booming Blade                                    and Readied.
+C Green-Flame Blade       Action                    c R M Vulcan's Blessing                                                              countsas[ BaoSoomrcinegreBrlaspdeell] foryou.
+C Sorcererous Burst                                                                                                                      -tAMw-LL-SLh>vvvIIcleaufnollltTakntiit141tohhpeid10aneaoSelaun(((rptHLLSammedd[vvirotlagaallePl:rme54tmSlc+lueatel1aSSreaonmrgdggeotonwy8eoerrre,)cce.v.dtSeeh-earrcSuspCeeonopawrrrdn))ecn::iellhtlal++irrinAit1n1ptdgacgaLCl-cqymvRkaLulb.anvias3eOlytgirft5Seionipo.rpV,nehe+asitlyr1l,,]ioat1LuhnvreStlntw2aearxSgptpe,teut+lral1n,lw:1L+avS2yl wds48atSappk, ee+ls1l
+C Mage Hand               Action, 5ft, -           C q R q M Sorcerer Spell List
+                                                                                                                                         -MA+-wl--lSS-vv>>>1SIcllellanoodtFCW11eakiittto8,23icpeoiraan+oeou+((lla1nblnLLn(HS2odavvmtLd[eifalllot(lvaGer:,67Frsrslymcl+rpriep5SSeree1eTeeaeprooeSdlagelllwrrnlc8.prerccag)See.eeFfsei-alurrrlltateeepCig:Snm)rogAa:)dglon:een+atcm+stm1aBrr1tieotipaloLtaadaLgvnd-ticvlfeueiklwL3e.r.4ve/r]SOl)HSw5pfniapireVteeshhlltali,ieldtn,r,1ai1at5mhSnSefwtatw.gtaaoaeprfp.g,t,he++et11atLalLwvrvlgal4ey5tsSSttapapkekeelellsls
+1 Bless                   Action, 5ft, -           C R q M Sorcerer Spell List
+1 Shield
+1 Healing Word            Action, 120ft, -         C R q M Sorcerer Spell List
+
+2 Mirror Image            Action, 30ft, 1min       c R q M Sorcerer Spell List                                                           Law cbWYA------re((((((ocDeiCCCCCCsstuaiitdo))))))vtsoonuPTGSWRiufnmrhrpe(uegoieSeatasigsr[dsstuoir[dhestSaSaeamriSastdvconpabottutiaeefhcengiuaglctreReilicuoetaltglyreaarrrWDneeAg)tdubisayyoh-iilnetssaiinienLtgohoniCagvlnlnncirlthsaehm]2ataben]rSlemetdapnecsuetdokn:lludaisrensrddesotfoanofnellaodocwyrtiootthhunee.(Isst 2pum5egulglwseetosnmrtddioassn.k) ettooaathe
+2 Suggestion
+                                                   C R M
+
+                          Action, 30ft, 1min       C R M                                                                                 To--- rh(((122ey)))oeSASufrciifrlevoaBcerlltcurieyhebsinBbn.dlgaesrRbifsatyhe target or its allies take damage from you
+                          Reaction, -, 1 round     q C R q M DS Sorc: Div. Magic
+                          Bonus, 60ft, -                                                                                            [-     (2)  Maximilian's  EartheLnAGNraGspUAGES                                                                                                                                                                                                                                                                                                                                                                                     ]
+                                                   C R q M Sorcerer Spell List                                                          -  (2)  Silence
+                                                   c R q M Cleric Spell List
+                                                                                                                                         C- (o3m) mFiorenb, aElllvish, Draconic
+                                                                                                                                         - (3) Counterspell
+
+                                                                                                                                         - (3) Haste
+
+                                                                                                                                         - (4) Wall of Fire
+
+                          Action, -, 1min          C R M                                                                                                    Metamagic
+                          Action, 30ft, 8 hrs      C R q M Sorcerer Spell List
+                                                   q C R q M Sorcerer Spell List                                                         Quickened Spell
+                                                                                                                                         Cost: 2 Sorcery Points
+                                                   C R M                                                                                 When you cast a spell that has a casting time of 1 action, you
+                                                                                                                                         can spend 2 sorcery points to change the casting time to 1
+                                                   C R M                                                                                 bonus action for this casting.
+
+                                                   C R M                                                                                 Twinned Spell
+                                                                                                                                         Cost: 1­9 Sorcery Points
+                                                   C R M                                                                                 When you cast a spell that targets only one creature and
+                                                                                                                                         doesn't have a range of self, you can spend a number of
+                                                   C R M                                                                                 sorcery points equal to the spell's level to target a second
+                                                                                                                                         creature in range with the same spell (1 sorcery point if the
+                                                   C R M                                                                                 spell is a cantrip).
+
+                                                                                                                                         To be eligible, a spell must be incapable of targeting more
+                                                                                                                                         than one creature at the spell's current level. For example,
+                                                                                                                                         magic missile and scorching ray aren't eligible, but ray of frost
+                                                                                                                                         and chromatic orb are.
+
+                                                   C R M
+
+                                                   C R M                                                                                   Magic Item Attunements:
+                                                   C R M                                                                                   
+                                                   c R M                                                                                   
+                                                   C R M                                                                                   
+                                                   C R M
+
+                                                   C R M                                                                                                  COINS
+                                                   C R M
+                                                   C R M                                                                            -C-"P- -S-P"- -E-P"--G-"P- -p-p"-
+
+                                                                                     C R M                                                      V             V                  V   V  ·V
+
+                                                                                     C R M                                          Character sheet made by u/Beaoudix. Made for personal
+                                                                                                                                    and non-commerial use only.
+......."""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        Sariel Hewlett                                          Early 20's  6"1                                                                        75kg
+
+CHARACTER NAME                                                  AGE         HEIGHT                                                                     WEIGHT
+
+                                                                Blue-Grey   Fair                                                                       Light-blue Ponytail
+
+                                                                EYES        SKIN                                                                       HAIR
+
+                                                                                    NAME
+
+                                                                                                                                                       SYMBOL
+
+                    CHARACTER APPEARANCE                                                                                       ALLIES & ORGANIZATIONS
+
+Sariel Hewlett was born to a human father and an elven          A burn scar stretching from the bottom left to the top right of her face.
+mother in a small village on the outskirts of Luminara Forest.  Follower of Vulcan, God of Fire.
+Her father was a respected soldier in the Emperor's guard,
+and her mother was a wood elf healer who taught Sariel the
+ways of the forest.
+
+Initially a devout follower of Rhea, she joined the service of
+House Frost, a minor noble family sworn to the Emperor.
+Her exceptional combat skills quickly elevated her through
+the ranks, leading to her assignment as the sworn protector
+of the young heiress of House Frost.
+
+One fateful night, assassins from a cult devoted to Krade,
+the God of Dragons and destruction, infiltrated the Frost
+estate. Despite her efforts, Sariel was overpowered. The
+assassins used dragonfire, leaving her with a burn scar
+stretching across her face. Tragically, the heiress she was
+sworn to protect was slain.
+
+Haunted by her failure, Sariel swore an Oath of Vengeance.
+She has since forsaken Rhea, and has turned to Vulcan, the
+God of Fire. She now wanders Veraltia, seeking to
+dismantle the cult of Krade.
+
+                                                                            ADDITIONAL FEATURES & TRAITS
+
+CHARACTER BACKSTORY                                                                                                       OTHER
+                     TM & © 2014 Wizards of the Coast LLC. Permission is granted to photocopy this document for personal use.
+                                COMPANIONS, FAMILIARS,  Lvl 5 Warhorse          Mount                                                                   Mount
+                                AND PETS.               CLASS & LEVEL           RELATIONSHIP                                                            ROLE
+
+                                Béarn                   Fey Warhorse            Neutral                                                                 0
+                                                        RACE                    ALIGNMENT                                                               EXPERIENCE POINTS
+                NAME
+
+                                            NAME        ATK BONUS DAMAGE/TYPE                                                                           12
+
+      18              12                    Otherworldly Slam +3 1d8 + 2 Psychic                                                                        ARMOR
+                                                                                                                                                         CLASS
+   4              1
+                                                                                                                                          CONDITIONS                                BOONS
+   STRENGTH       DEXTERITY
+                                            Otherworldly Slam                                                                             +1                              TEMP HP  60
+       14              6                    Melee Attack Roll: Bonus equals your spell attack modifier,
+                                            reach 5 ft. Hit: 1d8 + 2 of Psychic (Celestial) damage.                                         INITIATIVE  25 25                           SPEED
+   2              -2
+                                                                ATTACKS & SPELLCASTING                                                    Current           CURRENT MAXIMUM            SUCCESSES
+CONSTITUTION    INTELLIGENCE                                                                                                                               HIT POINTS HIT POINTS        FAILURES
+                                                        CLASS RESOURCES, AMMO & CHARGES                                                   2d10
+       12              8                    Telepathy 1 Mile (Only with Caster)                                                                                                    DEATH SAVES
+                                            Draconic Dictionary                                                                              HIT DICE
+   1              -1                        Life Bond
+                                            When you regain Hit Points from a level 1+ spell, the steed                                         Note: Flight available at lvl 4 spell.
+    WISDOM        CHARISMA                  regains the same number of Hit Points if you're within 5 feet.           CP
+                                            Fey Step (Fey Only; Recharges after a Long Rest). The
+                                            steed teleports, along with its rider, to an unoccupied space            SP
+                                            of your choice up to 60 feet away from itself.
+                                            Fell Glare (FiePnRdOOFnIClyI;ERNeCcIhEaSr&geLsAaNftGerUaALGoEnSg Rest).  EP
+                                            Wisdom Saving ThroFwEA: DTUCReEqSu&alsTRyoAuITr Sspell save DC, one
+11              PASSIVE WISDOM              creature within 60 feet the steed can see. Failure: The target           GP
+                  (PERCEPTION)              has the Frightened condition until the end of your next turn.
+                                            Healing Touch (Celestial Only; Recharges after a Long
+CURRENT WEIGHT  270             MAX WEIGHT  Rest). One creature within 5 feet of the steed regains a                 PP
+                                            number of Hit Points equal to 2d8 + the spell's level.                                                        EQUIPMENT
+
+                                Jormir                  CLASS & LEVEL           RELATIONSHIP                                                            ROLE
+                                                        RACE                    ALIGNMENT                                                               EXPERIENCE POINTS
+                NAME
+
+                                            NAME        ATK BONUS DAMAGE/TYPE
+
+                 -5                                                                                                                                     ARMOR
+                                                                                                                                                         CLASS
+                DEXTERITY
+ -5                                                                                                                                       CONDITIONS                               BOONS
+
+STRENGTH                                                                                                                                                               TEMP HP
+
+  -5              -5                                                                                                                        INITIATIVE   CURRENT MAXIMUM                SPEED
+                                                                                                                                          Current       HIT POINTS HIT POINTS
+CONSTITUTION    INTELLIGENCE                                                                                                                                                           SUCCESSES
+                                                                                                                                             HIT DICE                                   FAILURES
+
+                                                                                                                                                                                   DEATH SAVES
+
+                                                        ATTACKS & SPELLCASTING
+
+ -5              -5                                                                                                                   CP
+                                                  CLASS RESOURCES, AMMO & CHARGES
+WISDOM          CHARISMA
+                                                                                                                                      SP
+                PASSIVE WISDOM
+                  (PERCEPTION)                                                                                                        EP
+
+                                                                                                                                      GP
+
+CURRENT WEIGHT  0               MAX WEIGHT                                                                           PP
+
+                                                  PROFICIENCIES & LANGUAGES                                                                             EQUIPMENT
+                                                        FEATURES & TRAITS
+
+                                            TM & © 2014 Wizards of the Coast LLC. Permission is granted to photocopy this document for personal use.
+
