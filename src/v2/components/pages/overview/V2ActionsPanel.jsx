@@ -7,10 +7,23 @@ import {
   useState,
 } from "react";
 import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
-import healingPotionIcon from "../../../../assets/actions/items/POT_Potion_of_Healing_Unfaded_Icon.png";
-import potionOfSpeedIcon from "../../../../assets/actions/items/POT_Potion_of_Speed_Unfaded_Icon.png";
+import {
+  SPELLBOOK_TABS as SPELLBOOK_TAB_CONFIGS,
+  getTabById,
+} from "../../../data/spellbookTabs";
 import SpellHoverPopup from "../../popups/SpellHoverPopup";
+import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
+import SpellbookRow from "../../popups/SpellbookRow";
 import V2ResourcePips from "./V2ResourcePips";
+import TwinnedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Twinned_Spell_Icon.webp";
+import DistantSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Distant_Spell_Icon.webp";
+import QuickenedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Quickened_Spell_Icon.webp";
+import SubtleSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Subtle_Spell_Icon.webp";
+import HeightenedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Heightened_Spell_Icon.webp";
+import ExtendedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Extended_Spell_Icon.webp";
+import EmpoweredSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Empowered_Spell_Icon.webp";
+import CarefulSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Careful_Spell_Icon.webp";
+import SeekingSpellIcon from "../../../../assets/actions/metamagic/Seeking_Spell_Icon.webp";
 
 const PERSISTED_CHARACTER_ID = "default";
 const PERSIST_DEBOUNCE_MS = 500;
@@ -198,23 +211,79 @@ const normalizeImportedLayouts = (importedLayouts) => {
   return baseLayouts;
 };
 
-const QUICK_ITEMS = [
-  { id: "javelin", short: "JV", count: 6, tone: "neutral" },
+const METAMAGIC_SLOT_COUNT = 10;
+
+const METAMAGIC_OPTIONS = [
   {
-    id: "healing-potion",
-    name: "Potion of Healing",
-    short: "HP",
-    count: 1,
-    tone: "green",
-    icon: healingPotionIcon,
+    id: "twinned-spell",
+    name: "Twinned Spell",
+    icon: TwinnedSpellIcon,
+    description:
+      "Spells that only target 1 creature can target an additional creature.\n\nFor spells that don't shoot a projectile, the targets need to be close enough together.",
+    cost: "Costs 1 Sorcery Point per spell slot level used. Cantrips also cost 1 Sorcery Point.",
   },
   {
-    id: "potion-of-speed",
-    name: "Potion of Speed",
-    short: "SP",
-    count: 1,
-    tone: "red",
-    icon: potionOfSpeedIcon,
+    id: "distant-spell",
+    name: "Distant Spell",
+    icon: DistantSpellIcon,
+    description:
+      "Extends the range of a spell by 50%. Melee spells have their range increased to 9 m / 30 ft.",
+    cost: "Costs 1 Sorcery Point.",
+  },
+  {
+    id: "quickened-spell",
+    name: "Quickened Spell",
+    icon: QuickenedSpellIcon,
+    description:
+      "Spells that take an Action to cast take a Bonus Action instead.",
+    cost: "Costs 3 Sorcery Points.",
+  },
+  {
+    id: "subtle-spell",
+    name: "Subtle Spell",
+    icon: SubtleSpellIcon,
+    description: "You can cast spells while Silenced.",
+    cost: "Costs 1 Sorcery Point.",
+  },
+  {
+    id: "heightened-spell",
+    name: "Heightened Spell",
+    icon: HeightenedSpellIcon,
+    description:
+      "Targets of spells that require Saving Throws have Disadvantage on their first Saving Throw against the spell.",
+    cost: "Costs 3 Sorcery Points.",
+  },
+  {
+    id: "extended-spell",
+    name: "Extended Spell",
+    icon: ExtendedSpellIcon,
+    description:
+      "Doubles the duration of Conditions, summons, and surfaces caused by spells, up to a maximum of 24 turns.",
+    cost: "Costs 1 Sorcery Point.",
+  },
+  {
+    id: "empowered-spell",
+    name: "Empowered Spell",
+    icon: EmpoweredSpellIcon,
+    description:
+      "Reroll a number of damage dice up to your Charisma modifier when you cast a spell. You must use the new rolls.",
+    cost: "Costs 1 Sorcery Point.",
+  },
+  {
+    id: "careful-spell",
+    name: "Careful Spell",
+    icon: CarefulSpellIcon,
+    description:
+      "Allies automatically succeed Saving Throws against spells that require them.",
+    cost: "Costs 1 Sorcery Point.",
+  },
+  {
+    id: "seeking-spell",
+    name: "Seeking Spell",
+    icon: SeekingSpellIcon,
+    description:
+      "If a Spell Attack misses, you can reroll the Attack Roll once. You must use the new roll.",
+    cost: "Costs 2 Sorcery Points.",
   },
 ];
 
@@ -245,6 +314,10 @@ const SPELLBOOK_TABS = [
 ];
 
 const SPELLBOOK_TIER_ORDER = ["C", "I", "II", "III", "IV", "V"];
+
+const TIER_NUMERAL = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
+
+const romanizeTier = (tier) => TIER_NUMERAL[tier] ?? String(tier);
 
 const isSpellAction = (action) =>
   action?.category === "paladin" ||
@@ -735,6 +808,38 @@ const V2ActionsPanel = () => {
       tierRows,
     };
   }, [activeSpellbookActions]);
+
+  const activeSpellbookConfig = useMemo(
+    () => getTabById(activeSpellbookTab),
+    [activeSpellbookTab],
+  );
+
+  const spellbookSectionItems = useMemo(() => {
+    if (!activeSpellbookConfig) {
+      return {};
+    }
+
+    const classActions = ACTIONS.filter(
+      (action) => action.class === activeSpellbookConfig.id,
+    );
+    const map = {};
+
+    activeSpellbookConfig.sections.forEach((section) => {
+      if (section.source === "prepared") {
+        map[section.id] = classActions.filter(
+          (action) =>
+            action.prepared === true && action.spellbookRow !== "class-action",
+        );
+        return;
+      }
+
+      map[section.id] = classActions.filter(
+        (action) => action.spellbookRow === section.rowKey,
+      );
+    });
+
+    return map;
+  }, [activeSpellbookConfig]);
 
   const getSectionIdForAction = useCallback(
     (action) =>
@@ -1318,28 +1423,54 @@ const V2ActionsPanel = () => {
             )}
           </div>
 
-          <aside className="v2-actions-item-rail" aria-label="Quick item slots">
-            {QUICK_ITEMS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`v2-item-slot tone-${item.tone}`}
-                title={item.name ?? item.short}
-                aria-label={item.name ?? item.short}
-              >
-                {item.icon ? (
-                  <img
-                    src={item.icon}
-                    alt=""
-                    className="v2-item-icon"
-                    draggable={false}
-                  />
-                ) : (
-                  <span className="v2-item-short">{item.short}</span>
-                )}
-                <span className="v2-item-count">{item.count}</span>
-              </button>
-            ))}
+          <div
+            className="v2-actions-metamagic-divider"
+            role="separator"
+            aria-orientation="vertical"
+            aria-hidden="true"
+          />
+
+          <aside
+            className="v2-actions-metamagic-rail"
+            aria-label="Metamagic options"
+          >
+            {Array.from({ length: METAMAGIC_SLOT_COUNT }).map(
+              (_, slotIndex) => {
+                const option = METAMAGIC_OPTIONS[slotIndex];
+
+                if (!option) {
+                  return (
+                    <div
+                      key={`metamagic-empty-${slotIndex}`}
+                      className="v2-metamagic-tile v2-metamagic-tile-empty"
+                      aria-hidden="true"
+                    />
+                  );
+                }
+
+                return (
+                  <MetamagicHoverPopup
+                    key={option.id}
+                    metamagic={option}
+                    positionPreference="horizontal"
+                  >
+                    <button
+                      type="button"
+                      className="v2-metamagic-tile"
+                      title={option.name}
+                      aria-label={option.name}
+                    >
+                      <img
+                        src={option.icon}
+                        alt=""
+                        className="v2-metamagic-icon"
+                        draggable={false}
+                      />
+                    </button>
+                  </MetamagicHoverPopup>
+                );
+              },
+            )}
           </aside>
         </div>
 
@@ -1429,65 +1560,140 @@ const V2ActionsPanel = () => {
               </div>
             </header>
 
-            <div className="v2-spellbook-subheader">
-              <div className="v2-spellbook-oath">Oath of Vengeance</div>
-              <div
-                className="v2-spellbook-stat-strip"
-                aria-label="Spellbook stats"
-              >
-                <span>CHA</span>
-                <span>14</span>
-                <span>DC 13</span>
-              </div>
-            </div>
+            {activeSpellbookConfig ? (
+              <div className="v2-spellbook-body">
+                <aside className="v2-spellbook-class-rail">
+                  <div className="v2-spellbook-class-crest">
+                    <img
+                      src={activeSpellbookConfig.crest}
+                      alt={activeSpellbookConfig.label}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="v2-spellbook-class-badge">
+                    Lv {activeSpellbookConfig.classLevel}
+                  </div>
+                </aside>
 
-            <div className="v2-spellbook-body">
-              <aside className="v2-spellbook-class-rail" aria-hidden="true">
-                <div className="v2-spellbook-class-badge">Lv 9</div>
-                <div className="v2-spellbook-slot-pips">
-                  <span />
-                  <span />
-                  <span />
+                <div className="v2-spellbook-content">
+                  <div className="v2-spellbook-subheader">
+                    <div className="v2-spellbook-oath">
+                      {activeSpellbookConfig.subclassLabel}
+                    </div>
+                    <div
+                      className="v2-spellbook-stat-strip"
+                      aria-label="Spellbook stats"
+                    >
+                      {activeSpellbookConfig.resourceStrip?.tiers?.map(
+                        (tier) => {
+                          const max = resourceMax.spellSlots?.[tier] ?? 0;
+                          const remaining = resources.spellSlots?.[tier] ?? 0;
+
+                          if (max <= 0) return null;
+                          return (
+                            <span
+                              key={`slot-${tier}`}
+                              className="v2-spellbook-stat-slot"
+                            >
+                              <strong>{remaining}</strong>
+                              <small>{romanizeTier(tier)}</small>
+                            </span>
+                          );
+                        },
+                      )}
+                      <span>★ {activeSpellbookConfig.abilityLabel}</span>
+                      <span>DC {activeSpellbookConfig.spellSaveDC}</span>
+                      <span>{activeSpellbookConfig.spellAttackMod}</span>
+                    </div>
+                  </div>
+
+                  <div className="v2-spellbook-pane">
+                    {activeSpellbookConfig.sections.map((section) => {
+                      const items = spellbookSectionItems[section.id] ?? [];
+                      const isPrepared = section.id === "prepared";
+                      const tier = section.slotPipsKey;
+                      const slotsMax =
+                        tier !== undefined
+                          ? resourceMax.spellSlots?.[tier] ?? 0
+                          : 0;
+                      const slotsRemaining =
+                        tier !== undefined
+                          ? resources.spellSlots?.[tier] ?? 0
+                          : 0;
+                      const trailingEmpty =
+                        isPrepared && activeSpellbookConfig.preparedLimit
+                          ? Math.max(
+                              0,
+                              activeSpellbookConfig.preparedLimit - items.length,
+                            )
+                          : 0;
+
+                      return (
+                        <SpellbookRow
+                          key={section.id}
+                          glyphKey={section.glyphKey}
+                          label={section.label}
+                          framed={!!section.framed}
+                          trailingEmptySlots={trailingEmpty}
+                          slotsRemaining={slotsRemaining}
+                          slotsMax={slotsMax}
+                        >
+                          {renderSpellbookIcons(items)}
+                        </SpellbookRow>
+                      );
+                    })}
+                  </div>
                 </div>
-              </aside>
-
-              <div className="v2-spellbook-grid">
-                <section className="v2-spellbook-row">
-                  <h3>Class Actions</h3>
-                  <div className="v2-spellbook-icon-row">
-                    {renderSpellbookIcons(spellbookActionRows.classActions)}
+              </div>
+            ) : (
+              <div className="v2-spellbook-body">
+                <aside className="v2-spellbook-class-rail" aria-hidden="true">
+                  <div className="v2-spellbook-class-badge">Lv 9</div>
+                  <div className="v2-spellbook-slot-pips">
+                    <span />
+                    <span />
+                    <span />
                   </div>
-                </section>
+                </aside>
 
-                <section className="v2-spellbook-row">
-                  <h3>Spells</h3>
-                  <div className="v2-spellbook-icon-row">
-                    {renderSpellbookIcons(spellbookActionRows.spellActions)}
-                  </div>
-                </section>
-
-                <section
-                  className="v2-spellbook-prepared-row"
-                  aria-label="Prepared strip"
-                >
-                  <span className="v2-spellbook-prepared-label">Prepared</span>
-                  <div className="v2-spellbook-icon-row is-prepared">
-                    {renderSpellbookIcons(spellbookActionRows.preparedActions)}
-                  </div>
-                </section>
-
-                {spellbookActionRows.tierRows.map((row) => (
-                  <section key={row.tierId} className="v2-spellbook-tier-row">
-                    <span className="v2-spellbook-tier-label">
-                      {row.tierId}
-                    </span>
+                <div className="v2-spellbook-grid">
+                  <section className="v2-spellbook-row">
+                    <h3>Class Actions</h3>
                     <div className="v2-spellbook-icon-row">
-                      {renderSpellbookIcons(row.actions)}
+                      {renderSpellbookIcons(spellbookActionRows.classActions)}
                     </div>
                   </section>
-                ))}
+
+                  <section className="v2-spellbook-row">
+                    <h3>Spells</h3>
+                    <div className="v2-spellbook-icon-row">
+                      {renderSpellbookIcons(spellbookActionRows.spellActions)}
+                    </div>
+                  </section>
+
+                  <section
+                    className="v2-spellbook-prepared-row"
+                    aria-label="Prepared strip"
+                  >
+                    <span className="v2-spellbook-prepared-label">Prepared</span>
+                    <div className="v2-spellbook-icon-row is-prepared">
+                      {renderSpellbookIcons(spellbookActionRows.preparedActions)}
+                    </div>
+                  </section>
+
+                  {spellbookActionRows.tierRows.map((row) => (
+                    <section key={row.tierId} className="v2-spellbook-tier-row">
+                      <span className="v2-spellbook-tier-label">
+                        {row.tierId}
+                      </span>
+                      <div className="v2-spellbook-icon-row">
+                        {renderSpellbookIcons(row.actions)}
+                      </div>
+                    </section>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </section>
         </div>
       )}

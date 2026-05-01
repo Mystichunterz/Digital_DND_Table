@@ -11,7 +11,9 @@
       "tier": "I",
       "tone": "steel",
       "keybind": "Z",
-      "icon": "common/Dash_Unfaded_Icon.webp"
+      "icon": "common/Dash_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "jump",
@@ -23,7 +25,9 @@
       "tier": "I",
       "tone": "steel",
       "keybind": "X",
-      "icon": "common/Jump_Unfaded_Icon.webp"
+      "icon": "common/Jump_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "shove",
@@ -34,7 +38,9 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "steel",
-      "icon": "common/Improvised_Melee_Weapon_Unfaded_Icon.webp"
+      "icon": "common/Improvised_Melee_Weapon_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "disengage",
@@ -45,7 +51,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "steel",
-      "icon": "common/Disengage_Unfaded_Icon.webp"
+      "icon": "common/Disengage_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "help",
@@ -56,7 +64,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "blue",
-      "icon": "common/Help_Unfaded_Icon.webp"
+      "icon": "common/Help_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "throw",
@@ -67,7 +77,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "red",
-      "icon": "common/Throw_Unfaded_Icon.webp"
+      "icon": "common/Throw_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "main-attack",
@@ -78,7 +90,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "gold",
-      "icon": "weapons/Main_Hand_Attack_Unfaded_Icon.webp"
+      "icon": "weapons/Main_Hand_Attack_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "offhand-attack",
@@ -89,7 +103,9 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "gold",
-      "icon": "common/Throw_Weapon_Unfaded_Icon.webp"
+      "icon": "common/Throw_Weapon_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "ranged-attack",
@@ -100,7 +116,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "red",
-      "icon": "weapons/Ranged_Attack_Unfaded_Icon.webp"
+      "icon": "weapons/Ranged_Attack_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "hide",
@@ -111,7 +129,9 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "blue",
-      "icon": "common/Hide_Unfaded_Icon.webp"
+      "icon": "common/Hide_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "dodge",
@@ -122,7 +142,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "blue",
-      "icon": "common/Toggle_Non-Lethal_Attacks_Unfaded_Icon.webp"
+      "icon": "common/Toggle_Non-Lethal_Attacks_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "ready",
@@ -133,7 +155,9 @@
       "kind": "reaction",
       "tier": "II",
       "tone": "purple",
-      "icon": "spells/Prepare_Unfaded_Icon.webp"
+      "icon": "spells/Prepare_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "improvise",
@@ -144,7 +168,9 @@
       "kind": "utility",
       "tier": "II",
       "tone": "purple",
-      "icon": "common/Improvised_Melee_Weapon_Unfaded_Icon.webp"
+      "icon": "common/Improvised_Melee_Weapon_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "common-action"
     },
     {
       "id": "smite",
@@ -180,7 +206,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "After hitting with a melee weapon attack, expend a spell slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st (max 5d8). +1d8 more vs. fiends or undead. (Level 2 slot: 3d8.)"
+      "description": "After hitting with a melee weapon attack, expend a spell slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st (max 5d8). +1d8 more vs. fiends or undead. (Level 2 slot: 3d8.)",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "class-action",
+      "prepared": true
     },
     {
       "id": "thunderous-smite",
@@ -216,7 +246,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. Your next melee hit this turn deals +2d6 thunder damage. Target must succeed on a Strength save or be pushed 10 ft. and knocked prone. Upcast: +1d6 per slot level above 1st."
+      "description": "Bonus action. Your next melee hit this turn deals +2d6 thunder damage. Target must succeed on a Strength save or be pushed 10 ft. and knocked prone. Upcast: +1d6 per slot level above 1st.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "wrathful-smite",
@@ -252,7 +286,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute."
+      "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "compelled-duel",
@@ -265,7 +303,11 @@
       "tone": "blue",
       "icon": "spells/Compelled_Duel_Unfaded_Icon.webp",
       "description": "One creature within 30 ft. that fails a Wisdom save has disadvantage on attacks against anyone but you and can't willingly move more than 30 ft. away. Spell ends if you attack or target someone else, an ally damages the target, or you end your turn 30+ ft. away. Concentration, 1 min.",
-      "popupIcon": "Compelled_Duel_Icon.webp"
+      "popupIcon": "Compelled_Duel_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "vow-of-enmity",
@@ -278,7 +320,11 @@
       "tone": "purple",
       "icon": "spells/Vow_of_Enmity_Unfaded_Icon.webp",
       "description": "Channel Divinity. Bonus action. Choose one creature within 10 ft. as your sworn enemy. You have advantage on attack rolls against it for 1 minute or until it drops to 0 HP.",
-      "popupIcon": "Vow_of_Enmity_Icon.webp"
+      "popupIcon": "Vow_of_Enmity_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "class-action",
+      "prepared": true
     },
     {
       "id": "lay-on-hands",
@@ -291,7 +337,11 @@
       "tone": "blue",
       "icon": "spells/Lay_on_Hands_Unfaded_Icon.webp",
       "description": "Touch a creature to restore HP from a pool of 5 x paladin level (currently 30). Spend 5 points instead to cure one disease or neutralize one poison. Pool refreshes on a long rest.",
-      "popupIcon": "Lay_on_Hands_Icon.webp"
+      "popupIcon": "Lay_on_Hands_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "class-action",
+      "prepared": true
     },
     {
       "id": "divine-favor",
@@ -304,7 +354,11 @@
       "tone": "gold",
       "icon": "spells/Divine_Favor_Unfaded_Icon.webp",
       "description": "Bonus action. Your weapon attacks deal an extra 1d4 radiant damage on hit. Concentration, up to 1 minute.",
-      "popupIcon": "Divine_Favour_Icon.webp"
+      "popupIcon": "Divine_Favour_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "command",
@@ -317,7 +371,11 @@
       "tone": "red",
       "icon": "spells/Command_Unfaded_Icon.webp",
       "description": "One creature within 60 ft. must succeed on a Wisdom save or follow a one-word command on its next turn (Approach, Drop, Flee, Grovel, Halt). Fails against undead, creatures that don't understand you, or directly harmful commands. Upcast: +1 creature per slot level above 1st (within 30 ft. of one another).",
-      "popupIcon": "Command_Icon.webp"
+      "popupIcon": "Command_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "branding-smite",
@@ -353,7 +411,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute."
+      "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "branding-smite-ranged",
@@ -389,7 +451,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute."
+      "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "blinding-smite",
@@ -425,7 +491,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute."
+      "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-3",
+      "prepared": true
     },
     {
       "id": "firebolt",
@@ -456,7 +526,10 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried."
+      "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried.",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "cantrip"
     },
     {
       "id": "booming-blade",
@@ -492,7 +565,10 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Make a melee attack against a creature within 5 ft. On hit, the target takes weapon damage and is sheathed in booming energy until the start of your next turn — if it moves willingly, it takes 1d8 thunder damage. Damage scales at higher levels."
+      "description": "Make a melee attack against a creature within 5 ft. On hit, the target takes weapon damage and is sheathed in booming energy until the start of your next turn — if it moves willingly, it takes 1d8 thunder damage. Damage scales at higher levels.",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "cantrip"
     },
     {
       "id": "green-flame-blade",
@@ -527,7 +603,10 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Make a melee attack against a creature within 5 ft. On hit, weapon damage as normal; green fire then leaps to a second creature within 5 ft. of the first for 1d8 + spellcasting modifier fire damage."
+      "description": "Make a melee attack against a creature within 5 ft. On hit, weapon damage as normal; green fire then leaps to a second creature within 5 ft. of the first for 1d8 + spellcasting modifier fire damage.",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "cantrip"
     },
     {
       "id": "sorcerous-burst",
@@ -557,7 +636,10 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice)."
+      "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice).",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "cantrip"
     },
     {
       "id": "mage-hand",
@@ -570,7 +652,10 @@
       "tone": "blue",
       "icon": "spells/Mage_Hand_Unfaded_Icon.webp",
       "description": "Conjure a spectral hand within 30 ft. for 1 minute. As an action, move it 30 ft. and use it to manipulate objects, open unlocked containers, or carry up to 10 lb. Cannot attack, activate magic items, or carry more than 10 lb.",
-      "popupIcon": "Mage_Hand_Icon.webp"
+      "popupIcon": "Mage_Hand_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "cantrip"
     },
     {
       "id": "bless",
@@ -583,7 +668,10 @@
       "tone": "gold",
       "icon": "spells/Bless_Unfaded_Icon.webp",
       "description": "Bless up to three creatures within 30 ft. They each add 1d4 to attack rolls and saving throws while the spell lasts. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
-      "popupIcon": "Bless_Icon.webp"
+      "popupIcon": "Bless_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-1"
     },
     {
       "id": "shield",
@@ -596,7 +684,10 @@
       "tone": "blue",
       "icon": "spells/Shield_spell_Unfaded_Icon.webp",
       "description": "Reaction triggered by being hit by an attack or targeted by Magic Missile. Gain +5 AC until the start of your next turn — this can retroactively cause the triggering attack to miss, and grants immunity to Magic Missile.",
-      "popupIcon": "Shield_Icon.webp"
+      "popupIcon": "Shield_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-1"
     },
     {
       "id": "healing-word",
@@ -609,7 +700,10 @@
       "tone": "blue",
       "icon": "spells/Healing_Word_Unfaded_Icon.webp",
       "description": "Bonus action. A creature within 60 ft. regains 2d4 + spellcasting modifier (~4) HP. Upcast: +2d4 per slot level above 1st.",
-      "popupIcon": "Healing_Word_Icon.webp"
+      "popupIcon": "Healing_Word_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-1"
     },
     {
       "id": "mirror-image",
@@ -622,7 +716,10 @@
       "tone": "purple",
       "icon": "spells/Mirror_Image_Unfaded_Icon.webp",
       "description": "Three illusory duplicates appear in your space for 1 minute. When a creature targets you with an attack, roll a d20: with three duplicates, 6+ hits a duplicate; with two, 8+; with one, 11+. AC of duplicate = 10 + Dex mod; one hit destroys it.",
-      "popupIcon": "Mirror_Image_Icon.webp"
+      "popupIcon": "Mirror_Image_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-2"
     },
     {
       "id": "suggestion",
@@ -634,7 +731,10 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Suggestion_Unfaded_Icon.webp",
-      "description": "Suggest a course of action to one creature within 30 ft. that can hear and understand you. On a failed Wisdom save it pursues the suggestion to the best of its ability for up to 8 hours. Obviously harmful suggestions auto-fail. Concentration."
+      "description": "Suggest a course of action to one creature within 30 ft. that can hear and understand you. On a failed Wisdom save it pursues the suggestion to the best of its ability for up to 8 hours. Obviously harmful suggestions auto-fail. Concentration.",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-2"
     },
     {
       "id": "ceremony",
@@ -647,7 +747,11 @@
       "tone": "blue",
       "icon": "spells/Sanctuary_Unfaded_Icon.webp",
       "description": "1-hour ritual. Perform one of: Atonement, Bless Water, Coming of Age, Dedication, Funeral Rite, or Wedding. Each grants a small lasting boon to its subject(s).",
-      "popupIcon": "Sanctuary_Icon.webp"
+      "popupIcon": "Sanctuary_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "blade-of-blood-and-bone",
@@ -678,7 +782,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Make a melee spell attack against a creature within 5 ft. On hit, the target takes 3d10 necrotic damage. Upcast: +1d10 per slot level above 1st."
+      "description": "Make a melee spell attack against a creature within 5 ft. On hit, the target takes 3d10 necrotic damage. Upcast: +1d10 per slot level above 1st.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "cure-wounds",
@@ -691,7 +799,11 @@
       "tone": "blue",
       "icon": "spells/Cure_Wounds_Unfaded_Icon.webp",
       "description": "Touch a creature to restore 2d8 + spellcasting modifier HP. No effect on undead or constructs. Upcast: +2d8 per slot level above 1st.",
-      "popupIcon": "Cure_Wounds_Icon.webp"
+      "popupIcon": "Cure_Wounds_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "detect-evil-and-good",
@@ -704,7 +816,11 @@
       "tone": "blue",
       "icon": "spells/Detect_Evil_and_Good_Unfaded_Icon.webp",
       "description": "For up to 10 minutes, sense the presence and location of any aberration, celestial, elemental, fey, fiend, or undead within 30 ft., as well as any consecrated or desecrated object/place. Concentration.",
-      "popupIcon": "Detect_Evil_and_Good_Icon.webp"
+      "popupIcon": "Detect_Evil_and_Good_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "detect-magic",
@@ -717,7 +833,11 @@
       "tone": "blue",
       "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp",
       "ritual": true,
-      "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min."
+      "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "detect-poison-and-disease",
@@ -729,7 +849,11 @@
       "tier": "I",
       "tone": "blue",
       "icon": "items/POT_Antidote_Unfaded.png",
-      "description": "Sense the presence and location of poisons, poisonous creatures, and diseases within 30 ft., and identify each kind. Concentration, up to 10 minutes. Ritual."
+      "description": "Sense the presence and location of poisons, poisonous creatures, and diseases within 30 ft., and identify each kind. Concentration, up to 10 minutes. Ritual.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "heroism",
@@ -742,7 +866,11 @@
       "tone": "gold",
       "icon": "spells/Heroism_Unfaded_Icon.webp",
       "description": "Touch a willing creature. It is immune to being frightened and gains spellcasting-modifier temporary HP at the start of each of its turns. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
-      "popupIcon": "Heroism_Icon.webp"
+      "popupIcon": "Heroism_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "searing-smite",
@@ -778,7 +906,11 @@
           "icon": "attack-roll"
         }
       ],
-      "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute."
+      "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true
     },
     {
       "id": "magic-weapon",
@@ -791,7 +923,11 @@
       "tone": "gold",
       "icon": "spells/Magic_Weapon_Unfaded_Icon.webp",
       "description": "Bonus action. A nonmagical weapon you touch becomes magical with a +1 bonus to attack and damage rolls for 1 hour. +2 when cast with a 4th-level slot.",
-      "popupIcon": "Magic_Weapon_Icon.webp"
+      "popupIcon": "Magic_Weapon_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "aid",
@@ -804,7 +940,11 @@
       "tone": "blue",
       "icon": "spells/Aid_Unfaded_Icon.webp",
       "description": "Up to three creatures within 30 ft. each gain 5 temporary HP and have their HP maximum raised by 5 for 8 hours. Upcast: +5 HP per slot level above 2nd.",
-      "popupIcon": "Aid_Icon.webp"
+      "popupIcon": "Aid_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "infernal-challenge",
@@ -835,7 +975,11 @@
           "icon": "save"
         }
       ],
-      "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st."
+      "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "lesser-restoration",
@@ -848,7 +992,11 @@
       "tone": "blue",
       "icon": "spells/Lesser_Restoration_Unfaded_Icon.webp",
       "description": "Touch a creature to end one disease or one of these conditions: blinded, deafened, paralyzed, or poisoned.",
-      "popupIcon": "Lesser_Restoration_Icon.webp"
+      "popupIcon": "Lesser_Restoration_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "find-steed",
@@ -860,7 +1008,11 @@
       "tier": "II",
       "tone": "gold",
       "icon": "spells/SummonSteed_Unfaded_Icon.webp",
-      "description": "Summon a celestial, fey, or fiendish spirit (Medium or Large) that takes the form of a loyal mount within 30 ft. for 1 hour. You can communicate telepathically with it while mounted, and it shares spell effects targeting you."
+      "description": "Summon a celestial, fey, or fiendish spirit (Medium or Large) that takes the form of a loyal mount within 30 ft. for 1 hour. You can communicate telepathically with it while mounted, and it shares spell effects targeting you.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "protection-from-poison",
@@ -873,7 +1025,11 @@
       "tone": "green",
       "icon": "spells/Protection_from_Poison_Unfaded_Icon.webp",
       "description": "Touch a creature: neutralize one poison currently affecting it. For 1 hour the target has advantage on saves against being poisoned and resistance to poison damage.",
-      "popupIcon": "Protection_from_Poison_Icon.webp"
+      "popupIcon": "Protection_from_Poison_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "zone-of-truth",
@@ -885,7 +1041,11 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Zone_Of_Truth_Unfaded_Icon.webp",
-      "description": "Create a 15-ft. radius sphere within 60 ft. for 10 minutes. A creature that fails a Charisma save when entering or starting its turn there can't speak deliberate lies; on success it knows it's affected and can avoid topics."
+      "description": "Create a 15-ft. radius sphere within 60 ft. for 10 minutes. A creature that fails a Charisma save when entering or starting its turn there can't speak deliberate lies; on success it knows it's affected and can avoid topics.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "locate-object",
@@ -897,7 +1057,11 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Find_Object_Unfaded_Icon.webp",
-      "description": "Sense the direction of a familiar object within 1,000 ft.; if it is moving, you know which way. You can also locate the nearest object of a kind you describe (e.g., a particular weapon or piece of jewelry) seen within 30 ft. before. Blocked by lead. Concentration, up to 10 minutes."
+      "description": "Sense the direction of a familiar object within 1,000 ft.; if it is moving, you know which way. You can also locate the nearest object of a kind you describe (e.g., a particular weapon or piece of jewelry) seen within 30 ft. before. Blocked by lead. Concentration, up to 10 minutes.",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true
     },
     {
       "id": "abjure-enemy",
@@ -910,7 +1074,11 @@
       "tone": "purple",
       "icon": "spells/Abjure_Enemy_Unfaded_Icon.webp",
       "description": "Channel Divinity. Choose a creature within 60 ft. It must succeed on a Wisdom save (with disadvantage if you've sworn vengeance against it) or be frightened and have its speed reduced to 0 for 1 minute. The target repeats the save at the end of its turns; taking damage also ends the effect. Creatures immune to fear are unaffected.",
-      "popupIcon": "Abjure_Enemy_Icon.webp"
+      "popupIcon": "Abjure_Enemy_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "class-action",
+      "prepared": true
     },
     {
       "id": "bane",
@@ -923,7 +1091,10 @@
       "tone": "purple",
       "icon": "spells/Bane_Unfaded_Icon.webp",
       "description": "Up to three creatures within 30 ft. that fail a Charisma save subtract 1d4 from each attack roll and saving throw they make. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
-      "popupIcon": "Bane_Icon.webp"
+      "popupIcon": "Bane_Icon.webp",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-1"
     },
     {
       "id": "hunters-mark",
@@ -936,7 +1107,12 @@
       "tone": "gold",
       "icon": "spells/Hunters_Mark_Unfaded_Icon.webp",
       "description": "Bonus action. Mark a creature within 90 ft. as your quarry. Your weapon attacks against it deal an extra 1d6 damage, and you have advantage on Wisdom (Perception) and (Survival) checks to find it. If it drops to 0 HP, you can re-mark a new target on a later turn. Concentration, up to 1 hour.",
-      "popupIcon": "Hunters_Mark_Icon.webp"
+      "popupIcon": "Hunters_Mark_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-1",
+      "prepared": true,
+      "oathSpell": true
     },
     {
       "id": "hold-person",
@@ -949,7 +1125,12 @@
       "tone": "purple",
       "icon": "spells/Hold_Person_Unfaded_Icon.webp",
       "description": "A humanoid within 60 ft. that fails a Wisdom save is paralyzed for the duration. The target repeats the save at the end of each of its turns. Concentration, up to 1 minute. Upcast: +1 humanoid per slot level above 2nd (each within 30 ft. of one another).",
-      "popupIcon": "Hold_Person_Icon.webp"
+      "popupIcon": "Hold_Person_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true,
+      "oathSpell": true
     },
     {
       "id": "misty-step",
@@ -962,7 +1143,12 @@
       "tone": "steel",
       "icon": "spells/Misty_Step_Unfaded_Icon.webp",
       "description": "Bonus action. Surrounded by silvery mist, teleport up to 30 ft. to an unoccupied space you can see.",
-      "popupIcon": "Misty_Step_Icon.webp"
+      "popupIcon": "Misty_Step_Icon.webp",
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "tier-2",
+      "prepared": true,
+      "oathSpell": true
     },
     {
       "id": "throw-potion",
@@ -973,7 +1159,9 @@
       "kind": "action",
       "tier": "I",
       "tone": "green",
-      "icon": "items/POT_Potion_of_Healing_Unfaded_Icon.png"
+      "icon": "items/POT_Potion_of_Healing_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
     },
     {
       "id": "coat-weapon",
@@ -984,7 +1172,9 @@
       "kind": "bonus",
       "tier": "I",
       "tone": "green",
-      "icon": "items/COAT_Oil_of_Sharpness_Unfaded_Icon.png"
+      "icon": "items/COAT_Oil_of_Sharpness_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
     },
     {
       "id": "bomb",
@@ -995,7 +1185,9 @@
       "kind": "action",
       "tier": "II",
       "tone": "red",
-      "icon": "items/Runepowder_Bomb_Unfaded_Icon.png"
+      "icon": "items/Runepowder_Bomb_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
     },
     {
       "id": "scroll",
@@ -1006,7 +1198,9 @@
       "kind": "utility",
       "tier": "II",
       "tone": "blue",
-      "icon": "items/Scroll_Dense_Unfaded_Icon.png"
+      "icon": "items/Scroll_Dense_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
     },
     {
       "id": "elixir",
@@ -1017,7 +1211,48 @@
       "kind": "utility",
       "tier": "III",
       "tone": "green",
-      "icon": "items/ELX_Elixir_of_Heroism_Unfaded_Icon.png"
+      "icon": "items/ELX_Elixir_of_Heroism_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
+    },
+    {
+      "id": "javelin",
+      "name": "Javelin",
+      "short": "JV",
+      "category": "items",
+      "section": "offense",
+      "kind": "action",
+      "tier": "I",
+      "tone": "steel",
+      "icon": "items/Javelin_Faded.png",
+      "class": "common",
+      "spellbookRow": "item"
+    },
+    {
+      "id": "potion-healing",
+      "name": "Potion of Healing",
+      "short": "HP",
+      "category": "items",
+      "section": "support",
+      "kind": "bonus",
+      "tier": "I",
+      "tone": "green",
+      "icon": "items/POT_Potion_of_Healing_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
+    },
+    {
+      "id": "potion-speed",
+      "name": "Potion of Speed",
+      "short": "SP",
+      "category": "items",
+      "section": "support",
+      "kind": "bonus",
+      "tier": "I",
+      "tone": "red",
+      "icon": "items/POT_Potion_of_Speed_Unfaded_Icon.png",
+      "class": "common",
+      "spellbookRow": "item"
     },
     {
       "id": "great-weapon-master",
@@ -1028,7 +1263,9 @@
       "kind": "utility",
       "tier": "I",
       "tone": "red",
-      "icon": "passives/Great_Weapon_Master_All_In_Unfaded_Icon.webp"
+      "icon": "passives/Great_Weapon_Master_All_In_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "passive"
     },
     {
       "id": "opportunity-attack",
@@ -1039,7 +1276,9 @@
       "kind": "reaction",
       "tier": "I",
       "tone": "blue",
-      "icon": "passives/Opportunity_Attack_Unfaded_Icon.webp"
+      "icon": "passives/Opportunity_Attack_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "passive"
     },
     {
       "id": "divine-health",
@@ -1050,7 +1289,9 @@
       "kind": "utility",
       "tier": "I",
       "tone": "gold",
-      "icon": "passives/Divine_Health_Icon.webp"
+      "icon": "passives/Divine_Health_Icon.webp",
+      "class": "common",
+      "spellbookRow": "passive"
     },
     {
       "id": "aura",
@@ -1061,7 +1302,9 @@
       "kind": "utility",
       "tier": "II",
       "tone": "purple",
-      "icon": "passives/Aura_of_Protection_Unfaded_Icon.webp"
+      "icon": "passives/Aura_of_Protection_Unfaded_Icon.webp",
+      "class": "common",
+      "spellbookRow": "passive"
     },
     {
       "id": "quick-heal",
@@ -1074,7 +1317,9 @@
       "tone": "blue",
       "icon": "custom/Healing_Word_Unfaded_Icon.webp",
       "description": "Quickened Healing Word. Bonus action via 2 sorcery points: a creature within 60 ft. regains 2d4 + spellcasting modifier HP.",
-      "popupIcon": "Healing_Word_Icon.webp"
+      "popupIcon": "Healing_Word_Icon.webp",
+      "class": "paladin",
+      "spellbookRow": "tier-1"
     },
     {
       "id": "burst",
@@ -1105,7 +1350,10 @@
           "icon": "save"
         }
       ],
-      "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd."
+      "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd.",
+      "class": "sorcerer",
+      "subclass": "draconic-bloodline",
+      "spellbookRow": "tier-3"
     },
     {
       "id": "gap-close",
@@ -1118,7 +1366,9 @@
       "tone": "steel",
       "icon": "custom/Misty_Step_Unfaded_Icon.webp",
       "description": "Misty Step. Bonus action: teleport up to 30 ft. to an unoccupied space you can see — useful for closing the gap on a sworn enemy.",
-      "popupIcon": "Misty_Step_Icon.webp"
+      "popupIcon": "Misty_Step_Icon.webp",
+      "class": "paladin",
+      "spellbookRow": "tier-2"
     }
   ]
 }
