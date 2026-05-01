@@ -34,6 +34,7 @@
   /* accent (gold / copper family) */
   --color-accent-gold: #d4af37;
   --color-accent-gold-light: #f4e9c1;
+  --color-accent-gold-warm: #e4d691;
   --color-accent-gold-muted: #c9b27a;
   --color-accent-gold-dark: #8a6f1c;
   /* RGB triplets for arbitrary-alpha use:
@@ -49,11 +50,17 @@
   --color-scrollbar-track: #3e2d22;
   --color-scrollbar-thumb: #b89d7b;
 
-  /* status */
+  /* status — primary tokens used for visualisations (HP bar, etc.). The
+   * -text variants are softer hues meant for inline status copy on dark
+   * surfaces, where the saturated visualisation colors read as too loud. */
   --color-status-success: #6ce5ba;
   --color-status-warning: #f3cf6a;
   --color-status-error: #e77373;
   --color-status-error-bg: #6e2828;
+  --color-status-saving: #f4d479;
+  --color-status-saved: #9ec97a;
+  --color-status-error-text: #f49797;
+  --color-status-error-text-muted: #d49797;
 
   /* gradients — reach for these before introducing a new gradient inline.
    * Stops resolve to existing tokens where one exists; literal hexes

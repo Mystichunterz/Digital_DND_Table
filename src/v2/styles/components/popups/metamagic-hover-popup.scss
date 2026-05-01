@@ -66,7 +66,7 @@ body.v2-active {
 
   .metamagic-hover-popup-content .popup-subtitle {
     margin: 0;
-    color: #af8768;
+    color: var(--color-text-muted);
     font-size: clamp(0.96rem, 0.16vw + 0.9rem, 1.08rem);
   }
 

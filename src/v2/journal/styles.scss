@@ -401,15 +401,15 @@
   cursor: default;
 
   &.v2-journal-status-saving {
-    color: #f4d479;
+    color: var(--color-status-saving);
   }
 
   &.v2-journal-status-saved {
-    color: #9ec97a;
+    color: var(--color-status-saved);
   }
 
   &.v2-journal-status-error {
-    color: #f49797;
+    color: var(--color-status-error-text);
     cursor: pointer;
     text-decoration: underline;
 
@@ -435,7 +435,7 @@
   font-family: inherit;
   font-size: 0.9rem;
   background: transparent;
-  color: #d49797;
+  color: var(--color-status-error-text-muted);
 
   &:hover {
     background: var(--color-status-error-bg);

@@ -49,7 +49,7 @@ body.v2-active .resistance-popup-content {
 
   .resistance-popup-rule-text {
     margin: 0;
-    color: #af8768;
+    color: var(--color-text-muted);
     line-height: 1.35;
     font-size: clamp(0.92rem, 0.2vw + 0.86rem, 1rem);
   }

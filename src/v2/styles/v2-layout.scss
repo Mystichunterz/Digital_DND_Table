@@ -60,7 +60,7 @@
   min-width: clamp(7rem, 9vw, 10.5rem);
   min-height: clamp(2.35rem, 5.4vh, 3.1rem);
   padding: 0.35rem clamp(0.75rem, 1vw, 1.1rem);
-  border: 2px solid #694a29;
+  border: 2px solid var(--color-border-brown);
   border-bottom: 0;
   border-radius: 10px 10px 0 0;
   background: linear-gradient(
@@ -84,7 +84,7 @@
 }
 
 .v2-tab-bar-link:hover {
-  color: #fff4e6;
+  color: var(--color-text-highlight);
   transform: translateY(clamp(0.08rem, 0.55vh, 0.34rem));
 }
 
@@ -107,7 +107,7 @@
   overflow-y: auto;
   padding: 1rem;
   border-radius: 0 0 10px 10px;
-  border: 2px solid #694a29;
+  border: 2px solid var(--color-border-brown);
   background: radial-gradient(
       64.54% 67.91% at 50% 15.37%,
       rgba(173, 136, 114, 0.2) 0.38%,
@@ -115,7 +115,7 @@
       rgba(119, 93, 78, 0.12) 63.51%,
       rgba(32, 27, 24, 0.08) 97.58%
     ),
-    #201b18;
+    var(--color-bg-page);
   box-shadow:
     0 4px 4px rgba(0, 0, 0, 0.25),
     inset 0 4px 10.6px rgba(58, 47, 38, 0.25),

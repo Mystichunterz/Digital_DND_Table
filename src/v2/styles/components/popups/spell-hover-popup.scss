@@ -73,7 +73,7 @@ body.v2-active {
 
   .spell-hover-popup-title-block .popup-subtitle {
     margin: 0.18rem 0 0;
-    color: #af8768;
+    color: var(--color-text-muted);
     font-size: clamp(1.02rem, 0.18vw + 0.96rem, 1.14rem);
   }
 
@@ -214,7 +214,7 @@ body.v2-active {
 
   .spell-hover-popup-content .popup-description {
     margin: 0.7rem 0 0;
-    color: #af8768;
+    color: var(--color-text-muted);
     line-height: 1.36;
     font-size: clamp(1rem, 0.15vw + 0.94rem, 1.08rem);
   }

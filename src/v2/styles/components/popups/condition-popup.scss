@@ -22,7 +22,7 @@ body.v2-active .condition-popup-content {
       margin: 0;
       opacity: 0.8;
       padding-top: 0.18rem;
-      color: #af8768;
+      color: var(--color-text-muted);
     }
 
     .popup-subtitle.no-duration {
@@ -36,7 +36,7 @@ body.v2-active .condition-popup-content {
     .popup-description {
       margin: 0;
       padding-top: 0.45rem;
-      color: #af8768;
+      color: var(--color-text-muted);
     }
   }
 
@@ -67,6 +67,6 @@ body.v2-active .condition-popup-content {
   }
 
   .highlighted-text {
-    color: #e4d691;
+    color: var(--color-accent-gold-warm);
   }
 }

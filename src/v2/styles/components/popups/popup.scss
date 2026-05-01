@@ -62,7 +62,7 @@ body.v2-active {
       padding: 0.34rem 0.85rem 0.7rem;
       margin: 0;
 
-      border: 2px solid #694a29;
+      border: 2px solid var(--color-border-brown);
       border-bottom: 0;
       border-radius: 10px 10px 0 0;
       background: linear-gradient(
@@ -89,7 +89,7 @@ body.v2-active {
     }
 
     &-inspect-tab:hover {
-      color: #fff4e6;
+      color: var(--color-text-highlight);
       transform: translateY(calc(-100% + 0.32rem));
     }
 

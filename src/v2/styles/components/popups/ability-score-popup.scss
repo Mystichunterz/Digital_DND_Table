@@ -22,13 +22,13 @@ body.v2-active .ability-score-popup-content {
       margin: 0;
       opacity: 0.8;
       padding-top: 0.18rem;
-      color: #af8768;
+      color: var(--color-text-muted);
     }
 
     .popup-description {
       margin: 0;
       padding-top: 0.45rem;
-      color: #af8768;
+      color: var(--color-text-muted);
     }
 
     .popup-check-container {
@@ -76,7 +76,7 @@ body.v2-active .ability-score-popup-content {
           }
 
           .popup-save {
-            color: #af8768;
+            color: var(--color-text-muted);
             padding: 0.16rem 0;
           }
         }
@@ -87,11 +87,11 @@ body.v2-active .ability-score-popup-content {
       padding: 0.28rem 0;
 
       .popup-source-title {
-        color: #e4d691;
+        color: var(--color-accent-gold-warm);
       }
 
       .popup-source {
-        color: #af8768;
+        color: var(--color-text-muted);
         padding: 0.16rem 0;
       }
     }
@@ -112,6 +112,6 @@ body.v2-active .ability-score-popup-content {
   }
 
   .highlighted-text {
-    color: #e4d691;
+    color: var(--color-accent-gold-warm);
   }
 }
