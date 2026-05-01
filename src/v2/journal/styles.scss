@@ -6,9 +6,6 @@
   gap: 0.75rem;
   padding: 0.5rem 0;
 
-  // Escape the global `button, input { font-size: 0.4em }` cascade in
-  // src/index.css. Every control inside the journal gets a sane base size
-  // unless it sets its own.
   button,
   input,
   select,
@@ -625,9 +622,6 @@
 
   p {
     margin: 0.55rem 0;
-    // Override the global `p { font-size: 0.6em }` from src/index.css so
-    // preview paragraphs match the editor's font-size.
-    font-size: inherit;
   }
 
   blockquote {

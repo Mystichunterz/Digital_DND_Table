@@ -18,17 +18,13 @@ p {
   margin: 0;
 }
 
-/* TODO: these `em`-based rules cascade through every page and produce
- * unreadable sizes outside their intended container scope. Replace with
- * scoped `rem` rules in a follow-up visual-QA pass. */
-p {
-  font-size: 0.6em;
-}
-
+/* Form controls don't inherit typography from their ancestor by default —
+ * make them match the surrounding text instead of the user-agent default. */
 button,
-input {
-  font-size: 0.4em;
-  font-family: var(--font-display);
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 :root {
