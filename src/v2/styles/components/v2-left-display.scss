@@ -27,7 +27,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
   text-align: center;
   color: #af8768;
   position: relative;
-  z-index: 900;
+  z-index: var(--z-left-display);
 
   .shared-margin {
     margin-top: 0.75rem;
@@ -296,7 +296,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
       transition: background-color 0.3s ease;
       position: relative;
 
-      p {
+      > p {
         margin: 0;
         line-height: 1;
         color: #af8768;
@@ -325,7 +325,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
       bottom: -3px;
       left: 49%;
       transform: translateX(-50%);
-      color: white !important;
+      color: white;
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
       padding: 2px 6px;
       border-radius: 4px;

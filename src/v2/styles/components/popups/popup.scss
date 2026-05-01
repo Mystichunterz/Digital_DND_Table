@@ -6,7 +6,7 @@ body.v2-active {
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 9998;
+      z-index: var(--z-popup-backdrop);
       pointer-events: none;
 
       display: flex;
@@ -28,7 +28,7 @@ body.v2-active {
 
     &-window {
       position: absolute;
-      z-index: 9999;
+      z-index: var(--z-popup);
       pointer-events: auto;
       max-width: calc(100% - 4rem);
       background: linear-gradient(360deg, #503260 0%, #211d17 39.56%), #211d17;
@@ -53,7 +53,7 @@ body.v2-active {
 
     &-inspect-tab {
       position: absolute;
-      z-index: 9997; // below popup-window (9999) so the bottom tucks behind
+      z-index: var(--z-popup-shadow);
       pointer-events: auto;
 
       display: inline-flex;

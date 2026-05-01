@@ -84,12 +84,12 @@ body.v2-active {
     font-size: clamp(0.98rem, 0.14vw + 0.94rem, 1.06rem);
   }
 
-  .metamagic-hover-popup-cost {
-    color: #efe1c5 !important;
+  .metamagic-hover-popup-content .metamagic-hover-popup-cost {
+    color: #efe1c5;
   }
 
-  .metamagic-hover-popup-note {
-    color: #b6a280 !important;
+  .metamagic-hover-popup-content .metamagic-hover-popup-note {
+    color: #b6a280;
     font-style: italic;
   }
 }

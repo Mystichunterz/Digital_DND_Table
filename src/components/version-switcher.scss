@@ -2,7 +2,7 @@
   position: fixed;
   top: 0.8rem;
   right: 0.9rem;
-  z-index: 2500;
+  z-index: var(--z-version-switcher);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;

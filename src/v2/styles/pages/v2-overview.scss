@@ -1246,12 +1246,12 @@
   gap: 0.35rem;
 }
 
-.v2-resource-config-reset {
-  border-color: rgba(168, 78, 60, 0.78) !important;
-  color: rgba(245, 199, 178, 0.95) !important;
+button.v2-resource-config-reset {
+  border-color: rgba(168, 78, 60, 0.78);
+  color: rgba(245, 199, 178, 0.95);
 }
 
-.v2-resource-config-reset:hover {
+button.v2-resource-config-reset:hover {
   background: linear-gradient(
     180deg,
     rgba(168, 78, 60, 0.55) 0%,
