@@ -29,15 +29,17 @@
   --color-text-muted: #af8768;
   --color-text-highlight: #fff4e6;
   --color-text-on-parchment: #2a1c10;
+  --color-text-on-gold: #1a140d;
 
   /* accent (gold / copper family) */
   --color-accent-gold: #d4af37;
   --color-accent-gold-light: #f4e9c1;
   --color-accent-gold-muted: #c9b27a;
   --color-accent-gold-dark: #8a6f1c;
-  /* RGB triplet for arbitrary-alpha use:
+  /* RGB triplets for arbitrary-alpha use:
    *   rgba(var(--color-accent-gold-rgb), 0.35) */
   --color-accent-gold-rgb: 212, 175, 55;
+  --color-accent-gold-light-rgb: 244, 233, 193;
 
   /* borders */
   --color-border-brown: #694a29;
