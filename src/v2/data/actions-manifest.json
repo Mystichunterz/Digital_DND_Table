@@ -716,7 +716,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp",
-      "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min. Ritual."
+      "ritual": true,
+      "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min."
     },
     {
       "id": "detect-poison-and-disease",

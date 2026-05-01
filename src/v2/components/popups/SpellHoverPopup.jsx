@@ -4,6 +4,7 @@ import ActionIcon from "../../../assets/resources/action.png";
 import BonusActionIcon from "../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../assets/resources/reaction.png";
 import SpellSlotIcon from "../../../assets/resources/spell_slot.png";
+import RitualIcon from "../../../assets/resources/ritual.png";
 import D8Radiant from "../../../assets/popups/dice/D8_Radiant.png";
 import D8Thunder from "../../../assets/popups/dice/D8_Thunder.png";
 import D8Fire from "../../../assets/popups/dice/D8_Fire.png";
@@ -34,6 +35,7 @@ const POPUP_CHROME_ASSETS = [
   BonusActionIcon,
   ReactionIcon,
   SpellSlotIcon,
+  RitualIcon,
   D8Radiant,
   D8Thunder,
   D8Fire,
@@ -143,7 +145,7 @@ const KIND_LABELS = {
   action: "Action",
   bonus: "Bonus Action",
   reaction: "Reaction",
-  utility: "Utility",
+  utility: "Action",
 };
 
 const SpellHoverPopup = ({
@@ -332,6 +334,18 @@ const SpellHoverPopup = ({
                 />
                 {kindLabel}
               </span>
+              {spell?.ritual && (
+                <span className="is-ritual">
+                  <img
+                    className="spell-hover-popup-tag-icon"
+                    src={RitualIcon}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                  />
+                  Ritual
+                </span>
+              )}
               <span className={slotModifier}>
                 <img
                   className="spell-hover-popup-tag-icon"
