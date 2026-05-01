@@ -451,6 +451,40 @@ app.put("/api/state/:characterId", (request, response, next) => {
   }
 });
 
+app.patch("/api/state/:characterId", (request, response, next) => {
+  try {
+    const characterId = request.params.characterId;
+
+    if (!isValidCharacterId(characterId)) {
+      response.status(400).json({ message: "Invalid character id." });
+      return;
+    }
+
+    if (
+      !request.body ||
+      typeof request.body !== "object" ||
+      Array.isArray(request.body)
+    ) {
+      response.status(400).json({ message: "Body must be a JSON object." });
+      return;
+    }
+
+    const existingRow = getCharacterStateStmt.get(characterId);
+    const existingState = existingRow ? JSON.parse(existingRow.state_json) : {};
+    const mergedState = { ...existingState, ...request.body };
+
+    upsertCharacterStateStmt.run(
+      characterId,
+      JSON.stringify(mergedState),
+      Date.now(),
+    );
+
+    response.json({ ok: true });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use((error, request, response, _next) => {
   const message = error instanceof Error ? error.message : "Unknown API error.";
   response.status(400).json({ message });

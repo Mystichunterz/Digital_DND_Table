@@ -429,7 +429,7 @@ const V2ActionsPanel = () => {
 
     const timeoutId = setTimeout(() => {
       fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           resources,
