@@ -76,7 +76,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .v2-overview-panel-header h2 {
@@ -177,7 +177,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   padding: clamp(0.55rem, 0.8vw, 0.75rem) clamp(0.6rem, 1vw, 0.95rem);
   border: none;
   background: transparent;
@@ -313,7 +313,7 @@
 .v2-health-bar-wrap {
   position: relative;
   display: grid;
-  gap: 0.25rem;
+  gap: var(--space-xs);
   margin-bottom: clamp(0.35rem, 0.55vw, 0.55rem);
 }
 
@@ -426,7 +426,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .v2-death-saves-title {
@@ -519,7 +519,7 @@
 
 .v2-proficiencies-heading-group {
   display: grid;
-  gap: 0.25rem;
+  gap: var(--space-xs);
 }
 
 .v2-proficiency-view-toggle {
@@ -611,7 +611,7 @@
 .v2-detailed-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   align-items: start;
 }
 
@@ -662,7 +662,7 @@
 }
 
 .v2-proficiency-summary-list {
-  gap: 0.25rem;
+  gap: var(--space-xs);
 }
 
 .v2-proficiency-summary-row {
@@ -1216,7 +1216,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   margin-bottom: 0.5rem;
 }
 
@@ -1875,6 +1875,7 @@ button.v2-resource-config-reset:hover {
 }
 
 .v2-spellbook-surface {
+  position: relative;
   min-height: 0;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -1896,6 +1897,44 @@ button.v2-resource-config-reset:hover {
   box-shadow:
     0 12px 28px rgba(0, 0, 0, 0.45),
     inset 0 0 0 1px rgba(233, 206, 170, 0.12);
+}
+
+.v2-spellbook-close {
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: flex-end;
+  width: clamp(2.35rem, 5.4vh, 3.1rem);
+  min-height: clamp(2.35rem, 5.4vh, 3.1rem);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2px solid #694a29;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(
+    180deg,
+    rgba(58, 40, 28, 0.97) 0%,
+    rgba(31, 23, 18, 0.98) 100%
+  );
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 232, 205, 0.18);
+  color: #dccab6;
+  font-family: "Cinzel", "EB Garamond", serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(clamp(0.2rem, 0.9vh, 0.58rem));
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.v2-spellbook-close:hover {
+  color: #fff4e6;
+  transform: translateY(clamp(0.08rem, 0.55vh, 0.34rem));
 }
 
 .v2-spellbook-subheader {
@@ -1984,7 +2023,7 @@ button.v2-resource-config-reset:hover {
   padding: 0.6rem;
   display: grid;
   align-content: start;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   overflow-y: auto;
 }
 
@@ -2400,7 +2439,7 @@ button.v2-resource-config-reset:hover {
     top: 0.6rem;
     width: min(56rem, 98vw);
     max-height: calc(100vh - 1.2rem);
-    padding: 0.75rem;
+    padding: var(--space-md);
   }
 
   .v2-spellbook-header,

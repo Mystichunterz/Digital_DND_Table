@@ -5,7 +5,7 @@
   z-index: var(--z-version-switcher);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   padding: 0.35rem 0.75rem;
   border: 1px solid #d9be8f;
   border-radius: 999px;

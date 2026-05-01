@@ -13,7 +13,7 @@ body.v2-active {
       justify-content: center;
       align-items: center;
       box-sizing: border-box;
-      padding: 2rem;
+      padding: var(--space-2xl);
     }
 
     &-backdrop {

@@ -13,7 +13,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     var(--color-bg-page);
   border: 1.5px solid var(--color-border-brown);
   box-sizing: border-box;
-  padding: 1rem;
+  padding: var(--space-lg);
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: 10px;
@@ -268,7 +268,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     font-size: 1rem;
     color: #ded3bb;
 
@@ -287,10 +287,10 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     .condition-content {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-sm);
       cursor: pointer;
       margin-bottom: 0.5rem;
-      padding: 0.25rem;
+      padding: var(--space-xs);
       background-color: transparent;
       border-radius: 8px;
       transition: background-color 0.3s ease;
@@ -343,10 +343,10 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     .feature-content {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-sm);
       cursor: pointer;
       margin-bottom: 0.5rem;
-      padding: 0.25rem;
+      padding: var(--space-xs);
       background-color: transparent;
       border-radius: 8px;
       transition: background-color 0.3s ease;
@@ -377,7 +377,7 @@ body.v2-active .v2-left-display-wrap .left-display-content {
   .resistances {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: var(--space-lg);
 
     .resistance-icon {
       width: 20px;
@@ -490,7 +490,7 @@ body.v2-active .v2-left-display-wrap .left-display-content .race {
 
 body.v2-active .v2-left-display-wrap .left-display-content .attributes {
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 body.v2-active

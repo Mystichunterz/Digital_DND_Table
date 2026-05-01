@@ -22,7 +22,7 @@ body.v2-active {
     position: relative;
     width: clamp(20rem, 24vw, 27rem);
     display: grid;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     color: #e9dbc2;
   }
 

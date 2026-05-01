@@ -3,7 +3,7 @@
   flex: 1;
   min-height: 0;
   height: 100%;
-  gap: 0.75rem;
+  gap: var(--space-md);
   padding: 0.5rem 0;
 
   button,
@@ -23,7 +23,7 @@
   background: rgba(20, 16, 12, 0.85);
   border: 1px solid rgba(var(--color-accent-gold-rgb), 0.35);
   border-radius: 0.5rem;
-  padding: 0.75rem;
+  padding: var(--space-md);
   gap: 0.6rem;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
 
@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--space-sm);
 
     h2 {
       margin: 0;
@@ -63,7 +63,7 @@
     label {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-sm);
       color: var(--color-accent-gold-muted);
       font-size: 0.9rem;
     }
@@ -299,7 +299,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .v2-journal-error {
@@ -421,7 +421,7 @@
 
 .v2-journal-note-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   align-items: center;
 }
 
