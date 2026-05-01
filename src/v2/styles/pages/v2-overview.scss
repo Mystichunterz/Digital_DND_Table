@@ -940,21 +940,33 @@
 }
 
 .v2-resource-bar {
-  --v2-pip-size: clamp(0.93rem, 0.24vw + 0.82rem, 1.17rem);
-  --v2-pip-gap: 0.2px;
-  --v2-resource-box-size: calc(
-    2 * var(--v2-pip-size) + var(--v2-pip-gap) + 1rem
-  );
-
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: center;
-  gap: clamp(0.18rem, 0.3vw, 0.3rem);
+  gap: 0;
   width: max-content;
   max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  padding: clamp(0.25rem, 0.4vw, 0.4rem);
+  border: 1px solid rgba(122, 90, 62, 0.78);
+  border-radius: 8px;
+  background: rgba(18, 14, 12, 0.78);
+  box-shadow: inset 0 1px 0 rgba(245, 233, 209, 0.06);
+}
+
+.v2-resource-bar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  max-width: 100%;
+}
+
+.v2-resource-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.18rem, 0.3vw, 0.3rem);
   padding: clamp(0.25rem, 0.4vw, 0.4rem);
   border: 1px solid rgba(122, 90, 62, 0.78);
   border-radius: 8px;
@@ -1117,8 +1129,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
-  height: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
+  width: var(--v2-resource-box-size);
+  height: var(--v2-resource-box-size);
   padding: 0;
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 50%;
@@ -1139,7 +1151,20 @@
   );
 }
 
+.v2-resource-rest img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
 .v2-resource-bar-section {
+  --v2-pip-size: clamp(0.93rem, 0.24vw + 0.82rem, 1.17rem);
+  --v2-pip-gap: 0.2px;
+  --v2-resource-box-size: calc(
+    2 * var(--v2-pip-size) + var(--v2-pip-gap) + 1rem
+  );
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1151,14 +1176,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
-  height: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
+  width: var(--v2-resource-box-size);
+  height: var(--v2-resource-box-size);
   padding: 0;
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 50%;
   background: rgba(33, 25, 19, 0.85);
   color: var(--v2-overview-highlight);
-  font-size: clamp(0.8rem, 0.18vw + 0.72rem, 1rem);
+  font-size: calc(var(--v2-resource-box-size) * 0.7);
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -1230,34 +1256,169 @@
   );
 }
 
+.v2-resource-config-section {
+  & + & {
+    margin-top: 0.7rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(122, 90, 62, 0.35);
+  }
+}
+
+.v2-resource-config-section-title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(0.7rem, 0.1vw + 0.66rem, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v2-overview-highlight);
+  opacity: 0.85;
+}
+
 .v2-resource-config-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.35rem 0.6rem;
+  gap: 0.3rem 0.6rem;
 }
 
 .v2-resource-config-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 0.4rem;
+  padding: 0.18rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
   font-size: clamp(0.74rem, 0.12vw + 0.7rem, 0.84rem);
+  color: var(--v2-overview-text);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.v2-resource-config-row:hover {
+  background: rgba(245, 233, 209, 0.04);
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.v2-resource-config-eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.v2-resource-config-eye svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.v2-resource-config-eye:hover {
+  background: rgba(122, 90, 62, 0.25);
+  border-color: rgba(122, 90, 62, 0.55);
+}
+
+.v2-resource-config-eye.is-hidden {
   color: var(--v2-overview-muted);
+  opacity: 0.7;
+}
+
+.v2-resource-config-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.v2-resource-config-row:has(.v2-resource-config-eye.is-hidden)
+  .v2-resource-config-icon,
+.v2-resource-config-row:has(.v2-resource-config-eye.is-hidden)
+  .v2-resource-config-label {
+  opacity: 0.4;
+  filter: grayscale(0.7);
+}
+
+.v2-resource-config-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v2-resource-config-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 6px;
+  background: rgba(17, 14, 12, 0.85);
+  overflow: hidden;
+}
+
+.v2-resource-config-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.v2-resource-config-step:hover:not(:disabled) {
+  background: rgba(122, 90, 62, 0.35);
+}
+
+.v2-resource-config-step:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .v2-resource-config-input {
-  width: 3.4rem;
-  padding: 0.18rem 0.35rem;
-  border: 1px solid rgba(122, 90, 62, 0.7);
-  border-radius: 5px;
-  background: rgba(17, 14, 12, 0.85);
+  width: 2rem;
+  padding: 0.1rem 0;
+  border: none;
+  border-left: 1px solid rgba(122, 90, 62, 0.45);
+  border-right: 1px solid rgba(122, 90, 62, 0.45);
+  border-radius: 0;
+  background: transparent;
   color: var(--v2-overview-text);
   font-size: clamp(0.78rem, 0.13vw + 0.74rem, 0.9rem);
   text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.v2-resource-config-input::-webkit-outer-spin-button,
+.v2-resource-config-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.v2-resource-config-input:focus {
+  outline: none;
+  background: rgba(245, 233, 209, 0.06);
 }
 
 .v2-resource-config-hint {
-  margin: 0.5rem 0 0;
+  margin: 0.6rem 0 0;
   font-size: clamp(0.66rem, 0.1vw + 0.62rem, 0.74rem);
   color: var(--v2-overview-muted);
   font-style: italic;

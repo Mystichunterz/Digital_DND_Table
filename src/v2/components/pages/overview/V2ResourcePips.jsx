@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ActionIcon from "../../../../assets/resources/action.png";
 import BonusActionIcon from "../../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../../assets/resources/reaction.png";
@@ -7,6 +7,8 @@ import DivineSenseIcon from "../../../../assets/resources/divine_sense.webp";
 import LayOnHandsIcon from "../../../../assets/resources/lay_on_hands.png";
 import SorceryPointsIcon from "../../../../assets/resources/sorcery_points.png";
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
+import ShortRestIcon from "../../../../assets/resources/short_rest.webp";
+import LongRestIcon from "../../../../assets/resources/long_rest.png";
 
 const TIER_LABELS = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
 const TIER_KEYS = [1, 2, 3, 4, 5, 6];
@@ -142,35 +144,120 @@ const renderCountedIconBox = (
   );
 };
 
-const ConfigRow = ({ label, value, onChange }) => {
-  const handleChange = (event) => {
+const EyeOpenIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const EyeClosedIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M3 12s3.5 6 9 6c1.7 0 3.2-.4 4.5-1" />
+    <path d="M21 12s-1.4-2.5-3.8-4.4" />
+    <path d="M14.5 14.5a3 3 0 0 1-4.2-4.2" />
+    <path d="M3 3l18 18" />
+  </svg>
+);
+
+const ConfigRow = ({ iconSrc, label, value, onChange, onToggleVisible }) => {
+  const handleInputChange = (event) => {
     const parsed = parseInt(event.target.value, 10);
     onChange(Number.isNaN(parsed) ? 0 : Math.max(0, parsed));
   };
 
+  const isVisible = value > 0;
+
   return (
-    <label className="v2-resource-config-row">
-      <span>{label}</span>
-      <input
-        type="number"
-        min="0"
-        value={value}
-        onChange={handleChange}
-        className="v2-resource-config-input"
-      />
-    </label>
+    <div className="v2-resource-config-row">
+      <button
+        type="button"
+        className={
+          isVisible
+            ? "v2-resource-config-eye"
+            : "v2-resource-config-eye is-hidden"
+        }
+        onClick={onToggleVisible}
+        title={isVisible ? "Hide this resource" : "Show this resource"}
+        aria-label={isVisible ? "Hide resource" : "Show resource"}
+        aria-pressed={!isVisible}
+      >
+        {isVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+      </button>
+
+      {iconSrc && (
+        <img
+          src={iconSrc}
+          alt=""
+          className="v2-resource-config-icon"
+          draggable={false}
+        />
+      )}
+
+      <span className="v2-resource-config-label">{label}</span>
+
+      <div className="v2-resource-config-stepper">
+        <button
+          type="button"
+          className="v2-resource-config-step"
+          onClick={() => onChange(Math.max(0, value - 1))}
+          disabled={value <= 0}
+          aria-label={`Decrease ${label}`}
+        >
+          −
+        </button>
+        <input
+          type="number"
+          min="0"
+          value={value}
+          onChange={handleInputChange}
+          className="v2-resource-config-input"
+          aria-label={`${label} maximum`}
+        />
+        <button
+          type="button"
+          className="v2-resource-config-step"
+          onClick={() => onChange(value + 1)}
+          aria-label={`Increase ${label}`}
+        >
+          +
+        </button>
+      </div>
+    </div>
   );
 };
 
 const V2ResourcePips = ({
   resources,
   max,
-  onRest,
+  onShortRest,
+  onLongRest,
   onAdjust,
   onUpdateMax,
   onResetDefaults,
 }) => {
   const [isConfigOpen, setIsConfigOpen] = useState(false);
+  // Caches the last non-zero max per key so the eye toggle can restore the
+  // resource to its prior value rather than always defaulting to 1.
+  const lastVisibleMaxRef = useRef({ spellSlots: {} });
 
   const handleResetDefaults = () => {
     if (
@@ -184,6 +271,26 @@ const V2ResourcePips = ({
     onResetDefaults?.();
   };
 
+  const toggleResourceVisible = (resourceKey, currentValue) => {
+    if (currentValue > 0) {
+      lastVisibleMaxRef.current[resourceKey] = currentValue;
+      onUpdateMax(resourceKey, 0);
+    } else {
+      const remembered = lastVisibleMaxRef.current[resourceKey];
+      onUpdateMax(resourceKey, remembered > 0 ? remembered : 1);
+    }
+  };
+
+  const toggleSpellSlotVisible = (tier, currentValue) => {
+    if (currentValue > 0) {
+      lastVisibleMaxRef.current.spellSlots[tier] = currentValue;
+      onUpdateMax("spellSlots", 0, tier);
+    } else {
+      const remembered = lastVisibleMaxRef.current.spellSlots[tier];
+      onUpdateMax("spellSlots", remembered > 0 ? remembered : 1, tier);
+    }
+  };
+
   const tierBoxes = TIER_KEYS.map((tier) => ({
     tier,
     tierMax: max.spellSlots?.[tier] ?? 0,
@@ -192,65 +299,86 @@ const V2ResourcePips = ({
 
   return (
     <div className="v2-resource-bar-section">
-      <div
-        className="v2-resource-bar"
-        role="region"
-        aria-label="Action resources and spell slots"
-      >
-        {SINGLE_RESOURCES.filter((entry) => (max[entry.key] ?? 0) > 0).map(
-          (resource) =>
-            renderSingleIconBox(
-              resource,
-              resources[resource.key] ?? 0,
-              (delta) => onAdjust(resource.key, delta),
-            ),
-        )}
+      <div className="v2-resource-bar-row">
+        <div
+          className="v2-resource-bar"
+          role="region"
+          aria-label="Action resources and spell slots"
+        >
+          {SINGLE_RESOURCES.filter((entry) => (max[entry.key] ?? 0) > 0).map(
+            (resource) =>
+              renderSingleIconBox(
+                resource,
+                resources[resource.key] ?? 0,
+                (delta) => onAdjust(resource.key, delta),
+              ),
+          )}
 
-        {COUNTED_RESOURCES.filter((entry) => (max[entry.key] ?? 0) > 0).map(
-          (resource) =>
-            renderCountedIconBox(
-              resource,
-              resources[resource.key] ?? 0,
-              max[resource.key],
-              (delta) => onAdjust(resource.key, delta),
-            ),
-        )}
+          {COUNTED_RESOURCES.filter((entry) => (max[entry.key] ?? 0) > 0).map(
+            (resource) =>
+              renderCountedIconBox(
+                resource,
+                resources[resource.key] ?? 0,
+                max[resource.key],
+                (delta) => onAdjust(resource.key, delta),
+              ),
+          )}
 
-        {tierBoxes.map(({ tier, tierMax, tierCurrent }) => (
-          <div key={tier} className="v2-resource-box v2-resource-box-spell-slot">
-            <span className="v2-resource-box-label">{TIER_LABELS[tier]}</span>
-            <div className="v2-resource-box-body">
-              {renderSpellSlotPips(tierCurrent, tierMax, (delta) =>
-                onAdjust("spellSlots", delta, tier),
-              )}
+          {tierBoxes.map(({ tier, tierMax, tierCurrent }) => (
+            <div
+              key={tier}
+              className="v2-resource-box v2-resource-box-spell-slot"
+            >
+              <span className="v2-resource-box-label">{TIER_LABELS[tier]}</span>
+              <div className="v2-resource-box-body">
+                {renderSpellSlotPips(tierCurrent, tierMax, (delta) =>
+                  onAdjust("spellSlots", delta, tier),
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
 
-        <button
-          type="button"
-          className={
-            isConfigOpen
-              ? "v2-resource-config-toggle is-active"
-              : "v2-resource-config-toggle"
-          }
-          onClick={() => setIsConfigOpen((current) => !current)}
-          title="Configure resource maximums"
-          aria-label="Configure resources"
-          aria-expanded={isConfigOpen}
+        <div
+          className="v2-resource-bar-actions"
+          role="group"
+          aria-label="Rest and configuration"
         >
-          ⚙
-        </button>
+          <button
+            type="button"
+            className="v2-resource-rest v2-resource-rest-short"
+            onClick={onShortRest}
+            title="Short rest (restore action economy and Channel Oath)"
+            aria-label="Short rest"
+          >
+            <img src={ShortRestIcon} alt="" draggable={false} />
+          </button>
 
-        <button
-          type="button"
-          className="v2-resource-rest"
-          onClick={onRest}
-          title="Restore all resources (long rest)"
-          aria-label="Long rest"
-        >
-          Z
-        </button>
+          <button
+            type="button"
+            className="v2-resource-rest v2-resource-rest-long"
+            onClick={onLongRest}
+            title="Long rest (restore all resources)"
+            aria-label="Long rest"
+          >
+            <img src={LongRestIcon} alt="" draggable={false} />
+          </button>
+
+          <button
+            type="button"
+            className={
+              isConfigOpen
+                ? "v2-resource-config-toggle is-active"
+                : "v2-resource-config-toggle"
+            }
+            onClick={() => setIsConfigOpen((current) => !current)}
+            title="Configure resource maximums"
+            aria-label="Configure resources"
+            aria-expanded={isConfigOpen}
+          >
+            ⚙
+          </button>
+        </div>
       </div>
 
       {isConfigOpen && (
@@ -276,38 +404,55 @@ const V2ResourcePips = ({
             </div>
           </div>
 
-          <div className="v2-resource-config-grid">
-            {SINGLE_RESOURCES.map((resource) => (
-              <ConfigRow
-                key={resource.key}
-                label={resource.label}
-                value={max[resource.key] ?? 0}
-                onChange={(value) => onUpdateMax(resource.key, value)}
-              />
-            ))}
+          <section className="v2-resource-config-section">
+            <h3 className="v2-resource-config-section-title">Resources</h3>
+            <div className="v2-resource-config-grid">
+              {[...SINGLE_RESOURCES, ...COUNTED_RESOURCES].map((resource) => {
+                const value = max[resource.key] ?? 0;
+                return (
+                  <ConfigRow
+                    key={resource.key}
+                    iconSrc={resource.iconSrc}
+                    label={resource.label}
+                    value={value}
+                    onChange={(nextValue) =>
+                      onUpdateMax(resource.key, nextValue)
+                    }
+                    onToggleVisible={() =>
+                      toggleResourceVisible(resource.key, value)
+                    }
+                  />
+                );
+              })}
+            </div>
+          </section>
 
-            {COUNTED_RESOURCES.map((resource) => (
-              <ConfigRow
-                key={resource.key}
-                label={resource.label}
-                value={max[resource.key] ?? 0}
-                onChange={(value) => onUpdateMax(resource.key, value)}
-              />
-            ))}
-
-            {TIER_KEYS.map((tier) => (
-              <ConfigRow
-                key={`tier-${tier}`}
-                label={`Spell Slot ${TIER_LABELS[tier]}`}
-                value={max.spellSlots?.[tier] ?? 0}
-                onChange={(value) => onUpdateMax("spellSlots", value, tier)}
-              />
-            ))}
-          </div>
+          <section className="v2-resource-config-section">
+            <h3 className="v2-resource-config-section-title">Spell Slots</h3>
+            <div className="v2-resource-config-grid">
+              {TIER_KEYS.map((tier) => {
+                const value = max.spellSlots?.[tier] ?? 0;
+                return (
+                  <ConfigRow
+                    key={`tier-${tier}`}
+                    iconSrc={SpellSlotIcon}
+                    label={`Tier ${TIER_LABELS[tier]}`}
+                    value={value}
+                    onChange={(nextValue) =>
+                      onUpdateMax("spellSlots", nextValue, tier)
+                    }
+                    onToggleVisible={() =>
+                      toggleSpellSlotVisible(tier, value)
+                    }
+                  />
+                );
+              })}
+            </div>
+          </section>
 
           <p className="v2-resource-config-hint">
-            Set a maximum to 0 to hide the resource entirely. Click pips to
-            spend; right-click to restore.
+            Click the eye to hide a resource; click again to restore. Click pips
+            to spend, right-click to restore.
           </p>
         </div>
       )}

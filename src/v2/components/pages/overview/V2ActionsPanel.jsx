@@ -851,8 +851,18 @@ const V2ActionsPanel = () => {
     );
   };
 
-  const restoreResources = () => {
+  const restoreLongRestResources = () => {
     setResources(buildInitialResources(resourceMax));
+  };
+
+  const restoreShortRestResources = () => {
+    setResources((current) => ({
+      ...current,
+      action: resourceMax.action,
+      bonus: resourceMax.bonus,
+      reaction: resourceMax.reaction,
+      channelOath: resourceMax.channelOath,
+    }));
   };
 
   const resetResourceDefaults = () => {
@@ -1185,7 +1195,8 @@ const V2ActionsPanel = () => {
         <V2ResourcePips
           resources={resources}
           max={resourceMax}
-          onRest={restoreResources}
+          onShortRest={restoreShortRestResources}
+          onLongRest={restoreLongRestResources}
           onAdjust={adjustResource}
           onUpdateMax={updateResourceMax}
           onResetDefaults={resetResourceDefaults}
