@@ -9,6 +9,15 @@ body.v2-active {
     width: 100%;
   }
 
+  .spell-hover-popup-trigger:hover > .v2-action-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
   .spell-hover-popup-content {
     width: clamp(20rem, 24vw, 27rem);
     display: grid;

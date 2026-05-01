@@ -57,6 +57,10 @@ const SpellHoverPopup = ({
       ref={triggerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onDragStart={() => {
+        setIsHovered(false);
+        setIsPinned(false);
+      }}
     >
       {children}
 
