@@ -23,6 +23,21 @@ const iconByKey = Object.fromEntries(
   }),
 );
 
+const popupIconModules = import.meta.glob(
+  "../../assets/popups/spells/**/*.{webp,png,jpg,jpeg}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const popupIconByKey = Object.fromEntries(
+  Object.entries(popupIconModules).map(([filePath, iconUrl]) => {
+    const iconKey = filePath.replace("../../assets/popups/spells/", "");
+    return [iconKey, iconUrl];
+  }),
+);
+
 const INITIAL_STOP_WORDS = new Set([
   "a",
   "an",
@@ -71,11 +86,20 @@ const normalizeAbility = (ability) => {
           .trim()
           .toUpperCase() || getInitialsFromName(ability.name);
 
+  const popupIconKey =
+    typeof ability.popupIcon === "string" ? ability.popupIcon : null;
+  const resolvedPopupIcon =
+    popupIconKey && popupIconByKey[popupIconKey]
+      ? popupIconByKey[popupIconKey]
+      : null;
+
   return {
     ...ability,
     iconKey,
     icon: resolvedIcon,
     fallbackIconText,
+    popupIconKey,
+    popupIcon: resolvedPopupIcon,
   };
 };
 

@@ -156,6 +156,16 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Divine_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Divine_Smite.webp",
+      "damageHeadline": "26~41 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+2d8", "type": "Radiant", "icon": "radiant" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "After hitting with a melee weapon attack, expend a spell slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st (max 5d8). +1d8 more vs. fiends or undead. (Level 2 slot: 3d8.)"
     },
     {

@@ -19,10 +19,34 @@ body.v2-active {
   }
 
   .spell-hover-popup-content {
+    position: relative;
     width: clamp(20rem, 24vw, 27rem);
     display: grid;
-    gap: 0.45rem;
+    gap: 0.5rem;
     color: #e9dbc2;
+  }
+
+  .spell-hover-popup-content.has-art .spell-hover-popup-header {
+    padding-right: 7.5rem;
+  }
+
+  .spell-hover-popup-art-overflow {
+    position: absolute;
+    top: -2.8rem;
+    right: -2.4rem;
+    width: 9.75rem;
+    height: 9.75rem;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 14px rgba(255, 196, 110, 0.28))
+      drop-shadow(0 0 18px rgba(255, 215, 140, 0.18));
+    z-index: 1;
+  }
+
+  .spell-hover-popup-art-overflow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.97;
   }
 
   .spell-hover-popup-header {
@@ -30,6 +54,8 @@ body.v2-active {
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.55rem;
+    position: relative;
+    z-index: 2;
   }
 
   .spell-hover-popup-title-block {
@@ -38,18 +64,86 @@ body.v2-active {
 
   .spell-hover-popup-title-block .popup-title {
     margin: 0;
-    font-size: clamp(1.45rem, 0.3vw + 1.35rem, 1.62rem);
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.60rem);
     font-weight: 500;
-    color: #f3e8d5;
+    line-height: 1.1;
+    color: #f6ecd6;
+    letter-spacing: 0.005em;
   }
 
   .spell-hover-popup-title-block .popup-subtitle {
-    margin: 0.15rem 0 0;
+    margin: 0.18rem 0 0;
     color: #af8768;
     font-size: clamp(1.02rem, 0.18vw + 0.96rem, 1.14rem);
   }
 
-  .spell-hover-popup-art {
+  .spell-hover-popup-damage-headline {
+    margin: 0.18rem 0 0;
+    color: #f6ecd6;
+    font-weight: 500;
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.60rem);
+    line-height: 1.1;
+    letter-spacing: 0.005em;
+  }
+
+  .spell-hover-popup-damage-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+  }
+
+  .spell-hover-popup-damage-dice {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .spell-hover-popup-damage-dice img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .spell-hover-popup-damage-list {
+    display: grid;
+    gap: 0.18rem;
+    min-width: 0;
+  }
+
+  .spell-hover-popup-damage-row {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+    color: #d9c8a8;
+    font-size: clamp(1.04rem, 0.18vw + 0.98rem, 1.14rem);
+    line-height: 1.2;
+  }
+
+  .spell-hover-popup-damage-row.is-secondary {
+    color: #f0c97a;
+  }
+
+  .spell-hover-popup-damage-formula {
+    font-weight: 600;
+  }
+
+  .spell-hover-popup-damage-type-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .spell-hover-popup-damage-type {
+    color: inherit;
+  }
+
+  .spell-hover-popup-art-fallback {
     width: 4.5rem;
     min-width: 4.5rem;
     aspect-ratio: 1 / 1;
@@ -66,34 +160,39 @@ body.v2-active {
     overflow: hidden;
   }
 
-  .spell-hover-popup-art img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.95;
-    filter: saturate(1.15) brightness(1.05);
-  }
-
-  .spell-hover-popup-art span {
+  .spell-hover-popup-art-fallback span {
     font-size: 1.3rem;
     font-weight: 700;
     color: #8fd7ff;
     letter-spacing: 0.04em;
   }
 
-  .spell-hover-popup-damage {
-    margin: 0;
-    color: #b9ad9c;
-    font-size: clamp(1.02rem, 0.15vw + 0.98rem, 1.1rem);
+  .spell-hover-popup-mechanics {
+    margin: 0.7rem 0 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    color: #d9c8a8;
+    font-size: clamp(0.98rem, 0.14vw + 0.94rem, 1.08rem);
   }
 
-  .spell-hover-popup-damage.is-secondary {
-    margin-top: -0.1rem;
-    color: #29c8ff;
+  .spell-hover-popup-mechanic {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    line-height: 1;
+  }
+
+  .spell-hover-popup-mechanic-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    object-fit: contain;
+    flex-shrink: 0;
   }
 
   .spell-hover-popup-content .popup-description {
-    margin: 0;
+    margin: 0.7rem 0 0;
     color: #af8768;
     line-height: 1.36;
     font-size: clamp(1rem, 0.15vw + 0.94rem, 1.08rem);
@@ -129,26 +228,31 @@ body.v2-active {
   .spell-hover-popup-footer-tags {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    border: 1px solid rgba(111, 66, 152, 0.52);
-    border-radius: 7px;
-    background: linear-gradient(
-      180deg,
-      rgba(69, 40, 95, 0.3) 0%,
-      rgba(39, 24, 54, 0.5) 100%
-    );
-    padding: 0.32rem 0.45rem;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 0.1rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(183, 133, 77, 0.22);
   }
 
   .spell-hover-popup-footer-tags span {
     display: inline-flex;
     align-items: center;
-    border: 1px solid rgba(183, 133, 77, 0.54);
-    border-radius: 999px;
-    background: rgba(22, 17, 14, 0.78);
+    gap: 0.4rem;
     color: #efe3cf;
-    padding: 0.16rem 0.5rem;
-    font-size: 0.92rem;
+    font-size: clamp(0.95rem, 0.12vw + 0.9rem, 1.04rem);
     line-height: 1;
+  }
+
+  .spell-hover-popup-tag-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .spell-hover-popup-footer-tags [class^="is-kind-"] .spell-hover-popup-tag-icon {
+    width: 1.8rem;
+    height: 1.8rem;
   }
 }
