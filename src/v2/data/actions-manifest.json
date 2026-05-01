@@ -178,6 +178,16 @@
       "tier": "I",
       "tone": "purple",
       "icon": "spells/Thunderous_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Thunderous_Smite.webp",
+      "damageHeadline": "27~47 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+2d6", "type": "Thunder", "icon": "thunder" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. Your next melee hit this turn deals +2d6 thunder damage. Target must succeed on a Strength save or be pushed 10 ft. and knocked prone. Upcast: +1d6 per slot level above 1st."
     },
     {
@@ -190,6 +200,16 @@
       "tier": "I",
       "tone": "purple",
       "icon": "spells/Wrathful_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Wrathful_Smite.webp",
+      "damageHeadline": "26~41 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+1d6", "type": "Psychic", "icon": "psychic" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute."
     },
     {
@@ -262,6 +282,16 @@
       "tier": "II",
       "tone": "gold",
       "icon": "spells/Branding_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Branding_Smite.webp",
+      "damageHeadline": "27~47 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+2d6", "type": "Radiant", "icon": "radiant" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute."
     },
     {
@@ -274,6 +304,16 @@
       "tier": "II",
       "tone": "gold",
       "icon": "spells/Branding_Smite_Ranged_Unfaded_Icon.webp",
+      "popupIcon": "Branding_Smite_Ranged.webp",
+      "damageHeadline": "7~22 Damage",
+      "damageRows": [
+        { "formula": "1d6+4", "type": "Piercing", "icon": "piercing" },
+        { "formula": "+2d6", "type": "Radiant", "icon": "radiant" }
+      ],
+      "mechanics": [
+        { "label": "Ranged", "icon": "ranged" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute."
     },
     {
@@ -286,6 +326,16 @@
       "tier": "III",
       "tone": "gold",
       "icon": "spells/Blinding_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Blinding_Smite.webp",
+      "damageHeadline": "28~59 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+3d8", "type": "Radiant", "icon": "radiant" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute."
     },
     {
@@ -298,6 +348,15 @@
       "tier": "C",
       "tone": "red",
       "icon": "spells/Fire_Bolt_Unfaded_Icon.webp",
+      "popupIcon": "Fire_Bolt.webp",
+      "damageHeadline": "2~20 Damage",
+      "damageRows": [
+        { "formula": "2d10", "type": "Fire", "icon": "fire" }
+      ],
+      "mechanics": [
+        { "label": "Ranged", "icon": "ranged" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried."
     },
     {
@@ -310,6 +369,16 @@
       "tier": "C",
       "tone": "blue",
       "icon": "spells/Booming_Blade_Unfaded_Icon.webp",
+      "popupIcon": "Booming_Blade.webp",
+      "damageHeadline": "26~43 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+1d8", "type": "Thunder", "icon": "thunder" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Make a melee attack against a creature within 5 ft. On hit, the target takes weapon damage and is sheathed in booming energy until the start of your next turn — if it moves willingly, it takes 1d8 thunder damage. Damage scales at higher levels."
     },
     {
@@ -322,6 +391,15 @@
       "tier": "C",
       "tone": "green",
       "icon": "spells/Green_Flame_Blade_Icon.webp",
+      "damageHeadline": "25~35 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "1d8+3", "type": "Fire (leap)", "icon": "fire" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Make a melee attack against a creature within 5 ft. On hit, weapon damage as normal; green fire then leaps to a second creature within 5 ft. of the first for 1d8 + spellcasting modifier fire damage."
     },
     {
@@ -334,6 +412,14 @@
       "tier": "C",
       "tone": "purple",
       "icon": "spells/Sorcerous_Burst_Unfaded_Icon.webp",
+      "damageHeadline": "2~16 Damage",
+      "damageRows": [
+        { "formula": "2d8", "type": "Choice", "icon": "psychic" }
+      ],
+      "mechanics": [
+        { "label": "Ranged", "icon": "ranged" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice)."
     },
     {
@@ -430,6 +516,15 @@
       "tier": "I",
       "tone": "red",
       "icon": "spells/Inflict_Wounds_Unfaded_Icon.webp",
+      "popupIcon": "Inflict_Wounds.webp",
+      "damageHeadline": "3~30 Damage",
+      "damageRows": [
+        { "formula": "3d10", "type": "Necrotic", "icon": "necrotic" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Make a melee spell attack against a creature within 5 ft. On hit, the target takes 3d10 necrotic damage. Upcast: +1d10 per slot level above 1st."
     },
     {
@@ -502,6 +597,16 @@
       "tier": "I",
       "tone": "red",
       "icon": "spells/Searing_Smite_Unfaded_Icon.webp",
+      "popupIcon": "Searing_Smite.webp",
+      "damageHeadline": "26~41 Damage",
+      "damageRows": [
+        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
+        { "formula": "+1d6", "type": "Fire", "icon": "fire" }
+      ],
+      "mechanics": [
+        { "label": "Melee", "icon": "melee" },
+        { "label": "Attack Roll", "icon": "attack-roll" }
+      ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute."
     },
     {
@@ -538,6 +643,15 @@
       "tier": "II",
       "tone": "red",
       "icon": "spells/Hellish_Rebuke_Unfaded_Icon.webp",
+      "popupIcon": "Hellish_Rebuke.webp",
+      "damageHeadline": "2~20 Damage",
+      "damageRows": [
+        { "formula": "2d10", "type": "Fire", "icon": "fire" }
+      ],
+      "mechanics": [
+        { "label": "Ranged", "icon": "ranged" },
+        { "label": "Saving Throw", "icon": "save" }
+      ],
       "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st."
     },
     {
@@ -781,6 +895,15 @@
       "tier": "III",
       "tone": "red",
       "icon": "custom/Shatter_Unfaded_Icon.webp",
+      "popupIcon": "Shatter.webp",
+      "damageHeadline": "3~24 Damage",
+      "damageRows": [
+        { "formula": "3d8", "type": "Thunder", "icon": "thunder" }
+      ],
+      "mechanics": [
+        { "label": "Area of Effect", "icon": "aoe" },
+        { "label": "Saving Throw", "icon": "save" }
+      ],
       "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd."
     },
     {

@@ -7,8 +7,16 @@ import SpellSlotIcon from "../../../assets/resources/spell_slot.png";
 import DiceIcon from "../../../assets/popups/dice/D8_Radiant.png";
 import SlashingIcon from "../../../assets/popups/damage/Slashing_Damage_Icon.png";
 import RadiantIcon from "../../../assets/popups/damage/Radiant_Damage_Icon.png";
+import FireIcon from "../../../assets/popups/damage/Fire_Damage_Icon.png";
+import ThunderIcon from "../../../assets/popups/damage/Thunder_Damage_Icon.png";
+import PsychicIcon from "../../../assets/popups/damage/Psychic_Damage_Icon.png";
+import NecroticIcon from "../../../assets/popups/damage/Necrotic_Damage_Icon.png";
+import PiercingIcon from "../../../assets/popups/damage/Piercing_Damage_Icon.png";
 import MeleeIcon from "../../../assets/popups/mechanics/Melee_Range_Icon.png";
+import RangedIcon from "../../../assets/popups/mechanics/Range_Icon.png";
 import AttackRollIcon from "../../../assets/popups/mechanics/Attack_Roll_Icon.png";
+import SavingThrowIcon from "../../../assets/popups/mechanics/Saving_Throw_Icon.png";
+import AoeIcon from "../../../assets/popups/mechanics/Aoe_Icon.png";
 
 import "../../styles/components/popups/spell-hover-popup.scss";
 
@@ -22,11 +30,19 @@ const KIND_ICONS = {
 const DAMAGE_TYPE_ICONS = {
   slashing: SlashingIcon,
   radiant: RadiantIcon,
+  fire: FireIcon,
+  thunder: ThunderIcon,
+  psychic: PsychicIcon,
+  necrotic: NecroticIcon,
+  piercing: PiercingIcon,
 };
 
 const MECHANIC_ICONS = {
   melee: MeleeIcon,
+  ranged: RangedIcon,
   "attack-roll": AttackRollIcon,
+  save: SavingThrowIcon,
+  aoe: AoeIcon,
 };
 
 const TIER_LABELS = {
