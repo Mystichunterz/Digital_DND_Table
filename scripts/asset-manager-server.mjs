@@ -134,7 +134,7 @@ const upload = multer({
   },
 });
 
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json({ limit: "250mb" }));
 
 const withForwardSlashes = (value) => value.split(path.sep).join("/");
 
@@ -665,8 +665,9 @@ app.delete(
 );
 
 app.use((error, request, response, _next) => {
+  const status = Number(error?.status) || Number(error?.statusCode) || 400;
   const message = error instanceof Error ? error.message : "Unknown API error.";
-  response.status(400).json({ message });
+  response.status(status).json({ message });
 });
 
 await ensureManifestExists();
