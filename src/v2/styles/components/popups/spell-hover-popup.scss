@@ -64,10 +64,10 @@ body.v2-active {
 
   .spell-hover-popup-title-block .popup-title {
     margin: 0;
-    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.60rem);
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.50rem);
     font-weight: 500;
     line-height: 1.1;
-    color: #f6ecd6;
+    color: #ffffff;
     letter-spacing: 0.005em;
   }
 
@@ -78,10 +78,10 @@ body.v2-active {
   }
 
   .spell-hover-popup-damage-headline {
-    margin: 0.18rem 0 0;
-    color: #f6ecd6;
+    margin: 0.85rem 0 0;
+    color: #ffffff;
     font-weight: 500;
-    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.60rem);
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.50rem);
     line-height: 1.1;
     letter-spacing: 0.005em;
   }
@@ -118,18 +118,39 @@ body.v2-active {
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.42rem;
+    gap: 0.22rem;
     color: #d9c8a8;
     font-size: clamp(1.04rem, 0.18vw + 0.98rem, 1.14rem);
     line-height: 1.2;
   }
 
-  .spell-hover-popup-damage-row.is-secondary {
+  .spell-hover-popup-damage-row.is-type-slashing,
+  .spell-hover-popup-damage-row.is-type-piercing {
+    color: #d9c8a8;
+  }
+
+  .spell-hover-popup-damage-row.is-type-radiant {
     color: #f0c97a;
   }
 
+  .spell-hover-popup-damage-row.is-type-fire {
+    color: #ff8a3a;
+  }
+
+  .spell-hover-popup-damage-row.is-type-thunder {
+    color: #b78cff;
+  }
+
+  .spell-hover-popup-damage-row.is-type-psychic {
+    color: #ff7fb6;
+  }
+
+  .spell-hover-popup-damage-row.is-type-necrotic {
+    color: #7fc380;
+  }
+
   .spell-hover-popup-damage-formula {
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .spell-hover-popup-damage-type-icon {
@@ -196,6 +217,11 @@ body.v2-active {
     color: #af8768;
     line-height: 1.36;
     font-size: clamp(1rem, 0.15vw + 0.94rem, 1.08rem);
+  }
+
+  .spell-hover-popup-content.has-art:not(:has(.spell-hover-popup-damage-grid))
+    .popup-description {
+    padding-right: 7.5rem;
   }
 
   .spell-hover-popup-on-save {

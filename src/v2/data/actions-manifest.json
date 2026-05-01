@@ -159,12 +159,26 @@
       "popupIcon": "Divine_Smite.webp",
       "damageHeadline": "26~41 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+2d8", "type": "Radiant", "icon": "radiant" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+2d8",
+          "type": "Radiant",
+          "icon": "radiant"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "After hitting with a melee weapon attack, expend a spell slot to deal an extra 2d8 radiant damage, +1d8 per slot level above 1st (max 5d8). +1d8 more vs. fiends or undead. (Level 2 slot: 3d8.)"
     },
@@ -181,12 +195,26 @@
       "popupIcon": "Thunderous_Smite.webp",
       "damageHeadline": "27~47 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+2d6", "type": "Thunder", "icon": "thunder" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+2d6",
+          "type": "Thunder",
+          "icon": "thunder"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +2d6 thunder damage. Target must succeed on a Strength save or be pushed 10 ft. and knocked prone. Upcast: +1d6 per slot level above 1st."
     },
@@ -203,12 +231,26 @@
       "popupIcon": "Wrathful_Smite.webp",
       "damageHeadline": "26~41 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+1d6", "type": "Psychic", "icon": "psychic" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+1d6",
+          "type": "Psychic",
+          "icon": "psychic"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute."
     },
@@ -222,7 +264,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Compelled_Duel_Unfaded_Icon.webp",
-      "description": "One creature within 30 ft. that fails a Wisdom save has disadvantage on attacks against anyone but you and can't willingly move more than 30 ft. away. Spell ends if you attack or target someone else, an ally damages the target, or you end your turn 30+ ft. away. Concentration, 1 min."
+      "description": "One creature within 30 ft. that fails a Wisdom save has disadvantage on attacks against anyone but you and can't willingly move more than 30 ft. away. Spell ends if you attack or target someone else, an ally damages the target, or you end your turn 30+ ft. away. Concentration, 1 min.",
+      "popupIcon": "Compelled_Duel_Icon.webp"
     },
     {
       "id": "vow-of-enmity",
@@ -234,7 +277,8 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Vow_of_Enmity_Unfaded_Icon.webp",
-      "description": "Channel Divinity. Bonus action. Choose one creature within 10 ft. as your sworn enemy. You have advantage on attack rolls against it for 1 minute or until it drops to 0 HP."
+      "description": "Channel Divinity. Bonus action. Choose one creature within 10 ft. as your sworn enemy. You have advantage on attack rolls against it for 1 minute or until it drops to 0 HP.",
+      "popupIcon": "Vow_of_Enmity_Icon.webp"
     },
     {
       "id": "lay-on-hands",
@@ -246,7 +290,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Lay_on_Hands_Unfaded_Icon.webp",
-      "description": "Touch a creature to restore HP from a pool of 5 x paladin level (currently 30). Spend 5 points instead to cure one disease or neutralize one poison. Pool refreshes on a long rest."
+      "description": "Touch a creature to restore HP from a pool of 5 x paladin level (currently 30). Spend 5 points instead to cure one disease or neutralize one poison. Pool refreshes on a long rest.",
+      "popupIcon": "Lay_on_Hands_Icon.webp"
     },
     {
       "id": "divine-favor",
@@ -258,7 +303,8 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Divine_Favor_Unfaded_Icon.webp",
-      "description": "Bonus action. Your weapon attacks deal an extra 1d4 radiant damage on hit. Concentration, up to 1 minute."
+      "description": "Bonus action. Your weapon attacks deal an extra 1d4 radiant damage on hit. Concentration, up to 1 minute.",
+      "popupIcon": "Divine_Favour_Icon.webp"
     },
     {
       "id": "command",
@@ -270,7 +316,8 @@
       "tier": "I",
       "tone": "red",
       "icon": "spells/Command_Unfaded_Icon.webp",
-      "description": "One creature within 60 ft. must succeed on a Wisdom save or follow a one-word command on its next turn (Approach, Drop, Flee, Grovel, Halt). Fails against undead, creatures that don't understand you, or directly harmful commands. Upcast: +1 creature per slot level above 1st (within 30 ft. of one another)."
+      "description": "One creature within 60 ft. must succeed on a Wisdom save or follow a one-word command on its next turn (Approach, Drop, Flee, Grovel, Halt). Fails against undead, creatures that don't understand you, or directly harmful commands. Upcast: +1 creature per slot level above 1st (within 30 ft. of one another).",
+      "popupIcon": "Command_Icon.webp"
     },
     {
       "id": "branding-smite",
@@ -285,12 +332,26 @@
       "popupIcon": "Branding_Smite.webp",
       "damageHeadline": "27~47 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+2d6", "type": "Radiant", "icon": "radiant" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+2d6",
+          "type": "Radiant",
+          "icon": "radiant"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute."
     },
@@ -307,12 +368,26 @@
       "popupIcon": "Branding_Smite_Ranged.webp",
       "damageHeadline": "7~22 Damage",
       "damageRows": [
-        { "formula": "1d6+4", "type": "Piercing", "icon": "piercing" },
-        { "formula": "+2d6", "type": "Radiant", "icon": "radiant" }
+        {
+          "formula": "1d6+4",
+          "type": "Piercing",
+          "icon": "piercing"
+        },
+        {
+          "formula": "+2d6",
+          "type": "Radiant",
+          "icon": "radiant"
+        }
       ],
       "mechanics": [
-        { "label": "Ranged", "icon": "ranged" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute."
     },
@@ -329,12 +404,26 @@
       "popupIcon": "Blinding_Smite.webp",
       "damageHeadline": "28~59 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+3d8", "type": "Radiant", "icon": "radiant" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+3d8",
+          "type": "Radiant",
+          "icon": "radiant"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute."
     },
@@ -351,11 +440,21 @@
       "popupIcon": "Fire_Bolt.webp",
       "damageHeadline": "2~20 Damage",
       "damageRows": [
-        { "formula": "2d10", "type": "Fire", "icon": "fire" }
+        {
+          "formula": "2d10",
+          "type": "Fire",
+          "icon": "fire"
+        }
       ],
       "mechanics": [
-        { "label": "Ranged", "icon": "ranged" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried."
     },
@@ -372,12 +471,26 @@
       "popupIcon": "Booming_Blade.webp",
       "damageHeadline": "26~43 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+1d8", "type": "Thunder", "icon": "thunder" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+1d8",
+          "type": "Thunder",
+          "icon": "thunder"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Make a melee attack against a creature within 5 ft. On hit, the target takes weapon damage and is sheathed in booming energy until the start of your next turn — if it moves willingly, it takes 1d8 thunder damage. Damage scales at higher levels."
     },
@@ -393,12 +506,26 @@
       "icon": "spells/Green_Flame_Blade_Icon.webp",
       "damageHeadline": "25~35 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "1d8+3", "type": "Fire (leap)", "icon": "fire" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "1d8+3",
+          "type": "Fire (leap)",
+          "icon": "fire"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Make a melee attack against a creature within 5 ft. On hit, weapon damage as normal; green fire then leaps to a second creature within 5 ft. of the first for 1d8 + spellcasting modifier fire damage."
     },
@@ -414,11 +541,21 @@
       "icon": "spells/Sorcerous_Burst_Unfaded_Icon.webp",
       "damageHeadline": "2~16 Damage",
       "damageRows": [
-        { "formula": "2d8", "type": "Choice", "icon": "psychic" }
+        {
+          "formula": "2d8",
+          "type": "Choice",
+          "icon": "psychic"
+        }
       ],
       "mechanics": [
-        { "label": "Ranged", "icon": "ranged" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice)."
     },
@@ -432,7 +569,8 @@
       "tier": "C",
       "tone": "blue",
       "icon": "spells/Mage_Hand_Unfaded_Icon.webp",
-      "description": "Conjure a spectral hand within 30 ft. for 1 minute. As an action, move it 30 ft. and use it to manipulate objects, open unlocked containers, or carry up to 10 lb. Cannot attack, activate magic items, or carry more than 10 lb."
+      "description": "Conjure a spectral hand within 30 ft. for 1 minute. As an action, move it 30 ft. and use it to manipulate objects, open unlocked containers, or carry up to 10 lb. Cannot attack, activate magic items, or carry more than 10 lb.",
+      "popupIcon": "Mage_Hand_Icon.webp"
     },
     {
       "id": "bless",
@@ -444,7 +582,8 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Bless_Unfaded_Icon.webp",
-      "description": "Bless up to three creatures within 30 ft. They each add 1d4 to attack rolls and saving throws while the spell lasts. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
+      "description": "Bless up to three creatures within 30 ft. They each add 1d4 to attack rolls and saving throws while the spell lasts. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
+      "popupIcon": "Bless_Icon.webp"
     },
     {
       "id": "shield",
@@ -456,7 +595,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Shield_spell_Unfaded_Icon.webp",
-      "description": "Reaction triggered by being hit by an attack or targeted by Magic Missile. Gain +5 AC until the start of your next turn — this can retroactively cause the triggering attack to miss, and grants immunity to Magic Missile."
+      "description": "Reaction triggered by being hit by an attack or targeted by Magic Missile. Gain +5 AC until the start of your next turn — this can retroactively cause the triggering attack to miss, and grants immunity to Magic Missile.",
+      "popupIcon": "Shield_Icon.webp"
     },
     {
       "id": "healing-word",
@@ -468,7 +608,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Healing_Word_Unfaded_Icon.webp",
-      "description": "Bonus action. A creature within 60 ft. regains 2d4 + spellcasting modifier (~4) HP. Upcast: +2d4 per slot level above 1st."
+      "description": "Bonus action. A creature within 60 ft. regains 2d4 + spellcasting modifier (~4) HP. Upcast: +2d4 per slot level above 1st.",
+      "popupIcon": "Healing_Word_Icon.webp"
     },
     {
       "id": "mirror-image",
@@ -480,7 +621,8 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Mirror_Image_Unfaded_Icon.webp",
-      "description": "Three illusory duplicates appear in your space for 1 minute. When a creature targets you with an attack, roll a d20: with three duplicates, 6+ hits a duplicate; with two, 8+; with one, 11+. AC of duplicate = 10 + Dex mod; one hit destroys it."
+      "description": "Three illusory duplicates appear in your space for 1 minute. When a creature targets you with an attack, roll a d20: with three duplicates, 6+ hits a duplicate; with two, 8+; with one, 11+. AC of duplicate = 10 + Dex mod; one hit destroys it.",
+      "popupIcon": "Mirror_Image_Icon.webp"
     },
     {
       "id": "suggestion",
@@ -504,7 +646,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Sanctuary_Unfaded_Icon.webp",
-      "description": "1-hour ritual. Perform one of: Atonement, Bless Water, Coming of Age, Dedication, Funeral Rite, or Wedding. Each grants a small lasting boon to its subject(s)."
+      "description": "1-hour ritual. Perform one of: Atonement, Bless Water, Coming of Age, Dedication, Funeral Rite, or Wedding. Each grants a small lasting boon to its subject(s).",
+      "popupIcon": "Sanctuary_Icon.webp"
     },
     {
       "id": "blade-of-blood-and-bone",
@@ -519,11 +662,21 @@
       "popupIcon": "Inflict_Wounds.webp",
       "damageHeadline": "3~30 Damage",
       "damageRows": [
-        { "formula": "3d10", "type": "Necrotic", "icon": "necrotic" }
+        {
+          "formula": "3d10",
+          "type": "Necrotic",
+          "icon": "necrotic"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Make a melee spell attack against a creature within 5 ft. On hit, the target takes 3d10 necrotic damage. Upcast: +1d10 per slot level above 1st."
     },
@@ -537,7 +690,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Cure_Wounds_Unfaded_Icon.webp",
-      "description": "Touch a creature to restore 2d8 + spellcasting modifier HP. No effect on undead or constructs. Upcast: +2d8 per slot level above 1st."
+      "description": "Touch a creature to restore 2d8 + spellcasting modifier HP. No effect on undead or constructs. Upcast: +2d8 per slot level above 1st.",
+      "popupIcon": "Cure_Wounds_Icon.webp"
     },
     {
       "id": "detect-evil-and-good",
@@ -549,7 +703,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Detect_Evil_and_Good_Unfaded_Icon.webp",
-      "description": "For up to 10 minutes, sense the presence and location of any aberration, celestial, elemental, fey, fiend, or undead within 30 ft., as well as any consecrated or desecrated object/place. Concentration."
+      "description": "For up to 10 minutes, sense the presence and location of any aberration, celestial, elemental, fey, fiend, or undead within 30 ft., as well as any consecrated or desecrated object/place. Concentration.",
+      "popupIcon": "Detect_Evil_and_Good_Icon.webp"
     },
     {
       "id": "detect-magic",
@@ -585,7 +740,8 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Heroism_Unfaded_Icon.webp",
-      "description": "Touch a willing creature. It is immune to being frightened and gains spellcasting-modifier temporary HP at the start of each of its turns. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
+      "description": "Touch a willing creature. It is immune to being frightened and gains spellcasting-modifier temporary HP at the start of each of its turns. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
+      "popupIcon": "Heroism_Icon.webp"
     },
     {
       "id": "searing-smite",
@@ -600,12 +756,26 @@
       "popupIcon": "Searing_Smite.webp",
       "damageHeadline": "26~41 Damage",
       "damageRows": [
-        { "formula": "2d6+23", "type": "Slashing", "icon": "slashing" },
-        { "formula": "+1d6", "type": "Fire", "icon": "fire" }
+        {
+          "formula": "2d6+23",
+          "type": "Slashing",
+          "icon": "slashing"
+        },
+        {
+          "formula": "+1d6",
+          "type": "Fire",
+          "icon": "fire"
+        }
       ],
       "mechanics": [
-        { "label": "Melee", "icon": "melee" },
-        { "label": "Attack Roll", "icon": "attack-roll" }
+        {
+          "label": "Melee",
+          "icon": "melee"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute."
     },
@@ -619,7 +789,8 @@
       "tier": "II",
       "tone": "gold",
       "icon": "spells/Magic_Weapon_Unfaded_Icon.webp",
-      "description": "Bonus action. A nonmagical weapon you touch becomes magical with a +1 bonus to attack and damage rolls for 1 hour. +2 when cast with a 4th-level slot."
+      "description": "Bonus action. A nonmagical weapon you touch becomes magical with a +1 bonus to attack and damage rolls for 1 hour. +2 when cast with a 4th-level slot.",
+      "popupIcon": "Magic_Weapon_Icon.webp"
     },
     {
       "id": "aid",
@@ -631,7 +802,8 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Aid_Unfaded_Icon.webp",
-      "description": "Up to three creatures within 30 ft. each gain 5 temporary HP and have their HP maximum raised by 5 for 8 hours. Upcast: +5 HP per slot level above 2nd."
+      "description": "Up to three creatures within 30 ft. each gain 5 temporary HP and have their HP maximum raised by 5 for 8 hours. Upcast: +5 HP per slot level above 2nd.",
+      "popupIcon": "Aid_Icon.webp"
     },
     {
       "id": "infernal-challenge",
@@ -646,11 +818,21 @@
       "popupIcon": "Hellish_Rebuke.webp",
       "damageHeadline": "2~20 Damage",
       "damageRows": [
-        { "formula": "2d10", "type": "Fire", "icon": "fire" }
+        {
+          "formula": "2d10",
+          "type": "Fire",
+          "icon": "fire"
+        }
       ],
       "mechanics": [
-        { "label": "Ranged", "icon": "ranged" },
-        { "label": "Saving Throw", "icon": "save" }
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        }
       ],
       "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st."
     },
@@ -664,7 +846,8 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Lesser_Restoration_Unfaded_Icon.webp",
-      "description": "Touch a creature to end one disease or one of these conditions: blinded, deafened, paralyzed, or poisoned."
+      "description": "Touch a creature to end one disease or one of these conditions: blinded, deafened, paralyzed, or poisoned.",
+      "popupIcon": "Lesser_Restoration_Icon.webp"
     },
     {
       "id": "find-steed",
@@ -688,7 +871,8 @@
       "tier": "II",
       "tone": "green",
       "icon": "spells/Protection_from_Poison_Unfaded_Icon.webp",
-      "description": "Touch a creature: neutralize one poison currently affecting it. For 1 hour the target has advantage on saves against being poisoned and resistance to poison damage."
+      "description": "Touch a creature: neutralize one poison currently affecting it. For 1 hour the target has advantage on saves against being poisoned and resistance to poison damage.",
+      "popupIcon": "Protection_from_Poison_Icon.webp"
     },
     {
       "id": "zone-of-truth",
@@ -724,7 +908,8 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Abjure_Enemy_Unfaded_Icon.webp",
-      "description": "Channel Divinity. Choose a creature within 60 ft. It must succeed on a Wisdom save (with disadvantage if you've sworn vengeance against it) or be frightened and have its speed reduced to 0 for 1 minute. The target repeats the save at the end of its turns; taking damage also ends the effect. Creatures immune to fear are unaffected."
+      "description": "Channel Divinity. Choose a creature within 60 ft. It must succeed on a Wisdom save (with disadvantage if you've sworn vengeance against it) or be frightened and have its speed reduced to 0 for 1 minute. The target repeats the save at the end of its turns; taking damage also ends the effect. Creatures immune to fear are unaffected.",
+      "popupIcon": "Abjure_Enemy_Icon.webp"
     },
     {
       "id": "bane",
@@ -736,7 +921,8 @@
       "tier": "I",
       "tone": "purple",
       "icon": "spells/Bane_Unfaded_Icon.webp",
-      "description": "Up to three creatures within 30 ft. that fail a Charisma save subtract 1d4 from each attack roll and saving throw they make. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st."
+      "description": "Up to three creatures within 30 ft. that fail a Charisma save subtract 1d4 from each attack roll and saving throw they make. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
+      "popupIcon": "Bane_Icon.webp"
     },
     {
       "id": "hunters-mark",
@@ -748,7 +934,8 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Hunters_Mark_Unfaded_Icon.webp",
-      "description": "Bonus action. Mark a creature within 90 ft. as your quarry. Your weapon attacks against it deal an extra 1d6 damage, and you have advantage on Wisdom (Perception) and (Survival) checks to find it. If it drops to 0 HP, you can re-mark a new target on a later turn. Concentration, up to 1 hour."
+      "description": "Bonus action. Mark a creature within 90 ft. as your quarry. Your weapon attacks against it deal an extra 1d6 damage, and you have advantage on Wisdom (Perception) and (Survival) checks to find it. If it drops to 0 HP, you can re-mark a new target on a later turn. Concentration, up to 1 hour.",
+      "popupIcon": "Hunters_Mark_Icon.webp"
     },
     {
       "id": "hold-person",
@@ -760,7 +947,8 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Hold_Person_Unfaded_Icon.webp",
-      "description": "A humanoid within 60 ft. that fails a Wisdom save is paralyzed for the duration. The target repeats the save at the end of each of its turns. Concentration, up to 1 minute. Upcast: +1 humanoid per slot level above 2nd (each within 30 ft. of one another)."
+      "description": "A humanoid within 60 ft. that fails a Wisdom save is paralyzed for the duration. The target repeats the save at the end of each of its turns. Concentration, up to 1 minute. Upcast: +1 humanoid per slot level above 2nd (each within 30 ft. of one another).",
+      "popupIcon": "Hold_Person_Icon.webp"
     },
     {
       "id": "misty-step",
@@ -772,7 +960,8 @@
       "tier": "II",
       "tone": "steel",
       "icon": "spells/Misty_Step_Unfaded_Icon.webp",
-      "description": "Bonus action. Surrounded by silvery mist, teleport up to 30 ft. to an unoccupied space you can see."
+      "description": "Bonus action. Surrounded by silvery mist, teleport up to 30 ft. to an unoccupied space you can see.",
+      "popupIcon": "Misty_Step_Icon.webp"
     },
     {
       "id": "throw-potion",
@@ -883,7 +1072,8 @@
       "tier": "I",
       "tone": "blue",
       "icon": "custom/Healing_Word_Unfaded_Icon.webp",
-      "description": "Quickened Healing Word. Bonus action via 2 sorcery points: a creature within 60 ft. regains 2d4 + spellcasting modifier HP."
+      "description": "Quickened Healing Word. Bonus action via 2 sorcery points: a creature within 60 ft. regains 2d4 + spellcasting modifier HP.",
+      "popupIcon": "Healing_Word_Icon.webp"
     },
     {
       "id": "burst",
@@ -898,11 +1088,21 @@
       "popupIcon": "Shatter.webp",
       "damageHeadline": "3~24 Damage",
       "damageRows": [
-        { "formula": "3d8", "type": "Thunder", "icon": "thunder" }
+        {
+          "formula": "3d8",
+          "type": "Thunder",
+          "icon": "thunder"
+        }
       ],
       "mechanics": [
-        { "label": "Area of Effect", "icon": "aoe" },
-        { "label": "Saving Throw", "icon": "save" }
+        {
+          "label": "Area of Effect",
+          "icon": "aoe"
+        },
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        }
       ],
       "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd."
     },
@@ -916,7 +1116,8 @@
       "tier": "II",
       "tone": "steel",
       "icon": "custom/Misty_Step_Unfaded_Icon.webp",
-      "description": "Misty Step. Bonus action: teleport up to 30 ft. to an unoccupied space you can see — useful for closing the gap on a sworn enemy."
+      "description": "Misty Step. Bonus action: teleport up to 30 ft. to an unoccupied space you can see — useful for closing the gap on a sworn enemy.",
+      "popupIcon": "Misty_Step_Icon.webp"
     }
   ]
 }

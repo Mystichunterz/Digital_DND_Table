@@ -4,7 +4,16 @@ import ActionIcon from "../../../assets/resources/action.png";
 import BonusActionIcon from "../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../assets/resources/reaction.png";
 import SpellSlotIcon from "../../../assets/resources/spell_slot.png";
-import DiceIcon from "../../../assets/popups/dice/D8_Radiant.png";
+import D8Radiant from "../../../assets/popups/dice/D8_Radiant.png";
+import D8Thunder from "../../../assets/popups/dice/D8_Thunder.png";
+import D8Fire from "../../../assets/popups/dice/D8_Fire.png";
+import D8Psychic from "../../../assets/popups/dice/D8_Psychic.png";
+import D6Thunder from "../../../assets/popups/dice/D6_Thunder.png";
+import D6Fire from "../../../assets/popups/dice/D6_Fire.png";
+import D6Psychic from "../../../assets/popups/dice/D6_Psychic.png";
+import D6Radiant from "../../../assets/popups/dice/D6_Radiant.png";
+import D10Fire from "../../../assets/popups/dice/D10_Fire.png";
+import D10Necrotic from "../../../assets/popups/dice/D10_Necrotic.png";
 import SlashingIcon from "../../../assets/popups/damage/Slashing_Damage_Icon.png";
 import RadiantIcon from "../../../assets/popups/damage/Radiant_Damage_Icon.png";
 import FireIcon from "../../../assets/popups/damage/Fire_Damage_Icon.png";
@@ -19,6 +28,51 @@ import SavingThrowIcon from "../../../assets/popups/mechanics/Saving_Throw_Icon.
 import AoeIcon from "../../../assets/popups/mechanics/Aoe_Icon.png";
 
 import "../../styles/components/popups/spell-hover-popup.scss";
+
+const POPUP_CHROME_ASSETS = [
+  ActionIcon,
+  BonusActionIcon,
+  ReactionIcon,
+  SpellSlotIcon,
+  D8Radiant,
+  D8Thunder,
+  D8Fire,
+  D8Psychic,
+  D6Thunder,
+  D6Fire,
+  D6Psychic,
+  D6Radiant,
+  D10Fire,
+  D10Necrotic,
+  SlashingIcon,
+  RadiantIcon,
+  FireIcon,
+  ThunderIcon,
+  PsychicIcon,
+  NecroticIcon,
+  PiercingIcon,
+  MeleeIcon,
+  RangedIcon,
+  AttackRollIcon,
+  SavingThrowIcon,
+  AoeIcon,
+];
+
+if (typeof window !== "undefined" && typeof Image !== "undefined") {
+  const preload = () => {
+    for (const url of POPUP_CHROME_ASSETS) {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+    }
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(preload, { timeout: 1500 });
+  } else {
+    setTimeout(preload, 0);
+  }
+}
 
 const KIND_ICONS = {
   action: ActionIcon,
@@ -43,6 +97,37 @@ const MECHANIC_ICONS = {
   "attack-roll": AttackRollIcon,
   save: SavingThrowIcon,
   aoe: AoeIcon,
+};
+
+const DICE_ICONS = {
+  "d6-thunder": D6Thunder,
+  "d6-fire": D6Fire,
+  "d6-psychic": D6Psychic,
+  "d6-radiant": D6Radiant,
+  "d8-radiant": D8Radiant,
+  "d8-thunder": D8Thunder,
+  "d8-fire": D8Fire,
+  "d8-psychic": D8Psychic,
+  "d10-fire": D10Fire,
+  "d10-necrotic": D10Necrotic,
+};
+
+const pickDiceIcon = (damageRows) => {
+  if (!damageRows || damageRows.length === 0) {
+    return D8Radiant;
+  }
+
+  const lastRow = damageRows[damageRows.length - 1];
+  const match = /d(\d+)/.exec(lastRow.formula ?? "");
+
+  if (!match) {
+    return D8Radiant;
+  }
+
+  const dieSize = match[1];
+  const type = lastRow.icon ?? "radiant";
+
+  return DICE_ICONS[`d${dieSize}-${type}`] ?? D8Radiant;
 };
 
 const TIER_LABELS = {
@@ -98,6 +183,7 @@ const SpellHoverPopup = ({
   const damageRows = Array.isArray(spell?.damageRows) ? spell.damageRows : [];
   const mechanics = Array.isArray(spell?.mechanics) ? spell.mechanics : [];
   const popupArt = spell?.popupIcon ?? spell?.icon ?? null;
+  const diceIcon = pickDiceIcon(damageRows);
 
   return (
     <div
@@ -157,20 +243,19 @@ const SpellHoverPopup = ({
                   className="spell-hover-popup-damage-dice"
                   aria-hidden="true"
                 >
-                  <img src={DiceIcon} alt="" draggable={false} />
+                  <img src={diceIcon} alt="" draggable={false} />
                 </div>
                 <div className="spell-hover-popup-damage-list">
                   {damageRows.map((row, index) => {
                     const typeIcon = DAMAGE_TYPE_ICONS[row.icon];
+                    const typeClass = row.icon
+                      ? `is-type-${row.icon}`
+                      : "";
 
                     return (
                       <p
                         key={`${row.formula}-${row.type}-${index}`}
-                        className={
-                          index === 0
-                            ? "spell-hover-popup-damage-row"
-                            : "spell-hover-popup-damage-row is-secondary"
-                        }
+                        className={`spell-hover-popup-damage-row ${typeClass}`.trim()}
                       >
                         <span className="spell-hover-popup-damage-formula">
                           {row.formula}

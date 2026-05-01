@@ -117,3 +117,36 @@ export const ACTION_LIBRARY = CATEGORY_IDS.reduce((library, categoryId) => {
 }, {});
 
 export const ACTION_MANIFEST_VERSION = manifest?.version ?? 1;
+
+const warmImageCache = (urls) => {
+  if (typeof window === "undefined" || typeof Image === "undefined") {
+    return;
+  }
+
+  for (const url of urls) {
+    if (typeof url === "string" && url.length > 0) {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+    }
+  }
+};
+
+const schedulePreload = (urls) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const run = () => warmImageCache(urls);
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(run, { timeout: 1500 });
+  } else {
+    setTimeout(run, 0);
+  }
+};
+
+schedulePreload([
+  ...Object.values(iconByKey),
+  ...Object.values(popupIconByKey),
+]);
