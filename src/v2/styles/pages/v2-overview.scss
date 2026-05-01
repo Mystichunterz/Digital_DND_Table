@@ -566,14 +566,12 @@
 }
 
 .v2-proficiency-bonus {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.3rem;
   margin: 0;
-  padding: 0.2rem 0.45rem;
-  border-radius: 999px;
-  border: 1px solid rgba(122, 90, 62, 0.7);
-  background: rgba(20, 16, 13, 0.58);
+  padding: 0;
   color: var(--v2-overview-muted);
   font-size: clamp(0.76rem, 0.15vw + 0.72rem, 0.9rem);
 }
@@ -720,6 +718,7 @@
   justify-items: center;
   align-content: center;
   gap: 0.05rem;
+  cursor: pointer;
 }
 
 .v2-saving-throw-chip span,

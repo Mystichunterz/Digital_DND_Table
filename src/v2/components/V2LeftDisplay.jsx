@@ -7,8 +7,7 @@ import Gold_Icon from "../../assets/layout/left_display/gold_icon.png";
 import Star_Icon from "../../assets/layout/left_display/Gold_Star_Icon.png";
 import Dice_Icon from "../../assets/layout/left_display/Ability_Score_Proficiency_Icon.png";
 
-import Slashing_Resistance_Icon from "../../assets/layout/left_display/79px-Slashing_Resistance_NM.png";
-import Piercing_Resistance_Icon from "../../assets/layout/left_display/79px-Piercing_Resistance_NM.png";
+import resistanceData from "../../data/resistanceData";
 
 import Left_Curlicue_Icon from "../../assets/layout/left_display/gold_curl_curlicue_left.svg";
 import Right_Curlicue_Icon from "../../assets/layout/left_display/gold_curl_curlicue_right.svg";
@@ -17,6 +16,7 @@ import AbilityScorePopup from "./popups/AbilityScorePopup";
 import FeaturePopup from "./popups/FeaturePopup";
 import ConditionPopup from "./popups/ConditionPopup";
 import InformationPopup from "./popups/InformationPopup";
+import ResistancePopup from "./popups/ResistancePopup";
 
 import abilityScoresData from "../../data/abilityScoresData";
 import conditionsData from "../../data/conditionsData";
@@ -180,11 +180,20 @@ const V2LeftDisplay = () => {
         />
       </p>
       <div className="resistances shared-margin-small">
-        {[Slashing_Resistance_Icon, Piercing_Resistance_Icon].map(
-          (icon, index) => (
-            <img key={index} src={icon} alt="Res" className="resistance-icon" />
-          ),
-        )}
+        {resistanceData.map((resistance) => (
+          <ResistancePopup
+            key={resistance.id}
+            title={resistance.title}
+            rules={resistance.rules}
+            positionPreference="vertical"
+          >
+            <img
+              src={resistance.icon}
+              alt={resistance.label}
+              className="resistance-icon"
+            />
+          </ResistancePopup>
+        ))}
       </div>
 
       <p className="shared-margin subheading">

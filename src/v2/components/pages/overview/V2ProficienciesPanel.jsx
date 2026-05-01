@@ -20,6 +20,8 @@ import Survival_Icon from "../../../../assets/skills/Survival_Icon.png";
 import Gold_Star_Icon from "../../../../assets/layout/left_display/Gold_Star_Icon.png";
 import Left_Curlicue_Icon from "../../../../assets/layout/left_display/gold_curl_curlicue_left.svg";
 import Right_Curlicue_Icon from "../../../../assets/layout/left_display/gold_curl_curlicue_right.svg";
+import AbilityScorePopup from "../../popups/AbilityScorePopup";
+import abilityScoresData from "../../../../data/abilityScoresData";
 
 const proficienciesData = [
   {
@@ -159,7 +161,6 @@ const proficienciesData = [
 
 const detailedIdentityRows = [
   { label: "Hit Points", value: "61 / 61" },
-  { label: "Temporary Hit Points", value: "0 / 0" },
   { label: "Armour Class", value: "18" },
   {
     label: "Class",
@@ -229,12 +230,6 @@ const V2ProficienciesPanel = () => {
       <header className="v2-overview-panel-header v2-proficiencies-header">
         <div className="v2-proficiencies-heading-group">
           <h2>{isScrollView ? "Proficiencies" : "Character"}</h2>
-          {isScrollView && (
-            <p className="v2-proficiency-bonus">
-              <img src={Gold_Star_Icon} alt="Proficiency" />
-              Proficiency Bonus (+3)
-            </p>
-          )}
         </div>
 
         <div
@@ -262,6 +257,13 @@ const V2ProficienciesPanel = () => {
           </button>
         </div>
       </header>
+
+      {isScrollView && (
+        <p className="v2-proficiency-bonus">
+          <img src={Gold_Star_Icon} alt="Proficiency" />
+          Proficiency Bonus (+3)
+        </p>
+      )}
 
       {isScrollView ? (
         <div className="v2-proficiencies-scroll">
@@ -332,12 +334,44 @@ const V2ProficienciesPanel = () => {
           {renderDivider("Saving Throw Bonus")}
 
           <section className="v2-saving-throws-grid">
-            {savingThrowBonuses.map((save) => (
-              <div className="v2-saving-throw-chip" key={save.ability}>
-                <span>{save.ability}</span>
-                <strong>{save.bonus}</strong>
-              </div>
-            ))}
+            {savingThrowBonuses.map((save) => {
+              const ability = abilityScoresData.find(
+                (entry) => entry.label === save.ability,
+              );
+              const chip = (
+                <div className="v2-saving-throw-chip">
+                  <span>{save.ability}</span>
+                  <strong>{save.bonus}</strong>
+                </div>
+              );
+
+              if (!ability) {
+                return (
+                  <div
+                    className="v2-saving-throw-chip"
+                    key={save.ability}
+                  >
+                    <span>{save.ability}</span>
+                    <strong>{save.bonus}</strong>
+                  </div>
+                );
+              }
+
+              return (
+                <AbilityScorePopup
+                  key={save.ability}
+                  icon={ability.icon}
+                  title={ability.title}
+                  subtitle="Ability"
+                  text={ability.description}
+                  value={ability.value}
+                  savingThrows={ability.savingThrows}
+                  sources={ability.sources}
+                >
+                  {chip}
+                </AbilityScorePopup>
+              );
+            })}
           </section>
 
           {renderDivider("Tags")}

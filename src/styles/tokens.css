@@ -47,7 +47,7 @@
   --color-status-error-bg: #6e2828;
 
   /* fonts */
-  --font-display: 'Aldine 721bt', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --font-display: 'Quadraat', 'Aldine 721 BT', 'Palatino Linotype', Georgia, serif;
 
   /* type scale (rem) — derived from current SCSS usage */
   --font-size-xs: 0.72rem;

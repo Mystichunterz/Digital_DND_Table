@@ -284,7 +284,6 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     display: flex;
     flex-direction: column;
     width: 100%;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
     .condition-content {
       display: flex;
@@ -341,7 +340,6 @@ body.v2-active .v2-left-display-wrap .left-display-content {
     display: flex;
     flex-direction: column;
     width: 100%;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
     .feature-content {
       display: flex;
@@ -417,10 +415,14 @@ body.v2-active .v2-left-display-wrap .left-display-content .currency {
   gap: 0.2rem;
 }
 
-body.v2-active .v2-left-display-wrap .left-display-content .currency-icon,
-body.v2-active .v2-left-display-wrap .left-display-content .primary-icon {
+body.v2-active .v2-left-display-wrap .left-display-content .currency-icon {
   width: clamp(1.1rem, 0.75vw, 1.15rem);
   height: clamp(1.1rem, 0.75vw, 1.15rem);
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content .attributes .primary-icon {
+  width: clamp(1rem, 1.4vw, 1rem);
+  height: clamp(1rem, 1.4vw, 1rem);
 }
 
 body.v2-active
@@ -546,7 +548,7 @@ body.v2-active
   .left-display-content
   .attributes
   .primary-icon-container {
-  top: clamp(-1.1rem, -1vw, -0.8rem);
+  top: clamp(-1.5rem, -1.3vw, -1.15rem);
   left: 50%;
   transform: translateX(-50%);
 }

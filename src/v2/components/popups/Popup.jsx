@@ -146,7 +146,7 @@ const Popup = ({
       >
         {children}
       </div>
-      {inspectable && (
+      {inspectable && !isPinned && (
         <button
           type="button"
           className={tabClassName}
