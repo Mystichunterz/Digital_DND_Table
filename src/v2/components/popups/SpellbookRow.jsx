@@ -37,6 +37,7 @@ const renderGlyph = (glyphKey, label) => {
 const SpellbookRow = ({
   glyphKey,
   label,
+  showLabel = false,
   framed = false,
   trailingEmptySlots = 0,
   slotsRemaining,
@@ -58,9 +59,18 @@ const SpellbookRow = ({
     );
   }
 
+  const isTierGlyph =
+    typeof glyphKey === "string" && glyphKey.startsWith("tier-");
+  const glyphClassName = isTierGlyph
+    ? "v2-spellbook-glyph v2-spellbook-glyph-tier"
+    : "v2-spellbook-glyph";
+
   return (
     <section className={className} aria-label={label}>
-      <span className="v2-spellbook-glyph">
+      {showLabel && (
+        <span className="v2-spellbook-row-title">{label}</span>
+      )}
+      <span className={glyphClassName}>
         {renderGlyph(glyphKey, label)}
       </span>
       <div className="v2-spellbook-icon-row">

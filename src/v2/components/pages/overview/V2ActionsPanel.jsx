@@ -24,6 +24,7 @@ import ExtendedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Ex
 import EmpoweredSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Empowered_Spell_Icon.webp";
 import CarefulSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Careful_Spell_Icon.webp";
 import SeekingSpellIcon from "../../../../assets/actions/metamagic/Seeking_Spell_Icon.webp";
+import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
 const PERSIST_DEBOUNCE_MS = 500;
@@ -292,24 +293,25 @@ const SPELLBOOK_TABS = [
     id: "paladin",
     label: "Paladin",
     getItems: (actions) =>
-      actions.filter((action) => action.category === "paladin"),
+      actions.filter((action) => action.class === "paladin"),
+  },
+  {
+    id: "sorcerer",
+    label: "Sorcerer",
+    getItems: (actions) =>
+      actions.filter((action) => action.class === "sorcerer"),
   },
   {
     id: "common",
     label: "Common",
     getItems: (actions) =>
-      actions.filter((action) => action.category === "common"),
+      actions.filter((action) => action.class === "common"),
   },
   {
     id: "reactions",
     label: "Reactions",
     getItems: (actions) =>
       actions.filter((action) => action.kind === "reaction"),
-  },
-  {
-    id: "all",
-    label: "All",
-    getItems: (actions) => actions,
   },
 ];
 
@@ -970,6 +972,15 @@ const V2ActionsPanel = () => {
     }));
   };
 
+  const restoreNewTurnResources = () => {
+    setResources((current) => ({
+      ...current,
+      action: resourceMax.action,
+      bonus: resourceMax.bonus,
+      reaction: resourceMax.reaction,
+    }));
+  };
+
   const resetResourceDefaults = () => {
     setResourceMax(DEFAULT_RESOURCE_MAX);
     setResources(buildInitialResources(DEFAULT_RESOURCE_MAX));
@@ -1300,6 +1311,7 @@ const V2ActionsPanel = () => {
         <V2ResourcePips
           resources={resources}
           max={resourceMax}
+          onNewTurn={restoreNewTurnResources}
           onShortRest={restoreShortRestResources}
           onLongRest={restoreLongRestResources}
           onAdjust={adjustResource}
@@ -1517,49 +1529,68 @@ const V2ActionsPanel = () => {
                 : undefined
             }
           >
-            <div
-              className="v2-spellbook-drag-handle"
-              onPointerDown={handleSpellbookHeaderPointerDown}
-              role="presentation"
-              aria-hidden="true"
+            <nav
+              className="v2-spellbook-tab-strip"
+              aria-label="Spellbook tabs"
+              onPointerDown={(event) => {
+                if (event.target.closest("button")) {
+                  return;
+                }
+                handleSpellbookHeaderPointerDown(event);
+              }}
             >
-              <span className="v2-spellbook-drag-grip" />
-              <span>Spellbook</span>
-            </div>
+              {SPELLBOOK_TABS.map((tab) => {
+                const tabConfig = getTabById(tab.id);
+                const preparedLimit = tabConfig?.preparedLimit ?? 0;
+                const preparedCount = preparedLimit
+                  ? ACTIONS.filter(
+                      (action) =>
+                        action.class === tab.id &&
+                        action.prepared === true &&
+                        action.spellbookRow !== "class-action",
+                    ).length
+                  : 0;
+                const fallbackCount =
+                  spellbookActionsByTab[tab.id]?.length ?? 0;
+                const tabCountLabel = preparedLimit
+                  ? `(${preparedCount}/${preparedLimit})`
+                  : `(${fallbackCount})`;
 
-            <header className="v2-spellbook-header">
-              <nav
-                className="v2-spellbook-tab-strip"
-                aria-label="Spellbook tabs"
-              >
-                {SPELLBOOK_TABS.map((tab) => {
-                  const count = spellbookActionsByTab[tab.id]?.length ?? 0;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    className={
+                      activeSpellbookTab === tab.id
+                        ? "v2-spellbook-tab is-active"
+                        : "v2-spellbook-tab"
+                    }
+                    onClick={() => setActiveSpellbookTab(tab.id)}
+                  >
+                    <span>
+                      {tab.label}{" "}
+                      <small className="v2-spellbook-tab-count">
+                        {tabCountLabel}
+                      </small>
+                    </span>
+                  </button>
+                );
+              })}
+            </nav>
 
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      className={
-                        activeSpellbookTab === tab.id
-                          ? "v2-spellbook-tab is-active"
-                          : "v2-spellbook-tab"
-                      }
-                      onClick={() => setActiveSpellbookTab(tab.id)}
-                    >
-                      <span>{tab.label}</span>
-                      <small>{count}</small>
-                    </button>
-                  );
-                })}
-              </nav>
-
-              <div className="v2-spellbook-toolbar">
-                <button type="button" onClick={() => setIsSpellbookOpen(false)}>
-                  Close
-                </button>
-              </div>
-            </header>
-
+            <div
+              className="v2-spellbook-surface"
+              onPointerDown={(event) => {
+                if (
+                  event.target.closest(
+                    "button, input, .v2-spellbook-icon, .v2-spellbook-stat-pill, .v2-spellbook-stat-flat, .spell-hover-popup-trigger",
+                  )
+                ) {
+                  return;
+                }
+                handleSpellbookHeaderPointerDown(event);
+              }}
+            >
             {activeSpellbookConfig ? (
               <div className="v2-spellbook-body">
                 <aside className="v2-spellbook-class-rail">
@@ -1584,26 +1615,27 @@ const V2ActionsPanel = () => {
                       className="v2-spellbook-stat-strip"
                       aria-label="Spellbook stats"
                     >
-                      {activeSpellbookConfig.resourceStrip?.tiers?.map(
-                        (tier) => {
-                          const max = resourceMax.spellSlots?.[tier] ?? 0;
-                          const remaining = resources.spellSlots?.[tier] ?? 0;
-
-                          if (max <= 0) return null;
-                          return (
-                            <span
-                              key={`slot-${tier}`}
-                              className="v2-spellbook-stat-slot"
-                            >
-                              <strong>{remaining}</strong>
-                              <small>{romanizeTier(tier)}</small>
-                            </span>
-                          );
-                        },
-                      )}
-                      <span>★ {activeSpellbookConfig.abilityLabel}</span>
-                      <span>DC {activeSpellbookConfig.spellSaveDC}</span>
-                      <span>{activeSpellbookConfig.spellAttackMod}</span>
+                      <span
+                        className="v2-spellbook-stat-pill"
+                        title={`Spellcasting ability: ${activeSpellbookConfig.abilityLabel}`}
+                      >
+                        <span className="v2-spellbook-stat-glyph">★</span>
+                        <strong>{activeSpellbookConfig.abilityLabel}</strong>
+                      </span>
+                      <span
+                        className="v2-spellbook-stat-pill"
+                        title="Spell Attack Modifier"
+                      >
+                        <img src={SpellSlotIcon} alt="" draggable={false} />
+                        <strong>{activeSpellbookConfig.spellAttackMod}</strong>
+                      </span>
+                      <span
+                        className="v2-spellbook-stat-pill"
+                        title="Spell Save DC"
+                      >
+                        <span className="v2-spellbook-stat-glyph">DC</span>
+                        <strong>{activeSpellbookConfig.spellSaveDC}</strong>
+                      </span>
                     </div>
                   </div>
 
@@ -1633,6 +1665,7 @@ const V2ActionsPanel = () => {
                           key={section.id}
                           glyphKey={section.glyphKey}
                           label={section.label}
+                          showLabel={!!section.showLabel}
                           framed={!!section.framed}
                           trailingEmptySlots={trailingEmpty}
                           slotsRemaining={slotsRemaining}
@@ -1694,6 +1727,7 @@ const V2ActionsPanel = () => {
                 </div>
               </div>
             )}
+            </div>
           </section>
         </div>
       )}
