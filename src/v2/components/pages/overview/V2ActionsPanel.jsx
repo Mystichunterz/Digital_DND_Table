@@ -10,6 +10,7 @@ import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
 import { pickRollKind, toAvraeCommand } from "../../../data/avrae";
 import { CONDITIONS, sumExtraActions } from "../../../data/conditionsCatalog";
 import { useConditions } from "../../../state/ConditionsContext";
+import { useCharacterStats } from "../../../state/CharacterStatsContext";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 import {
@@ -465,6 +466,7 @@ const V2ActionsPanel = () => {
   const [rollToast, setRollToast] = useState(null);
   const [isGwmActive, setIsGwmActive] = useState(false);
   const { activeConditions, applyCondition, tickConditions } = useConditions();
+  const { tokenValues } = useCharacterStats();
   const extraActions = sumExtraActions(activeConditions);
   const effectiveResourceMax = useMemo(
     () => ({
@@ -1298,7 +1300,7 @@ const V2ActionsPanel = () => {
     }
 
     const kind = pickRollKind(item, event);
-    const command = toAvraeCommand(item, kind, { gwm: isGwmActive });
+    const command = toAvraeCommand(item, kind, { gwm: isGwmActive }, tokenValues);
 
     if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(command).catch(() => {});

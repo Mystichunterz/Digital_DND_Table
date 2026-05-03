@@ -47,7 +47,7 @@ const applyGwm = (action, kind, resolved) => {
   return resolved;
 };
 
-export const toAvraeCommand = (action, kind, options = {}) => {
+export const toAvraeCommand = (action, kind, options = {}, tokenValues) => {
   const formula = action?.rolls?.[kind];
 
   if (typeof formula !== "string" || formula.trim() === "") {
@@ -59,10 +59,10 @@ export const toAvraeCommand = (action, kind, options = {}) => {
   // Rider/appendix formulas (Bless, Hunter's Mark, etc.) start with "+"
   // and are meant to be pasted after an existing Discord roll line.
   if (trimmed.startsWith("+")) {
-    return substituteTokens(trimmed);
+    return substituteTokens(trimmed, tokenValues);
   }
 
-  const resolved = substituteTokens(trimmed);
+  const resolved = substituteTokens(trimmed, tokenValues);
   const adjusted = options.gwm ? applyGwm(action, kind, resolved) : resolved;
 
   return `!roll ${adjusted}`;

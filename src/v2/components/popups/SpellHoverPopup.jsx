@@ -1,7 +1,13 @@
-import { useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import Popup from "./Popup";
-import { formulaRange, substituteTokens } from "../../data/formulas";
+import {
+  formulaRange,
+  parseFormulaTerms,
+  substituteTokens,
+} from "../../data/formulas";
 import { ACTIONS } from "../../data/actionsCatalog";
+import { useCharacterStats } from "../../state/CharacterStatsContext";
 import ActionIcon from "../../../assets/resources/action.png";
 import BonusActionIcon from "../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../assets/resources/reaction.png";
@@ -169,6 +175,135 @@ const KIND_LABELS = {
   utility: "Action",
 };
 
+const buildBreakdownTerms = (rawRows, tokenValues) => {
+  const terms = [];
+  rawRows.forEach((row) => {
+    const rowTerms = parseFormulaTerms(row.formula ?? "", tokenValues);
+    rowTerms.forEach((term) => {
+      if (term.kind === "dice") {
+        terms.push({ ...term, damageType: row.type });
+      } else {
+        terms.push(term);
+      }
+    });
+  });
+  return terms;
+};
+
+const DamageBreakdownPopup = ({ anchorRef, rawRows, tokenValues }) => {
+  const popupRef = useRef(null);
+  const [position, setPosition] = useState({ top: 0, left: 0, ready: false });
+
+  useLayoutEffect(() => {
+    if (!anchorRef?.current || !popupRef.current) return;
+    const padding = 10;
+    const anchorRect = anchorRef.current.getBoundingClientRect();
+    const width = popupRef.current.offsetWidth;
+    const height = popupRef.current.offsetHeight;
+    let top = anchorRect.bottom + 10;
+    let left = anchorRect.left;
+
+    if (left + width > window.innerWidth - padding) {
+      left = Math.max(window.innerWidth - width - padding, padding);
+    }
+    if (top + height > window.innerHeight - padding) {
+      top = Math.max(anchorRect.top - height - 10, padding);
+    }
+
+    setPosition({ top, left, ready: true });
+  }, [anchorRef]);
+
+  const terms = useMemo(
+    () => buildBreakdownTerms(rawRows, tokenValues),
+    [rawRows, tokenValues],
+  );
+
+  const total = useMemo(
+    () =>
+      rawRows.reduce(
+        (acc, row) => {
+          const range = formulaRange(
+            substituteTokens(row.formula ?? "", tokenValues),
+          );
+          return { min: acc.min + range.min, max: acc.max + range.max };
+        },
+        { min: 0, max: 0 },
+      ),
+    [rawRows, tokenValues],
+  );
+
+  if (terms.length === 0) return null;
+
+  const root = typeof document !== "undefined" ? document.getElementById("root") : null;
+  if (!root) return null;
+
+  const totalLabel =
+    total.min === total.max ? `${total.min}` : `${total.min}~${total.max}`;
+
+  return ReactDOM.createPortal(
+    <div
+      className="spell-damage-breakdown"
+      ref={popupRef}
+      style={{
+        top: position.top,
+        left: position.left,
+        visibility: position.ready ? "visible" : "hidden",
+      }}
+      role="tooltip"
+    >
+      <p className="spell-damage-breakdown-line">
+        <span className="spell-damage-breakdown-label">Damage Roll: </span>
+        {terms.map((term, index) => {
+          const leading =
+            index === 0
+              ? term.sign === "-"
+                ? "- "
+                : ""
+              : ` ${term.sign} `;
+
+          if (term.kind === "dice") {
+            return (
+              <Fragment key={index}>
+                {leading}
+                <span className="spell-damage-breakdown-dice">{term.text}</span>
+                {term.damageType && (
+                  <span className="spell-damage-breakdown-meta">
+                    {" "}
+                    ({term.damageType})
+                  </span>
+                )}
+              </Fragment>
+            );
+          }
+
+          if (term.kind === "token") {
+            return (
+              <Fragment key={index}>
+                {leading}
+                {term.value}
+                <span className="spell-damage-breakdown-meta">
+                  {" "}
+                  ({term.label})
+                </span>
+              </Fragment>
+            );
+          }
+
+          return (
+            <Fragment key={index}>
+              {leading}
+              {term.value}
+            </Fragment>
+          );
+        })}
+        {" = "}
+        <span className="spell-damage-breakdown-total">{totalLabel}</span>
+      </p>
+    </div>,
+    root,
+  );
+};
+
 const SpellHoverPopup = ({
   spell,
   children,
@@ -176,7 +311,16 @@ const SpellHoverPopup = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
+  const [isDamageHovered, setIsDamageHovered] = useState(false);
   const triggerRef = useRef(null);
+  const damageHeadlineRef = useRef(null);
+  const { tokenValues } = useCharacterStats();
+
+  useEffect(() => {
+    if (!isHovered && !isPinned) {
+      setIsDamageHovered(false);
+    }
+  }, [isHovered, isPinned]);
 
   const isSpell = spell?.class !== "common";
   const tierLabel = TIER_LABELS[spell?.tier] ?? "Spell";
@@ -212,9 +356,9 @@ const SpellHoverPopup = ({
     () =>
       rawDamageRows.map((row) => ({
         ...row,
-        formula: substituteTokens(row.formula ?? ""),
+        formula: substituteTokens(row.formula ?? "", tokenValues),
       })),
-    [rawDamageRows],
+    [rawDamageRows, tokenValues],
   );
   const computedDamageHeadline = useMemo(() => {
     if (damageRows.length === 0) {
@@ -280,7 +424,16 @@ const SpellHoverPopup = ({
                 <h5 className="popup-title">{spell?.name ?? "Spell"}</h5>
                 <p className="popup-subtitle">{tierSubtitle}</p>
                 {damageHeadline && (
-                  <p className="spell-hover-popup-damage-headline">
+                  <p
+                    ref={damageHeadlineRef}
+                    className={
+                      isPinned
+                        ? "spell-hover-popup-damage-headline is-inspectable"
+                        : "spell-hover-popup-damage-headline"
+                    }
+                    onMouseEnter={() => setIsDamageHovered(true)}
+                    onMouseLeave={() => setIsDamageHovered(false)}
+                  >
                     {damageHeadline}
                   </p>
                 )}
@@ -431,6 +584,14 @@ const SpellHoverPopup = ({
             </div>
           </div>
         </Popup>
+      )}
+
+      {isPinned && isDamageHovered && rawDamageRows.length > 0 && (
+        <DamageBreakdownPopup
+          anchorRef={damageHeadlineRef}
+          rawRows={rawDamageRows}
+          tokenValues={tokenValues}
+        />
       )}
     </div>
   );

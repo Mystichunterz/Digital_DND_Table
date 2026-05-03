@@ -10,6 +10,9 @@ const AbilityScorePopup = ({
   subtitle,
   text,
   value,
+  baseValue,
+  modifierDelta = 0,
+  onAdjust,
   savingThrows = [],
   sources = [],
   children,
@@ -96,6 +99,38 @@ const AbilityScorePopup = ({
               <p className="popup-subtitle">
                 {renderStyledText(`**${subtitle}**`)}
               </p>
+
+              {onAdjust && (
+                <div className="popup-score-editor">
+                  <button
+                    type="button"
+                    className="popup-score-step"
+                    onClick={() => onAdjust(-1)}
+                    aria-label={`Decrease base ${title}`}
+                  >
+                    −
+                  </button>
+                  <span className="popup-score-base">
+                    Base{" "}
+                    <strong>{baseValue ?? value}</strong>
+                    {modifierDelta !== 0 && (
+                      <em className="popup-score-delta">
+                        {" "}
+                        ({modifierDelta > 0 ? "+" : ""}
+                        {modifierDelta} → {value})
+                      </em>
+                    )}
+                  </span>
+                  <button
+                    type="button"
+                    className="popup-score-step"
+                    onClick={() => onAdjust(1)}
+                    aria-label={`Increase base ${title}`}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
 
               <div className="popup-check-container">
                 <img src={D20_Icon} alt="D20" className="popup-d20-icon" />

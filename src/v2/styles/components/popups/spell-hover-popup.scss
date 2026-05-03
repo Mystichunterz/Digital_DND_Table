@@ -84,6 +84,64 @@ body.v2-active {
     font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.50rem);
     line-height: 1.1;
     letter-spacing: 0.005em;
+    transition: color 0.12s ease, text-shadow 0.12s ease;
+  }
+
+  .spell-hover-popup-damage-headline.is-inspectable {
+    cursor: help;
+    text-decoration: underline dotted rgba(220, 184, 130, 0.55);
+    text-underline-offset: 0.25em;
+  }
+
+  .spell-hover-popup-damage-headline.is-inspectable:hover {
+    color: #ffe7b8;
+    text-shadow: 0 0 12px rgba(255, 215, 140, 0.32);
+  }
+
+  .spell-damage-breakdown {
+    position: fixed;
+    z-index: 10000;
+    pointer-events: none;
+    max-width: min(34rem, calc(100vw - 2rem));
+    padding: 0.55rem 0.85rem;
+    background: linear-gradient(360deg, #503260 0%, #211d17 39.56%), #211d17;
+    border: 1px solid #b7854d;
+    border-radius: 10px;
+    box-shadow:
+      0 18px 38px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(220, 184, 130, 0.25),
+      inset -7px -7px 4px rgba(0, 0, 0, 0.1),
+      inset 7px 7px 4px rgba(0, 0, 0, 0.1);
+    color: #e9dbc2;
+    font-size: clamp(1rem, 0.18vw + 0.94rem, 1.1rem);
+    line-height: 1.45;
+  }
+
+  .spell-damage-breakdown-line {
+    margin: 0;
+  }
+
+  .spell-damage-breakdown-label {
+    color: #ffffff;
+    font-weight: 600;
+    margin-right: 0.1rem;
+  }
+
+  .spell-damage-breakdown-dice {
+    text-decoration: underline;
+    text-decoration-color: rgba(220, 184, 130, 0.7);
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+    color: #f4e6cb;
+  }
+
+  .spell-damage-breakdown-meta {
+    color: #9d8a77;
+  }
+
+  .spell-damage-breakdown-total {
+    color: #ffffff;
+    font-weight: 600;
   }
 
   .spell-hover-popup-damage-grid {

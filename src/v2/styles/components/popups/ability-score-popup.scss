@@ -31,6 +31,47 @@ body.v2-active .ability-score-popup-content {
       color: var(--color-text-muted);
     }
 
+    .popup-score-editor {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+
+      .popup-score-step {
+        width: 1.55rem;
+        height: 1.55rem;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.18);
+          border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        &:active {
+          background: rgba(255, 255, 255, 0.28);
+        }
+      }
+
+      .popup-score-base strong {
+        color: white;
+        font-weight: 500;
+      }
+
+      .popup-score-delta {
+        font-style: italic;
+        color: var(--color-accent-gold-warm);
+      }
+    }
+
     .popup-check-container {
       display: flex;
       align-items: center;

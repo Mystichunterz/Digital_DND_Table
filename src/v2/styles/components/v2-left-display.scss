@@ -333,6 +333,64 @@ body.v2-active .v2-left-display-wrap .left-display-content {
       text-align: center;
       white-space: nowrap;
     }
+
+    .condition-picker {
+      margin-top: 0.35rem;
+
+      .condition-picker-toggle {
+        background: transparent;
+        border: 1px dashed rgba(255, 255, 255, 0.3);
+        color: var(--color-text-muted);
+        padding: 0.25rem 0.55rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+          color: white;
+        }
+      }
+
+      .condition-picker-list {
+        list-style: none;
+        margin: 0.4rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+
+      .condition-picker-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 0.3rem 0.45rem;
+        color: var(--color-text-muted);
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-align: left;
+        transition: background-color 0.15s ease, color 0.15s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.16);
+          color: white;
+        }
+
+        .condition-picker-icon {
+          width: 22px;
+          height: 22px;
+          object-fit: contain;
+        }
+      }
+    }
   }
 
   .features {

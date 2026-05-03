@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import "../styles/components/v2-left-display.scss";
 import Sariel_PFP from "../../assets/layout/left_display/sariel_pfp.png";
 import Vengeance_Paladin_Icon from "../../assets/layout/left_display/Class_Paladin_Badge_Icon.png";
@@ -22,19 +23,33 @@ import abilityScoresData from "../../data/abilityScoresData";
 import featuresData from "../../data/featuresData";
 import {
   CONDITIONS,
+  getActiveAbilityScoreSources,
   getActiveSavingThrowSources,
+  resolveConditionText,
   sumAcBonus,
 } from "../data/conditionsCatalog";
 import { useConditions } from "../state/ConditionsContext";
+import { useCharacterStats } from "../state/CharacterStatsContext";
 
 const BASE_AC = 18;
 
 const formatBonus = (value) => (value >= 0 ? `+${value}` : `${value}`);
 
 const V2LeftDisplay = () => {
-  const { activeConditions, removeCondition } = useConditions();
+  const { activeConditions, applyCondition, removeCondition } = useConditions();
+  const {
+    baseScores,
+    modifiers,
+    abilityScoreModifiers,
+    proficiencyBonus,
+    adjustBaseScore,
+  } = useCharacterStats();
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
   const displayedAc = BASE_AC + sumAcBonus(activeConditions);
-  const savingThrowSources = getActiveSavingThrowSources(activeConditions);
+  const savingThrowSources = getActiveSavingThrowSources(activeConditions, {
+    modifiers,
+  });
 
   const augmentSavingThrows = (savingThrows) => {
     if (!Array.isArray(savingThrows) || savingThrowSources.length === 0) {
@@ -49,6 +64,35 @@ const V2LeftDisplay = () => {
     ];
   };
 
+  const buildAttributeRow = (attr) => {
+    const ability = attr.label;
+    const base = baseScores[ability] ?? attr.value;
+    const delta = abilityScoreModifiers[ability] ?? 0;
+    const effective = base + delta;
+    const modifier = modifiers[ability] ?? 0;
+    const saveBonus = modifier + (attr.isProficient ? proficiencyBonus : 0);
+    const savingThrows = [`${attr.title}, ${formatBonus(saveBonus)}`];
+    const conditionSources = getActiveAbilityScoreSources(
+      activeConditions,
+      ability,
+    ).map(
+      (source) =>
+        `**${source.delta > 0 ? "+" : ""}${source.delta}** from ${source.title}`,
+    );
+    const sources = [...attr.sources, ...conditionSources];
+
+    return {
+      ...attr,
+      base,
+      delta,
+      value: effective,
+      savingThrows,
+      sources,
+    };
+  };
+
+  const attributeRows = abilityScoresData.map(buildAttributeRow);
+
   const conditionEntries = activeConditions
     .map((entry) => {
       const definition = CONDITIONS[entry.id];
@@ -57,9 +101,29 @@ const V2LeftDisplay = () => {
         return null;
       }
 
-      return { ...definition, remainingTurns: entry.remainingTurns };
+      const text = resolveConditionText(definition, { modifiers });
+
+      return { ...definition, text, remainingTurns: entry.remainingTurns };
     })
     .filter(Boolean);
+
+  const activeIds = useMemo(
+    () => new Set(activeConditions.map((entry) => entry.id)),
+    [activeConditions],
+  );
+
+  const availableConditions = useMemo(
+    () =>
+      Object.values(CONDITIONS).filter(
+        (condition) => !condition.permanent && !activeIds.has(condition.id),
+      ),
+    [activeIds],
+  );
+
+  const handleApplyFromPicker = (id) => {
+    applyCondition(id, Number.POSITIVE_INFINITY);
+    setIsPickerOpen(false);
+  };
 
   return (
     <div className="left-display-content">
@@ -106,7 +170,7 @@ const V2LeftDisplay = () => {
         </InformationPopup>
       </div>
       <div className="attributes">
-        {abilityScoresData.map((attr, index) => (
+        {attributeRows.map((attr, index) => (
           <div key={index} className="attribute-wrapper">
             {attr.isPrimary && (
               <InformationPopup
@@ -128,6 +192,9 @@ const V2LeftDisplay = () => {
               subtitle="Ability"
               text={attr.description}
               value={attr.value}
+              baseValue={attr.base}
+              modifierDelta={attr.delta}
+              onAdjust={(step) => adjustBaseScore(attr.label, step)}
               isPrimary={attr.isPrimary}
               isProficient={attr.isProficient}
               savingThrows={augmentSavingThrows(attr.savingThrows)}
@@ -171,9 +238,16 @@ const V2LeftDisplay = () => {
         )}
         {conditionEntries.map((condition) => {
           const isPermanent = !!condition.permanent;
-          const durationLabel = isPermanent
-            ? "Always active"
-            : `${condition.remainingTurns} turn${condition.remainingTurns === 1 ? "" : "s"} remaining`;
+          const isUntilRemoved =
+            !isPermanent && !Number.isFinite(condition.remainingTurns);
+          let durationLabel;
+          if (isPermanent) {
+            durationLabel = "Always active";
+          } else if (isUntilRemoved) {
+            durationLabel = "Until removed";
+          } else {
+            durationLabel = `${condition.remainingTurns} turn${condition.remainingTurns === 1 ? "" : "s"} remaining`;
+          }
 
           return (
             <ConditionPopup
@@ -202,7 +276,9 @@ const V2LeftDisplay = () => {
                     className="condition-icon"
                   />
                   <p className="condition-duration">
-                    {isPermanent ? "∞" : condition.remainingTurns}
+                    {isPermanent || isUntilRemoved
+                      ? "∞"
+                      : condition.remainingTurns}
                   </p>
                 </div>
                 <p>{condition.title}</p>
@@ -210,6 +286,39 @@ const V2LeftDisplay = () => {
             </ConditionPopup>
           );
         })}
+
+        {availableConditions.length > 0 && (
+          <div className="condition-picker">
+            <button
+              type="button"
+              className="condition-picker-toggle"
+              onClick={() => setIsPickerOpen((open) => !open)}
+            >
+              {isPickerOpen ? "− Cancel" : "+ Apply condition"}
+            </button>
+            {isPickerOpen && (
+              <ul className="condition-picker-list">
+                {availableConditions.map((condition) => (
+                  <li key={condition.id}>
+                    <button
+                      type="button"
+                      className="condition-picker-item"
+                      onClick={() => handleApplyFromPicker(condition.id)}
+                    >
+                      <img
+                        src={condition.icon}
+                        alt=""
+                        className="condition-picker-icon"
+                        aria-hidden="true"
+                      />
+                      <span>{condition.title}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </div>
 
       <p className="shared-margin subheading">
