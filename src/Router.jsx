@@ -9,6 +9,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import V2Layout from "./v2/layout/V2Layout";
 import V2Overview from "./v2/pages/V2Overview";
+import V2Inventory from "./v2/pages/V2Inventory";
 import V2Background from "./v2/pages/V2Background";
 import V2Companions from "./v2/pages/V2Companions";
 import V2NotFound from "./v2/pages/V2NotFound";
@@ -49,6 +50,7 @@ const Router = () => {
       <Route path="/v2" element={<V2Layout />}>
         <Route index element={<Navigate to="overview" replace />} />
         <Route path="overview" element={<V2Overview />} />
+        <Route path="inventory" element={<V2Inventory />} />
         <Route path="background" element={<V2Background />} />
         <Route path="companions" element={<V2Companions />} />
         <Route path="journal" element={lazyRoute(V2Journal)} />
