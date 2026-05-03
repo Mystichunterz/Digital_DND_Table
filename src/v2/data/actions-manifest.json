@@ -71,6 +71,10 @@
     {
       "id": "throw",
       "name": "Throw",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d6 + {STR}"
+      },
       "short": "TH",
       "category": "common",
       "section": "offense",
@@ -84,6 +88,10 @@
     {
       "id": "main-attack",
       "name": "Main Attack",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR}"
+      },
       "short": "AT",
       "category": "common",
       "section": "offense",
@@ -110,6 +118,10 @@
     {
       "id": "ranged-attack",
       "name": "Ranged",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d6 + {STR}"
+      },
       "short": "RA",
       "category": "common",
       "section": "offense",
@@ -175,6 +187,10 @@
     {
       "id": "smite",
       "name": "Divine Smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 2d8"
+      },
       "short": "SM",
       "category": "paladin",
       "section": "offense",
@@ -186,7 +202,7 @@
       "damageHeadline": "26~41 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -215,6 +231,10 @@
     {
       "id": "thunderous-smite",
       "name": "Thunderous Smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 2d6"
+      },
       "short": "TS",
       "category": "paladin",
       "section": "offense",
@@ -226,7 +246,7 @@
       "damageHeadline": "27~47 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -255,6 +275,10 @@
     {
       "id": "wrathful-smite",
       "name": "Wrathful Smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 1d6"
+      },
       "short": "WS",
       "category": "paladin",
       "section": "offense",
@@ -266,7 +290,7 @@
       "damageHeadline": "26~41 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -284,6 +308,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
         }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 psychic damage. Target must succeed on a Wisdom save or be frightened of you for the duration. Concentration, up to 1 minute.",
@@ -302,6 +330,20 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Compelled_Duel_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "One creature within 30 ft. that fails a Wisdom save has disadvantage on attacks against anyone but you and can't willingly move more than 30 ft. away. Spell ends if you attack or target someone else, an ally damages the target, or you end your turn 30+ ft. away. Concentration, 1 min.",
       "popupIcon": "Compelled_Duel_Icon.webp",
       "class": "paladin",
@@ -319,6 +361,12 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Vow_of_Enmity_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 10 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Channel Divinity. Bonus action. Choose one creature within 10 ft. as your sworn enemy. You have advantage on attack rolls against it for 1 minute or until it drops to 0 HP.",
       "popupIcon": "Vow_of_Enmity_Icon.webp",
       "class": "paladin",
@@ -345,6 +393,9 @@
     },
     {
       "id": "divine-favor",
+      "rolls": {
+        "damage": "+ 1d4"
+      },
       "name": "Divine Favor",
       "short": "DF",
       "category": "paladin",
@@ -353,6 +404,12 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Divine_Favor_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Bonus action. Your weapon attacks deal an extra 1d4 radiant damage on hit. Concentration, up to 1 minute.",
       "popupIcon": "Divine_Favour_Icon.webp",
       "class": "paladin",
@@ -370,6 +427,16 @@
       "tier": "I",
       "tone": "red",
       "icon": "spells/Command_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "One creature within 60 ft. must succeed on a Wisdom save or follow a one-word command on its next turn (Approach, Drop, Flee, Grovel, Halt). Fails against undead, creatures that don't understand you, or directly harmful commands. Upcast: +1 creature per slot level above 1st (within 30 ft. of one another).",
       "popupIcon": "Command_Icon.webp",
       "class": "paladin",
@@ -380,6 +447,10 @@
     {
       "id": "branding-smite",
       "name": "Branding Smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 2d6"
+      },
       "short": "BS",
       "category": "paladin",
       "section": "offense",
@@ -391,7 +462,7 @@
       "damageHeadline": "27~47 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -409,6 +480,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
         }
       ],
       "description": "Bonus action. Your next melee hit deals +2d6 radiant damage. Until the spell ends, the target emits bright light in a 5-ft. radius, attack rolls against it have advantage, and it can't become invisible. Concentration, up to 1 minute.",
@@ -419,6 +494,10 @@
     },
     {
       "id": "branding-smite-ranged",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d6 + {STR} + 2d6"
+      },
       "name": "Branding Smite (Ranged)",
       "short": "BR",
       "category": "paladin",
@@ -431,7 +510,7 @@
       "damageHeadline": "7~22 Damage",
       "damageRows": [
         {
-          "formula": "1d6+4",
+          "formula": "1d6+{STR}",
           "type": "Piercing",
           "icon": "piercing"
         },
@@ -449,6 +528,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
         }
       ],
       "description": "Bonus action. As Branding Smite, but applies to your next ranged weapon hit. +2d6 radiant damage; the target sheds bright light 5 ft., attacks against it have advantage, and it can't turn invisible. Concentration, up to 1 minute.",
@@ -459,6 +542,10 @@
     },
     {
       "id": "blinding-smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 3d8"
+      },
       "name": "Blinding Smite",
       "short": "BL",
       "category": "paladin",
@@ -471,7 +558,7 @@
       "damageHeadline": "28~59 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -489,6 +576,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
         }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +3d8 radiant damage and the target must succeed on a Constitution save or be blinded for the duration. Concentration, up to 1 minute.",
@@ -499,6 +590,10 @@
     },
     {
       "id": "firebolt",
+      "rolls": {
+        "attack": "1d20 + {SPELL_ATK}",
+        "damage": "2d10"
+      },
       "name": "Firebolt",
       "short": "FB",
       "category": "paladin",
@@ -524,6 +619,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Range: 120 ft.",
+          "icon": "range"
         }
       ],
       "description": "Hurl a mote of fire at a target within 120 ft. Ranged spell attack: on hit, 2d10 fire damage (scales with character level). Ignites flammable objects that aren't worn or carried.",
@@ -533,6 +632,10 @@
     },
     {
       "id": "booming-blade",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 1d8"
+      },
       "name": "Booming Blade",
       "short": "BB",
       "category": "paladin",
@@ -545,7 +648,7 @@
       "damageHeadline": "26~43 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -572,6 +675,10 @@
     },
     {
       "id": "green-flame-blade",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR}"
+      },
       "name": "Green-Flame Blade",
       "short": "GB",
       "category": "paladin",
@@ -583,12 +690,12 @@
       "damageHeadline": "25~35 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
         {
-          "formula": "1d8+3",
+          "formula": "1d8+{CHA}",
           "type": "Fire (leap)",
           "icon": "fire"
         }
@@ -610,6 +717,10 @@
     },
     {
       "id": "sorcerous-burst",
+      "rolls": {
+        "attack": "1d20 + {SPELL_ATK}",
+        "damage": "2d8"
+      },
       "name": "Sorcerous Burst",
       "short": "SB",
       "category": "paladin",
@@ -634,6 +745,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Range: 120 ft.",
+          "icon": "range"
         }
       ],
       "description": "Hurl raw sorcerous energy at a target within 120 ft. Ranged spell attack: on hit, 2d8 damage of a chosen type (acid, cold, fire, lightning, poison, psychic, or thunder). Each die that rolls a max value lets you roll one more die (up to your spellcasting modifier in additional dice).",
@@ -651,6 +766,12 @@
       "tier": "C",
       "tone": "blue",
       "icon": "spells/Mage_Hand_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Conjure a spectral hand within 30 ft. for 1 minute. As an action, move it 30 ft. and use it to manipulate objects, open unlocked containers, or carry up to 10 lb. Cannot attack, activate magic items, or carry more than 10 lb.",
       "popupIcon": "Mage_Hand_Icon.webp",
       "class": "sorcerer",
@@ -659,6 +780,9 @@
     },
     {
       "id": "bless",
+      "rolls": {
+        "damage": "+ 1d4"
+      },
       "name": "Bless",
       "short": "BL",
       "category": "paladin",
@@ -667,6 +791,16 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Bless_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Bless up to three creatures within 30 ft. They each add 1d4 to attack rolls and saving throws while the spell lasts. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
       "popupIcon": "Bless_Icon.webp",
       "class": "sorcerer",
@@ -691,6 +825,9 @@
     },
     {
       "id": "healing-word",
+      "rolls": {
+        "damage": "2d4 + {CHA}"
+      },
       "name": "Healing Word",
       "short": "HW",
       "category": "paladin",
@@ -699,6 +836,12 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Healing_Word_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Bonus action. A creature within 60 ft. regains 2d4 + spellcasting modifier (~4) HP. Upcast: +2d4 per slot level above 1st.",
       "popupIcon": "Healing_Word_Icon.webp",
       "class": "sorcerer",
@@ -731,6 +874,20 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Suggestion_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Suggest a course of action to one creature within 30 ft. that can hear and understand you. On a failed Wisdom save it pursues the suggestion to the best of its ability for up to 8 hours. Obviously harmful suggestions auto-fail. Concentration.",
       "class": "sorcerer",
       "subclass": "draconic-bloodline",
@@ -755,6 +912,10 @@
     },
     {
       "id": "blade-of-blood-and-bone",
+      "rolls": {
+        "attack": "1d20 + {SPELL_ATK}",
+        "damage": "3d10"
+      },
       "name": "Blade of Blood and Bone",
       "short": "BB",
       "category": "paladin",
@@ -790,6 +951,9 @@
     },
     {
       "id": "cure-wounds",
+      "rolls": {
+        "damage": "2d8 + {CHA}"
+      },
       "name": "Cure Wounds",
       "short": "CW",
       "category": "paladin",
@@ -815,6 +979,12 @@
       "tier": "I",
       "tone": "blue",
       "icon": "spells/Detect_Evil_and_Good_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "For up to 10 minutes, sense the presence and location of any aberration, celestial, elemental, fey, fiend, or undead within 30 ft., as well as any consecrated or desecrated object/place. Concentration.",
       "popupIcon": "Detect_Evil_and_Good_Icon.webp",
       "class": "paladin",
@@ -833,6 +1003,12 @@
       "tone": "blue",
       "icon": "spells/Detect_Thoughts_Unfaded_Icon.webp",
       "ritual": true,
+      "mechanics": [
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Sense magical effects within 30 ft. By taking the Magic action, you see a faint aura around any visible magical creature or object and learn the school of magic if any. Blocked by 1 ft. of stone, 1 in. of metal, or a thin sheet of lead. Concentration, up to 10 min.",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
@@ -849,6 +1025,12 @@
       "tier": "I",
       "tone": "blue",
       "icon": "items/POT_Antidote_Unfaded.png",
+      "mechanics": [
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Sense the presence and location of poisons, poisonous creatures, and diseases within 30 ft., and identify each kind. Concentration, up to 10 minutes. Ritual.",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
@@ -865,6 +1047,12 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Heroism_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Touch a willing creature. It is immune to being frightened and gains spellcasting-modifier temporary HP at the start of each of its turns. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
       "popupIcon": "Heroism_Icon.webp",
       "class": "paladin",
@@ -874,6 +1062,10 @@
     },
     {
       "id": "searing-smite",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR} + 1d6"
+      },
       "name": "Searing Smite",
       "short": "SS",
       "category": "paladin",
@@ -886,7 +1078,7 @@
       "damageHeadline": "26~41 Damage",
       "damageRows": [
         {
-          "formula": "2d6+23",
+          "formula": "1d10+{STR}",
           "type": "Slashing",
           "icon": "slashing"
         },
@@ -904,6 +1096,10 @@
         {
           "label": "Attack Roll",
           "icon": "attack-roll"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
         }
       ],
       "description": "Bonus action. Your next melee hit this turn deals +1d6 fire damage and ignites the target. At the start of each of its turns the target makes a Constitution save or takes 1d6 fire damage; on success the spell ends. Concentration, up to 1 minute.",
@@ -939,6 +1135,12 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Aid_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Up to three creatures within 30 ft. each gain 5 temporary HP and have their HP maximum raised by 5 for 8 hours. Upcast: +5 HP per slot level above 2nd.",
       "popupIcon": "Aid_Icon.webp",
       "class": "paladin",
@@ -948,6 +1150,9 @@
     },
     {
       "id": "infernal-challenge",
+      "rolls": {
+        "damage": "2d10"
+      },
       "name": "Infernal Challenge",
       "short": "IC",
       "category": "paladin",
@@ -973,6 +1178,10 @@
         {
           "label": "Saving Throw",
           "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
         }
       ],
       "description": "As a reaction when a creature damages you, force it to make a Dexterity save. It takes 2d10 fire damage on a fail, half on a success. Upcast: +1d10 per slot level above 1st.",
@@ -1008,6 +1217,12 @@
       "tier": "II",
       "tone": "gold",
       "icon": "spells/SummonSteed_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Summon a celestial, fey, or fiendish spirit (Medium or Large) that takes the form of a loyal mount within 30 ft. for 1 hour. You can communicate telepathically with it while mounted, and it shares spell effects targeting you.",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
@@ -1041,6 +1256,16 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Zone_Of_Truth_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Create a 15-ft. radius sphere within 60 ft. for 10 minutes. A creature that fails a Charisma save when entering or starting its turn there can't speak deliberate lies; on success it knows it's affected and can avoid topics.",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
@@ -1057,6 +1282,16 @@
       "tier": "II",
       "tone": "blue",
       "icon": "spells/Find_Object_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 1,000 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Sense the direction of a familiar object within 1,000 ft.; if it is moving, you know which way. You can also locate the nearest object of a kind you describe (e.g., a particular weapon or piece of jewelry) seen within 30 ft. before. Blocked by lead. Concentration, up to 10 minutes.",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
@@ -1073,6 +1308,16 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Abjure_Enemy_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Channel Divinity. Choose a creature within 60 ft. It must succeed on a Wisdom save (with disadvantage if you've sworn vengeance against it) or be frightened and have its speed reduced to 0 for 1 minute. The target repeats the save at the end of its turns; taking damage also ends the effect. Creatures immune to fear are unaffected.",
       "popupIcon": "Abjure_Enemy_Icon.webp",
       "class": "paladin",
@@ -1090,14 +1335,33 @@
       "tier": "I",
       "tone": "purple",
       "icon": "spells/Bane_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Up to three creatures within 30 ft. that fail a Charisma save subtract 1d4 from each attack roll and saving throw they make. Concentration, up to 1 minute. Upcast: +1 target per slot level above 1st.",
       "popupIcon": "Bane_Icon.webp",
-      "class": "sorcerer",
-      "subclass": "draconic-bloodline",
-      "spellbookRow": "tier-1"
+      "class": "paladin",
+      "subclass": "oath-of-vengeance",
+      "spellbookRow": "spell-at-will",
+      "prepared": true,
+      "oathSpell": true
     },
     {
       "id": "hunters-mark",
+      "rolls": {
+        "damage": "+ 1d6"
+      },
       "name": "Hunter's Mark",
       "short": "HM",
       "category": "paladin",
@@ -1106,11 +1370,21 @@
       "tier": "I",
       "tone": "gold",
       "icon": "spells/Hunters_Mark_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 90 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "Bonus action. Mark a creature within 90 ft. as your quarry. Your weapon attacks against it deal an extra 1d6 damage, and you have advantage on Wisdom (Perception) and (Survival) checks to find it. If it drops to 0 HP, you can re-mark a new target on a later turn. Concentration, up to 1 hour.",
       "popupIcon": "Hunters_Mark_Icon.webp",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
-      "spellbookRow": "tier-1",
+      "spellbookRow": "spell-at-will",
       "prepared": true,
       "oathSpell": true
     },
@@ -1124,11 +1398,25 @@
       "tier": "II",
       "tone": "purple",
       "icon": "spells/Hold_Person_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Saving Throw",
+          "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        },
+        {
+          "label": "Concentration",
+          "icon": "concentration"
+        }
+      ],
       "description": "A humanoid within 60 ft. that fails a Wisdom save is paralyzed for the duration. The target repeats the save at the end of each of its turns. Concentration, up to 1 minute. Upcast: +1 humanoid per slot level above 2nd (each within 30 ft. of one another).",
       "popupIcon": "Hold_Person_Icon.webp",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
-      "spellbookRow": "tier-2",
+      "spellbookRow": "spell-at-will",
       "prepared": true,
       "oathSpell": true
     },
@@ -1142,11 +1430,17 @@
       "tier": "II",
       "tone": "steel",
       "icon": "spells/Misty_Step_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Bonus action. Surrounded by silvery mist, teleport up to 30 ft. to an unoccupied space you can see.",
       "popupIcon": "Misty_Step_Icon.webp",
       "class": "paladin",
       "subclass": "oath-of-vengeance",
-      "spellbookRow": "tier-2",
+      "spellbookRow": "spell-at-will",
       "prepared": true,
       "oathSpell": true
     },
@@ -1160,63 +1454,27 @@
       "tier": "I",
       "tone": "green",
       "icon": "items/POT_Potion_of_Healing_Unfaded_Icon.png",
-      "class": "common",
-      "spellbookRow": "item"
-    },
-    {
-      "id": "coat-weapon",
-      "name": "Coat Weapon",
-      "short": "CW",
-      "category": "items",
-      "section": "offense",
-      "kind": "bonus",
-      "tier": "I",
-      "tone": "green",
-      "icon": "items/COAT_Oil_of_Sharpness_Unfaded_Icon.png",
-      "class": "common",
-      "spellbookRow": "item"
-    },
-    {
-      "id": "bomb",
-      "name": "Bomb",
-      "short": "BM",
-      "category": "items",
-      "section": "offense",
-      "kind": "action",
-      "tier": "II",
-      "tone": "red",
-      "icon": "items/Runepowder_Bomb_Unfaded_Icon.png",
-      "class": "common",
-      "spellbookRow": "item"
-    },
-    {
-      "id": "scroll",
-      "name": "Scroll",
-      "short": "SC",
-      "category": "items",
-      "section": "support",
-      "kind": "utility",
-      "tier": "II",
-      "tone": "blue",
-      "icon": "items/Scroll_Dense_Unfaded_Icon.png",
-      "class": "common",
-      "spellbookRow": "item"
-    },
-    {
-      "id": "elixir",
-      "name": "Elixir",
-      "short": "EX",
-      "category": "items",
-      "section": "support",
-      "kind": "utility",
-      "tier": "III",
-      "tone": "green",
-      "icon": "items/ELX_Elixir_of_Heroism_Unfaded_Icon.png",
+      "subtitle": "Consumable Item",
+      "description": "Hurl a held potion at a creature within 20 ft. or smash it at your feet (5 ft. radius). On hit, the contents apply to the target as if they had drunk it; ranged improvised attack roll. Splash potions affect everyone in a small area.",
+      "mechanics": [
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
+      ],
       "class": "common",
       "spellbookRow": "item"
     },
     {
       "id": "javelin",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d6 + {STR}"
+      },
       "name": "Javelin",
       "short": "JV",
       "category": "items",
@@ -1225,11 +1483,34 @@
       "tier": "I",
       "tone": "steel",
       "icon": "items/Javelin_Faded.png",
+      "quantity": 6,
+      "subtitle": "Simple Weapon (Thrown 30/120 ft.)",
+      "description": "Hurl a Javelin at a target within range. 1d6 + STR piercing damage on a hit. Disadvantage beyond 30 ft.; cannot hit beyond 120 ft. Carrying 6.",
+      "damageRows": [
+        {
+          "formula": "1d6+{STR}",
+          "type": "Piercing",
+          "icon": "piercing"
+        }
+      ],
+      "mechanics": [
+        {
+          "label": "Ranged",
+          "icon": "ranged"
+        },
+        {
+          "label": "Attack Roll",
+          "icon": "attack-roll"
+        }
+      ],
       "class": "common",
       "spellbookRow": "item"
     },
     {
       "id": "potion-healing",
+      "rolls": {
+        "damage": "2d4 + {CHA}"
+      },
       "name": "Potion of Healing",
       "short": "HP",
       "category": "items",
@@ -1238,6 +1519,16 @@
       "tier": "I",
       "tone": "green",
       "icon": "items/POT_Potion_of_Healing_Unfaded_Icon.png",
+      "quantity": 1,
+      "subtitle": "Consumable Potion",
+      "description": "Bonus action. Drink the potion to regain 2d4 + 2 hit points, or feed it to another creature within reach. Can also be thrown to splash on a target. Carrying 1.",
+      "damageRows": [
+        {
+          "formula": "2d4+2",
+          "type": "Healing",
+          "icon": "radiant"
+        }
+      ],
       "class": "common",
       "spellbookRow": "item"
     },
@@ -1251,6 +1542,13 @@
       "tier": "I",
       "tone": "red",
       "icon": "items/POT_Potion_of_Speed_Unfaded_Icon.png",
+      "applies": {
+        "condition": "hastened",
+        "durationTurns": 10
+      },
+      "quantity": 1,
+      "subtitle": "Consumable Potion",
+      "description": "Bonus action. For 1 minute, you gain the effects of the Haste spell on yourself: doubled speed, +2 AC, advantage on Dexterity saves, and one additional action each turn (limited to Attack, Dash, Disengage, Hide, or Use an Object). When the potion ends, you can't move or take actions until the end of your next turn. Carrying 1.",
       "class": "common",
       "spellbookRow": "item"
     },
@@ -1258,17 +1556,22 @@
       "id": "great-weapon-master",
       "name": "GWM",
       "short": "GW",
-      "category": "passives",
+      "category": "common",
       "section": "offense",
       "kind": "utility",
       "tier": "I",
       "tone": "red",
       "icon": "passives/Great_Weapon_Master_All_In_Unfaded_Icon.webp",
       "class": "common",
-      "spellbookRow": "passive"
+      "spellbookRow": "passive",
+      "toggle": "gwm"
     },
     {
       "id": "opportunity-attack",
+      "rolls": {
+        "attack": "1d20 + {STR} + {PROF}",
+        "damage": "1d10 + {STR}"
+      },
       "name": "Opportunity",
       "short": "OA",
       "category": "passives",
@@ -1308,6 +1611,9 @@
     },
     {
       "id": "quick-heal",
+      "rolls": {
+        "damage": "2d4 + {CHA}"
+      },
       "name": "Quick Heal",
       "short": "QH",
       "category": "custom",
@@ -1316,6 +1622,12 @@
       "tier": "I",
       "tone": "blue",
       "icon": "custom/Healing_Word_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Quickened Healing Word. Bonus action via 2 sorcery points: a creature within 60 ft. regains 2d4 + spellcasting modifier HP.",
       "popupIcon": "Healing_Word_Icon.webp",
       "class": "paladin",
@@ -1323,6 +1635,9 @@
     },
     {
       "id": "burst",
+      "rolls": {
+        "damage": "3d8"
+      },
       "name": "Burst",
       "short": "BU",
       "category": "custom",
@@ -1348,6 +1663,10 @@
         {
           "label": "Saving Throw",
           "icon": "save"
+        },
+        {
+          "label": "Range: 60 ft.",
+          "icon": "range"
         }
       ],
       "description": "Shatter. A burst of painfully loud noise erupts at a point within 60 ft. Each creature in a 10-ft. radius sphere takes 3d8 thunder damage on a failed Constitution save (half on success). Upcast: +1d8 per slot level above 2nd.",
@@ -1365,6 +1684,12 @@
       "tier": "II",
       "tone": "steel",
       "icon": "custom/Misty_Step_Unfaded_Icon.webp",
+      "mechanics": [
+        {
+          "label": "Range: 30 ft.",
+          "icon": "range"
+        }
+      ],
       "description": "Misty Step. Bonus action: teleport up to 30 ft. to an unoccupied space you can see — useful for closing the gap on a sworn enemy.",
       "popupIcon": "Misty_Step_Icon.webp",
       "class": "paladin",
