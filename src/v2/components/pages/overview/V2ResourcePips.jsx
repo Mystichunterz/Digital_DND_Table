@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ActionIcon from "../../../../assets/resources/action.png";
 import BonusActionIcon from "../../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../../assets/resources/reaction.png";
@@ -279,9 +279,31 @@ const V2ResourcePips = ({
   onUpdatePreparedLimit,
 }) => {
   const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const configWrapperRef = useRef(null);
   // Caches the last non-zero max per key so the eye toggle can restore the
   // resource to its prior value rather than always defaulting to 1.
   const lastVisibleMaxRef = useRef({ spellSlots: {} });
+
+  useEffect(() => {
+    if (!isConfigOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      const wrapper = configWrapperRef.current;
+      if (wrapper && !wrapper.contains(event.target)) {
+        setIsConfigOpen(false);
+      }
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsConfigOpen(false);
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isConfigOpen]);
 
   const handleResetDefaults = () => {
     if (
@@ -398,29 +420,28 @@ const V2ResourcePips = ({
             <img src={LongRestIcon} alt="" draggable={false} />
           </button>
 
-          <button
-            type="button"
-            className={
-              isConfigOpen
-                ? "v2-resource-config-toggle is-active"
-                : "v2-resource-config-toggle"
-            }
-            onClick={() => setIsConfigOpen((current) => !current)}
-            title="Configure resource maximums"
-            aria-label="Configure resources"
-            aria-expanded={isConfigOpen}
-          >
-            ⚙
-          </button>
-        </div>
-      </div>
+          <div className="v2-resource-config-wrapper" ref={configWrapperRef}>
+            <button
+              type="button"
+              className={
+                isConfigOpen
+                  ? "v2-resource-config-toggle is-active"
+                  : "v2-resource-config-toggle"
+              }
+              onClick={() => setIsConfigOpen((current) => !current)}
+              title="Configure resource maximums"
+              aria-label="Configure resources"
+              aria-expanded={isConfigOpen}
+            >
+              ⚙
+            </button>
 
-      {isConfigOpen && (
-        <div
-          className="v2-resource-config-card"
-          role="dialog"
-          aria-label="Configure resource maximums"
-        >
+            {isConfigOpen && (
+              <div
+                className="v2-resource-config-card"
+                role="dialog"
+                aria-label="Configure resource maximums"
+              >
           <div className="v2-resource-config-header">
             <span>Resource Maximums</span>
             <div className="v2-resource-config-header-actions">
@@ -512,8 +533,11 @@ const V2ResourcePips = ({
             Click the eye to hide a resource; click again to restore. Click pips
             to spend, right-click to restore.
           </p>
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

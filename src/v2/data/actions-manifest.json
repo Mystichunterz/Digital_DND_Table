@@ -762,7 +762,7 @@
       "short": "MH",
       "category": "paladin",
       "section": "support",
-      "kind": "utility",
+      "kind": "action",
       "tier": "C",
       "tone": "blue",
       "icon": "spells/Mage_Hand_Unfaded_Icon.webp",

@@ -435,6 +435,22 @@ const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
 const isSpellAction = (action) =>
   action?.category === "paladin" ||
   (typeof action?.iconKey === "string" && action.iconKey.startsWith("spells/"));
+
+const canAffordAction = (item, resources) => {
+  if (!item || item.toggle === "gwm") return true;
+
+  if (item.kind === "action" && (resources.action ?? 0) <= 0) return false;
+  if (item.kind === "bonus" && (resources.bonus ?? 0) <= 0) return false;
+  if (item.kind === "reaction" && (resources.reaction ?? 0) <= 0) return false;
+
+  if (isSpellAction(item) && item.tier && item.tier !== "C") {
+    const slotLevel = TIER_TO_SLOT_LEVEL[item.tier];
+    if (!slotLevel || (resources.spellSlots?.[slotLevel] ?? 0) <= 0) return false;
+  }
+
+  return true;
+};
+
 const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
 const V2ActionsPanel = () => {
@@ -1425,12 +1441,14 @@ const V2ActionsPanel = () => {
 
       const isLocked = isActionLockedForPreparation(item, preparedSpellIds);
       const isToggleActive = item.toggle === "gwm" && isGwmActive;
+      const isUnaffordable = !isLocked && !canAffordAction(item, resources);
       const tileClassName = [
         "v2-action-tile",
         `tone-${item.tone}`,
         isDragging ? "is-dragging" : "",
         isDropTarget ? "is-drop-target" : "",
         isLocked ? "is-locked" : "",
+        isUnaffordable ? "is-unaffordable" : "",
         isToggleActive ? "is-toggle-active" : "",
       ]
         .filter(Boolean)
@@ -1438,7 +1456,9 @@ const V2ActionsPanel = () => {
       const toggleSuffix = isToggleActive ? " — ON" : "";
       const tileTitle = isLocked
         ? `${item.name} (${item.kind}) — not prepared`
-        : `${item.name} (${item.kind})${toggleSuffix}`;
+        : isUnaffordable
+          ? `${item.name} (${item.kind}) — not enough resources`
+          : `${item.name} (${item.kind})${toggleSuffix}`;
       const tileAriaLabel = tileTitle;
 
       const tileButton = (

@@ -1178,6 +1178,12 @@
   gap: clamp(0.3rem, 0.5vw, 0.5rem);
 }
 
+.v2-resource-config-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
 .v2-resource-config-toggle {
   align-self: center;
   display: inline-flex;
@@ -1205,13 +1211,19 @@
 }
 
 .v2-resource-config-card {
-  width: min(28rem, 100%);
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 60;
+  width: min(28rem, 80vw);
+  max-height: min(32rem, 70vh);
+  overflow-y: auto;
   padding: clamp(0.55rem, 0.8vw, 0.85rem);
   border: 1px solid rgba(122, 90, 62, 0.78);
   border-radius: 8px;
-  background: rgba(18, 14, 12, 0.92);
+  background: rgba(18, 14, 12, 0.96);
   box-shadow:
-    0 5px 12px rgba(0, 0, 0, 0.35),
+    0 10px 24px rgba(0, 0, 0, 0.55),
     inset 0 1px 0 rgba(245, 233, 209, 0.06);
   color: var(--v2-overview-text);
 }
@@ -1710,6 +1722,15 @@ button.v2-resource-config-reset:hover {
 .v2-action-tile.is-locked .v2-action-plus {
   opacity: 0.4;
   filter: grayscale(0.7);
+}
+
+.v2-action-tile.is-unaffordable .v2-action-icon,
+.v2-action-tile.is-unaffordable .v2-action-short,
+.v2-action-tile.is-unaffordable .v2-action-keybind,
+.v2-action-tile.is-unaffordable .v2-action-plus,
+.v2-action-tile.is-unaffordable .v2-action-qty {
+  opacity: 0.45;
+  filter: grayscale(0.85);
 }
 
 .v2-action-lock-overlay {
