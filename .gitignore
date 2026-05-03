@@ -15,6 +15,9 @@ dist-ssr
 # Local SQLite state (per-character resource/layout persistence)
 /data/
 
+# Journal markdown notes (per-player runtime content)
+/notes/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
