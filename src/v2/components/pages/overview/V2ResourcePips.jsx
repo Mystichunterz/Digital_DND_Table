@@ -3,6 +3,8 @@ import ActionIcon from "../../../../assets/resources/action.png";
 import BonusActionIcon from "../../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../../assets/resources/reaction.png";
 import ChannelOathIcon from "../../../../assets/resources/channel_oath.png";
+import FavouredByGodsIcon from "../../../../assets/popups/features/120px-Divine_Intervention_Sunder_the_Heretical_Icon.webp.png";
+import SerasBenevolenceIcon from "../../../../assets/popups/spells/Bless_Icon.webp";
 import DivineSenseIcon from "../../../../assets/resources/divine_sense.webp";
 import LayOnHandsIcon from "../../../../assets/resources/lay_on_hands.png";
 import SorceryPointsIcon from "../../../../assets/resources/sorcery_points.png";
@@ -10,6 +12,7 @@ import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 import ShortRestIcon from "../../../../assets/resources/short_rest.webp";
 import LongRestIcon from "../../../../assets/resources/long_rest.png";
 import NewTurnIcon from "../../../../assets/resources/new_turn.png";
+import PreparedSpellsIcon from "../../../../assets/popups/spellbook/Prepared_Spells_Icon.webp";
 
 const TIER_LABELS = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
 const TIER_KEYS = [1, 2, 3, 4, 5, 6];
@@ -28,6 +31,12 @@ const SINGLE_RESOURCES = [
     iconSrc: ChannelOathIcon,
     kind: "channel-oath",
     label: "Channel Oath",
+  },
+  {
+    key: "favouredByGods",
+    iconSrc: FavouredByGodsIcon,
+    kind: "favoured-by-gods",
+    label: "Favoured by the Gods",
   },
 ];
 
@@ -49,6 +58,12 @@ const COUNTED_RESOURCES = [
     iconSrc: DivineSenseIcon,
     kind: "divine-sense",
     label: "Divine Sense",
+  },
+  {
+    key: "seraSneakAttack",
+    iconSrc: SerasBenevolenceIcon,
+    kind: "sera-sneak-attack",
+    label: "Sera's Blessing (Sneak Attack)",
   },
 ];
 
@@ -189,20 +204,24 @@ const ConfigRow = ({ iconSrc, label, value, onChange, onToggleVisible }) => {
 
   return (
     <div className="v2-resource-config-row">
-      <button
-        type="button"
-        className={
-          isVisible
-            ? "v2-resource-config-eye"
-            : "v2-resource-config-eye is-hidden"
-        }
-        onClick={onToggleVisible}
-        title={isVisible ? "Hide this resource" : "Show this resource"}
-        aria-label={isVisible ? "Hide resource" : "Show resource"}
-        aria-pressed={!isVisible}
-      >
-        {isVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
-      </button>
+      {onToggleVisible ? (
+        <button
+          type="button"
+          className={
+            isVisible
+              ? "v2-resource-config-eye"
+              : "v2-resource-config-eye is-hidden"
+          }
+          onClick={onToggleVisible}
+          title={isVisible ? "Hide this resource" : "Show this resource"}
+          aria-label={isVisible ? "Hide resource" : "Show resource"}
+          aria-pressed={!isVisible}
+        >
+          {isVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+        </button>
+      ) : (
+        <span className="v2-resource-config-eye-spacer" aria-hidden="true" />
+      )}
 
       {iconSrc && (
         <img
@@ -255,6 +274,9 @@ const V2ResourcePips = ({
   onAdjust,
   onUpdateMax,
   onResetDefaults,
+  preparedLimitsByClass,
+  preparedClassLabels,
+  onUpdatePreparedLimit,
 }) => {
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   // Caches the last non-zero max per key so the eye toggle can restore the
@@ -461,6 +483,30 @@ const V2ResourcePips = ({
               })}
             </div>
           </section>
+
+          {preparedLimitsByClass &&
+            Object.keys(preparedLimitsByClass).length > 0 && (
+              <section className="v2-resource-config-section">
+                <h3 className="v2-resource-config-section-title">
+                  Prepared Spells
+                </h3>
+                <div className="v2-resource-config-grid">
+                  {Object.entries(preparedLimitsByClass).map(
+                    ([classId, value]) => (
+                      <ConfigRow
+                        key={`prepared-${classId}`}
+                        iconSrc={PreparedSpellsIcon}
+                        label={preparedClassLabels?.[classId] ?? classId}
+                        value={value ?? 0}
+                        onChange={(nextValue) =>
+                          onUpdatePreparedLimit?.(classId, nextValue)
+                        }
+                      />
+                    ),
+                  )}
+                </div>
+              </section>
+            )}
 
           <p className="v2-resource-config-hint">
             Click the eye to hide a resource; click again to restore. Click pips

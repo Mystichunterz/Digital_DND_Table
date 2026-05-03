@@ -7,6 +7,10 @@ import {
   useState,
 } from "react";
 import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
+import { pickRollKind, toAvraeCommand } from "../../../data/avrae";
+import { CONDITIONS, sumExtraActions } from "../../../data/conditionsCatalog";
+import { useConditions } from "../../../state/ConditionsContext";
+import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 import {
   SPELLBOOK_TABS as SPELLBOOK_TAB_CONFIGS,
   getTabById,
@@ -27,7 +31,6 @@ import SeekingSpellIcon from "../../../../assets/actions/metamagic/Seeking_Spell
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 500;
 
 const TIER_TO_SLOT_LEVEL = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6 };
 
@@ -36,9 +39,11 @@ const DEFAULT_RESOURCE_MAX = {
   bonus: 1,
   reaction: 1,
   channelOath: 1,
+  favouredByGods: 1,
   divineSense: 3,
   layOnHands: 30,
   sorceryPoints: 3,
+  seraSneakAttack: 3,
   spellSlots: { 1: 4, 2: 3, 3: 3, 4: 0, 5: 0, 6: 0 },
 };
 
@@ -47,11 +52,94 @@ const buildInitialResources = (resourceMax) => ({
   bonus: resourceMax.bonus,
   reaction: resourceMax.reaction,
   channelOath: resourceMax.channelOath,
+  favouredByGods: resourceMax.favouredByGods,
   divineSense: resourceMax.divineSense,
   layOnHands: resourceMax.layOnHands,
   sorceryPoints: resourceMax.sorceryPoints,
+  seraSneakAttack: resourceMax.seraSneakAttack,
   spellSlots: { ...resourceMax.spellSlots },
 });
+
+const PREPARED_TOGGLE_ROW_KEYS = new Set(["tier-1", "tier-2"]);
+
+const DEFAULT_PREPARED_SPELL_IDS = { paladin: [] };
+
+const PREPARABLE_CLASS_IDS = new Set(Object.keys(DEFAULT_PREPARED_SPELL_IDS));
+
+const sanitizePreparedSpellIds = (raw, preparedLimitByClass = {}) => {
+  const validClasses = Object.keys(DEFAULT_PREPARED_SPELL_IDS);
+  const allowedActionIdByClass = validClasses.reduce((map, classId) => {
+    map[classId] = new Set(
+      ACTIONS.filter(
+        (action) =>
+          action.class === classId && action.spellbookRow !== "class-action",
+      ).map((action) => action.id),
+    );
+    return map;
+  }, {});
+
+  const result = { ...DEFAULT_PREPARED_SPELL_IDS };
+
+  if (raw && typeof raw === "object") {
+    validClasses.forEach((classId) => {
+      const incoming = Array.isArray(raw[classId]) ? raw[classId] : [];
+      const allowedIds = allowedActionIdByClass[classId];
+      const seen = new Set();
+      const filtered = [];
+
+      for (const candidate of incoming) {
+        if (
+          typeof candidate === "string" &&
+          allowedIds.has(candidate) &&
+          !seen.has(candidate)
+        ) {
+          filtered.push(candidate);
+          seen.add(candidate);
+        }
+      }
+
+      const cap = preparedLimitByClass[classId];
+
+      result[classId] =
+        typeof cap === "number" ? filtered.slice(0, cap) : filtered;
+    });
+  }
+
+  return result;
+};
+
+const DEFAULT_PREPARED_LIMITS_BY_CLASS = SPELLBOOK_TAB_CONFIGS.reduce(
+  (map, tab) => {
+    if (typeof tab.preparedLimit === "number") {
+      map[tab.id] = tab.preparedLimit;
+    }
+    return map;
+  },
+  {},
+);
+
+const sanitizePreparedLimitsByClass = (raw) => {
+  const result = { ...DEFAULT_PREPARED_LIMITS_BY_CLASS };
+
+  if (raw && typeof raw === "object") {
+    Object.keys(DEFAULT_PREPARED_LIMITS_BY_CLASS).forEach((classId) => {
+      const candidate = raw[classId];
+      if (typeof candidate === "number" && Number.isFinite(candidate)) {
+        result[classId] = Math.max(0, Math.floor(candidate));
+      }
+    });
+  }
+
+  return result;
+};
+
+const PREPARED_TAB_LABELS_BY_CLASS = SPELLBOOK_TAB_CONFIGS.reduce(
+  (map, tab) => {
+    map[tab.id] = tab.label;
+    return map;
+  },
+  {},
+);
 
 const clampResourceValue = (value, min, max) =>
   Math.min(Math.max(value, min), max);
@@ -321,6 +409,27 @@ const TIER_NUMERAL = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
 
 const romanizeTier = (tier) => TIER_NUMERAL[tier] ?? String(tier);
 
+const requiresPreparation = (action) =>
+  PREPARABLE_CLASS_IDS.has(action?.class) &&
+  PREPARED_TOGGLE_ROW_KEYS.has(action?.spellbookRow);
+
+const isActionLockedForPreparation = (action, preparedSpellIds) => {
+  if (!action || !requiresPreparation(action)) {
+    return false;
+  }
+  const classId = action.class;
+  const preparedList = preparedSpellIds?.[classId] ?? [];
+  return !preparedList.includes(action.id);
+};
+
+const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
+  <span className={className} aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.25a4.75 4.75 0 0 0-4.75 4.75V10H6.5A2.25 2.25 0 0 0 4.25 12.25v7.5A2.25 2.25 0 0 0 6.5 22h11a2.25 2.25 0 0 0 2.25-2.25v-7.5A2.25 2.25 0 0 0 17.5 10h-.75V7A4.75 4.75 0 0 0 12 2.25Zm-3.25 4.75a3.25 3.25 0 1 1 6.5 0V10h-6.5V7Z" />
+    </svg>
+  </span>
+);
+
 const isSpellAction = (action) =>
   action?.category === "paladin" ||
   (typeof action?.iconKey === "string" && action.iconKey.startsWith("spells/"));
@@ -345,7 +454,24 @@ const V2ActionsPanel = () => {
   const [resources, setResources] = useState(() =>
     buildInitialResources(DEFAULT_RESOURCE_MAX),
   );
+  const [preparedSpellIds, setPreparedSpellIds] = useState(
+    DEFAULT_PREPARED_SPELL_IDS,
+  );
+  const [preparedLimitsByClass, setPreparedLimitsByClass] = useState(
+    DEFAULT_PREPARED_LIMITS_BY_CLASS,
+  );
   const [isHydrated, setIsHydrated] = useState(false);
+  const [rollToast, setRollToast] = useState(null);
+  const [isGwmActive, setIsGwmActive] = useState(false);
+  const { activeConditions, applyCondition, tickConditions } = useConditions();
+  const extraActions = sumExtraActions(activeConditions);
+  const effectiveResourceMax = useMemo(
+    () => ({
+      ...resourceMax,
+      action: resourceMax.action + extraActions,
+    }),
+    [resourceMax, extraActions],
+  );
   const gridClusterRef = useRef(null);
   const layoutFileInputRef = useRef(null);
   const spellbookPopupRef = useRef(null);
@@ -473,6 +599,18 @@ const V2ActionsPanel = () => {
             if (saved.sectionLayouts) {
               setSectionLayouts(normalizeImportedLayouts(saved.sectionLayouts));
             }
+            const effectivePreparedLimits = sanitizePreparedLimitsByClass(
+              saved.preparedLimitsByClass,
+            );
+            setPreparedLimitsByClass(effectivePreparedLimits);
+            if (saved.preparedSpellIds) {
+              setPreparedSpellIds(
+                sanitizePreparedSpellIds(
+                  saved.preparedSpellIds,
+                  effectivePreparedLimits,
+                ),
+              );
+            }
             if (
               Array.isArray(saved.sectionColumns) &&
               saved.sectionColumns.length === DEFAULT_SECTION_COLUMNS.length
@@ -497,30 +635,18 @@ const V2ActionsPanel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
-
-    const timeoutId = setTimeout(() => {
-      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resources,
-          resourceMax,
-          sectionLayouts,
-          sectionColumns,
-        }),
-      }).catch(() => {
-        // Server unavailable — drop the write silently.
-      });
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, resources, resourceMax, sectionLayouts, sectionColumns]);
+  usePersistedDebounce({
+    enabled: isHydrated,
+    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    body: {
+      resources,
+      resourceMax,
+      sectionLayouts,
+      sectionColumns,
+      preparedSpellIds,
+      preparedLimitsByClass,
+    },
+  });
 
   useEffect(() => {
     if (draggedDivider === null) {
@@ -560,6 +686,16 @@ const V2ActionsPanel = () => {
       window.removeEventListener("pointercancel", stopDragging);
     };
   }, [draggedDivider, dragPreviewRatio, getPointerRatio, getSnappedColumns]);
+
+  useEffect(() => {
+    if (!rollToast) {
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(() => setRollToast(null), 1800);
+
+    return () => clearTimeout(timeoutId);
+  }, [rollToast]);
 
   useEffect(() => {
     if (!isSpellbookOpen) {
@@ -828,20 +964,75 @@ const V2ActionsPanel = () => {
 
     activeSpellbookConfig.sections.forEach((section) => {
       if (section.source === "prepared") {
-        map[section.id] = classActions.filter(
-          (action) =>
-            action.prepared === true && action.spellbookRow !== "class-action",
+        const preparedIds =
+          preparedSpellIds[activeSpellbookConfig.id] ?? [];
+        const actionsById = new Map(
+          classActions
+            .filter((action) => action.spellbookRow !== "class-action")
+            .map((action) => [action.id, action]),
         );
+        map[section.id] = preparedIds
+          .map((actionId) => actionsById.get(actionId))
+          .filter(Boolean);
         return;
       }
 
-      map[section.id] = classActions.filter(
-        (action) => action.spellbookRow === section.rowKey,
+      if (section.source === "metamagic") {
+        map[section.id] = [];
+        return;
+      }
+
+      const allowedRowKeys = Array.isArray(section.rowKeys)
+        ? section.rowKeys
+        : section.rowKey
+          ? [section.rowKey]
+          : [];
+
+      map[section.id] = classActions.filter((action) =>
+        allowedRowKeys.includes(action.spellbookRow),
       );
     });
 
     return map;
-  }, [activeSpellbookConfig]);
+  }, [activeSpellbookConfig, preparedSpellIds]);
+
+  const togglePreparedSpell = useCallback(
+    (classId, actionId) => {
+      const cap =
+        preparedLimitsByClass[classId] ??
+        DEFAULT_PREPARED_LIMITS_BY_CLASS[classId];
+
+      setPreparedSpellIds((current) => {
+        const currentList = current[classId] ?? [];
+
+        if (currentList.includes(actionId)) {
+          return {
+            ...current,
+            [classId]: currentList.filter((id) => id !== actionId),
+          };
+        }
+
+        if (typeof cap === "number" && currentList.length >= cap) {
+          return current;
+        }
+
+        return {
+          ...current,
+          [classId]: [...currentList, actionId],
+        };
+      });
+    },
+    [preparedLimitsByClass],
+  );
+
+  const updatePreparedLimit = useCallback((classId, value) => {
+    const safeValue = Math.max(0, Math.floor(Number(value) || 0));
+
+    setPreparedLimitsByClass((current) => ({
+      ...current,
+      [classId]: safeValue,
+    }));
+  }, []);
 
   const getSectionIdForAction = useCallback(
     (action) =>
@@ -969,13 +1160,15 @@ const V2ActionsPanel = () => {
       bonus: resourceMax.bonus,
       reaction: resourceMax.reaction,
       channelOath: resourceMax.channelOath,
+      favouredByGods: resourceMax.favouredByGods,
     }));
   };
 
   const restoreNewTurnResources = () => {
+    tickConditions();
     setResources((current) => ({
       ...current,
-      action: resourceMax.action,
+      action: effectiveResourceMax.action,
       bonus: resourceMax.bonus,
       reaction: resourceMax.reaction,
     }));
@@ -984,6 +1177,7 @@ const V2ActionsPanel = () => {
   const resetResourceDefaults = () => {
     setResourceMax(DEFAULT_RESOURCE_MAX);
     setResources(buildInitialResources(DEFAULT_RESOURCE_MAX));
+    setPreparedLimitsByClass(DEFAULT_PREPARED_LIMITS_BY_CLASS);
   };
 
   const adjustResource = (resourceKey, delta, tier) => {
@@ -1086,6 +1280,45 @@ const V2ActionsPanel = () => {
     });
   };
 
+  const handleActionClick = (item, event) => {
+    if (!item) {
+      return;
+    }
+
+    if (item.toggle === "gwm") {
+      setIsGwmActive((current) => !current);
+      return;
+    }
+
+    if (isActionLockedForPreparation(item, preparedSpellIds)) {
+      return;
+    }
+
+    const kind = pickRollKind(item, event);
+    const command = toAvraeCommand(item, kind, { gwm: isGwmActive });
+
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(command).catch(() => {});
+    }
+
+    setRollToast({ command, kind, gwm: isGwmActive, id: Date.now() });
+    consumeForAction(item);
+
+    if (item.applies?.condition) {
+      applyCondition(item.applies.condition, item.applies.durationTurns);
+
+      const grantedExtraActions =
+        CONDITIONS[item.applies.condition]?.effects?.extraActions ?? 0;
+
+      if (grantedExtraActions > 0) {
+        setResources((current) => ({
+          ...current,
+          action: current.action + grantedExtraActions,
+        }));
+      }
+    }
+  };
+
   const handleActionDrop = (targetSectionId, targetIndex) => {
     if (!draggedAction || draggedAction.sectionId !== targetSectionId) {
       return;
@@ -1185,20 +1418,33 @@ const V2ActionsPanel = () => {
         );
       }
 
+      const isLocked = isActionLockedForPreparation(item, preparedSpellIds);
+      const isToggleActive = item.toggle === "gwm" && isGwmActive;
+      const tileClassName = [
+        "v2-action-tile",
+        `tone-${item.tone}`,
+        isDragging ? "is-dragging" : "",
+        isDropTarget ? "is-drop-target" : "",
+        isLocked ? "is-locked" : "",
+        isToggleActive ? "is-toggle-active" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const toggleSuffix = isToggleActive ? " — ON" : "";
+      const tileTitle = isLocked
+        ? `${item.name} (${item.kind}) — not prepared`
+        : `${item.name} (${item.kind})${toggleSuffix}`;
+      const tileAriaLabel = tileTitle;
+
       const tileButton = (
         <button
           type="button"
-          className={
-            isDragging
-              ? `v2-action-tile tone-${item.tone} is-dragging`
-              : isDropTarget
-                ? `v2-action-tile tone-${item.tone} is-drop-target`
-                : `v2-action-tile tone-${item.tone}`
-          }
-          title={`${item.name} (${item.kind})`}
-          aria-label={`${item.name} (${item.kind})`}
+          className={tileClassName}
+          title={tileTitle}
+          aria-label={tileAriaLabel}
+          aria-disabled={isLocked || undefined}
           draggable
-          onClick={() => consumeForAction(item)}
+          onClick={(event) => handleActionClick(item, event)}
           onDragStart={(event) => {
             setDraggedAction({
               source: "bar",
@@ -1247,10 +1493,19 @@ const V2ActionsPanel = () => {
             <span className="v2-action-keybind">{item.keybind}</span>
           )}
           {item.kind === "bonus" && <span className="v2-action-plus">+</span>}
+          {typeof item.quantity === "number" && (
+            <span className="v2-action-qty">{item.quantity}</span>
+          )}
+          {isLocked && <LockOverlayIcon className="v2-action-lock-overlay" />}
         </button>
       );
 
-      if (!isSpellAction(item)) {
+      const hasHoverPopup =
+        isSpellAction(item) ||
+        item.category === "common" ||
+        item.category === "items";
+
+      if (!hasHoverPopup) {
         return <Fragment key={item.id}>{tileButton}</Fragment>;
       }
 
@@ -1262,7 +1517,9 @@ const V2ActionsPanel = () => {
     });
   };
 
-  const renderSpellbookIcons = (actions) => {
+  const renderSpellbookIcons = (actions, options = {}) => {
+    const { onSpellClick, preparedSet, isCapReached } = options;
+
     if (!actions.length) {
       return (
         <span className="v2-spellbook-row-empty">No spells in this group.</span>
@@ -1270,14 +1527,43 @@ const V2ActionsPanel = () => {
     }
 
     return actions.map((action) => {
+      const isPrepared = preparedSet?.has(action.id) ?? false;
+      const isClickable = typeof onSpellClick === "function";
+      const isAddDisabled = isClickable && !isPrepared && isCapReached;
+      const className = [
+        "v2-spellbook-icon",
+        isClickable ? "is-clickable" : "",
+        isPrepared ? "is-prepared" : "",
+        isAddDisabled ? "is-cap-reached" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const titleSuffix = isClickable
+        ? isPrepared
+          ? " — click to unprepare"
+          : isAddDisabled
+            ? " — prepared limit reached"
+            : " — click to prepare"
+        : "";
+
       const iconButton = (
         <button
           type="button"
-          className="v2-spellbook-icon"
-          title={`${action.name} (${action.tier})`}
+          className={className}
+          title={`${action.name} (${action.tier})${titleSuffix}`}
           draggable
           onDragStart={(event) => handleSpellbookDragStart(event, action)}
           onDragEnd={handleSpellbookDragEnd}
+          onClick={
+            isClickable
+              ? () => {
+                  if (isAddDisabled) {
+                    return;
+                  }
+                  onSpellClick(action);
+                }
+              : undefined
+          }
         >
           {action.icon ? (
             <img src={action.icon} alt="" draggable={false} />
@@ -1301,6 +1587,33 @@ const V2ActionsPanel = () => {
     });
   };
 
+  const renderMetamagicSpellbookIcons = (options) => {
+    if (!options.length) {
+      return (
+        <span className="v2-spellbook-row-empty">
+          No metamagic available.
+        </span>
+      );
+    }
+
+    return options.map((option) => (
+      <MetamagicHoverPopup
+        key={option.id}
+        metamagic={option}
+        positionPreference="vertical"
+      >
+        <button
+          type="button"
+          className="v2-spellbook-icon v2-spellbook-icon-metamagic"
+          title={option.name}
+          aria-label={option.name}
+        >
+          <img src={option.icon} alt="" draggable={false} />
+        </button>
+      </MetamagicHoverPopup>
+    ));
+  };
+
   return (
     <article className="v2-overview-panel v2-actions-panel">
       <header className="v2-overview-panel-header">
@@ -1310,13 +1623,16 @@ const V2ActionsPanel = () => {
       <div className="v2-actions-menu">
         <V2ResourcePips
           resources={resources}
-          max={resourceMax}
+          max={effectiveResourceMax}
           onNewTurn={restoreNewTurnResources}
           onShortRest={restoreShortRestResources}
           onLongRest={restoreLongRestResources}
           onAdjust={adjustResource}
           onUpdateMax={updateResourceMax}
           onResetDefaults={resetResourceDefaults}
+          preparedLimitsByClass={preparedLimitsByClass}
+          preparedClassLabels={PREPARED_TAB_LABELS_BY_CLASS}
+          onUpdatePreparedLimit={updatePreparedLimit}
         />
 
         <div className="v2-actions-menu-top">
@@ -1541,14 +1857,12 @@ const V2ActionsPanel = () => {
             >
               {SPELLBOOK_TABS.map((tab) => {
                 const tabConfig = getTabById(tab.id);
-                const preparedLimit = tabConfig?.preparedLimit ?? 0;
+                const preparedLimit =
+                  preparedLimitsByClass[tab.id] ??
+                  tabConfig?.preparedLimit ??
+                  0;
                 const preparedCount = preparedLimit
-                  ? ACTIONS.filter(
-                      (action) =>
-                        action.class === tab.id &&
-                        action.prepared === true &&
-                        action.spellbookRow !== "class-action",
-                    ).length
+                  ? preparedSpellIds[tab.id]?.length ?? 0
                   : 0;
                 const fallbackCount =
                   spellbookActionsByTab[tab.id]?.length ?? 0;
@@ -1650,8 +1964,11 @@ const V2ActionsPanel = () => {
 
                   <div className="v2-spellbook-pane">
                     {activeSpellbookConfig.sections.map((section) => {
-                      const items = spellbookSectionItems[section.id] ?? [];
                       const isPrepared = section.id === "prepared";
+                      const isMetamagic = section.source === "metamagic";
+                      const items = isMetamagic
+                        ? METAMAGIC_OPTIONS
+                        : spellbookSectionItems[section.id] ?? [];
                       const tier = section.slotPipsKey;
                       const slotsMax =
                         tier !== undefined
@@ -1661,13 +1978,33 @@ const V2ActionsPanel = () => {
                         tier !== undefined
                           ? resources.spellSlots?.[tier] ?? 0
                           : 0;
+                      const effectivePreparedLimit =
+                        preparedLimitsByClass[activeSpellbookConfig.id] ??
+                        activeSpellbookConfig.preparedLimit;
                       const trailingEmpty =
-                        isPrepared && activeSpellbookConfig.preparedLimit
+                        isPrepared && effectivePreparedLimit
                           ? Math.max(
                               0,
-                              activeSpellbookConfig.preparedLimit - items.length,
+                              effectivePreparedLimit - items.length,
                             )
                           : 0;
+
+                      const preparedSet = new Set(
+                        preparedSpellIds[activeSpellbookConfig.id] ?? [],
+                      );
+                      const isToggleRow =
+                        isPrepared ||
+                        PREPARED_TOGGLE_ROW_KEYS.has(section.rowKey);
+                      const isCapReached =
+                        typeof effectivePreparedLimit === "number" &&
+                        preparedSet.size >= effectivePreparedLimit;
+                      const onSpellClick = isToggleRow
+                        ? (action) =>
+                            togglePreparedSpell(
+                              activeSpellbookConfig.id,
+                              action.id,
+                            )
+                        : undefined;
 
                       return (
                         <SpellbookRow
@@ -1680,7 +2017,13 @@ const V2ActionsPanel = () => {
                           slotsRemaining={slotsRemaining}
                           slotsMax={slotsMax}
                         >
-                          {renderSpellbookIcons(items)}
+                          {isMetamagic
+                            ? renderMetamagicSpellbookIcons(items)
+                            : renderSpellbookIcons(items, {
+                                onSpellClick,
+                                preparedSet,
+                                isCapReached,
+                              })}
                         </SpellbookRow>
                       );
                     })}
@@ -1738,6 +2081,23 @@ const V2ActionsPanel = () => {
             )}
             </div>
           </section>
+        </div>
+      )}
+
+      {rollToast && (
+        <div
+          key={rollToast.id}
+          className="v2-actions-roll-toast"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="v2-actions-roll-toast-kind">{rollToast.kind}</span>
+          {rollToast.gwm && (
+            <span className="v2-actions-roll-toast-gwm">GWM</span>
+          )}
+          <code className="v2-actions-roll-toast-command">
+            {rollToast.command}
+          </code>
         </div>
       )}
     </article>

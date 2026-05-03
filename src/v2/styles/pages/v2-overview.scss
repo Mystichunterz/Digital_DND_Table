@@ -1017,9 +1017,11 @@
 .v2-resource-box-bonus,
 .v2-resource-box-reaction,
 .v2-resource-box-channel-oath,
+.v2-resource-box-favoured-by-gods,
 .v2-resource-box-divine-sense,
 .v2-resource-box-lay-on-hands,
-.v2-resource-box-sorcery-points {
+.v2-resource-box-sorcery-points,
+.v2-resource-box-sera-sneak-attack {
   justify-content: center;
 }
 
@@ -1099,9 +1101,11 @@
 .v2-resource-pip-bonus,
 .v2-resource-pip-reaction,
 .v2-resource-pip-channel-oath,
+.v2-resource-pip-favoured-by-gods,
 .v2-resource-pip-divine-sense,
 .v2-resource-pip-lay-on-hands,
-.v2-resource-pip-sorcery-points {
+.v2-resource-pip-sorcery-points,
+.v2-resource-pip-sera-sneak-attack {
   width: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
   height: clamp(1.53rem, 0.43vw + 1.36rem, 1.93rem);
 }
@@ -1337,6 +1341,12 @@ button.v2-resource-config-reset:hover {
   opacity: 0.7;
 }
 
+.v2-resource-config-eye-spacer {
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
 .v2-resource-config-icon {
   width: 1.5rem;
   height: 1.5rem;
@@ -1513,6 +1523,69 @@ button.v2-resource-config-reset:hover {
   color: rgba(220, 118, 98, 0.95);
 }
 
+.v2-actions-roll-toast {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.45rem;
+  background: rgba(18, 14, 10, 0.92);
+  border: 1px solid rgba(214, 189, 158, 0.35);
+  color: rgba(232, 214, 187, 0.95);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  animation: v2-actions-roll-toast-in 0.18s ease-out;
+}
+
+.v2-actions-roll-toast-kind {
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(214, 189, 158, 0.75);
+}
+
+.v2-actions-roll-toast-gwm {
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  background: rgba(220, 118, 98, 0.85);
+  color: rgba(28, 18, 14, 0.95);
+  font-weight: 600;
+}
+
+.v2-action-tile.is-toggle-active {
+  outline: 2px solid rgba(255, 196, 96, 0.95);
+  outline-offset: -2px;
+  box-shadow:
+    0 0 0 1px rgba(255, 196, 96, 0.45),
+    0 0 0.65rem rgba(255, 196, 96, 0.55);
+}
+
+.v2-actions-roll-toast-command {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 0.82rem;
+  color: rgba(245, 224, 191, 1);
+}
+
+@keyframes v2-actions-roll-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .v2-actions-menu-body {
   min-height: 0;
   display: grid;
@@ -1627,6 +1700,62 @@ button.v2-resource-config-reset:hover {
     0 0 0 1px rgba(116, 67, 35, 0.65);
 }
 
+.v2-action-tile.is-locked {
+  cursor: not-allowed;
+}
+
+.v2-action-tile.is-locked .v2-action-icon,
+.v2-action-tile.is-locked .v2-action-short,
+.v2-action-tile.is-locked .v2-action-keybind,
+.v2-action-tile.is-locked .v2-action-plus {
+  opacity: 0.4;
+  filter: grayscale(0.7);
+}
+
+.v2-action-lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  border-radius: inherit;
+  background: rgba(12, 10, 9, 0.55);
+  color: rgba(243, 220, 187, 0.92);
+}
+
+.v2-action-lock-overlay svg {
+  width: 55%;
+  height: 55%;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
+}
+
+.v2-spellbook-icon.is-locked {
+  position: relative;
+}
+
+.v2-spellbook-icon.is-locked img,
+.v2-spellbook-icon.is-locked .v2-spellbook-icon-text {
+  opacity: 0.42;
+  filter: grayscale(0.65);
+}
+
+.v2-spellbook-lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  border-radius: inherit;
+  background: rgba(12, 10, 9, 0.5);
+  color: rgba(243, 220, 187, 0.95);
+}
+
+.v2-spellbook-lock-overlay svg {
+  width: 55%;
+  height: 55%;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
+}
+
 .v2-action-tile.tone-steel {
   background: linear-gradient(
     165deg,
@@ -1702,6 +1831,23 @@ button.v2-resource-config-reset:hover {
   top: 0.12rem;
   color: #f2e4cb;
   font-size: clamp(0.56rem, 0.09vw + 0.53rem, 0.7rem);
+}
+
+.v2-action-qty {
+  position: absolute;
+  right: 0.16rem;
+  bottom: 0.14rem;
+  min-width: 0.85rem;
+  padding: 0 0.22rem;
+  border: 1px solid rgba(122, 90, 62, 0.85);
+  border-radius: 0.4rem;
+  background: rgba(8, 6, 5, 0.92);
+  color: #f2e4cb;
+  font-size: clamp(0.56rem, 0.09vw + 0.53rem, 0.7rem);
+  font-weight: 600;
+  line-height: 0.95rem;
+  text-align: center;
+  pointer-events: none;
 }
 
 .v2-actions-metamagic-divider {
@@ -2141,6 +2287,13 @@ button.v2-resource-config-reset:hover {
   color: rgba(232, 206, 173, 0.92);
 }
 
+.v2-spellbook-pane
+  .v2-spellbook-row-metamagic
+  > .v2-spellbook-row-title {
+  color: #ff7a8e;
+  font-style: italic;
+}
+
 .v2-spellbook-pane .v2-spellbook-row > .v2-spellbook-glyph {
   grid-column: 1;
   grid-row: 2;
@@ -2329,6 +2482,22 @@ button.v2-resource-config-reset:hover {
   box-shadow:
     inset 0 0 0 1px rgba(243, 205, 157, 0.7),
     0 0 0 1px rgba(92, 58, 35, 0.85);
+}
+
+.v2-spellbook-icon.is-clickable {
+  cursor: pointer;
+}
+
+.v2-spellbook-icon.is-prepared {
+  border-color: rgba(243, 205, 157, 0.95);
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 205, 157, 0.55),
+    0 0 0 1px rgba(243, 205, 157, 0.35);
+}
+
+.v2-spellbook-icon.is-cap-reached {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .v2-spellbook-icon img {
