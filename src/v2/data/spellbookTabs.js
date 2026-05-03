@@ -1,4 +1,5 @@
 import PaladinCrest from "../../assets/popups/crests/Class_Paladin_Vengeance_Badge_Icon.png";
+import SorcererCrest from "../../assets/popups/features/120px-Draconic_Resilience_Icon.webp.png";
 import PreparedGlyph from "../../assets/popups/spellbook/Prepared_Spells_Icon.webp";
 import CantripsGlyph from "../../assets/popups/spellbook/Cantrips_Icon.png";
 import Tier1Glyph from "../../assets/popups/spellbook/Tier_1.png";
@@ -22,18 +23,31 @@ export const SECTION_GLYPHS = {
   "tier-6": { kind: "image", src: Tier6Glyph },
 };
 
+const PALADIN_CLASS_LEVEL = 6;
+const PALADIN_CASTING_ABILITY_SCORE = 14;
+// CHA mod + ½ Paladin level (rounded down, min 1)
+const PALADIN_PREPARED_LIMIT = Math.max(
+  1,
+  Math.floor((PALADIN_CASTING_ABILITY_SCORE - 10) / 2) +
+    Math.floor(PALADIN_CLASS_LEVEL / 2),
+);
+
+const SORCERER_CLASS_LEVEL = 6;
+const SORCERER_CASTING_ABILITY_SCORE = 14;
+
 export const SPELLBOOK_TABS = [
   {
     id: "paladin",
     label: "Paladin",
     crest: PaladinCrest,
-    classLevel: 6,
+    classLevel: PALADIN_CLASS_LEVEL,
+    castingAbilityScore: PALADIN_CASTING_ABILITY_SCORE,
     subclassLabel: "Oath of Vengeance",
     abilityLabel: "CHA",
     spellSaveDC: 13,
     spellAttackMod: "+5",
     resourceStrip: { kind: "spell-slots", tiers: [1, 2, 3] },
-    preparedLimit: 11,
+    preparedLimit: PALADIN_PREPARED_LIMIT,
     sections: [
       {
         id: "class-actions",
@@ -70,6 +84,41 @@ export const SPELLBOOK_TABS = [
         label: "I",
         rowKey: "tier-1",
         slotPipsKey: 1,
+      },
+    ],
+  },
+  {
+    id: "sorcerer",
+    label: "Sorcerer",
+    crest: SorcererCrest,
+    classLevel: SORCERER_CLASS_LEVEL,
+    castingAbilityScore: SORCERER_CASTING_ABILITY_SCORE,
+    subclassLabel: "Draconic Bloodline",
+    abilityLabel: "CHA",
+    spellSaveDC: 13,
+    spellAttackMod: "+5",
+    resourceStrip: { kind: "spell-slots", tiers: [1, 2, 3] },
+    sections: [
+      {
+        id: "cantrips",
+        glyphKey: "cantrip",
+        label: "Cantrips",
+        rowKey: "cantrip",
+        showLabel: true,
+      },
+      {
+        id: "metamagic",
+        glyphKey: "metamagic",
+        label: "Metamagic",
+        source: "metamagic",
+        showLabel: true,
+      },
+      {
+        id: "spells",
+        glyphKey: "spell-at-will",
+        label: "Spells",
+        rowKeys: ["tier-1", "tier-2", "tier-3"],
+        showLabel: true,
       },
     ],
   },

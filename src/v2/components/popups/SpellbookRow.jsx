@@ -44,9 +44,13 @@ const SpellbookRow = ({
   slotsMax,
   children,
 }) => {
-  const className = framed
-    ? "v2-spellbook-row v2-spellbook-row-framed"
-    : "v2-spellbook-row";
+  const className = [
+    "v2-spellbook-row",
+    framed ? "v2-spellbook-row-framed" : "",
+    glyphKey ? `v2-spellbook-row-${glyphKey}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const trailingSlots = [];
   for (let index = 0; index < trailingEmptySlots; index += 1) {
