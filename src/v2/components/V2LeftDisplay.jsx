@@ -19,19 +19,47 @@ import InformationPopup from "./popups/InformationPopup";
 import ResistancePopup from "./popups/ResistancePopup";
 
 import abilityScoresData from "../../data/abilityScoresData";
-import conditionsData from "../../data/conditionsData";
 import featuresData from "../../data/featuresData";
+import {
+  CONDITIONS,
+  getActiveSavingThrowSources,
+  sumAcBonus,
+} from "../data/conditionsCatalog";
+import { useConditions } from "../state/ConditionsContext";
+
+const BASE_AC = 18;
+
+const formatBonus = (value) => (value >= 0 ? `+${value}` : `${value}`);
 
 const V2LeftDisplay = () => {
-  const processConditionDuration = (duration) => {
-    if (duration === "Permanent") {
-      return null;
-    } else if (duration.match(/\d+/)) {
-      return `${duration.match(/\d+/)[0]}`;
+  const { activeConditions, removeCondition } = useConditions();
+  const displayedAc = BASE_AC + sumAcBonus(activeConditions);
+  const savingThrowSources = getActiveSavingThrowSources(activeConditions);
+
+  const augmentSavingThrows = (savingThrows) => {
+    if (!Array.isArray(savingThrows) || savingThrowSources.length === 0) {
+      return savingThrows ?? [];
     }
 
-    return duration;
+    return [
+      ...savingThrows,
+      ...savingThrowSources.map(
+        (source) => `${source.title}, ${formatBonus(source.bonus)}`,
+      ),
+    ];
   };
+
+  const conditionEntries = activeConditions
+    .map((entry) => {
+      const definition = CONDITIONS[entry.id];
+
+      if (!definition) {
+        return null;
+      }
+
+      return { ...definition, remainingTurns: entry.remainingTurns };
+    })
+    .filter(Boolean);
 
   return (
     <div className="left-display-content">
@@ -47,7 +75,7 @@ const V2LeftDisplay = () => {
       </div>
       <div className="image-container shared-margin">
         <img src={AC_Icon} alt="AC" className="overlay-image" />
-        <p className="overlay-text">18</p>
+        <p className="overlay-text">{displayedAc}</p>
       </div>
       <InformationPopup
         title="Wood Half-Elf"
@@ -102,7 +130,7 @@ const V2LeftDisplay = () => {
               value={attr.value}
               isPrimary={attr.isPrimary}
               isProficient={attr.isProficient}
-              savingThrows={attr.savingThrows}
+              savingThrows={augmentSavingThrows(attr.savingThrows)}
               sources={attr.sources}
             >
               <div className="attribute">
@@ -138,32 +166,50 @@ const V2LeftDisplay = () => {
       </p>
 
       <div className="conditions shared-margin">
-        {conditionsData.map((condition, index) => (
-          <ConditionPopup
-            key={index}
-            icon={condition.icon}
-            title={condition.title}
-            subtitle={condition.subtitle}
-            text={condition.text}
-            {...(condition.duration ? { duration: condition.duration } : {})}
-          >
-            <div className="condition-content">
-              <div className="condition-image-container">
-                <img
-                  src={condition.icon}
-                  alt={condition.title}
-                  className="condition-icon"
-                />
-                {condition.duration && (
+        {conditionEntries.length === 0 && (
+          <p className="conditions-empty">No active conditions.</p>
+        )}
+        {conditionEntries.map((condition) => {
+          const isPermanent = !!condition.permanent;
+          const durationLabel = isPermanent
+            ? "Always active"
+            : `${condition.remainingTurns} turn${condition.remainingTurns === 1 ? "" : "s"} remaining`;
+
+          return (
+            <ConditionPopup
+              key={condition.id}
+              icon={condition.icon}
+              title={condition.title}
+              subtitle={condition.subtitle}
+              text={condition.text}
+              duration={durationLabel}
+            >
+              <div
+                className="condition-content"
+                onContextMenu={(event) => {
+                  if (isPermanent) {
+                    return;
+                  }
+                  event.preventDefault();
+                  removeCondition(condition.id);
+                }}
+                title={isPermanent ? "Always active" : "Right-click to remove"}
+              >
+                <div className="condition-image-container">
+                  <img
+                    src={condition.icon}
+                    alt={condition.title}
+                    className="condition-icon"
+                  />
                   <p className="condition-duration">
-                    {processConditionDuration(condition.duration)}
+                    {isPermanent ? "∞" : condition.remainingTurns}
                   </p>
-                )}
+                </div>
+                <p>{condition.title}</p>
               </div>
-              <p>{condition.title}</p>
-            </div>
-          </ConditionPopup>
-        ))}
+            </ConditionPopup>
+          );
+        })}
       </div>
 
       <p className="shared-margin subheading">
