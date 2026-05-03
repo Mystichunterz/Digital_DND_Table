@@ -17,6 +17,7 @@ import Darkvision_Icon from "../assets/popups/features/120px-Darkvision_Icon.web
 import Krades_Resilience_Icon from "../assets/popups/features/120px-Draconic_Resilience_Icon.webp.png";
 import Aura_of_Protection_Icon from "../assets/actions/passives/Aura_of_Protection_Unfaded_Icon.webp";
 import Curse_Icon from "../assets/popups/features/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
+import Seras_Benevolence_Icon from "../assets/popups/spells/Bless_Icon.webp";
 
 //----------------------
 //  main
@@ -81,6 +82,12 @@ const featuresData = [
         title: "Krade's Resilience",
         subtitle: "Divine Blessing",
         text: "Your skin toughens, making you resistant to certain types of physical harm. You gain **resistance** to **piercing** and **slashing** damage."
+    },
+    {
+        icon: Seras_Benevolence_Icon,
+        title: "Sera's Benevolence",
+        subtitle: "Divine Blessing",
+        text: "Sera's divine blessing infuses you with grace and lethal precision. You gain **+2 Strength** and **+2 Dexterity**. \n\nOnce per turn, when you hit a creature with an attack, you can expend one of Sera's blessings to deal an extra **1d6** **Sneak Attack** damage. \n\nYou currently hold **3** blessings from Sera."
     },
     {
         icon: Fey_Ancestry_Icon,
