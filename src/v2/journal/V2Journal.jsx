@@ -29,6 +29,7 @@ const V2Journal = () => {
         selectedId={state.selectedId}
         onSelect={actions.select}
         onCreate={actions.create}
+        loading={state.loading}
       />
       <section className="v2-journal-main">
         {state.globalError ? (

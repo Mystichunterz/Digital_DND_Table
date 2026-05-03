@@ -238,6 +238,36 @@
   border-radius: 0.5rem;
 }
 
+.v2-journal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+}
+
+.v2-journal-spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 3px solid rgba(var(--color-accent-gold-rgb), 0.18);
+  border-top-color: var(--color-accent-gold);
+  animation: v2-journal-spin 900ms linear infinite;
+}
+
+.v2-journal-loading-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a89870;
+}
+
+@keyframes v2-journal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .v2-journal-note-list {
   list-style: none;
   margin: 0;

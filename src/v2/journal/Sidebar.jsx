@@ -38,7 +38,7 @@ const sortNotes = (notes, sortBy) => {
   return copy;
 };
 
-const Sidebar = ({ notes, selectedId, onSelect, onCreate }) => {
+const Sidebar = ({ notes, selectedId, onSelect, onCreate, loading }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("updated");
   const [tagFilter, setTagFilter] = useState(null);
@@ -138,7 +138,16 @@ const Sidebar = ({ notes, selectedId, onSelect, onCreate }) => {
         </div>
       ) : null}
 
-      {visible.length === 0 ? (
+      {loading && notes.length === 0 ? (
+        <div
+          className="v2-journal-loading"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="v2-journal-spinner" aria-hidden="true" />
+          <span className="v2-journal-loading-label">Loading entries…</span>
+        </div>
+      ) : visible.length === 0 ? (
         <p className="v2-journal-empty">
           {normalizedQuery || tagFilter
             ? "No entries match."
