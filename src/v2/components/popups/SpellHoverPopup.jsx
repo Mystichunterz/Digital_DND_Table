@@ -1,10 +1,12 @@
 import { useMemo, useRef, useState } from "react";
 import Popup from "./Popup";
+import { formulaRange, substituteTokens } from "../../data/formulas";
 import ActionIcon from "../../../assets/resources/action.png";
 import BonusActionIcon from "../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../assets/resources/reaction.png";
 import SpellSlotIcon from "../../../assets/resources/spell_slot.png";
 import RitualIcon from "../../../assets/resources/ritual.png";
+import ChannelDivinityIcon from "../../../assets/resources/channel_oath.png";
 import D8Radiant from "../../../assets/popups/dice/D8_Radiant.png";
 import D8Thunder from "../../../assets/popups/dice/D8_Thunder.png";
 import D8Fire from "../../../assets/popups/dice/D8_Fire.png";
@@ -27,6 +29,7 @@ import RangedIcon from "../../../assets/popups/mechanics/Range_Icon.png";
 import AttackRollIcon from "../../../assets/popups/mechanics/Attack_Roll_Icon.png";
 import SavingThrowIcon from "../../../assets/popups/mechanics/Saving_Throw_Icon.png";
 import AoeIcon from "../../../assets/popups/mechanics/Aoe_Icon.png";
+import ConcentrationIcon from "../../../assets/popups/Duration_Icon.png";
 
 import "../../styles/components/popups/spell-hover-popup.scss";
 
@@ -36,6 +39,7 @@ const POPUP_CHROME_ASSETS = [
   ReactionIcon,
   SpellSlotIcon,
   RitualIcon,
+  ChannelDivinityIcon,
   D8Radiant,
   D8Thunder,
   D8Fire,
@@ -58,6 +62,7 @@ const POPUP_CHROME_ASSETS = [
   AttackRollIcon,
   SavingThrowIcon,
   AoeIcon,
+  ConcentrationIcon,
 ];
 
 if (typeof window !== "undefined" && typeof Image !== "undefined") {
@@ -99,6 +104,8 @@ const MECHANIC_ICONS = {
   "attack-roll": AttackRollIcon,
   save: SavingThrowIcon,
   aoe: AoeIcon,
+  range: RangedIcon,
+  concentration: ConcentrationIcon,
 };
 
 const DICE_ICONS = {
@@ -157,16 +164,20 @@ const SpellHoverPopup = ({
   const [isPinned, setIsPinned] = useState(false);
   const triggerRef = useRef(null);
 
+  const isSpell = spell?.class !== "common";
   const tierLabel = TIER_LABELS[spell?.tier] ?? "Spell";
   const kindLabel = KIND_LABELS[spell?.kind] ?? "Action";
   const tierSubtitle =
-    spell?.tier === "C"
+    spell?.subtitle ??
+    (spell?.tier === "C"
       ? "Cantrip Spell"
-      : `${tierLabel} ${spell?.school ?? "Spell"}`;
+      : `${tierLabel} ${spell?.school ?? "Spell"}`);
 
   const summaryText =
     spell?.description ??
-    "A prepared spell available for quick casting from your action bar.";
+    (isSpell
+      ? "A prepared spell available for quick casting from your action bar."
+      : null);
 
   const slotTag = useMemo(() => {
     if (spell?.tier === "C") {
@@ -182,7 +193,38 @@ const SpellHoverPopup = ({
   const kindModifier = `is-kind-${spell?.kind ?? "action"}`;
   const slotModifier = spell?.tier === "C" ? "is-cantrip" : "is-slot";
   const kindIcon = KIND_ICONS[spell?.kind] ?? KIND_ICONS.action;
-  const damageRows = Array.isArray(spell?.damageRows) ? spell.damageRows : [];
+  const rawDamageRows = Array.isArray(spell?.damageRows) ? spell.damageRows : [];
+  const damageRows = useMemo(
+    () =>
+      rawDamageRows.map((row) => ({
+        ...row,
+        formula: substituteTokens(row.formula ?? ""),
+      })),
+    [rawDamageRows],
+  );
+  const computedDamageHeadline = useMemo(() => {
+    if (damageRows.length === 0) {
+      return null;
+    }
+
+    const { min, max } = damageRows.reduce(
+      (totals, row) => {
+        const range = formulaRange(row.formula);
+        return {
+          min: totals.min + range.min,
+          max: totals.max + range.max,
+        };
+      },
+      { min: 0, max: 0 },
+    );
+
+    if (min === 0 && max === 0) {
+      return null;
+    }
+
+    return min === max ? `${min} Damage` : `${min}~${max} Damage`;
+  }, [damageRows]);
+  const damageHeadline = computedDamageHeadline ?? spell?.damageHeadline ?? null;
   const mechanics = Array.isArray(spell?.mechanics) ? spell.mechanics : [];
   const popupArt = spell?.popupIcon ?? spell?.icon ?? null;
   const diceIcon = pickDiceIcon(damageRows);
@@ -223,9 +265,9 @@ const SpellHoverPopup = ({
               <div className="spell-hover-popup-title-block">
                 <h5 className="popup-title">{spell?.name ?? "Spell"}</h5>
                 <p className="popup-subtitle">{tierSubtitle}</p>
-                {spell?.damageHeadline && (
+                {damageHeadline && (
                   <p className="spell-hover-popup-damage-headline">
-                    {spell.damageHeadline}
+                    {damageHeadline}
                   </p>
                 )}
               </div>
@@ -281,7 +323,9 @@ const SpellHoverPopup = ({
               </div>
             )}
 
-            <p className="popup-description">{summaryText}</p>
+            {summaryText && (
+              <p className="popup-description">{summaryText}</p>
+            )}
 
             {spell?.onSave && (
               <p className="spell-hover-popup-on-save">
@@ -334,6 +378,18 @@ const SpellHoverPopup = ({
                 />
                 {kindLabel}
               </span>
+              {spell?.channelDivinity && (
+                <span className="is-channel-divinity">
+                  <img
+                    className="spell-hover-popup-tag-icon"
+                    src={ChannelDivinityIcon}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                  />
+                  Channel Divinity
+                </span>
+              )}
               {spell?.ritual && (
                 <span className="is-ritual">
                   <img
@@ -346,16 +402,18 @@ const SpellHoverPopup = ({
                   Ritual
                 </span>
               )}
-              <span className={slotModifier}>
-                <img
-                  className="spell-hover-popup-tag-icon"
-                  src={SpellSlotIcon}
-                  alt=""
-                  aria-hidden="true"
-                  draggable={false}
-                />
-                {slotTag}
-              </span>
+              {isSpell && (
+                <span className={slotModifier}>
+                  <img
+                    className="spell-hover-popup-tag-icon"
+                    src={SpellSlotIcon}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                  />
+                  {slotTag}
+                </span>
+              )}
             </div>
           </div>
         </Popup>
