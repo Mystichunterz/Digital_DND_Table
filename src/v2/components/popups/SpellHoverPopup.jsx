@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import Popup from "./Popup";
 import { formulaRange, substituteTokens } from "../../data/formulas";
+import { ACTIONS } from "../../data/actionsCatalog";
 import ActionIcon from "../../../assets/resources/action.png";
 import BonusActionIcon from "../../../assets/resources/bonus_action.png";
 import ReactionIcon from "../../../assets/resources/reaction.png";
@@ -65,9 +66,22 @@ const POPUP_CHROME_ASSETS = [
   ConcentrationIcon,
 ];
 
+const POPUP_SPELL_ART_ASSETS = Array.from(
+  new Set(
+    ACTIONS.map((action) => action.popupIcon).filter(
+      (url) => typeof url === "string" && url.length > 0,
+    ),
+  ),
+);
+
 if (typeof window !== "undefined" && typeof Image !== "undefined") {
   const preload = () => {
     for (const url of POPUP_CHROME_ASSETS) {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+    }
+    for (const url of POPUP_SPELL_ART_ASSETS) {
       const img = new Image();
       img.decoding = "async";
       img.src = url;
@@ -257,7 +271,7 @@ const SpellHoverPopup = ({
           >
             {popupArt && (
               <div className="spell-hover-popup-art-overflow" aria-hidden="true">
-                <img src={popupArt} alt="" />
+                <img src={popupArt} alt="" decoding="async" />
               </div>
             )}
 
