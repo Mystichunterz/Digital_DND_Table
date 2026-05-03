@@ -11,6 +11,7 @@ import { pickRollKind, toAvraeCommand } from "../../../data/avrae";
 import { CONDITIONS, sumExtraActions } from "../../../data/conditionsCatalog";
 import { useConditions } from "../../../state/ConditionsContext";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
+import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 import {
   SPELLBOOK_TABS as SPELLBOOK_TAB_CONFIGS,
   getTabById,
@@ -634,6 +635,8 @@ const V2ActionsPanel = () => {
       isCancelled = true;
     };
   }, []);
+
+  useTrackHydration(isHydrated);
 
   usePersistedDebounce({
     enabled: isHydrated,

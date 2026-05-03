@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 
 const PERSISTED_CHARACTER_ID = "default";
 const PERSIST_DEBOUNCE_MS = 400;
@@ -240,6 +241,8 @@ const V2MoodboardPanel = () => {
       isCancelled = true;
     };
   }, []);
+
+  useTrackHydration(isHydrated);
 
   // Persist (debounced) with surfaced error state.
   useEffect(() => {

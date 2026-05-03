@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
+import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -96,6 +97,8 @@ const V2HealthPanel = () => {
       isCancelled = true;
     };
   }, []);
+
+  useTrackHydration(isHydrated);
 
   usePersistedDebounce({
     enabled: isHydrated,

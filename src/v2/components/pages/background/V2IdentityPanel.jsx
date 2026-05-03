@@ -8,6 +8,7 @@ import {
   personaData as defaultPersonaData,
 } from "../../../data/backgroundData";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
+import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -141,6 +142,8 @@ const V2IdentityPanel = () => {
       isCancelled = true;
     };
   }, []);
+
+  useTrackHydration(isHydrated);
 
   usePersistedDebounce({
     enabled: isHydrated,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 import { personalityData as defaultPersonalityData } from "../../../data/backgroundData";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
+import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -80,6 +81,8 @@ const V2PersonalityPanel = () => {
       isCancelled = true;
     };
   }, []);
+
+  useTrackHydration(isHydrated);
 
   usePersistedDebounce({
     enabled: isHydrated,

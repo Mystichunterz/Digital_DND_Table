@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { usePersistenceStatus } from "./PersistenceStatusContext";
 
 const DEFAULT_DEBOUNCE_MS = 500;
 
@@ -17,16 +18,22 @@ export function usePersistedDebounce({
   delay = DEFAULT_DEBOUNCE_MS,
   onError,
 }) {
+  const { beginSave, endSave } = usePersistenceStatus();
+
   const latestBodyRef = useRef(null);
   const lastSentSerializedRef = useRef(null);
   const timerRef = useRef(null);
   const urlRef = useRef(url);
   const onErrorRef = useRef(onError);
+  const beginSaveRef = useRef(beginSave);
+  const endSaveRef = useRef(endSave);
 
   // Synchronous render-phase ref updates.
   // Safe because we're only writing to refs, not triggering re-renders.
   urlRef.current = url;
   onErrorRef.current = onError;
+  beginSaveRef.current = beginSave;
+  endSaveRef.current = endSave;
   if (enabled) {
     latestBodyRef.current = body;
   }
@@ -45,6 +52,7 @@ export function usePersistedDebounce({
     }
 
     lastSentSerializedRef.current = snapshotSerialized;
+    beginSaveRef.current?.();
 
     try {
       fetch(urlRef.current, {
@@ -52,13 +60,22 @@ export function usePersistedDebounce({
         headers: { "Content-Type": "application/json" },
         body: snapshotSerialized,
         keepalive,
-      }).catch((error) => {
-        // Allow a retry of this body if the request itself failed.
-        lastSentSerializedRef.current = null;
-        onErrorRef.current?.(error);
-      });
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Save failed: HTTP ${response.status}`);
+          }
+          endSaveRef.current?.({ ok: true });
+        })
+        .catch((error) => {
+          // Allow a retry of this body if the request itself failed.
+          lastSentSerializedRef.current = null;
+          endSaveRef.current?.({ ok: false, error });
+          onErrorRef.current?.(error);
+        });
     } catch (error) {
       lastSentSerializedRef.current = null;
+      endSaveRef.current?.({ ok: false, error });
       onErrorRef.current?.(error);
     }
   };
