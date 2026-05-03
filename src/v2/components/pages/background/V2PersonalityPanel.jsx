@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 import { personalityData as defaultPersonalityData } from "../../../data/backgroundData";
+import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 500;
 
 const cloneDefaults = () =>
   defaultPersonalityData.map((group) => ({
@@ -81,23 +81,11 @@ const V2PersonalityPanel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
-
-    const timeoutId = setTimeout(() => {
-      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personality: groups }),
-      }).catch(() => {});
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, groups]);
+  usePersistedDebounce({
+    enabled: isHydrated,
+    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    body: { personality: groups },
+  });
 
   const handleItemChange = (groupKey, index) => (event) => {
     const value = event.target.value;

@@ -7,9 +7,9 @@ import {
   languagesData as defaultLanguagesData,
   personaData as defaultPersonaData,
 } from "../../../data/backgroundData";
+import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 500;
 
 const personaRows = [
   { label: "Player", key: "playerName" },
@@ -142,43 +142,17 @@ const V2IdentityPanel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
+  usePersistedDebounce({
+    enabled: isHydrated,
+    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    body: { background: { inspiration } },
+  });
 
-    const timeoutId = setTimeout(() => {
-      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ background: { inspiration } }),
-      }).catch(() => {});
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, inspiration]);
-
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
-
-    const timeoutId = setTimeout(() => {
-      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          identity: { persona, languages, coins, attunements },
-        }),
-      }).catch(() => {});
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, persona, languages, coins, attunements]);
+  usePersistedDebounce({
+    enabled: isHydrated,
+    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    body: { identity: { persona, languages, coins, attunements } },
+  });
 
   const filledAttunements = useMemo(
     () => attunements.filter((slot) => slot.item).length,

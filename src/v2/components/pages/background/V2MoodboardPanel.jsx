@@ -337,6 +337,9 @@ const V2MoodboardPanel = () => {
     return () => {
       window.removeEventListener("pagehide", flush);
       document.removeEventListener("visibilitychange", handleVisibility);
+      // Tab navigation within the SPA unmounts this component without
+      // firing pagehide, so flush any pending body here too.
+      flush();
     };
   }, []);
 

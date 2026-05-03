@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 500;
 
 const DEFAULT_HEALTH = {
   currentHp: 61,
@@ -97,27 +97,13 @@ const V2HealthPanel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
-
-    const timeoutId = setTimeout(() => {
-      fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          health: { currentHp, maxHp, tempHp, adjustment, deathSaves },
-        }),
-      }).catch(() => {
-        // Server unavailable — drop the write silently.
-      });
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, currentHp, maxHp, tempHp, adjustment, deathSaves]);
+  usePersistedDebounce({
+    enabled: isHydrated,
+    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    body: {
+      health: { currentHp, maxHp, tempHp, adjustment, deathSaves },
+    },
+  });
 
   const adjustedCurrentHp = useMemo(
     () => clampValue(currentHp, 0, maxHp),
