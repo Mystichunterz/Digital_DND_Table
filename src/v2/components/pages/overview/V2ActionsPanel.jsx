@@ -51,6 +51,7 @@ import { METAMAGIC_OPTIONS } from "./actions/metamagicOptions";
 import MetamagicTray from "./actions/MetamagicTray";
 import RollToast from "./actions/RollToast";
 import OptionTabStrip from "./actions/OptionTabStrip";
+import ActionsLayoutControls from "./actions/ActionsLayoutControls";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
@@ -1284,40 +1285,17 @@ const V2ActionsPanel = () => {
             onSelect={setActiveFilter}
           />
 
-          <div className="v2-actions-layout-controls">
-            <button
-              type="button"
-              className={isSpellbookOpen ? "is-active" : ""}
-              onClick={() =>
-                setIsSpellbookOpen((currentValue) => !currentValue)
-              }
-            >
-              Spellbook
-            </button>
-            <button type="button" onClick={exportLayoutAsJson}>
-              Export Layout
-            </button>
-            <button type="button" onClick={triggerLayoutImport}>
-              Import Layout
-            </button>
-            <input
-              ref={layoutFileInputRef}
-              type="file"
-              accept="application/json,.json"
-              className="v2-actions-layout-file-input"
-              onChange={importLayoutFromJson}
-            />
-            <span
-              className={
-                layoutTransferMessage?.type === "error"
-                  ? "v2-actions-layout-status is-error"
-                  : "v2-actions-layout-status"
-              }
-            >
-              {layoutTransferMessage?.text ??
-                "Import or export icon layout JSON"}
-            </span>
-          </div>
+          <ActionsLayoutControls
+            ref={layoutFileInputRef}
+            isSpellbookOpen={isSpellbookOpen}
+            onToggleSpellbook={() =>
+              setIsSpellbookOpen((currentValue) => !currentValue)
+            }
+            onExportLayout={exportLayoutAsJson}
+            onImportLayout={triggerLayoutImport}
+            onImportFile={importLayoutFromJson}
+            transferMessage={layoutTransferMessage}
+          />
         </div>
 
         <div className="v2-actions-menu-body">
