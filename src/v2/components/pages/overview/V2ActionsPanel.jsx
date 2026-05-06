@@ -13,10 +13,7 @@ import { useConditions } from "../../../state/ConditionsContext";
 import { useCharacterStats } from "../../../state/CharacterStatsContext";
 import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
 import { useTrackHydration } from "../../../state/PersistenceStatusContext";
-import {
-  SPELLBOOK_TABS as SPELLBOOK_TAB_CONFIGS,
-  getTabById,
-} from "../../../data/spellbookTabs";
+import { getTabById } from "../../../data/spellbookTabs";
 import SpellHoverPopup from "../../popups/SpellHoverPopup";
 import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
 import SpellbookRow from "../../popups/SpellbookRow";
@@ -29,6 +26,15 @@ import {
   clampResourceValue,
   isSpellAction,
 } from "./actions/resources";
+import {
+  DEFAULT_PREPARED_LIMITS_BY_CLASS,
+  DEFAULT_PREPARED_SPELL_IDS,
+  PREPARED_TAB_LABELS_BY_CLASS,
+  PREPARED_TOGGLE_ROW_KEYS,
+  isActionLockedForPreparation,
+  sanitizePreparedLimitsByClass,
+  sanitizePreparedSpellIds,
+} from "./actions/preparedSpells";
 import TwinnedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Twinned_Spell_Icon.webp";
 import DistantSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Distant_Spell_Icon.webp";
 import QuickenedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Quickened_Spell_Icon.webp";
@@ -41,87 +47,6 @@ import SeekingSpellIcon from "../../../../assets/actions/metamagic/Seeking_Spell
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
-
-const PREPARED_TOGGLE_ROW_KEYS = new Set(["tier-1", "tier-2"]);
-
-const DEFAULT_PREPARED_SPELL_IDS = { paladin: [] };
-
-const PREPARABLE_CLASS_IDS = new Set(Object.keys(DEFAULT_PREPARED_SPELL_IDS));
-
-const sanitizePreparedSpellIds = (raw, preparedLimitByClass = {}) => {
-  const validClasses = Object.keys(DEFAULT_PREPARED_SPELL_IDS);
-  const allowedActionIdByClass = validClasses.reduce((map, classId) => {
-    map[classId] = new Set(
-      ACTIONS.filter(
-        (action) =>
-          action.class === classId && action.spellbookRow !== "class-action",
-      ).map((action) => action.id),
-    );
-    return map;
-  }, {});
-
-  const result = { ...DEFAULT_PREPARED_SPELL_IDS };
-
-  if (raw && typeof raw === "object") {
-    validClasses.forEach((classId) => {
-      const incoming = Array.isArray(raw[classId]) ? raw[classId] : [];
-      const allowedIds = allowedActionIdByClass[classId];
-      const seen = new Set();
-      const filtered = [];
-
-      for (const candidate of incoming) {
-        if (
-          typeof candidate === "string" &&
-          allowedIds.has(candidate) &&
-          !seen.has(candidate)
-        ) {
-          filtered.push(candidate);
-          seen.add(candidate);
-        }
-      }
-
-      const cap = preparedLimitByClass[classId];
-
-      result[classId] =
-        typeof cap === "number" ? filtered.slice(0, cap) : filtered;
-    });
-  }
-
-  return result;
-};
-
-const DEFAULT_PREPARED_LIMITS_BY_CLASS = SPELLBOOK_TAB_CONFIGS.reduce(
-  (map, tab) => {
-    if (typeof tab.preparedLimit === "number") {
-      map[tab.id] = tab.preparedLimit;
-    }
-    return map;
-  },
-  {},
-);
-
-const sanitizePreparedLimitsByClass = (raw) => {
-  const result = { ...DEFAULT_PREPARED_LIMITS_BY_CLASS };
-
-  if (raw && typeof raw === "object") {
-    Object.keys(DEFAULT_PREPARED_LIMITS_BY_CLASS).forEach((classId) => {
-      const candidate = raw[classId];
-      if (typeof candidate === "number" && Number.isFinite(candidate)) {
-        result[classId] = Math.max(0, Math.floor(candidate));
-      }
-    });
-  }
-
-  return result;
-};
-
-const PREPARED_TAB_LABELS_BY_CLASS = SPELLBOOK_TAB_CONFIGS.reduce(
-  (map, tab) => {
-    map[tab.id] = tab.label;
-    return map;
-  },
-  {},
-);
 
 const FILTER_TABS = [
   { id: "all", label: "All" },
@@ -387,19 +312,6 @@ const SPELLBOOK_TIER_ORDER = ["C", "I", "II", "III", "IV", "V"];
 const TIER_NUMERAL = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
 
 const romanizeTier = (tier) => TIER_NUMERAL[tier] ?? String(tier);
-
-const requiresPreparation = (action) =>
-  PREPARABLE_CLASS_IDS.has(action?.class) &&
-  PREPARED_TOGGLE_ROW_KEYS.has(action?.spellbookRow);
-
-const isActionLockedForPreparation = (action, preparedSpellIds) => {
-  if (!action || !requiresPreparation(action)) {
-    return false;
-  }
-  const classId = action.class;
-  const preparedList = preparedSpellIds?.[classId] ?? [];
-  return !preparedList.includes(action.id);
-};
 
 const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
   <span className={className} aria-hidden="true">
