@@ -8,7 +8,6 @@ import {
   MIN_IMAGE_WIDTH,
   MIN_STICKER_SIZE,
   PERSIST_DEBOUNCE_MS,
-  STICKERS,
 } from "./moodboard/constants";
 import { downscaleToDataUrl } from "./moodboard/imageProcessing";
 import {
@@ -21,6 +20,9 @@ import {
   formatSnapshotTimestamp,
   isEditableTarget,
 } from "./moodboard/utils";
+import StickerPalette from "./moodboard/StickerPalette";
+import SnapshotMenu from "./moodboard/SnapshotMenu";
+import MoodboardItem from "./moodboard/MoodboardItem";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -712,28 +714,6 @@ const V2MoodboardPanel = () => {
 
   const isLoading = !isHydrated || isLoadingSnapshot || bulkPendingIds.size > 0;
 
-  const renderControls = (item) => (
-    <div className="v2-moodboard-item-controls">
-      <button
-        type="button"
-        className="v2-moodboard-rotate-handle"
-        title="Drag to rotate (hold Shift to snap)"
-        aria-label="Rotate"
-        onPointerDown={(event) => handleRotatePointerDown(event, item)}
-      >
-        ↻
-      </button>
-      <button
-        type="button"
-        className="is-danger"
-        onClick={() => removeItem(item.id)}
-        aria-label="Remove"
-      >
-        ×
-      </button>
-    </div>
-  );
-
   return (
     <article className="v2-overview-panel v2-background-panel v2-moodboard-panel">
       <header className="v2-overview-panel-header v2-moodboard-header">
@@ -774,72 +754,16 @@ const V2MoodboardPanel = () => {
           >
             {isCreatingSnapshot ? "Saving…" : "Save Snapshot"}
           </button>
-          <div className="v2-moodboard-snapshot-menu" ref={snapshotMenuRef}>
-            <button
-              type="button"
-              className="v2-moodboard-action"
-              onClick={
-                isSnapshotMenuOpen ? closeSnapshotMenu : openSnapshotMenu
-              }
-              aria-haspopup="listbox"
-              aria-expanded={isSnapshotMenuOpen}
-            >
-              Load…
-            </button>
-            {isSnapshotMenuOpen && (
-              <div
-                className="v2-moodboard-snapshot-list"
-                role="listbox"
-                aria-label="Past snapshots"
-              >
-                {snapshotError && (
-                  <p className="v2-moodboard-snapshot-error">
-                    {snapshotError}
-                  </p>
-                )}
-                {snapshots.length === 0 && !snapshotError && (
-                  <p className="v2-moodboard-snapshot-empty">
-                    No snapshots yet. Use <strong>Save Snapshot</strong> to
-                    create one.
-                  </p>
-                )}
-                {snapshots.map((snapshot) => (
-                  <div
-                    key={snapshot.id}
-                    className="v2-moodboard-snapshot-row"
-                    role="option"
-                    aria-selected="false"
-                  >
-                    <button
-                      type="button"
-                      className="v2-moodboard-snapshot-load"
-                      onClick={() => loadSnapshot(snapshot)}
-                    >
-                      <span className="v2-moodboard-snapshot-label">
-                        {snapshot.label || "Untitled snapshot"}
-                      </span>
-                      <span className="v2-moodboard-snapshot-meta">
-                        {formatSnapshotTimestamp(snapshot.createdAt)} ·{" "}
-                        {snapshot.itemCount}{" "}
-                        {snapshot.itemCount === 1 ? "item" : "items"}
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="v2-moodboard-snapshot-delete"
-                      onClick={() => deleteSnapshot(snapshot)}
-                      aria-label={`Delete snapshot ${
-                        snapshot.label || snapshot.id
-                      }`}
-                      title="Delete snapshot"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <SnapshotMenu
+            ref={snapshotMenuRef}
+            isOpen={isSnapshotMenuOpen}
+            snapshots={snapshots}
+            snapshotError={snapshotError}
+            onOpen={openSnapshotMenu}
+            onClose={closeSnapshotMenu}
+            onLoad={loadSnapshot}
+            onDelete={deleteSnapshot}
+          />
           <button
             type="button"
             className="v2-moodboard-action is-danger"
@@ -851,19 +775,7 @@ const V2MoodboardPanel = () => {
         </div>
       </header>
 
-      <div className="v2-moodboard-stickers" aria-label="Sticker palette">
-        {STICKERS.map((glyph) => (
-          <button
-            key={glyph}
-            type="button"
-            className="v2-moodboard-sticker-pick"
-            onClick={() => addSticker(glyph)}
-            aria-label={`Add ${glyph} sticker`}
-          >
-            <span aria-hidden="true">{glyph}</span>
-          </button>
-        ))}
-      </div>
+      <StickerPalette onPick={addSticker} />
 
       <div
         ref={canvasRef}
@@ -895,83 +807,20 @@ const V2MoodboardPanel = () => {
           </div>
         )}
 
-        {items.map((item) => {
-          const dims = getItemDimensions(item);
-          const isActive = activeOp?.id === item.id;
-          const baseStyle = {
-            left: `${item.x}px`,
-            top: `${item.y}px`,
-            width: `${dims.width}px`,
-            height: `${dims.height}px`,
-            zIndex: item.zIndex,
-            transform: `rotate(${item.rotation}deg)`,
-          };
-
-          if (item.type === "image") {
-            return (
-              <div
-                key={item.id}
-                className={
-                  isActive
-                    ? "v2-moodboard-item v2-moodboard-image is-active"
-                    : "v2-moodboard-item v2-moodboard-image"
-                }
-                style={baseStyle}
-                onPointerDown={(event) => handleItemPointerDown(event, item)}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerUp}
-              >
-                <img
-                  src={item.dataUrl}
-                  alt=""
-                  draggable={false}
-                  onLoad={() => handleImageSettled(item.id)}
-                  onError={() => handleImageSettled(item.id)}
-                />
-                {renderControls(item)}
-                <button
-                  type="button"
-                  className="v2-moodboard-resize-handle"
-                  title="Drag to resize"
-                  aria-label="Resize"
-                  onPointerDown={(event) =>
-                    handleResizePointerDown(event, item)
-                  }
-                />
-              </div>
-            );
-          }
-
-          return (
-            <div
-              key={item.id}
-              className={
-                isActive
-                  ? "v2-moodboard-item v2-moodboard-sticker is-active"
-                  : "v2-moodboard-item v2-moodboard-sticker"
-              }
-              style={{
-                ...baseStyle,
-                fontSize: `${item.size * 0.72}px`,
-              }}
-              onPointerDown={(event) => handleItemPointerDown(event, item)}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerUp}
-            >
-              <span aria-hidden="true">{item.glyph}</span>
-              {renderControls(item)}
-              <button
-                type="button"
-                className="v2-moodboard-resize-handle"
-                title="Drag to resize"
-                aria-label="Resize"
-                onPointerDown={(event) => handleResizePointerDown(event, item)}
-              />
-            </div>
-          );
-        })}
+        {items.map((item) => (
+          <MoodboardItem
+            key={item.id}
+            item={item}
+            isActive={activeOp?.id === item.id}
+            onPointerDown={handleItemPointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onResizeStart={handleResizePointerDown}
+            onRotateStart={handleRotatePointerDown}
+            onRemove={removeItem}
+            onImageSettled={handleImageSettled}
+          />
+        ))}
       </div>
     </article>
   );
