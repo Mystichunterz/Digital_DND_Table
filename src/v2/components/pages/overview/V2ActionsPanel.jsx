@@ -21,7 +21,6 @@ import {
   DEFAULT_RESOURCE_MAX,
   TIER_TO_SLOT_LEVEL,
   buildInitialResources,
-  canAffordAction,
   clampResourceValue,
   isSpellAction,
 } from "./actions/resources";
@@ -50,6 +49,7 @@ import RollToast from "./actions/RollToast";
 import OptionTabStrip from "./actions/OptionTabStrip";
 import ActionsLayoutControls from "./actions/ActionsLayoutControls";
 import SpellbookOverlay from "./actions/SpellbookOverlay";
+import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
@@ -57,14 +57,6 @@ import {
 } from "./actions/spellbookConfig";
 
 const PERSISTED_CHARACTER_ID = "default";
-
-const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
-  <span className={className} aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2.25a4.75 4.75 0 0 0-4.75 4.75V10H6.5A2.25 2.25 0 0 0 4.25 12.25v7.5A2.25 2.25 0 0 0 6.5 22h11a2.25 2.25 0 0 0 2.25-2.25v-7.5A2.25 2.25 0 0 0 17.5 10h-.75V7A4.75 4.75 0 0 0 12 2.25Zm-3.25 4.75a3.25 3.25 0 1 1 6.5 0V10h-6.5V7Z" />
-    </svg>
-  </span>
-);
 
 const V2ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -1002,6 +994,31 @@ const V2ActionsPanel = () => {
     });
   };
 
+  const handleTileDragStart = (event, item, sectionId, slotIndex) => {
+    setDraggedAction({
+      source: "bar",
+      sectionId,
+      slotIndex,
+      itemId: item.id,
+    });
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", item.id);
+  };
+
+  const handleTileDragEnd = () => {
+    setDraggedAction(null);
+    setDropTarget(null);
+  };
+
+  const handleTileDragOver = (sectionId, slotIndex) => {
+    setDropTarget({ sectionId, slotIndex });
+  };
+
+  const handleTileDrop = (sectionId, slotIndex) => {
+    handleActionDrop(sectionId, slotIndex);
+    setDropTarget(null);
+  };
+
   const renderTilesForSection = (sectionId) => {
     const slots =
       sectionLayouts[sectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
@@ -1021,136 +1038,36 @@ const V2ActionsPanel = () => {
 
       if (!item || !isVisible) {
         return (
-          <button
+          <EmptyActionTile
             key={`${sectionId}-empty-${index}`}
-            type="button"
-            className={
-              isDropTarget
-                ? "v2-action-tile v2-action-tile-empty is-drop-target"
-                : "v2-action-tile v2-action-tile-empty"
-            }
-            aria-hidden="true"
-            tabIndex={-1}
-            onDragOver={(event) => {
-              if (!canDropInSection) {
-                return;
-              }
-
-              event.preventDefault();
-              setDropTarget({ sectionId, slotIndex: index });
-            }}
-            onDrop={(event) => {
-              if (!canDropInSection) {
-                return;
-              }
-
-              event.preventDefault();
-              handleActionDrop(sectionId, index);
-              setDropTarget(null);
-            }}
+            sectionId={sectionId}
+            index={index}
+            isDropTarget={isDropTarget}
+            canDropInSection={canDropInSection}
+            onDragOver={handleTileDragOver}
+            onDrop={handleTileDrop}
           />
         );
       }
 
-      const isLocked = isActionLockedForPreparation(item, preparedSpellIds);
-      const isToggleActive = item.toggle === "gwm" && isGwmActive;
-      const isUnaffordable = !isLocked && !canAffordAction(item, resources);
-      const tileClassName = [
-        "v2-action-tile",
-        `tone-${item.tone}`,
-        isDragging ? "is-dragging" : "",
-        isDropTarget ? "is-drop-target" : "",
-        isLocked ? "is-locked" : "",
-        isUnaffordable ? "is-unaffordable" : "",
-        isToggleActive ? "is-toggle-active" : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-      const toggleSuffix = isToggleActive ? " — ON" : "";
-      const tileTitle = isLocked
-        ? `${item.name} (${item.kind}) — not prepared`
-        : isUnaffordable
-          ? `${item.name} (${item.kind}) — not enough resources`
-          : `${item.name} (${item.kind})${toggleSuffix}`;
-      const tileAriaLabel = tileTitle;
-
-      const tileButton = (
-        <button
-          type="button"
-          className={tileClassName}
-          title={tileTitle}
-          aria-label={tileAriaLabel}
-          aria-disabled={isLocked || undefined}
-          draggable
-          onClick={(event) => handleActionClick(item, event)}
-          onDragStart={(event) => {
-            setDraggedAction({
-              source: "bar",
-              sectionId,
-              slotIndex: index,
-              itemId: item.id,
-            });
-            event.dataTransfer.effectAllowed = "move";
-            event.dataTransfer.setData("text/plain", item.id);
-          }}
-          onDragEnd={() => {
-            setDraggedAction(null);
-            setDropTarget(null);
-          }}
-          onDragOver={(event) => {
-            if (!canDropInSection) {
-              return;
-            }
-
-            event.preventDefault();
-            setDropTarget({ sectionId, slotIndex: index });
-          }}
-          onDrop={(event) => {
-            if (!canDropInSection) {
-              return;
-            }
-
-            event.preventDefault();
-            handleActionDrop(sectionId, index);
-            setDropTarget(null);
-          }}
-        >
-          {item.icon ? (
-            <img
-              src={item.icon}
-              alt=""
-              className="v2-action-icon"
-              draggable={false}
-            />
-          ) : (
-            <span className="v2-action-short">
-              {item.fallbackIconText ?? item.short}
-            </span>
-          )}
-          {item.keybind && (
-            <span className="v2-action-keybind">{item.keybind}</span>
-          )}
-          {item.kind === "bonus" && <span className="v2-action-plus">+</span>}
-          {typeof item.quantity === "number" && (
-            <span className="v2-action-qty">{item.quantity}</span>
-          )}
-          {isLocked && <LockOverlayIcon className="v2-action-lock-overlay" />}
-        </button>
-      );
-
-      const hasHoverPopup =
-        isSpellAction(item) ||
-        item.category === "common" ||
-        item.category === "items";
-
-      if (!hasHoverPopup) {
-        return <Fragment key={item.id}>{tileButton}</Fragment>;
-      }
-
       return (
-        <SpellHoverPopup key={item.id} spell={item}>
-          {tileButton}
-        </SpellHoverPopup>
+        <ActionTile
+          key={item.id}
+          item={item}
+          sectionId={sectionId}
+          index={index}
+          isDragging={isDragging}
+          isDropTarget={isDropTarget}
+          isGwmActive={isGwmActive}
+          preparedSpellIds={preparedSpellIds}
+          resources={resources}
+          canDropInSection={canDropInSection}
+          onActionClick={handleActionClick}
+          onDragStart={handleTileDragStart}
+          onDragEnd={handleTileDragEnd}
+          onDragOver={handleTileDragOver}
+          onDrop={handleTileDrop}
+        />
       );
     });
   };
