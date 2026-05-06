@@ -21,6 +21,14 @@ import SpellHoverPopup from "../../popups/SpellHoverPopup";
 import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
 import SpellbookRow from "../../popups/SpellbookRow";
 import V2ResourcePips from "./V2ResourcePips";
+import {
+  DEFAULT_RESOURCE_MAX,
+  TIER_TO_SLOT_LEVEL,
+  buildInitialResources,
+  canAffordAction,
+  clampResourceValue,
+  isSpellAction,
+} from "./actions/resources";
 import TwinnedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Twinned_Spell_Icon.webp";
 import DistantSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Distant_Spell_Icon.webp";
 import QuickenedSpellIcon from "../../../../assets/actions/metamagic/Metamagic_Quickened_Spell_Icon.webp";
@@ -33,34 +41,6 @@ import SeekingSpellIcon from "../../../../assets/actions/metamagic/Seeking_Spell
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
-
-const TIER_TO_SLOT_LEVEL = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6 };
-
-const DEFAULT_RESOURCE_MAX = {
-  action: 1,
-  bonus: 1,
-  reaction: 1,
-  channelOath: 1,
-  favouredByGods: 1,
-  divineSense: 3,
-  layOnHands: 30,
-  sorceryPoints: 3,
-  seraSneakAttack: 3,
-  spellSlots: { 1: 4, 2: 3, 3: 3, 4: 0, 5: 0, 6: 0 },
-};
-
-const buildInitialResources = (resourceMax) => ({
-  action: resourceMax.action,
-  bonus: resourceMax.bonus,
-  reaction: resourceMax.reaction,
-  channelOath: resourceMax.channelOath,
-  favouredByGods: resourceMax.favouredByGods,
-  divineSense: resourceMax.divineSense,
-  layOnHands: resourceMax.layOnHands,
-  sorceryPoints: resourceMax.sorceryPoints,
-  seraSneakAttack: resourceMax.seraSneakAttack,
-  spellSlots: { ...resourceMax.spellSlots },
-});
 
 const PREPARED_TOGGLE_ROW_KEYS = new Set(["tier-1", "tier-2"]);
 
@@ -142,9 +122,6 @@ const PREPARED_TAB_LABELS_BY_CLASS = SPELLBOOK_TAB_CONFIGS.reduce(
   },
   {},
 );
-
-const clampResourceValue = (value, min, max) =>
-  Math.min(Math.max(value, min), max);
 
 const FILTER_TABS = [
   { id: "all", label: "All" },
@@ -431,25 +408,6 @@ const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
     </svg>
   </span>
 );
-
-const isSpellAction = (action) =>
-  action?.category === "paladin" ||
-  (typeof action?.iconKey === "string" && action.iconKey.startsWith("spells/"));
-
-const canAffordAction = (item, resources) => {
-  if (!item || item.toggle === "gwm") return true;
-
-  if (item.kind === "action" && (resources.action ?? 0) <= 0) return false;
-  if (item.kind === "bonus" && (resources.bonus ?? 0) <= 0) return false;
-  if (item.kind === "reaction" && (resources.reaction ?? 0) <= 0) return false;
-
-  if (isSpellAction(item) && item.tier && item.tier !== "C") {
-    const slotLevel = TIER_TO_SLOT_LEVEL[item.tier];
-    if (!slotLevel || (resources.spellSlots?.[slotLevel] ?? 0) <= 0) return false;
-  }
-
-  return true;
-};
 
 const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
