@@ -16,7 +16,6 @@ import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 import { getTabById } from "../../../data/spellbookTabs";
 import SpellHoverPopup from "../../popups/SpellHoverPopup";
 import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
-import SpellbookRow from "../../popups/SpellbookRow";
 import V2ResourcePips from "./V2ResourcePips";
 import {
   DEFAULT_RESOURCE_MAX,
@@ -30,7 +29,6 @@ import {
   DEFAULT_PREPARED_LIMITS_BY_CLASS,
   DEFAULT_PREPARED_SPELL_IDS,
   PREPARED_TAB_LABELS_BY_CLASS,
-  PREPARED_TOGGLE_ROW_KEYS,
   isActionLockedForPreparation,
   sanitizePreparedLimitsByClass,
   sanitizePreparedSpellIds,
@@ -47,17 +45,16 @@ import {
   createInitialSectionLayouts,
   normalizeImportedLayouts,
 } from "./actions/sectionLayout";
-import { METAMAGIC_OPTIONS } from "./actions/metamagicOptions";
 import MetamagicTray from "./actions/MetamagicTray";
 import RollToast from "./actions/RollToast";
 import OptionTabStrip from "./actions/OptionTabStrip";
 import ActionsLayoutControls from "./actions/ActionsLayoutControls";
+import SpellbookOverlay from "./actions/SpellbookOverlay";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
   SPELLBOOK_VIEWPORT_MARGIN,
 } from "./actions/spellbookConfig";
-import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -1377,267 +1374,27 @@ const V2ActionsPanel = () => {
         />
       </div>
 
-      {isSpellbookOpen && (
-        <div className="v2-spellbook-layer" aria-hidden={!isSpellbookOpen}>
-          <section
-            ref={spellbookPopupRef}
-            className={
-              spellbookDragState
-                ? "v2-spellbook-popup is-moved is-dragging"
-                : spellbookPosition
-                  ? "v2-spellbook-popup is-moved"
-                  : "v2-spellbook-popup"
-            }
-            role="dialog"
-            aria-modal="false"
-            aria-label="Spellbook"
-            style={
-              spellbookPosition
-                ? {
-                    left: `${spellbookPosition.left}px`,
-                    top: `${spellbookPosition.top}px`,
-                  }
-                : undefined
-            }
-          >
-            <nav
-              className="v2-spellbook-tab-strip"
-              aria-label="Spellbook tabs"
-              onPointerDown={(event) => {
-                if (event.target.closest("button")) {
-                  return;
-                }
-                handleSpellbookHeaderPointerDown(event);
-              }}
-            >
-              {SPELLBOOK_TABS.map((tab) => {
-                const tabConfig = getTabById(tab.id);
-                const preparedLimit =
-                  preparedLimitsByClass[tab.id] ??
-                  tabConfig?.preparedLimit ??
-                  0;
-                const preparedCount = preparedLimit
-                  ? preparedSpellIds[tab.id]?.length ?? 0
-                  : 0;
-                const fallbackCount =
-                  spellbookActionsByTab[tab.id]?.length ?? 0;
-                const tabCountLabel = preparedLimit
-                  ? `(${preparedCount}/${preparedLimit})`
-                  : `(${fallbackCount})`;
-
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    className={
-                      activeSpellbookTab === tab.id
-                        ? "v2-spellbook-tab is-active"
-                        : "v2-spellbook-tab"
-                    }
-                    onClick={() => setActiveSpellbookTab(tab.id)}
-                  >
-                    <span>
-                      {tab.label}{" "}
-                      <small className="v2-spellbook-tab-count">
-                        {tabCountLabel}
-                      </small>
-                    </span>
-                  </button>
-                );
-              })}
-              <button
-                type="button"
-                className="v2-spellbook-close"
-                onClick={() => setIsSpellbookOpen(false)}
-                aria-label="Close spellbook"
-                title="Close (Esc)"
-              >
-                ×
-              </button>
-            </nav>
-
-            <div
-              className="v2-spellbook-surface"
-              onPointerDown={(event) => {
-                if (
-                  event.target.closest(
-                    "button, input, .v2-spellbook-icon, .v2-spellbook-stat-pill, .v2-spellbook-stat-flat, .spell-hover-popup-trigger",
-                  )
-                ) {
-                  return;
-                }
-                handleSpellbookHeaderPointerDown(event);
-              }}
-            >
-            {activeSpellbookConfig ? (
-              <div className="v2-spellbook-body">
-                <aside className="v2-spellbook-class-rail">
-                  <div className="v2-spellbook-class-crest">
-                    <img
-                      src={activeSpellbookConfig.crest}
-                      alt={activeSpellbookConfig.label}
-                      draggable={false}
-                    />
-                  </div>
-                  <div className="v2-spellbook-class-badge">
-                    Lv {activeSpellbookConfig.classLevel}
-                  </div>
-                </aside>
-
-                <div className="v2-spellbook-content">
-                  <div className="v2-spellbook-subheader">
-                    <div className="v2-spellbook-oath">
-                      {activeSpellbookConfig.subclassLabel}
-                    </div>
-                    <div
-                      className="v2-spellbook-stat-strip"
-                      aria-label="Spellbook stats"
-                    >
-                      <span
-                        className="v2-spellbook-stat-pill"
-                        title={`Spellcasting ability: ${activeSpellbookConfig.abilityLabel}`}
-                      >
-                        <span className="v2-spellbook-stat-glyph">★</span>
-                        <strong>{activeSpellbookConfig.abilityLabel}</strong>
-                      </span>
-                      <span
-                        className="v2-spellbook-stat-pill"
-                        title="Spell Attack Modifier"
-                      >
-                        <img src={SpellSlotIcon} alt="" draggable={false} />
-                        <strong>{activeSpellbookConfig.spellAttackMod}</strong>
-                      </span>
-                      <span
-                        className="v2-spellbook-stat-pill"
-                        title="Spell Save DC"
-                      >
-                        <span className="v2-spellbook-stat-glyph">DC</span>
-                        <strong>{activeSpellbookConfig.spellSaveDC}</strong>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="v2-spellbook-pane">
-                    {activeSpellbookConfig.sections.map((section) => {
-                      const isPrepared = section.id === "prepared";
-                      const isMetamagic = section.source === "metamagic";
-                      const items = isMetamagic
-                        ? METAMAGIC_OPTIONS
-                        : spellbookSectionItems[section.id] ?? [];
-                      const tier = section.slotPipsKey;
-                      const slotsMax =
-                        tier !== undefined
-                          ? resourceMax.spellSlots?.[tier] ?? 0
-                          : 0;
-                      const slotsRemaining =
-                        tier !== undefined
-                          ? resources.spellSlots?.[tier] ?? 0
-                          : 0;
-                      const effectivePreparedLimit =
-                        preparedLimitsByClass[activeSpellbookConfig.id] ??
-                        activeSpellbookConfig.preparedLimit;
-                      const trailingEmpty =
-                        isPrepared && effectivePreparedLimit
-                          ? Math.max(
-                              0,
-                              effectivePreparedLimit - items.length,
-                            )
-                          : 0;
-
-                      const preparedSet = new Set(
-                        preparedSpellIds[activeSpellbookConfig.id] ?? [],
-                      );
-                      const isToggleRow =
-                        isPrepared ||
-                        PREPARED_TOGGLE_ROW_KEYS.has(section.rowKey);
-                      const isCapReached =
-                        typeof effectivePreparedLimit === "number" &&
-                        preparedSet.size >= effectivePreparedLimit;
-                      const onSpellClick = isToggleRow
-                        ? (action) =>
-                            togglePreparedSpell(
-                              activeSpellbookConfig.id,
-                              action.id,
-                            )
-                        : undefined;
-
-                      return (
-                        <SpellbookRow
-                          key={section.id}
-                          glyphKey={section.glyphKey}
-                          label={section.label}
-                          showLabel={!!section.showLabel}
-                          framed={!!section.framed}
-                          trailingEmptySlots={trailingEmpty}
-                          slotsRemaining={slotsRemaining}
-                          slotsMax={slotsMax}
-                        >
-                          {isMetamagic
-                            ? renderMetamagicSpellbookIcons(items)
-                            : renderSpellbookIcons(items, {
-                                onSpellClick,
-                                preparedSet,
-                                isCapReached,
-                              })}
-                        </SpellbookRow>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="v2-spellbook-body">
-                <aside className="v2-spellbook-class-rail" aria-hidden="true">
-                  <div className="v2-spellbook-class-badge">Lv 9</div>
-                  <div className="v2-spellbook-slot-pips">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                </aside>
-
-                <div className="v2-spellbook-grid">
-                  <section className="v2-spellbook-row">
-                    <h3>Class Actions</h3>
-                    <div className="v2-spellbook-icon-row">
-                      {renderSpellbookIcons(spellbookActionRows.classActions)}
-                    </div>
-                  </section>
-
-                  <section className="v2-spellbook-row">
-                    <h3>Spells</h3>
-                    <div className="v2-spellbook-icon-row">
-                      {renderSpellbookIcons(spellbookActionRows.spellActions)}
-                    </div>
-                  </section>
-
-                  <section
-                    className="v2-spellbook-prepared-row"
-                    aria-label="Prepared strip"
-                  >
-                    <span className="v2-spellbook-prepared-label">Prepared</span>
-                    <div className="v2-spellbook-icon-row is-prepared">
-                      {renderSpellbookIcons(spellbookActionRows.preparedActions)}
-                    </div>
-                  </section>
-
-                  {spellbookActionRows.tierRows.map((row) => (
-                    <section key={row.tierId} className="v2-spellbook-tier-row">
-                      <span className="v2-spellbook-tier-label">
-                        {row.tierId}
-                      </span>
-                      <div className="v2-spellbook-icon-row">
-                        {renderSpellbookIcons(row.actions)}
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              </div>
-            )}
-            </div>
-          </section>
-        </div>
-      )}
+      <SpellbookOverlay
+        ref={spellbookPopupRef}
+        isOpen={isSpellbookOpen}
+        spellbookDragState={spellbookDragState}
+        spellbookPosition={spellbookPosition}
+        activeSpellbookTab={activeSpellbookTab}
+        activeSpellbookConfig={activeSpellbookConfig}
+        preparedLimitsByClass={preparedLimitsByClass}
+        preparedSpellIds={preparedSpellIds}
+        spellbookActionsByTab={spellbookActionsByTab}
+        spellbookSectionItems={spellbookSectionItems}
+        spellbookActionRows={spellbookActionRows}
+        resources={resources}
+        resourceMax={resourceMax}
+        onSelectTab={setActiveSpellbookTab}
+        onClose={() => setIsSpellbookOpen(false)}
+        onHeaderPointerDown={handleSpellbookHeaderPointerDown}
+        togglePreparedSpell={togglePreparedSpell}
+        renderSpellbookIcons={renderSpellbookIcons}
+        renderMetamagicSpellbookIcons={renderMetamagicSpellbookIcons}
+      />
 
       <RollToast toast={rollToast} />
     </article>
