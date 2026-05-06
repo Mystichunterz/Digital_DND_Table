@@ -29,8 +29,12 @@ and functionality. Many of the icons are sourced from the BG3 wiki.
       frontmatter, full-text search, tag filters, debounced auto-save,
       and an Edit ↔ Preview toggle. Notes persist as `.md` files
       under `notes/`.
-- [ ] **Calculator** — Avrae-compatible dice command generator. Not
-      started.
+- [x] **Calculator** (`/v2/calculator`) — Avrae-compatible dice
+      command generator. Type a formula (`1d20+{PROF}+{STR}`),
+      click dice or token chips to insert, copy the resolved
+      `!roll` command into Discord. Tracks recent commands for
+      one-click replay. Reads live ability modifiers from the
+      character context, so token substitution stays in sync.
 - [ ] **Pets** — track pet HP, actions, etc. Not started.
 
 A `/legacy/*` route still mounts the original (pre-v2) UI for

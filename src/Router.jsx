@@ -22,6 +22,7 @@ import V2NotFound from "./v2/pages/V2NotFound";
 const V2Inventory = lazy(() => import("./v2/pages/V2Inventory"));
 const V2Background = lazy(() => import("./v2/pages/V2Background"));
 const V2Companions = lazy(() => import("./v2/pages/V2Companions"));
+const V2Calculator = lazy(() => import("./v2/pages/V2Calculator"));
 const V2Journal = lazy(() => import("./v2/journal/V2Journal"));
 const V2AssetManager = lazy(() => import("./v2/pages/V2AssetManager"));
 const LegacyLayout = lazy(() => import("./legacy/layout/AppLayout"));
@@ -56,6 +57,7 @@ const Router = () => {
         <Route path="inventory" element={lazyRoute(V2Inventory)} />
         <Route path="background" element={lazyRoute(V2Background)} />
         <Route path="companions" element={lazyRoute(V2Companions)} />
+        <Route path="calculator" element={lazyRoute(V2Calculator)} />
         <Route path="journal" element={lazyRoute(V2Journal)} />
         <Route path="assets" element={lazyRoute(V2AssetManager)} />
         <Route path="*" element={<V2NotFound />} />
