@@ -42,7 +42,6 @@ import {
   SECTION_IDS,
   SECTION_SLOT_COUNT,
   TOTAL_SECTION_COLUMNS,
-  clamp,
   createInitialSectionLayouts,
   normalizeImportedLayouts,
 } from "./actions/sectionLayout";
@@ -56,19 +55,26 @@ import ActionsLayoutControls from "./actions/ActionsLayoutControls";
 // the initial chunk.
 const SpellbookOverlay = lazy(() => import("./actions/SpellbookOverlay"));
 import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
+import { useDividerDrag } from "./actions/useDividerDrag";
+import { useSpellbookOverlayPosition } from "./actions/useSpellbookOverlayPosition";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
-  SPELLBOOK_VIEWPORT_MARGIN,
 } from "./actions/spellbookConfig";
 
 const PERSISTED_CHARACTER_ID = "default";
 
 const V2ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [sectionColumns, setSectionColumns] = useState(DEFAULT_SECTION_COLUMNS);
-  const [draggedDivider, setDraggedDivider] = useState(null);
-  const [dragPreviewRatio, setDragPreviewRatio] = useState(null);
+  const {
+    gridClusterRef,
+    sectionColumns,
+    setSectionColumns,
+    draggedDivider,
+    dragPreviewRatio,
+    startDividerDrag,
+    resetDividers,
+  } = useDividerDrag();
   const [sectionLayouts, setSectionLayouts] = useState(
     createInitialSectionLayouts,
   );
@@ -76,8 +82,12 @@ const V2ActionsPanel = () => {
   const [dropTarget, setDropTarget] = useState(null);
   const [isSpellbookOpen, setIsSpellbookOpen] = useState(false);
   const [activeSpellbookTab, setActiveSpellbookTab] = useState("paladin");
-  const [spellbookPosition, setSpellbookPosition] = useState(null);
-  const [spellbookDragState, setSpellbookDragState] = useState(null);
+  const {
+    spellbookPopupRef,
+    spellbookPosition,
+    spellbookDragState,
+    handleHeaderPointerDown: handleSpellbookHeaderPointerDown,
+  } = useSpellbookOverlayPosition({ isOpen: isSpellbookOpen });
   const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
   const [resourceMax, setResourceMax] = useState(DEFAULT_RESOURCE_MAX);
   const [resources, setResources] = useState(() =>
@@ -102,88 +112,7 @@ const V2ActionsPanel = () => {
     }),
     [resourceMax, extraActions],
   );
-  const gridClusterRef = useRef(null);
   const layoutFileInputRef = useRef(null);
-  const spellbookPopupRef = useRef(null);
-
-  const clampSpellbookPosition = useCallback((left, top) => {
-    const popupElement = spellbookPopupRef.current;
-    const popupWidth =
-      popupElement?.offsetWidth ?? Math.max(320, window.innerWidth * 0.94);
-    const popupHeight =
-      popupElement?.offsetHeight ?? Math.max(240, window.innerHeight * 0.78);
-    const maxLeft = Math.max(
-      SPELLBOOK_VIEWPORT_MARGIN,
-      window.innerWidth - popupWidth - SPELLBOOK_VIEWPORT_MARGIN,
-    );
-    const maxTop = Math.max(
-      SPELLBOOK_VIEWPORT_MARGIN,
-      window.innerHeight - popupHeight - SPELLBOOK_VIEWPORT_MARGIN,
-    );
-
-    return {
-      left: clamp(left, SPELLBOOK_VIEWPORT_MARGIN, maxLeft),
-      top: clamp(top, SPELLBOOK_VIEWPORT_MARGIN, maxTop),
-    };
-  }, []);
-
-  const getPointerRatio = useCallback((pointerX) => {
-    const cluster = gridClusterRef.current;
-
-    if (!cluster) {
-      return null;
-    }
-
-    const bounds = cluster.getBoundingClientRect();
-
-    if (bounds.width <= 0) {
-      return null;
-    }
-
-    return clamp((pointerX - bounds.left) / bounds.width, 0, 1);
-  }, []);
-
-  const getSnappedColumns = useCallback(
-    (ratio, columns) => {
-      if (ratio === null) {
-        return columns;
-      }
-
-      const [firstBoundary, secondBoundary] = [
-        columns[0],
-        columns[0] + columns[1],
-      ];
-
-      const targetBoundary = Math.round(ratio * TOTAL_SECTION_COLUMNS);
-
-      if (draggedDivider === 0) {
-        const nextFirstBoundary = clamp(targetBoundary, 0, secondBoundary);
-
-        return [
-          nextFirstBoundary,
-          secondBoundary - nextFirstBoundary,
-          TOTAL_SECTION_COLUMNS - secondBoundary,
-        ];
-      }
-
-      if (draggedDivider === 1) {
-        const nextSecondBoundary = clamp(
-          targetBoundary,
-          firstBoundary,
-          TOTAL_SECTION_COLUMNS,
-        );
-
-        return [
-          firstBoundary,
-          nextSecondBoundary - firstBoundary,
-          TOTAL_SECTION_COLUMNS - nextSecondBoundary,
-        ];
-      }
-
-      return columns;
-    },
-    [draggedDivider],
-  );
 
   useEffect(() => {
     let isCancelled = false;
@@ -263,6 +192,9 @@ const V2ActionsPanel = () => {
     return () => {
       isCancelled = true;
     };
+    // setSectionColumns now comes from useDividerDrag — stable per
+    // useState contract, so it doesn't need to live in the dep array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useTrackHydration(isHydrated);
@@ -279,45 +211,6 @@ const V2ActionsPanel = () => {
       preparedLimitsByClass,
     },
   });
-
-  useEffect(() => {
-    if (draggedDivider === null) {
-      return undefined;
-    }
-
-    const handlePointerMove = (event) => {
-      setDragPreviewRatio(getPointerRatio(event.clientX));
-    };
-
-    const stopDragging = () => {
-      setSectionColumns((currentColumns) => {
-        const nextColumns = getSnappedColumns(dragPreviewRatio, currentColumns);
-
-        if (
-          nextColumns[0] === currentColumns[0] &&
-          nextColumns[1] === currentColumns[1] &&
-          nextColumns[2] === currentColumns[2]
-        ) {
-          return currentColumns;
-        }
-
-        return nextColumns;
-      });
-
-      setDraggedDivider(null);
-      setDragPreviewRatio(null);
-    };
-
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", stopDragging);
-    window.addEventListener("pointercancel", stopDragging);
-
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", stopDragging);
-      window.removeEventListener("pointercancel", stopDragging);
-    };
-  }, [draggedDivider, dragPreviewRatio, getPointerRatio, getSnappedColumns]);
 
   useEffect(() => {
     if (!rollToast) {
@@ -347,114 +240,6 @@ const V2ActionsPanel = () => {
     };
   }, [isSpellbookOpen]);
 
-  useEffect(() => {
-    if (!spellbookDragState) {
-      return undefined;
-    }
-
-    const handlePointerMove = (event) => {
-      const nextLeft = event.clientX - spellbookDragState.offsetX;
-      const nextTop = event.clientY - spellbookDragState.offsetY;
-
-      setSpellbookPosition(clampSpellbookPosition(nextLeft, nextTop));
-    };
-
-    const stopDragging = () => {
-      setSpellbookDragState(null);
-    };
-
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", stopDragging);
-    window.addEventListener("pointercancel", stopDragging);
-
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", stopDragging);
-      window.removeEventListener("pointercancel", stopDragging);
-    };
-  }, [spellbookDragState, clampSpellbookPosition]);
-
-  useEffect(() => {
-    if (!isSpellbookOpen) {
-      return;
-    }
-
-    setSpellbookPosition((currentPosition) => {
-      if (!currentPosition) {
-        return currentPosition;
-      }
-
-      return clampSpellbookPosition(currentPosition.left, currentPosition.top);
-    });
-  }, [isSpellbookOpen, clampSpellbookPosition]);
-
-  useEffect(() => {
-    if (!isSpellbookOpen) {
-      return undefined;
-    }
-
-    const handleResize = () => {
-      setSpellbookPosition((currentPosition) => {
-        if (!currentPosition) {
-          return currentPosition;
-        }
-
-        return clampSpellbookPosition(
-          currentPosition.left,
-          currentPosition.top,
-        );
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isSpellbookOpen, clampSpellbookPosition]);
-
-  const startDividerDrag = (dividerIndex, event) => {
-    if (event.button !== 0) {
-      return;
-    }
-
-    event.preventDefault();
-    setDragPreviewRatio(getPointerRatio(event.clientX));
-    setDraggedDivider(dividerIndex);
-  };
-
-  const resetDividers = () => {
-    setSectionColumns(DEFAULT_SECTION_COLUMNS);
-  };
-
-  const handleSpellbookHeaderPointerDown = (event) => {
-    if (event.button !== 0) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const popupElement = spellbookPopupRef.current;
-
-    if (!popupElement) {
-      return;
-    }
-
-    const popupRect = popupElement.getBoundingClientRect();
-    const basePosition = spellbookPosition ?? {
-      left: popupRect.left,
-      top: popupRect.top,
-    };
-
-    if (!spellbookPosition) {
-      setSpellbookPosition(basePosition);
-    }
-
-    setSpellbookDragState({
-      offsetX: event.clientX - basePosition.left,
-      offsetY: event.clientY - basePosition.top,
-    });
-  };
 
   const exportLayoutAsJson = () => {
     const now = new Date();
