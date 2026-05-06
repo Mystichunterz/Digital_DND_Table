@@ -1,173 +1,32 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTrackHydration } from "../../../state/PersistenceStatusContext";
+import {
+  DEFAULT_IMAGE_WIDTH,
+  DEFAULT_STICKER_SIZE,
+  PERSIST_DEBOUNCE_MS,
+} from "./moodboard/constants";
+import { downscaleToDataUrl } from "./moodboard/imageProcessing";
+import { createId, sanitizeItem } from "./moodboard/items";
+import {
+  formatSnapshotTimestamp,
+  isEditableTarget,
+} from "./moodboard/utils";
+import StickerPalette from "./moodboard/StickerPalette";
+import SnapshotMenu from "./moodboard/SnapshotMenu";
+import MoodboardItem from "./moodboard/MoodboardItem";
+import { useMoodboardPointerOps } from "./moodboard/useMoodboardPointerOps";
+import {
+  createMoodboardSnapshot,
+  deleteMoodboardSnapshot,
+  getMoodboardSnapshot,
+  listMoodboardSnapshots,
+  patchMoodboardItems,
+} from "./moodboard/api";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 400;
-const MAX_IMAGE_DIMENSION = 1024;
-
-const STICKERS = [
-  "⭐",
-  "❤",
-  "🔥",
-  "⚔",
-  "🛡",
-  "📜",
-  "✨",
-  "💀",
-  "👑",
-  "🍷",
-  "⚡",
-  "🌟",
-  "🌹",
-  "🗡",
-  "🏹",
-  "🪶",
-];
-
-const DEFAULT_IMAGE_WIDTH = 200;
-const DEFAULT_STICKER_SIZE = 56;
-const MIN_IMAGE_WIDTH = 60;
-const MAX_IMAGE_WIDTH = 600;
-const MIN_STICKER_SIZE = 24;
-const MAX_STICKER_SIZE = 220;
-
-const createId = () =>
-  `mb-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-const isEditableTarget = (target) => {
-  if (!target) return false;
-  const tag = target.tagName?.toLowerCase();
-  if (tag === "input" || tag === "textarea" || tag === "select") return true;
-  return Boolean(target.isContentEditable);
-};
-
-const getOutputMimeType = (originalType) => {
-  if (originalType === "image/png") return "image/png";
-  if (originalType === "image/webp") return "image/webp";
-  return "image/jpeg";
-};
-
-const downscaleToDataUrl = (file) =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    const objectUrl = URL.createObjectURL(file);
-
-    image.onload = () => {
-      try {
-        URL.revokeObjectURL(objectUrl);
-        const longest = Math.max(image.width, image.height);
-        const scale =
-          longest > MAX_IMAGE_DIMENSION ? MAX_IMAGE_DIMENSION / longest : 1;
-        const targetWidth = Math.max(1, Math.round(image.width * scale));
-        const targetHeight = Math.max(1, Math.round(image.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = targetWidth;
-        canvas.height = targetHeight;
-        const context = canvas.getContext("2d");
-        if (!context) {
-          reject(new Error("Canvas 2D context unavailable."));
-          return;
-        }
-        context.drawImage(image, 0, 0, targetWidth, targetHeight);
-        const mimeType = getOutputMimeType(file.type);
-        const quality = mimeType === "image/jpeg" ? 0.85 : undefined;
-        const dataUrl = canvas.toDataURL(mimeType, quality);
-        resolve({
-          dataUrl,
-          naturalWidth: targetWidth,
-          naturalHeight: targetHeight,
-        });
-      } catch (error) {
-        reject(error);
-      }
-    };
-
-    image.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      reject(new Error(`Failed to load image: ${file.name}`));
-    };
-
-    image.src = objectUrl;
-  });
-
-const sanitizeItem = (raw, fallbackZ) => {
-  if (!raw || typeof raw !== "object") return null;
-
-  const baseProps = {
-    id: typeof raw.id === "string" ? raw.id : createId(),
-    x: Number.isFinite(raw.x) ? raw.x : 24,
-    y: Number.isFinite(raw.y) ? raw.y : 24,
-    rotation: Number.isFinite(raw.rotation) ? raw.rotation : 0,
-    zIndex: Number.isFinite(raw.zIndex) ? raw.zIndex : fallbackZ,
-  };
-
-  if (raw.type === "image") {
-    if (typeof raw.dataUrl !== "string" || !raw.dataUrl.startsWith("data:")) {
-      return null;
-    }
-    const naturalWidth = Number.isFinite(raw.naturalWidth)
-      ? raw.naturalWidth
-      : 1;
-    const naturalHeight = Number.isFinite(raw.naturalHeight)
-      ? raw.naturalHeight
-      : 1;
-    return {
-      ...baseProps,
-      type: "image",
-      dataUrl: raw.dataUrl,
-      naturalWidth,
-      naturalHeight,
-      width: clamp(
-        Number.isFinite(raw.width) ? raw.width : DEFAULT_IMAGE_WIDTH,
-        MIN_IMAGE_WIDTH,
-        MAX_IMAGE_WIDTH,
-      ),
-    };
-  }
-
-  if (raw.type === "sticker" && typeof raw.glyph === "string") {
-    return {
-      ...baseProps,
-      type: "sticker",
-      glyph: raw.glyph,
-      size: clamp(
-        Number.isFinite(raw.size) ? raw.size : DEFAULT_STICKER_SIZE,
-        MIN_STICKER_SIZE,
-        MAX_STICKER_SIZE,
-      ),
-    };
-  }
-
-  return null;
-};
-
-const getItemDimensions = (item) => {
-  if (item.type === "sticker") {
-    return { width: item.size, height: item.size };
-  }
-  const aspect = item.naturalHeight / Math.max(item.naturalWidth, 1);
-  return { width: item.width, height: item.width * aspect };
-};
-
-const formatSnapshotTimestamp = (ms) => {
-  try {
-    return new Date(ms).toLocaleString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return new Date(ms).toISOString();
-  }
-};
 
 const V2MoodboardPanel = () => {
   const [items, setItems] = useState([]);
-  const [activeOp, setActiveOp] = useState(null);
   const [isHydrated, setIsHydrated] = useState(false);
   const [saveStatus, setSaveStatus] = useState({ kind: "idle", message: "" });
   const [snapshots, setSnapshots] = useState([]);
@@ -358,6 +217,20 @@ const V2MoodboardPanel = () => {
     });
   }, []);
 
+  const {
+    activeOp,
+    handleItemPointerDown,
+    handleResizePointerDown,
+    handleRotatePointerDown,
+    handlePointerMove,
+    handlePointerUp,
+  } = useMoodboardPointerOps({
+    items,
+    setItems,
+    canvasRef,
+    bringToFront,
+  });
+
   const addImageItems = useCallback(async (files) => {
     if (!files.length) return;
 
@@ -436,168 +309,6 @@ const V2MoodboardPanel = () => {
 
   // ---------- Pointer ops ----------
 
-  const handleItemPointerDown = (event, item) => {
-    if (event.button !== 0 || event.target.closest("button")) {
-      return;
-    }
-
-    event.preventDefault();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    bringToFront(item.id);
-
-    setActiveOp({
-      mode: "drag",
-      id: item.id,
-      pointerId: event.pointerId,
-      offsetX: event.clientX - item.x,
-      offsetY: event.clientY - item.y,
-    });
-  };
-
-  const handleResizePointerDown = (event, item) => {
-    if (event.button !== 0) return;
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    bringToFront(item.id);
-
-    const dims = getItemDimensions(item);
-    const centerX = item.x + dims.width / 2;
-    const centerY = item.y + dims.height / 2;
-    const canvas = canvasRef.current;
-    const bounds = canvas?.getBoundingClientRect();
-    const pointerInCanvasX = bounds ? event.clientX - bounds.left : event.clientX;
-    const pointerInCanvasY = bounds ? event.clientY - bounds.top : event.clientY;
-    const startDistance = Math.hypot(
-      pointerInCanvasX - centerX,
-      pointerInCanvasY - centerY,
-    );
-
-    setActiveOp({
-      mode: "resize",
-      id: item.id,
-      pointerId: event.pointerId,
-      startWidth: item.type === "image" ? item.width : item.size,
-      startDistance: Math.max(startDistance, 1),
-      itemType: item.type,
-    });
-  };
-
-  const handleRotatePointerDown = (event, item) => {
-    if (event.button !== 0) return;
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    bringToFront(item.id);
-
-    const dims = getItemDimensions(item);
-    const centerX = item.x + dims.width / 2;
-    const centerY = item.y + dims.height / 2;
-    const canvas = canvasRef.current;
-    const bounds = canvas?.getBoundingClientRect();
-    const pointerInCanvasX = bounds ? event.clientX - bounds.left : event.clientX;
-    const pointerInCanvasY = bounds ? event.clientY - bounds.top : event.clientY;
-    const startAngle = Math.atan2(
-      pointerInCanvasY - centerY,
-      pointerInCanvasX - centerX,
-    );
-
-    setActiveOp({
-      mode: "rotate",
-      id: item.id,
-      pointerId: event.pointerId,
-      centerX,
-      centerY,
-      startAngle,
-      startRotation: item.rotation,
-    });
-  };
-
-  const handlePointerMove = (event) => {
-    if (!activeOp || event.pointerId !== activeOp.pointerId) return;
-
-    const canvas = canvasRef.current;
-    const bounds = canvas?.getBoundingClientRect();
-
-    if (activeOp.mode === "drag") {
-      const nextX = event.clientX - activeOp.offsetX;
-      const nextY = event.clientY - activeOp.offsetY;
-      setItems((current) =>
-        current.map((item) => {
-          if (item.id !== activeOp.id) return item;
-          const dims = getItemDimensions(item);
-          if (!bounds) return { ...item, x: nextX, y: nextY };
-          const minX = -dims.width / 2;
-          const minY = -dims.height / 2;
-          const maxX = bounds.width - dims.width / 2;
-          const maxY = bounds.height - dims.height / 2;
-          return {
-            ...item,
-            x: clamp(nextX, minX, maxX),
-            y: clamp(nextY, minY, maxY),
-          };
-        }),
-      );
-      return;
-    }
-
-    if (activeOp.mode === "resize") {
-      const pointerInCanvasX = bounds ? event.clientX - bounds.left : event.clientX;
-      const pointerInCanvasY = bounds ? event.clientY - bounds.top : event.clientY;
-      setItems((current) =>
-        current.map((item) => {
-          if (item.id !== activeOp.id) return item;
-          const dims = getItemDimensions(item);
-          const centerX = item.x + dims.width / 2;
-          const centerY = item.y + dims.height / 2;
-          const distance = Math.hypot(
-            pointerInCanvasX - centerX,
-            pointerInCanvasY - centerY,
-          );
-          const ratio = distance / activeOp.startDistance;
-          const target = activeOp.startWidth * ratio;
-
-          if (item.type === "image") {
-            return {
-              ...item,
-              width: clamp(target, MIN_IMAGE_WIDTH, MAX_IMAGE_WIDTH),
-            };
-          }
-          return {
-            ...item,
-            size: clamp(target, MIN_STICKER_SIZE, MAX_STICKER_SIZE),
-          };
-        }),
-      );
-      return;
-    }
-
-    if (activeOp.mode === "rotate") {
-      const pointerInCanvasX = bounds ? event.clientX - bounds.left : event.clientX;
-      const pointerInCanvasY = bounds ? event.clientY - bounds.top : event.clientY;
-      const angle = Math.atan2(
-        pointerInCanvasY - activeOp.centerY,
-        pointerInCanvasX - activeOp.centerX,
-      );
-      const deltaDeg = ((angle - activeOp.startAngle) * 180) / Math.PI;
-      const nextRotation = activeOp.startRotation + deltaDeg;
-      const snapped = event.shiftKey
-        ? Math.round(nextRotation / 15) * 15
-        : nextRotation;
-
-      setItems((current) =>
-        current.map((item) =>
-          item.id === activeOp.id ? { ...item, rotation: snapped } : item,
-        ),
-      );
-    }
-  };
-
-  const handlePointerUp = (event) => {
-    if (!activeOp || event.pointerId !== activeOp.pointerId) return;
-    setActiveOp(null);
-  };
-
   // ---------- Drop / paste ----------
 
   const handleCanvasDragOver = (event) => {
@@ -647,21 +358,12 @@ const V2MoodboardPanel = () => {
 
   const fetchSnapshots = useCallback(async () => {
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots`,
-      );
-      if (!response.ok) {
-        setSnapshotError(`Could not load snapshots (${response.status}).`);
-        return;
-      }
-      const payload = await response.json();
-      setSnapshots(Array.isArray(payload?.snapshots) ? payload.snapshots : []);
+      const list = await listMoodboardSnapshots(PERSISTED_CHARACTER_ID);
+      setSnapshots(list);
       setSnapshotError("");
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not load snapshots: ${error.message}`
-          : "Could not load snapshots.",
+        error instanceof Error ? error.message : "Could not load snapshots.",
       );
     }
   }, []);
@@ -701,11 +403,7 @@ const V2MoodboardPanel = () => {
     if (!snapshot) return;
     pendingItemsRef.current = null;
     try {
-      await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ moodboard: { items: snapshot } }),
-      });
+      await patchMoodboardItems(PERSISTED_CHARACTER_ID, snapshot);
     } catch {
       // Surfaced by the regular debounced save effect.
     }
@@ -731,32 +429,12 @@ const V2MoodboardPanel = () => {
     }
 
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ label }),
-        },
-      );
-      if (!response.ok) {
-        let message = `Snapshot failed (${response.status}).`;
-        try {
-          const payload = await response.json();
-          if (payload?.message) message = payload.message;
-        } catch {
-          // keep status-only message
-        }
-        setSnapshotError(message);
-        return;
-      }
+      await createMoodboardSnapshot(PERSISTED_CHARACTER_ID, label);
       await fetchSnapshots();
       setIsSnapshotMenuOpen(true);
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Snapshot failed: ${error.message}`
-          : "Snapshot failed.",
+        error instanceof Error ? error.message : "Snapshot failed.",
       );
     } finally {
       setIsCreatingSnapshot(false);
@@ -774,14 +452,10 @@ const V2MoodboardPanel = () => {
 
     setIsLoadingSnapshot(true);
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots/${snapshot.id}`,
+      const payload = await getMoodboardSnapshot(
+        PERSISTED_CHARACTER_ID,
+        snapshot.id,
       );
-      if (!response.ok) {
-        setSnapshotError(`Could not load snapshot (${response.status}).`);
-        return;
-      }
-      const payload = await response.json();
       const rawItems = Array.isArray(payload?.moodboard?.items)
         ? payload.moodboard.items
         : [];
@@ -805,9 +479,7 @@ const V2MoodboardPanel = () => {
       setSnapshotError("");
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not load snapshot: ${error.message}`
-          : "Could not load snapshot.",
+        error instanceof Error ? error.message : "Could not load snapshot.",
       );
     } finally {
       setIsLoadingSnapshot(false);
@@ -824,20 +496,11 @@ const V2MoodboardPanel = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots/${snapshot.id}`,
-        { method: "DELETE" },
-      );
-      if (!response.ok) {
-        setSnapshotError(`Could not delete snapshot (${response.status}).`);
-        return;
-      }
+      await deleteMoodboardSnapshot(PERSISTED_CHARACTER_ID, snapshot.id);
       await fetchSnapshots();
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not delete snapshot: ${error.message}`
-          : "Could not delete snapshot.",
+        error instanceof Error ? error.message : "Could not delete snapshot.",
       );
     }
   };
@@ -852,28 +515,6 @@ const V2MoodboardPanel = () => {
   }, []);
 
   const isLoading = !isHydrated || isLoadingSnapshot || bulkPendingIds.size > 0;
-
-  const renderControls = (item) => (
-    <div className="v2-moodboard-item-controls">
-      <button
-        type="button"
-        className="v2-moodboard-rotate-handle"
-        title="Drag to rotate (hold Shift to snap)"
-        aria-label="Rotate"
-        onPointerDown={(event) => handleRotatePointerDown(event, item)}
-      >
-        ↻
-      </button>
-      <button
-        type="button"
-        className="is-danger"
-        onClick={() => removeItem(item.id)}
-        aria-label="Remove"
-      >
-        ×
-      </button>
-    </div>
-  );
 
   return (
     <article className="v2-overview-panel v2-background-panel v2-moodboard-panel">
@@ -915,72 +556,16 @@ const V2MoodboardPanel = () => {
           >
             {isCreatingSnapshot ? "Saving…" : "Save Snapshot"}
           </button>
-          <div className="v2-moodboard-snapshot-menu" ref={snapshotMenuRef}>
-            <button
-              type="button"
-              className="v2-moodboard-action"
-              onClick={
-                isSnapshotMenuOpen ? closeSnapshotMenu : openSnapshotMenu
-              }
-              aria-haspopup="listbox"
-              aria-expanded={isSnapshotMenuOpen}
-            >
-              Load…
-            </button>
-            {isSnapshotMenuOpen && (
-              <div
-                className="v2-moodboard-snapshot-list"
-                role="listbox"
-                aria-label="Past snapshots"
-              >
-                {snapshotError && (
-                  <p className="v2-moodboard-snapshot-error">
-                    {snapshotError}
-                  </p>
-                )}
-                {snapshots.length === 0 && !snapshotError && (
-                  <p className="v2-moodboard-snapshot-empty">
-                    No snapshots yet. Use <strong>Save Snapshot</strong> to
-                    create one.
-                  </p>
-                )}
-                {snapshots.map((snapshot) => (
-                  <div
-                    key={snapshot.id}
-                    className="v2-moodboard-snapshot-row"
-                    role="option"
-                    aria-selected="false"
-                  >
-                    <button
-                      type="button"
-                      className="v2-moodboard-snapshot-load"
-                      onClick={() => loadSnapshot(snapshot)}
-                    >
-                      <span className="v2-moodboard-snapshot-label">
-                        {snapshot.label || "Untitled snapshot"}
-                      </span>
-                      <span className="v2-moodboard-snapshot-meta">
-                        {formatSnapshotTimestamp(snapshot.createdAt)} ·{" "}
-                        {snapshot.itemCount}{" "}
-                        {snapshot.itemCount === 1 ? "item" : "items"}
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="v2-moodboard-snapshot-delete"
-                      onClick={() => deleteSnapshot(snapshot)}
-                      aria-label={`Delete snapshot ${
-                        snapshot.label || snapshot.id
-                      }`}
-                      title="Delete snapshot"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <SnapshotMenu
+            ref={snapshotMenuRef}
+            isOpen={isSnapshotMenuOpen}
+            snapshots={snapshots}
+            snapshotError={snapshotError}
+            onOpen={openSnapshotMenu}
+            onClose={closeSnapshotMenu}
+            onLoad={loadSnapshot}
+            onDelete={deleteSnapshot}
+          />
           <button
             type="button"
             className="v2-moodboard-action is-danger"
@@ -992,19 +577,7 @@ const V2MoodboardPanel = () => {
         </div>
       </header>
 
-      <div className="v2-moodboard-stickers" aria-label="Sticker palette">
-        {STICKERS.map((glyph) => (
-          <button
-            key={glyph}
-            type="button"
-            className="v2-moodboard-sticker-pick"
-            onClick={() => addSticker(glyph)}
-            aria-label={`Add ${glyph} sticker`}
-          >
-            <span aria-hidden="true">{glyph}</span>
-          </button>
-        ))}
-      </div>
+      <StickerPalette onPick={addSticker} />
 
       <div
         ref={canvasRef}
@@ -1036,83 +609,20 @@ const V2MoodboardPanel = () => {
           </div>
         )}
 
-        {items.map((item) => {
-          const dims = getItemDimensions(item);
-          const isActive = activeOp?.id === item.id;
-          const baseStyle = {
-            left: `${item.x}px`,
-            top: `${item.y}px`,
-            width: `${dims.width}px`,
-            height: `${dims.height}px`,
-            zIndex: item.zIndex,
-            transform: `rotate(${item.rotation}deg)`,
-          };
-
-          if (item.type === "image") {
-            return (
-              <div
-                key={item.id}
-                className={
-                  isActive
-                    ? "v2-moodboard-item v2-moodboard-image is-active"
-                    : "v2-moodboard-item v2-moodboard-image"
-                }
-                style={baseStyle}
-                onPointerDown={(event) => handleItemPointerDown(event, item)}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerUp}
-              >
-                <img
-                  src={item.dataUrl}
-                  alt=""
-                  draggable={false}
-                  onLoad={() => handleImageSettled(item.id)}
-                  onError={() => handleImageSettled(item.id)}
-                />
-                {renderControls(item)}
-                <button
-                  type="button"
-                  className="v2-moodboard-resize-handle"
-                  title="Drag to resize"
-                  aria-label="Resize"
-                  onPointerDown={(event) =>
-                    handleResizePointerDown(event, item)
-                  }
-                />
-              </div>
-            );
-          }
-
-          return (
-            <div
-              key={item.id}
-              className={
-                isActive
-                  ? "v2-moodboard-item v2-moodboard-sticker is-active"
-                  : "v2-moodboard-item v2-moodboard-sticker"
-              }
-              style={{
-                ...baseStyle,
-                fontSize: `${item.size * 0.72}px`,
-              }}
-              onPointerDown={(event) => handleItemPointerDown(event, item)}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerUp}
-            >
-              <span aria-hidden="true">{item.glyph}</span>
-              {renderControls(item)}
-              <button
-                type="button"
-                className="v2-moodboard-resize-handle"
-                title="Drag to resize"
-                aria-label="Resize"
-                onPointerDown={(event) => handleResizePointerDown(event, item)}
-              />
-            </div>
-          );
-        })}
+        {items.map((item) => (
+          <MoodboardItem
+            key={item.id}
+            item={item}
+            isActive={activeOp?.id === item.id}
+            onPointerDown={handleItemPointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onResizeStart={handleResizePointerDown}
+            onRotateStart={handleRotatePointerDown}
+            onRemove={removeItem}
+            onImageSettled={handleImageSettled}
+          />
+        ))}
       </div>
     </article>
   );

@@ -5,6 +5,7 @@ const tabs = [
   { path: "inventory", label: "Inventory" },
   { path: "background", label: "Background" },
   { path: "companions", label: "Companions" },
+  { path: "calculator", label: "Calculator" },
   { path: "journal", label: "Journal" },
   { path: "assets", label: "Asset Manager" },
 ];

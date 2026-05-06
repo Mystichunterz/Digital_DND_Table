@@ -351,7 +351,10 @@ const SpellHoverPopup = ({
   const kindModifier = `is-kind-${spell?.kind ?? "action"}`;
   const slotModifier = spell?.tier === "C" ? "is-cantrip" : "is-slot";
   const kindIcon = KIND_ICONS[spell?.kind] ?? KIND_ICONS.action;
-  const rawDamageRows = Array.isArray(spell?.damageRows) ? spell.damageRows : [];
+  const rawDamageRows = useMemo(
+    () => (Array.isArray(spell?.damageRows) ? spell.damageRows : []),
+    [spell?.damageRows],
+  );
   const damageRows = useMemo(
     () =>
       rawDamageRows.map((row) => ({
