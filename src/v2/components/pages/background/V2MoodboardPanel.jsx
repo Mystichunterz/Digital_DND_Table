@@ -1,169 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTrackHydration } from "../../../state/PersistenceStatusContext";
+import {
+  DEFAULT_IMAGE_WIDTH,
+  DEFAULT_STICKER_SIZE,
+  MAX_IMAGE_WIDTH,
+  MAX_STICKER_SIZE,
+  MIN_IMAGE_WIDTH,
+  MIN_STICKER_SIZE,
+  PERSIST_DEBOUNCE_MS,
+  STICKERS,
+} from "./moodboard/constants";
+import { downscaleToDataUrl } from "./moodboard/imageProcessing";
+import {
+  clamp,
+  createId,
+  getItemDimensions,
+  sanitizeItem,
+} from "./moodboard/items";
+import {
+  formatSnapshotTimestamp,
+  isEditableTarget,
+} from "./moodboard/utils";
 
 const PERSISTED_CHARACTER_ID = "default";
-const PERSIST_DEBOUNCE_MS = 400;
-const MAX_IMAGE_DIMENSION = 1024;
-
-const STICKERS = [
-  "⭐",
-  "❤",
-  "🔥",
-  "⚔",
-  "🛡",
-  "📜",
-  "✨",
-  "💀",
-  "👑",
-  "🍷",
-  "⚡",
-  "🌟",
-  "🌹",
-  "🗡",
-  "🏹",
-  "🪶",
-];
-
-const DEFAULT_IMAGE_WIDTH = 200;
-const DEFAULT_STICKER_SIZE = 56;
-const MIN_IMAGE_WIDTH = 60;
-const MAX_IMAGE_WIDTH = 600;
-const MIN_STICKER_SIZE = 24;
-const MAX_STICKER_SIZE = 220;
-
-const createId = () =>
-  `mb-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-const isEditableTarget = (target) => {
-  if (!target) return false;
-  const tag = target.tagName?.toLowerCase();
-  if (tag === "input" || tag === "textarea" || tag === "select") return true;
-  return Boolean(target.isContentEditable);
-};
-
-const getOutputMimeType = (originalType) => {
-  if (originalType === "image/png") return "image/png";
-  if (originalType === "image/webp") return "image/webp";
-  return "image/jpeg";
-};
-
-const downscaleToDataUrl = (file) =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    const objectUrl = URL.createObjectURL(file);
-
-    image.onload = () => {
-      try {
-        URL.revokeObjectURL(objectUrl);
-        const longest = Math.max(image.width, image.height);
-        const scale =
-          longest > MAX_IMAGE_DIMENSION ? MAX_IMAGE_DIMENSION / longest : 1;
-        const targetWidth = Math.max(1, Math.round(image.width * scale));
-        const targetHeight = Math.max(1, Math.round(image.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = targetWidth;
-        canvas.height = targetHeight;
-        const context = canvas.getContext("2d");
-        if (!context) {
-          reject(new Error("Canvas 2D context unavailable."));
-          return;
-        }
-        context.drawImage(image, 0, 0, targetWidth, targetHeight);
-        const mimeType = getOutputMimeType(file.type);
-        const quality = mimeType === "image/jpeg" ? 0.85 : undefined;
-        const dataUrl = canvas.toDataURL(mimeType, quality);
-        resolve({
-          dataUrl,
-          naturalWidth: targetWidth,
-          naturalHeight: targetHeight,
-        });
-      } catch (error) {
-        reject(error);
-      }
-    };
-
-    image.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      reject(new Error(`Failed to load image: ${file.name}`));
-    };
-
-    image.src = objectUrl;
-  });
-
-const sanitizeItem = (raw, fallbackZ) => {
-  if (!raw || typeof raw !== "object") return null;
-
-  const baseProps = {
-    id: typeof raw.id === "string" ? raw.id : createId(),
-    x: Number.isFinite(raw.x) ? raw.x : 24,
-    y: Number.isFinite(raw.y) ? raw.y : 24,
-    rotation: Number.isFinite(raw.rotation) ? raw.rotation : 0,
-    zIndex: Number.isFinite(raw.zIndex) ? raw.zIndex : fallbackZ,
-  };
-
-  if (raw.type === "image") {
-    if (typeof raw.dataUrl !== "string" || !raw.dataUrl.startsWith("data:")) {
-      return null;
-    }
-    const naturalWidth = Number.isFinite(raw.naturalWidth)
-      ? raw.naturalWidth
-      : 1;
-    const naturalHeight = Number.isFinite(raw.naturalHeight)
-      ? raw.naturalHeight
-      : 1;
-    return {
-      ...baseProps,
-      type: "image",
-      dataUrl: raw.dataUrl,
-      naturalWidth,
-      naturalHeight,
-      width: clamp(
-        Number.isFinite(raw.width) ? raw.width : DEFAULT_IMAGE_WIDTH,
-        MIN_IMAGE_WIDTH,
-        MAX_IMAGE_WIDTH,
-      ),
-    };
-  }
-
-  if (raw.type === "sticker" && typeof raw.glyph === "string") {
-    return {
-      ...baseProps,
-      type: "sticker",
-      glyph: raw.glyph,
-      size: clamp(
-        Number.isFinite(raw.size) ? raw.size : DEFAULT_STICKER_SIZE,
-        MIN_STICKER_SIZE,
-        MAX_STICKER_SIZE,
-      ),
-    };
-  }
-
-  return null;
-};
-
-const getItemDimensions = (item) => {
-  if (item.type === "sticker") {
-    return { width: item.size, height: item.size };
-  }
-  const aspect = item.naturalHeight / Math.max(item.naturalWidth, 1);
-  return { width: item.width, height: item.width * aspect };
-};
-
-const formatSnapshotTimestamp = (ms) => {
-  try {
-    return new Date(ms).toLocaleString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return new Date(ms).toISOString();
-  }
-};
 
 const V2MoodboardPanel = () => {
   const [items, setItems] = useState([]);
