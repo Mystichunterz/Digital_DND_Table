@@ -49,6 +49,8 @@ import {
 } from "./actions/sectionLayout";
 import { METAMAGIC_OPTIONS } from "./actions/metamagicOptions";
 import MetamagicTray from "./actions/MetamagicTray";
+import RollToast from "./actions/RollToast";
+import OptionTabStrip from "./actions/OptionTabStrip";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
@@ -1274,24 +1276,13 @@ const V2ActionsPanel = () => {
         />
 
         <div className="v2-actions-menu-top">
-          <div
+          <OptionTabStrip
             className="v2-actions-filter-strip"
-            role="tablist"
-            aria-label="Action filters"
-          >
-            {FILTER_TABS.map((filter) => (
-              <button
-                key={filter.id}
-                type="button"
-                className={activeFilter === filter.id ? "is-active" : ""}
-                role="tab"
-                aria-selected={activeFilter === filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
+            ariaLabel="Action filters"
+            tabs={FILTER_TABS}
+            activeId={activeFilter}
+            onSelect={setActiveFilter}
+          />
 
           <div className="v2-actions-layout-controls">
             <button
@@ -1399,24 +1390,13 @@ const V2ActionsPanel = () => {
           <MetamagicTray />
         </div>
 
-        <div
+        <OptionTabStrip
           className="v2-actions-category-tabs"
-          role="tablist"
-          aria-label="Category focus controls"
-        >
-          {CATEGORY_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              className={maximizedSectionId === tab.id ? "is-active" : ""}
-              role="tab"
-              aria-selected={maximizedSectionId === tab.id}
-              onClick={() => toggleSectionMaximize(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+          ariaLabel="Category focus controls"
+          tabs={CATEGORY_TABS}
+          activeId={maximizedSectionId}
+          onSelect={toggleSectionMaximize}
+        />
       </div>
 
       {isSpellbookOpen && (
@@ -1681,22 +1661,7 @@ const V2ActionsPanel = () => {
         </div>
       )}
 
-      {rollToast && (
-        <div
-          key={rollToast.id}
-          className="v2-actions-roll-toast"
-          role="status"
-          aria-live="polite"
-        >
-          <span className="v2-actions-roll-toast-kind">{rollToast.kind}</span>
-          {rollToast.gwm && (
-            <span className="v2-actions-roll-toast-gwm">GWM</span>
-          )}
-          <code className="v2-actions-roll-toast-command">
-            {rollToast.command}
-          </code>
-        </div>
-      )}
+      <RollToast toast={rollToast} />
     </article>
   );
 };
