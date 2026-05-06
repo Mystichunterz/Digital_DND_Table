@@ -51,42 +51,14 @@ import {
   METAMAGIC_OPTIONS,
   METAMAGIC_SLOT_COUNT,
 } from "./actions/metamagicOptions";
+import {
+  SPELLBOOK_TABS,
+  SPELLBOOK_TIER_ORDER,
+  SPELLBOOK_VIEWPORT_MARGIN,
+} from "./actions/spellbookConfig";
 import SpellSlotIcon from "../../../../assets/resources/spell_slot.png";
 
 const PERSISTED_CHARACTER_ID = "default";
-
-const SPELLBOOK_TABS = [
-  {
-    id: "paladin",
-    label: "Paladin",
-    getItems: (actions) =>
-      actions.filter((action) => action.class === "paladin"),
-  },
-  {
-    id: "sorcerer",
-    label: "Sorcerer",
-    getItems: (actions) =>
-      actions.filter((action) => action.class === "sorcerer"),
-  },
-  {
-    id: "common",
-    label: "Common",
-    getItems: (actions) =>
-      actions.filter((action) => action.class === "common"),
-  },
-  {
-    id: "reactions",
-    label: "Reactions",
-    getItems: (actions) =>
-      actions.filter((action) => action.kind === "reaction"),
-  },
-];
-
-const SPELLBOOK_TIER_ORDER = ["C", "I", "II", "III", "IV", "V"];
-
-const TIER_NUMERAL = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
-
-const romanizeTier = (tier) => TIER_NUMERAL[tier] ?? String(tier);
 
 const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
   <span className={className} aria-hidden="true">
@@ -95,8 +67,6 @@ const LockOverlayIcon = ({ className = "v2-action-lock-overlay" }) => (
     </svg>
   </span>
 );
-
-const SPELLBOOK_VIEWPORT_MARGIN = 12;
 
 const V2ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
