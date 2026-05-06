@@ -21,10 +21,7 @@ import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
 import V2ResourcePips from "./V2ResourcePips";
 import {
   DEFAULT_RESOURCE_MAX,
-  TIER_TO_SLOT_LEVEL,
   buildInitialResources,
-  clampResourceValue,
-  isSpellAction,
 } from "./actions/resources";
 import {
   DEFAULT_PREPARED_LIMITS_BY_CLASS,
@@ -57,6 +54,7 @@ const SpellbookOverlay = lazy(() => import("./actions/SpellbookOverlay"));
 import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
 import { useDividerDrag } from "./actions/useDividerDrag";
 import { useSpellbookOverlayPosition } from "./actions/useSpellbookOverlayPosition";
+import { useActionResources } from "./actions/useActionResources";
 import {
   SPELLBOOK_TABS,
   SPELLBOOK_TIER_ORDER,
@@ -89,10 +87,6 @@ const V2ActionsPanel = () => {
     handleHeaderPointerDown: handleSpellbookHeaderPointerDown,
   } = useSpellbookOverlayPosition({ isOpen: isSpellbookOpen });
   const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
-  const [resourceMax, setResourceMax] = useState(DEFAULT_RESOURCE_MAX);
-  const [resources, setResources] = useState(() =>
-    buildInitialResources(DEFAULT_RESOURCE_MAX),
-  );
   const [preparedSpellIds, setPreparedSpellIds] = useState(
     DEFAULT_PREPARED_SPELL_IDS,
   );
@@ -105,13 +99,23 @@ const V2ActionsPanel = () => {
   const { activeConditions, applyCondition, tickConditions } = useConditions();
   const { tokenValues } = useCharacterStats();
   const extraActions = sumExtraActions(activeConditions);
-  const effectiveResourceMax = useMemo(
-    () => ({
-      ...resourceMax,
-      action: resourceMax.action + extraActions,
-    }),
-    [resourceMax, extraActions],
-  );
+  const {
+    resources,
+    setResources,
+    resourceMax,
+    setResourceMax,
+    effectiveResourceMax,
+    restoreLongRestResources,
+    restoreShortRestResources,
+    restoreNewTurnResources,
+    resetResourceDefaults: resetResourcesOnly,
+    adjustResource,
+    updateResourceMax,
+    consumeForAction,
+  } = useActionResources({
+    extraActions,
+    onTickConditions: tickConditions,
+  });
   const layoutFileInputRef = useRef(null);
 
   useEffect(() => {
@@ -566,135 +570,9 @@ const V2ActionsPanel = () => {
     );
   };
 
-  const restoreLongRestResources = () => {
-    setResources(buildInitialResources(resourceMax));
-  };
-
-  const restoreShortRestResources = () => {
-    setResources((current) => ({
-      ...current,
-      action: resourceMax.action,
-      bonus: resourceMax.bonus,
-      reaction: resourceMax.reaction,
-      channelOath: resourceMax.channelOath,
-      favouredByGods: resourceMax.favouredByGods,
-    }));
-  };
-
-  const restoreNewTurnResources = () => {
-    tickConditions();
-    setResources((current) => ({
-      ...current,
-      action: effectiveResourceMax.action,
-      bonus: resourceMax.bonus,
-      reaction: resourceMax.reaction,
-    }));
-  };
-
   const resetResourceDefaults = () => {
-    setResourceMax(DEFAULT_RESOURCE_MAX);
-    setResources(buildInitialResources(DEFAULT_RESOURCE_MAX));
+    resetResourcesOnly();
     setPreparedLimitsByClass(DEFAULT_PREPARED_LIMITS_BY_CLASS);
-  };
-
-  const adjustResource = (resourceKey, delta, tier) => {
-    setResources((current) => {
-      const next = { ...current, spellSlots: { ...current.spellSlots } };
-
-      if (tier !== undefined) {
-        const tierMax = resourceMax.spellSlots?.[tier] ?? 0;
-        next.spellSlots[tier] = clampResourceValue(
-          (next.spellSlots[tier] ?? 0) + delta,
-          0,
-          tierMax,
-        );
-      } else {
-        const keyMax = resourceMax[resourceKey] ?? 0;
-        next[resourceKey] = clampResourceValue(
-          (next[resourceKey] ?? 0) + delta,
-          0,
-          keyMax,
-        );
-      }
-
-      return next;
-    });
-  };
-
-  const updateResourceMax = (resourceKey, value, tier) => {
-    const safeValue = Math.max(0, Math.floor(Number(value) || 0));
-
-    setResourceMax((current) => {
-      const next = { ...current, spellSlots: { ...current.spellSlots } };
-
-      if (tier !== undefined) {
-        next.spellSlots[tier] = safeValue;
-      } else {
-        next[resourceKey] = safeValue;
-      }
-
-      return next;
-    });
-
-    setResources((current) => {
-      const next = { ...current, spellSlots: { ...current.spellSlots } };
-
-      if (tier !== undefined) {
-        next.spellSlots[tier] = Math.min(
-          next.spellSlots[tier] ?? 0,
-          safeValue,
-        );
-      } else {
-        next[resourceKey] = Math.min(next[resourceKey] ?? 0, safeValue);
-      }
-
-      return next;
-    });
-  };
-
-  const consumeForAction = (item) => {
-    if (!item) {
-      return;
-    }
-
-    setResources((current) => {
-      const next = {
-        ...current,
-        spellSlots: { ...current.spellSlots },
-      };
-
-      if (item.kind === "action") {
-        if (next.action <= 0) {
-          return current;
-        }
-        next.action -= 1;
-      } else if (item.kind === "bonus") {
-        if (next.bonus <= 0) {
-          return current;
-        }
-        next.bonus -= 1;
-      } else if (item.kind === "reaction") {
-        if (next.reaction <= 0) {
-          return current;
-        }
-        next.reaction -= 1;
-      }
-
-      const consumesSpellSlot =
-        isSpellAction(item) && item.tier && item.tier !== "C";
-
-      if (consumesSpellSlot) {
-        const slotLevel = TIER_TO_SLOT_LEVEL[item.tier];
-
-        if (!slotLevel || (next.spellSlots[slotLevel] ?? 0) <= 0) {
-          return current;
-        }
-
-        next.spellSlots[slotLevel] -= 1;
-      }
-
-      return next;
-    });
   };
 
   const handleActionClick = (item, event) => {
