@@ -23,6 +23,13 @@ import {
 import StickerPalette from "./moodboard/StickerPalette";
 import SnapshotMenu from "./moodboard/SnapshotMenu";
 import MoodboardItem from "./moodboard/MoodboardItem";
+import {
+  createMoodboardSnapshot,
+  deleteMoodboardSnapshot,
+  getMoodboardSnapshot,
+  listMoodboardSnapshots,
+  patchMoodboardItems,
+} from "./moodboard/api";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -508,21 +515,12 @@ const V2MoodboardPanel = () => {
 
   const fetchSnapshots = useCallback(async () => {
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots`,
-      );
-      if (!response.ok) {
-        setSnapshotError(`Could not load snapshots (${response.status}).`);
-        return;
-      }
-      const payload = await response.json();
-      setSnapshots(Array.isArray(payload?.snapshots) ? payload.snapshots : []);
+      const list = await listMoodboardSnapshots(PERSISTED_CHARACTER_ID);
+      setSnapshots(list);
       setSnapshotError("");
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not load snapshots: ${error.message}`
-          : "Could not load snapshots.",
+        error instanceof Error ? error.message : "Could not load snapshots.",
       );
     }
   }, []);
@@ -562,11 +560,7 @@ const V2MoodboardPanel = () => {
     if (!snapshot) return;
     pendingItemsRef.current = null;
     try {
-      await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ moodboard: { items: snapshot } }),
-      });
+      await patchMoodboardItems(PERSISTED_CHARACTER_ID, snapshot);
     } catch {
       // Surfaced by the regular debounced save effect.
     }
@@ -592,32 +586,12 @@ const V2MoodboardPanel = () => {
     }
 
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ label }),
-        },
-      );
-      if (!response.ok) {
-        let message = `Snapshot failed (${response.status}).`;
-        try {
-          const payload = await response.json();
-          if (payload?.message) message = payload.message;
-        } catch {
-          // keep status-only message
-        }
-        setSnapshotError(message);
-        return;
-      }
+      await createMoodboardSnapshot(PERSISTED_CHARACTER_ID, label);
       await fetchSnapshots();
       setIsSnapshotMenuOpen(true);
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Snapshot failed: ${error.message}`
-          : "Snapshot failed.",
+        error instanceof Error ? error.message : "Snapshot failed.",
       );
     } finally {
       setIsCreatingSnapshot(false);
@@ -635,14 +609,10 @@ const V2MoodboardPanel = () => {
 
     setIsLoadingSnapshot(true);
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots/${snapshot.id}`,
+      const payload = await getMoodboardSnapshot(
+        PERSISTED_CHARACTER_ID,
+        snapshot.id,
       );
-      if (!response.ok) {
-        setSnapshotError(`Could not load snapshot (${response.status}).`);
-        return;
-      }
-      const payload = await response.json();
       const rawItems = Array.isArray(payload?.moodboard?.items)
         ? payload.moodboard.items
         : [];
@@ -666,9 +636,7 @@ const V2MoodboardPanel = () => {
       setSnapshotError("");
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not load snapshot: ${error.message}`
-          : "Could not load snapshot.",
+        error instanceof Error ? error.message : "Could not load snapshot.",
       );
     } finally {
       setIsLoadingSnapshot(false);
@@ -685,20 +653,11 @@ const V2MoodboardPanel = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(
-        `/api/state/${PERSISTED_CHARACTER_ID}/moodboard/snapshots/${snapshot.id}`,
-        { method: "DELETE" },
-      );
-      if (!response.ok) {
-        setSnapshotError(`Could not delete snapshot (${response.status}).`);
-        return;
-      }
+      await deleteMoodboardSnapshot(PERSISTED_CHARACTER_ID, snapshot.id);
       await fetchSnapshots();
     } catch (error) {
       setSnapshotError(
-        error instanceof Error
-          ? `Could not delete snapshot: ${error.message}`
-          : "Could not delete snapshot.",
+        error instanceof Error ? error.message : "Could not delete snapshot.",
       );
     }
   };
