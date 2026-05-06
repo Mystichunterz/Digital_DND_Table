@@ -160,13 +160,80 @@ const sanitizeAbilityId = (rawId) =>
 
 const normalizeIconKey = (iconKey) => iconKey.replace(/\\/g, "/").trim();
 
+// Sync shape validator shared between the read path (filter bad
+// entries off disk) and the write path (reject bad payloads). Does
+// not touch the filesystem — the icon-existence check is layered on
+// top by validateAbilityPayload.
+const validateAbilityShape = (rawAbility) => {
+  if (!rawAbility || typeof rawAbility !== "object") {
+    throw new Error("Ability must be an object.");
+  }
+
+  const id = sanitizeAbilityId(String(rawAbility.id ?? ""));
+  const name = String(rawAbility.name ?? "").trim();
+  const short = String(rawAbility.short ?? "").trim();
+  const category = String(rawAbility.category ?? "").trim();
+  const section = String(rawAbility.section ?? "").trim();
+  const kind = String(rawAbility.kind ?? "").trim();
+  const tier = String(rawAbility.tier ?? "").trim();
+  const tone = String(rawAbility.tone ?? "").trim();
+  const keybind = String(rawAbility.keybind ?? "").trim();
+  const icon = rawAbility.icon ? normalizeIconKey(String(rawAbility.icon)) : "";
+
+  if (!id) throw new Error("Ability id is required.");
+  if (!name) throw new Error("Ability name is required.");
+  if (!short) throw new Error("Ability short label is required.");
+  if (!VALID_CATEGORIES.has(category)) throw new Error(`Invalid category: ${category}`);
+  if (!VALID_SECTIONS.has(section)) throw new Error(`Invalid section: ${section}`);
+  if (!VALID_KINDS.has(kind)) throw new Error(`Invalid kind: ${kind}`);
+  if (!VALID_TIERS.has(tier)) throw new Error(`Invalid tier: ${tier}`);
+  if (!VALID_TONES.has(tone)) throw new Error(`Invalid tone: ${tone}`);
+
+  if (icon) {
+    if (icon.startsWith("/") || icon.includes("..")) {
+      throw new Error("Invalid icon path.");
+    }
+  }
+
+  return {
+    id,
+    name,
+    short,
+    category,
+    section,
+    kind,
+    tier,
+    tone,
+    ...(keybind ? { keybind } : {}),
+    ...(icon ? { icon } : {}),
+  };
+};
+
 const readManifest = async () => {
   const raw = await fs.readFile(ACTIONS_MANIFEST_PATH, "utf8");
   const parsed = JSON.parse(raw);
+  const rawAbilities = Array.isArray(parsed?.abilities) ? parsed.abilities : [];
+
+  // Drop hand-edited entries that don't match the schema before the
+  // UI ever sees them. Log once per bad entry so the warning is
+  // visible in dev output without stopping the server.
+  const abilities = [];
+  for (const candidate of rawAbilities) {
+    try {
+      abilities.push(validateAbilityShape(candidate));
+    } catch (error) {
+      const id = candidate?.id ?? "<unknown>";
+      console.warn(
+        `[asset-manager-api] dropping malformed ability "${id}": ${
+          error instanceof Error ? error.message : "unknown error"
+        }`,
+      );
+    }
+  }
 
   return {
     version: Number(parsed?.version ?? 1),
-    abilities: Array.isArray(parsed?.abilities) ? parsed.abilities : [],
+    abilities,
   };
 };
 
@@ -233,59 +300,10 @@ const ensureManifestExists = async () => {
 };
 
 const validateAbilityPayload = async (rawAbility) => {
-  if (!rawAbility || typeof rawAbility !== "object") {
-    throw new Error("Ability payload must be an object.");
-  }
+  const shape = validateAbilityShape(rawAbility);
 
-  const id = sanitizeAbilityId(String(rawAbility.id ?? ""));
-  const name = String(rawAbility.name ?? "").trim();
-  const short = String(rawAbility.short ?? "").trim();
-  const category = String(rawAbility.category ?? "").trim();
-  const section = String(rawAbility.section ?? "").trim();
-  const kind = String(rawAbility.kind ?? "").trim();
-  const tier = String(rawAbility.tier ?? "").trim();
-  const tone = String(rawAbility.tone ?? "").trim();
-  const keybind = String(rawAbility.keybind ?? "").trim();
-  const icon = rawAbility.icon ? normalizeIconKey(String(rawAbility.icon)) : "";
-
-  if (!id) {
-    throw new Error("Ability id is required.");
-  }
-
-  if (!name) {
-    throw new Error("Ability name is required.");
-  }
-
-  if (!short) {
-    throw new Error("Ability short label is required.");
-  }
-
-  if (!VALID_CATEGORIES.has(category)) {
-    throw new Error(`Invalid category: ${category}`);
-  }
-
-  if (!VALID_SECTIONS.has(section)) {
-    throw new Error(`Invalid section: ${section}`);
-  }
-
-  if (!VALID_KINDS.has(kind)) {
-    throw new Error(`Invalid kind: ${kind}`);
-  }
-
-  if (!VALID_TIERS.has(tier)) {
-    throw new Error(`Invalid tier: ${tier}`);
-  }
-
-  if (!VALID_TONES.has(tone)) {
-    throw new Error(`Invalid tone: ${tone}`);
-  }
-
-  if (icon) {
-    if (icon.startsWith("/") || icon.includes("..")) {
-      throw new Error("Invalid icon path.");
-    }
-
-    const iconAbsolutePath = path.resolve(ACTIONS_ASSET_ROOT, icon);
+  if (shape.icon) {
+    const iconAbsolutePath = path.resolve(ACTIONS_ASSET_ROOT, shape.icon);
 
     if (!isPathInside(ACTIONS_ASSET_ROOT, iconAbsolutePath)) {
       throw new Error("Icon path escapes assets directory.");
@@ -294,22 +312,11 @@ const validateAbilityPayload = async (rawAbility) => {
     try {
       await fs.access(iconAbsolutePath);
     } catch {
-      throw new Error(`Icon file not found: ${icon}`);
+      throw new Error(`Icon file not found: ${shape.icon}`);
     }
   }
 
-  return {
-    id,
-    name,
-    short,
-    category,
-    section,
-    kind,
-    tier,
-    tone,
-    ...(keybind ? { keybind } : {}),
-    ...(icon ? { icon } : {}),
-  };
+  return shape;
 };
 
 app.get("/api/asset-manager/manifest", async (request, response, next) => {
