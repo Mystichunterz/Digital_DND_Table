@@ -1,11 +1,13 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import V2CalculatorPanel from "./V2CalculatorPanel";
 import { renderWithProviders } from "../../../test-utils";
 
 describe("V2CalculatorPanel — smoke", () => {
   afterEach(() => {
     cleanup();
+    vi.unstubAllGlobals();
   });
 
   it("renders the heading, input, dice + token chips, and the resolved command", () => {
@@ -41,5 +43,26 @@ describe("V2CalculatorPanel — smoke", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /^Clear$/ }));
     expect(input.value).toBe("");
+  });
+
+  it("copies the resolved command to the clipboard and records it in history", async () => {
+    const user = userEvent.setup();
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal("navigator", { ...navigator, clipboard: { writeText } });
+
+    renderWithProviders(<V2CalculatorPanel />);
+
+    // Replace the default expression with a deterministic one.
+    const input = screen.getByPlaceholderText(/1d20\+\{PROF\}\+\{STR\}/);
+    fireEvent.change(input, { target: { value: "2d6+3" } });
+
+    await user.click(screen.getByRole("button", { name: /^Copy command$/ }));
+
+    expect(writeText).toHaveBeenCalledWith("!roll 2d6+3");
+
+    // After a successful copy, the entry shows up in the recent list
+    // (in addition to the live "Command" output line — hence the count).
+    const matches = screen.getAllByText("!roll 2d6+3");
+    expect(matches.length).toBeGreaterThanOrEqual(2);
   });
 });
