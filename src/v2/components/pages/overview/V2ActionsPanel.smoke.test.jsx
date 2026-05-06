@@ -40,7 +40,7 @@ describe("V2ActionsPanel — smoke", () => {
     expect(screen.getByRole("button", { name: /^Import Layout$/ })).toBeTruthy();
   });
 
-  it("opens the SpellbookOverlay when the Spellbook button is clicked", () => {
+  it("opens the SpellbookOverlay when the Spellbook button is clicked", async () => {
     renderWithProviders(<V2ActionsPanel />);
 
     // Closed by default — no dialog in the document.
@@ -48,8 +48,13 @@ describe("V2ActionsPanel — smoke", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /^Spellbook$/ }));
 
-    // The SpellbookOverlay subtree (extracted in commit dd0f5d9) renders.
-    expect(screen.getByRole("dialog", { name: /Spellbook/i })).toBeTruthy();
-    expect(screen.getByRole("navigation", { name: /Spellbook tabs/i })).toBeTruthy();
+    // SpellbookOverlay is lazy-loaded — wait for the Suspense boundary
+    // to resolve before asserting on the dialog subtree.
+    expect(
+      await screen.findByRole("dialog", { name: /Spellbook/i }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("navigation", { name: /Spellbook tabs/i }),
+    ).toBeTruthy();
   });
 });

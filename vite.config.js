@@ -22,6 +22,17 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react", "react-dom", "react-router-dom"],
+          // Action / spell catalogs and the conditions table are
+          // chunky static data shared between V2ActionsPanel and the
+          // spellbook overlay. Pulling them into their own chunk
+          // keeps the boot path lean and lets the browser cache
+          // them across panel reloads.
+          "actions-data": [
+            "./src/v2/data/actionsCatalog",
+            "./src/v2/data/spellbookTabs",
+            "./src/v2/data/conditionsCatalog",
+            "./src/v2/data/actions-manifest.json",
+          ],
         },
       },
     },

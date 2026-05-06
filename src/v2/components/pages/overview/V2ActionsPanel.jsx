@@ -1,5 +1,7 @@
 import {
   Fragment,
+  Suspense,
+  lazy,
   useCallback,
   useEffect,
   useMemo,
@@ -48,7 +50,11 @@ import MetamagicTray from "./actions/MetamagicTray";
 import RollToast from "./actions/RollToast";
 import OptionTabStrip from "./actions/OptionTabStrip";
 import ActionsLayoutControls from "./actions/ActionsLayoutControls";
-import SpellbookOverlay from "./actions/SpellbookOverlay";
+// SpellbookOverlay only mounts when the user opens the spellbook
+// (and never on the Overview boot path). Code-split it so its
+// metamagic icon imports + SpellbookRow popup tree don't sit on
+// the initial chunk.
+const SpellbookOverlay = lazy(() => import("./actions/SpellbookOverlay"));
 import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
 import {
   SPELLBOOK_TABS,
@@ -1291,27 +1297,31 @@ const V2ActionsPanel = () => {
         />
       </div>
 
-      <SpellbookOverlay
-        ref={spellbookPopupRef}
-        isOpen={isSpellbookOpen}
-        spellbookDragState={spellbookDragState}
-        spellbookPosition={spellbookPosition}
-        activeSpellbookTab={activeSpellbookTab}
-        activeSpellbookConfig={activeSpellbookConfig}
-        preparedLimitsByClass={preparedLimitsByClass}
-        preparedSpellIds={preparedSpellIds}
-        spellbookActionsByTab={spellbookActionsByTab}
-        spellbookSectionItems={spellbookSectionItems}
-        spellbookActionRows={spellbookActionRows}
-        resources={resources}
-        resourceMax={resourceMax}
-        onSelectTab={setActiveSpellbookTab}
-        onClose={() => setIsSpellbookOpen(false)}
-        onHeaderPointerDown={handleSpellbookHeaderPointerDown}
-        togglePreparedSpell={togglePreparedSpell}
-        renderSpellbookIcons={renderSpellbookIcons}
-        renderMetamagicSpellbookIcons={renderMetamagicSpellbookIcons}
-      />
+      {isSpellbookOpen && (
+        <Suspense fallback={null}>
+          <SpellbookOverlay
+            ref={spellbookPopupRef}
+            isOpen={isSpellbookOpen}
+            spellbookDragState={spellbookDragState}
+            spellbookPosition={spellbookPosition}
+            activeSpellbookTab={activeSpellbookTab}
+            activeSpellbookConfig={activeSpellbookConfig}
+            preparedLimitsByClass={preparedLimitsByClass}
+            preparedSpellIds={preparedSpellIds}
+            spellbookActionsByTab={spellbookActionsByTab}
+            spellbookSectionItems={spellbookSectionItems}
+            spellbookActionRows={spellbookActionRows}
+            resources={resources}
+            resourceMax={resourceMax}
+            onSelectTab={setActiveSpellbookTab}
+            onClose={() => setIsSpellbookOpen(false)}
+            onHeaderPointerDown={handleSpellbookHeaderPointerDown}
+            togglePreparedSpell={togglePreparedSpell}
+            renderSpellbookIcons={renderSpellbookIcons}
+            renderMetamagicSpellbookIcons={renderMetamagicSpellbookIcons}
+          />
+        </Suspense>
+      )}
 
       <RollToast toast={rollToast} />
     </article>
