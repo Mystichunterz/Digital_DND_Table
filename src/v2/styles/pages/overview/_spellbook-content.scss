@@ -1,0 +1,266 @@
+
+.v2-spellbook-content {
+  min-width: 0;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.v2-spellbook-pane {
+  border: 1px dashed rgba(165, 124, 82, 0.55);
+  border-radius: 12px;
+  background: rgba(23, 17, 14, 0.55);
+  padding: 0.7rem 0.85rem;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.v2-spellbook-pane .v2-spellbook-row {
+  display: grid;
+  grid-template-columns: 1.85rem minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 0.55rem;
+  row-gap: 0.18rem;
+}
+
+.v2-spellbook-pane .v2-spellbook-row > .v2-spellbook-row-title {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  font-family: "Cinzel", "EB Garamond", serif;
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
+  letter-spacing: 0.04em;
+  color: rgba(232, 206, 173, 0.92);
+}
+
+.v2-spellbook-pane
+  .v2-spellbook-row-metamagic
+  > .v2-spellbook-row-title {
+  color: #ff7a8e;
+  font-style: italic;
+}
+
+.v2-spellbook-pane .v2-spellbook-row > .v2-spellbook-glyph {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.v2-spellbook-pane .v2-spellbook-row > .v2-spellbook-icon-row {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.v2-spellbook-pane .v2-spellbook-row > .v2-slot-pip-stack {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.v2-spellbook-pane .v2-spellbook-row .v2-spellbook-icon-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 2.15rem);
+  gap: 0.32rem;
+  align-content: start;
+}
+
+.v2-spellbook-pane .spell-hover-popup-trigger {
+  width: 2.15rem;
+  height: 2.15rem;
+}
+
+.v2-spellbook-row-framed {
+  margin-left: -0.4rem;
+  border: 1px solid rgba(165, 124, 82, 0.78);
+  border-radius: 9px;
+  background: linear-gradient(
+    180deg,
+    rgba(58, 41, 28, 0.42) 0%,
+    rgba(28, 21, 16, 0.55) 100%
+  );
+  padding: 0.32rem 0.55rem 0.32rem 0.4rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 222, 178, 0.06),
+    0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.v2-spellbook-glyph {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.v2-spellbook-glyph img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.v2-spellbook-glyph-tier img {
+  width: 75%;
+  height: 75%;
+}
+
+.v2-spellbook-glyph-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 35% 35%,
+    #f3d796 0%,
+    #b8862f 60%,
+    #7a5210 100%
+  );
+  box-shadow: 0 0 6px rgba(243, 215, 150, 0.6);
+}
+
+.v2-spellbook-glyph-text {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #d8b884;
+  font-weight: 500;
+}
+
+.v2-spellbook-glyph-drop {
+  color: #ff7a8e;
+}
+
+.v2-spellbook-icon-empty {
+  border: 1px dashed rgba(126, 91, 62, 0.55);
+  background: rgba(0, 0, 0, 0.22);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.v2-slot-pip-stack {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.2rem;
+}
+
+.v2-slot-pip-numeral {
+  font-family: "Cinzel", "EB Garamond", serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: rgba(232, 206, 173, 0.92);
+  line-height: 1;
+  margin-bottom: -0.35rem;
+  position: relative;
+  z-index: 2;
+}
+
+.v2-slot-pip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0.09rem;
+}
+
+.v2-slot-pip {
+  width: 1.05rem;
+  height: 1.05rem;
+  object-fit: contain;
+}
+
+.v2-slot-pip.is-filled {
+  filter: drop-shadow(0 0 3px rgba(125, 200, 255, 0.55));
+}
+
+.v2-slot-pip.is-empty {
+  opacity: 0.32;
+  filter: grayscale(0.85);
+}
+
+.v2-spellbook-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(126, 91, 62, 0.78);
+  background: rgba(23, 17, 14, 0.55);
+  color: #f3e3c2;
+  font-family: "Cinzel", "EB Garamond", serif;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.74rem, 0.1vw + 0.7rem, 0.84rem);
+}
+
+.v2-spellbook-stat-pill img {
+  width: 0.95rem;
+  height: 0.95rem;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6));
+}
+
+.v2-spellbook-stat-pill strong {
+  font-weight: 600;
+  color: #f3e3c2;
+}
+
+.v2-spellbook-stat-glyph {
+  color: rgba(199, 171, 138, 0.92);
+  font-weight: 600;
+}
+
+.v2-spellbook-icon {
+  border: 1px solid rgba(126, 91, 62, 0.88);
+  border-radius: 7px;
+  width: 2.15rem;
+  height: 2.15rem;
+  flex: 0 0 2.15rem;
+  padding: 0.14rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    160deg,
+    rgba(45, 32, 24, 0.92) 0%,
+    rgba(16, 12, 10, 0.94) 100%
+  );
+  color: #ead9c1;
+  cursor: grab;
+}
+
+.v2-spellbook-icon:active {
+  cursor: grabbing;
+}
+
+.v2-spellbook-icon:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 205, 157, 0.7),
+    0 0 0 1px rgba(92, 58, 35, 0.85);
+}
+
+.v2-spellbook-icon.is-clickable {
+  cursor: pointer;
+}
+
+.v2-spellbook-icon.is-prepared {
+  border-color: rgba(243, 205, 157, 0.95);
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 205, 157, 0.55),
+    0 0 0 1px rgba(243, 205, 157, 0.35);
+}
+
+.v2-spellbook-icon.is-cap-reached {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.v2-spellbook-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.v2-spellbook-icon-text {
+  font-size: clamp(0.58rem, 0.08vw + 0.56rem, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f0dfc4;
+}
+

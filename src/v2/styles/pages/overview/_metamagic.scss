@@ -1,0 +1,45 @@
+
+.v2-metamagic-tile {
+  position: relative;
+  border: 1px solid rgba(117, 91, 66, 0.88);
+  border-radius: 6px;
+  aspect-ratio: 1 / 1;
+  padding: 0.12rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    165deg,
+    rgba(60, 18, 18, 0.92) 0%,
+    rgba(22, 8, 8, 0.95) 100%
+  );
+  color: #f2e4cb;
+  cursor: pointer;
+}
+
+.v2-metamagic-tile:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 180, 146, 0.65),
+    0 0 0 1px rgba(116, 47, 35, 0.65);
+}
+
+.v2-metamagic-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.v2-metamagic-tile-empty {
+  border-style: dashed;
+  opacity: 0.32;
+  cursor: default;
+  background: rgba(18, 14, 12, 0.5);
+}
+
+.v2-actions-category-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+

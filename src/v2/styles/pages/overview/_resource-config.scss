@@ -1,0 +1,270 @@
+.v2-resource-config-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.v2-resource-config-toggle {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--v2-resource-box-size);
+  height: var(--v2-resource-box-size);
+  padding: 0;
+  border: 1px solid rgba(122, 90, 62, 0.85);
+  border-radius: 50%;
+  background: rgba(33, 25, 19, 0.85);
+  color: var(--v2-overview-highlight);
+  font-size: calc(var(--v2-resource-box-size) * 0.7);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.v2-resource-config-toggle:hover,
+.v2-resource-config-toggle.is-active {
+  background: linear-gradient(
+    180deg,
+    rgba(122, 90, 62, 0.78) 0%,
+    rgba(53, 37, 25, 0.9) 100%
+  );
+}
+
+.v2-resource-config-card {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 60;
+  width: min(28rem, 80vw);
+  max-height: min(32rem, 70vh);
+  overflow-y: auto;
+  padding: clamp(0.55rem, 0.8vw, 0.85rem);
+  border: 1px solid rgba(122, 90, 62, 0.78);
+  border-radius: 8px;
+  background: rgba(18, 14, 12, 0.96);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(245, 233, 209, 0.06);
+  color: var(--v2-overview-text);
+}
+
+.v2-resource-config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: 0.5rem;
+}
+
+.v2-resource-config-header span {
+  font-size: clamp(0.85rem, 0.15vw + 0.8rem, 0.95rem);
+  font-weight: 600;
+  color: var(--v2-overview-highlight);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.v2-resource-config-header button {
+  border: 1px solid rgba(122, 90, 62, 0.85);
+  border-radius: 6px;
+  background: rgba(33, 25, 19, 0.85);
+  color: var(--v2-overview-highlight);
+  padding: 0.2rem 0.55rem;
+  font-size: clamp(0.62rem, 0.1vw + 0.58rem, 0.74rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.v2-resource-config-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+button.v2-resource-config-reset {
+  border-color: rgba(168, 78, 60, 0.78);
+  color: rgba(245, 199, 178, 0.95);
+}
+
+button.v2-resource-config-reset:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(168, 78, 60, 0.55) 0%,
+    rgba(96, 36, 24, 0.85) 100%
+  );
+}
+
+.v2-resource-config-section {
+  & + & {
+    margin-top: 0.7rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(122, 90, 62, 0.35);
+  }
+}
+
+.v2-resource-config-section-title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(0.7rem, 0.1vw + 0.66rem, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v2-overview-highlight);
+  opacity: 0.85;
+}
+
+.v2-resource-config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem 0.6rem;
+}
+
+.v2-resource-config-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: clamp(0.74rem, 0.12vw + 0.7rem, 0.84rem);
+  color: var(--v2-overview-text);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.v2-resource-config-row:hover {
+  background: rgba(245, 233, 209, 0.04);
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.v2-resource-config-eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.v2-resource-config-eye svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.v2-resource-config-eye:hover {
+  background: rgba(122, 90, 62, 0.25);
+  border-color: rgba(122, 90, 62, 0.55);
+}
+
+.v2-resource-config-eye.is-hidden {
+  color: var(--v2-overview-muted);
+  opacity: 0.7;
+}
+
+.v2-resource-config-eye-spacer {
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.v2-resource-config-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.v2-resource-config-row:has(.v2-resource-config-eye.is-hidden)
+  .v2-resource-config-icon,
+.v2-resource-config-row:has(.v2-resource-config-eye.is-hidden)
+  .v2-resource-config-label {
+  opacity: 0.4;
+  filter: grayscale(0.7);
+}
+
+.v2-resource-config-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v2-resource-config-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 6px;
+  background: rgba(17, 14, 12, 0.85);
+  overflow: hidden;
+}
+
+.v2-resource-config-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.v2-resource-config-step:hover:not(:disabled) {
+  background: rgba(122, 90, 62, 0.35);
+}
+
+.v2-resource-config-step:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.v2-resource-config-input {
+  width: 2rem;
+  padding: 0.1rem 0;
+  border: none;
+  border-left: 1px solid rgba(122, 90, 62, 0.45);
+  border-right: 1px solid rgba(122, 90, 62, 0.45);
+  border-radius: 0;
+  background: transparent;
+  color: var(--v2-overview-text);
+  font-size: clamp(0.78rem, 0.13vw + 0.74rem, 0.9rem);
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.v2-resource-config-input::-webkit-outer-spin-button,
+.v2-resource-config-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.v2-resource-config-input:focus {
+  outline: none;
+  background: rgba(245, 233, 209, 0.06);
+}
+
+.v2-resource-config-hint {
+  margin: 0.6rem 0 0;
+  font-size: clamp(0.66rem, 0.1vw + 0.62rem, 0.74rem);
+  color: var(--v2-overview-muted);
+  font-style: italic;
+}
