@@ -1,0 +1,85 @@
+.v2-background-page {
+  --v2-overview-border: var(--color-border-brown-light);
+  --v2-overview-panel-bg: rgba(31, 24, 19, 0.86);
+  --v2-overview-panel-bg-soft: rgba(22, 17, 14, 0.78);
+  --v2-overview-text: var(--color-text-primary);
+  --v2-overview-muted: #ccb190;
+  --v2-overview-highlight: #f5e6ca;
+  --v2-overview-good: var(--color-status-success);
+  --v2-overview-bad: var(--color-status-error);
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.v2-background-grid {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+  gap: clamp(0.65rem, 0.9vw, 1.05rem);
+  overflow: hidden;
+}
+
+.v2-background-info-stack {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  gap: clamp(0.65rem, 0.9vw, 1.05rem);
+  grid-template-rows: minmax(0, auto) minmax(0, auto) minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.v2-companions-page-grid {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.v2-background-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.55rem, 0.75vw, 0.85rem);
+  padding: clamp(0.75rem, 0.9vw, 1.1rem);
+  border: 2px solid var(--v2-overview-border);
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      170deg,
+      rgba(245, 233, 209, 0.08) 0%,
+      rgba(245, 233, 209, 0.03) 40%,
+      rgba(14, 12, 11, 0.2) 100%
+    ),
+    var(--v2-overview-panel-bg);
+  box-shadow:
+    0 5px 8px rgba(0, 0, 0, 0.28),
+    inset 0 4px 10px rgba(58, 47, 38, 0.2),
+    inset 0 4px 9px rgba(58, 47, 38, 0.08);
+  color: var(--v2-overview-text);
+  overflow: hidden;
+}
+
+.v2-background-panel .v2-overview-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.v2-background-panel .v2-overview-panel-header h2 {
+  margin: 0;
+  font-size: clamp(1.02rem, 0.35vw + 0.88rem, 1.3rem);
+  color: var(--v2-overview-highlight);
+  letter-spacing: 0.01em;
+}
+

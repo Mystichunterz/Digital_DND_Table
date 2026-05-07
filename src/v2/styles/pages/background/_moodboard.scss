@@ -1,0 +1,444 @@
+/* ---------- Moodboard ---------- */
+
+.v2-moodboard-panel {
+  min-height: 0;
+  height: 100%;
+}
+
+.v2-moodboard-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.v2-moodboard-status {
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
+  letter-spacing: 0.06em;
+  color: var(--v2-overview-muted);
+  font-weight: 500;
+  min-width: 4rem;
+  text-align: right;
+}
+
+.v2-moodboard-status.is-saving,
+.v2-moodboard-status.is-pending {
+  color: var(--color-status-saving);
+}
+
+.v2-moodboard-status.is-saved {
+  color: var(--color-status-saved);
+}
+
+.v2-moodboard-status.is-error {
+  color: var(--color-status-error-text);
+  max-width: 22rem;
+  white-space: normal;
+  text-align: right;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.v2-moodboard-action {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 999px;
+  background: rgba(20, 16, 13, 0.62);
+  color: var(--v2-overview-muted);
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.v2-moodboard-action:hover:not(:disabled) {
+  border-color: rgba(245, 230, 202, 0.55);
+  color: var(--v2-overview-highlight);
+}
+
+.v2-moodboard-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.v2-moodboard-action.is-danger:hover:not(:disabled) {
+  border-color: var(--color-status-error);
+  color: var(--color-status-error-text);
+}
+
+.v2-moodboard-file-input {
+  display: none;
+}
+
+.v2-moodboard-snapshot-menu {
+  position: relative;
+}
+
+.v2-moodboard-snapshot-list {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 20;
+  width: clamp(18rem, 26vw, 24rem);
+  max-height: 22rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.45rem;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 8px;
+  background: rgba(15, 11, 8, 0.96);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+}
+
+.v2-moodboard-snapshot-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.v2-moodboard-snapshot-list::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 4px;
+}
+
+.v2-moodboard-snapshot-list::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.v2-moodboard-snapshot-empty,
+.v2-moodboard-snapshot-error {
+  margin: 0;
+  padding: 0.5rem 0.55rem;
+  font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
+  color: var(--v2-overview-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.v2-moodboard-snapshot-empty strong {
+  color: var(--color-accent-gold-light);
+  font-weight: 600;
+  font-style: normal;
+}
+
+.v2-moodboard-snapshot-error {
+  color: var(--color-status-error-text);
+  font-style: normal;
+  text-align: left;
+}
+
+.v2-moodboard-snapshot-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  border-radius: 6px;
+}
+
+.v2-moodboard-snapshot-row:hover {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.v2-moodboard-snapshot-load {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.v2-moodboard-snapshot-load:hover,
+.v2-moodboard-snapshot-load:focus-visible {
+  border-color: rgba(245, 230, 202, 0.5);
+  background: rgba(20, 16, 13, 0.6);
+}
+
+.v2-moodboard-snapshot-label {
+  font-size: clamp(0.82rem, 0.12vw + 0.78rem, 0.92rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.v2-moodboard-snapshot-meta {
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.76rem);
+  color: var(--v2-overview-muted);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.v2-moodboard-snapshot-delete {
+  width: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-status-error-text);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.v2-moodboard-snapshot-delete:hover {
+  border-color: var(--color-status-error);
+  background: var(--color-status-error-bg);
+}
+
+.v2-moodboard-stickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(122, 90, 62, 0.5);
+  border-radius: 8px;
+  background: rgba(20, 16, 13, 0.55);
+}
+
+.v2-moodboard-sticker-pick {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.v2-moodboard-sticker-pick:hover {
+  border-color: var(--color-accent-gold);
+  background: rgba(212, 175, 55, 0.12);
+  transform: scale(1.08);
+}
+
+.v2-moodboard-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1px dashed rgba(122, 90, 62, 0.55);
+  border-radius: 10px;
+  background:
+    radial-gradient(
+      circle at 1px 1px,
+      rgba(122, 90, 62, 0.18) 1px,
+      transparent 1px
+    ),
+    rgba(15, 11, 8, 0.6);
+  background-size: 18px 18px;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.v2-moodboard-canvas.is-drag {
+  cursor: grabbing;
+  border-color: rgba(245, 230, 202, 0.55);
+}
+
+.v2-moodboard-canvas.is-resize {
+  cursor: nwse-resize;
+  border-color: rgba(245, 230, 202, 0.55);
+}
+
+.v2-moodboard-canvas.is-rotate {
+  cursor: grabbing;
+  border-color: rgba(245, 230, 202, 0.55);
+}
+
+.v2-moodboard-empty {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-size: clamp(0.85rem, 0.13vw + 0.8rem, 0.95rem);
+  color: var(--v2-overview-muted);
+  font-style: italic;
+  pointer-events: none;
+}
+
+.v2-moodboard-empty strong {
+  color: var(--color-accent-gold-light);
+  font-weight: 600;
+  font-style: normal;
+}
+
+.v2-moodboard-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: rgba(15, 11, 8, 0.55);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.v2-moodboard-spinner {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 3px solid rgba(245, 230, 202, 0.18);
+  border-top-color: var(--color-accent-gold);
+  animation: v2-moodboard-spin 900ms linear infinite;
+}
+
+.v2-moodboard-loading-label {
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v2-overview-muted);
+}
+
+@keyframes v2-moodboard-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.v2-moodboard-item {
+  position: absolute;
+  cursor: grab;
+  transform-origin: center center;
+  transition: box-shadow 160ms ease;
+}
+
+.v2-moodboard-item.is-active {
+  cursor: grabbing;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+}
+
+.v2-moodboard-image {
+  border-radius: 8px;
+  background: rgba(20, 16, 13, 0.7);
+  border: 1px solid rgba(122, 90, 62, 0.55);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  overflow: visible;
+}
+
+.v2-moodboard-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+.v2-moodboard-sticker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.55));
+  line-height: 1;
+}
+
+.v2-moodboard-item-controls {
+  position: absolute;
+  top: -0.85rem;
+  right: -0.85rem;
+  display: none;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 999px;
+  background: rgba(15, 11, 8, 0.92);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.v2-moodboard-item:hover .v2-moodboard-item-controls,
+.v2-moodboard-item.is-active .v2-moodboard-item-controls,
+.v2-moodboard-item-controls:focus-within {
+  display: flex;
+}
+
+.v2-moodboard-item-controls button {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--v2-overview-highlight);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.v2-moodboard-item-controls button:hover {
+  background: rgba(212, 175, 55, 0.18);
+  color: var(--color-accent-gold-light);
+}
+
+.v2-moodboard-rotate-handle {
+  cursor: grab;
+}
+
+.v2-moodboard-rotate-handle:active {
+  cursor: grabbing;
+}
+
+.v2-moodboard-item-controls button.is-danger {
+  color: var(--color-status-error-text);
+}
+
+.v2-moodboard-item-controls button.is-danger:hover {
+  background: var(--color-status-error-bg);
+  color: var(--color-text-highlight);
+}
+
+.v2-moodboard-resize-handle {
+  position: absolute;
+  right: -0.55rem;
+  bottom: -0.55rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: none;
+  border: 1px solid rgba(245, 230, 202, 0.7);
+  border-radius: 3px;
+  background: rgba(15, 11, 8, 0.92);
+  cursor: nwse-resize;
+  padding: 0;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.v2-moodboard-item:hover .v2-moodboard-resize-handle,
+.v2-moodboard-item.is-active .v2-moodboard-resize-handle {
+  display: block;
+}
+
+.v2-moodboard-resize-handle:hover {
+  background: rgba(212, 175, 55, 0.18);
+  border-color: var(--color-accent-gold);
+}
