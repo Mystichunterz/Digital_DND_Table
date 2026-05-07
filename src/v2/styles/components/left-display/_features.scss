@@ -1,0 +1,51 @@
+body.v2-active .v2-left-display-wrap .left-display-content {
+  .features {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .feature-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      padding: var(--space-xs);
+      background-color: transparent;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+
+      img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1;
+        color: var(--color-text-muted);
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+
+        p {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .resistances {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+
+    .resistance-icon {
+      width: 20px;
+      height: auto;
+    }
+  }
+}

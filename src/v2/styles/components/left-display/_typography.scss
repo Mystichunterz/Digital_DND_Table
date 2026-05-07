@@ -1,0 +1,32 @@
+body.v2-active .v2-left-display-wrap .left-display-content {
+  --v2-left-font-p: clamp(1.05rem, 0.28vw + 0.94rem, 1.22rem);
+  --v2-left-font-p-125: calc(var(--v2-left-font-p) * 1.25);
+  --v2-left-emphasis-size: clamp(1.12rem, 0.26vw + 1rem, 1.3rem);
+
+  padding: clamp(1.15rem, 1.35vw, 1.6rem);
+  font-size: clamp(17px, 0.35vw + 16px, 21px);
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content p {
+  font-size: var(--v2-left-font-p);
+  line-height: 1.4;
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content .v2-font-scale-125 {
+  font-size: var(--v2-left-font-p-125);
+  line-height: 1.1;
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content .character-name {
+  font-size: clamp(1.45rem, 0.9vw + 1.1rem, 2rem);
+  line-height: 1.2;
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content .currency {
+  gap: 0.2rem;
+}
+
+body.v2-active .v2-left-display-wrap .left-display-content .currency-icon {
+  width: clamp(1.1rem, 0.75vw, 1.15rem);
+  height: clamp(1.1rem, 0.75vw, 1.15rem);
+}

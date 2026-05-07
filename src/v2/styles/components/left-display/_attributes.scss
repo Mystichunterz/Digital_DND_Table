@@ -1,0 +1,107 @@
+body.v2-active .v2-left-display-wrap .left-display-content {
+  .attributes {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+
+    .attribute-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      isolation: isolate;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: -13px;
+        left: -3px;
+        right: -3px;
+        background: transparent;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      &:hover::before {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .attribute {
+      position: relative;
+      text-align: center;
+      margin-right: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 1px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .primary-icon-container {
+      position: absolute;
+      top: -16px;
+      left: 40%;
+      transform: translateX(-50%);
+      z-index: 2;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: -5px;
+        right: -5px;
+        background: transparent;
+        pointer-events: none;
+      }
+
+      &:hover {
+        color: white;
+      }
+
+      &:hover::before {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+      }
+    }
+
+    .primary-icon {
+      width: 10px;
+      height: 10px;
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+
+    .attribute-value-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.5rem;
+      z-index: 1;
+    }
+
+    .proficient-icon {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 21px;
+      height: 21px;
+      opacity: 0.5;
+      z-index: 1;
+      top: 0px;
+    }
+
+    .attribute-value {
+      margin-top: 5px;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+  }
+}
