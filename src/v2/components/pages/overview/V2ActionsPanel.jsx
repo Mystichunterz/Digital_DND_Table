@@ -3,29 +3,19 @@ import {
   Suspense,
   lazy,
   useCallback,
-  useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
-import { ACTIONS, ACTION_LIBRARY } from "../../../data/actionsCatalog";
 import { pickRollKind, toAvraeCommand } from "../../../data/avrae";
 import { CONDITIONS, sumExtraActions } from "../../../data/conditionsCatalog";
 import { useConditions } from "../../../state/ConditionsContext";
 import { useCharacterStats } from "../../../state/CharacterStatsContext";
-import { usePersistedDebounce } from "../../../state/usePersistedDebounce";
-import { useTrackHydration } from "../../../state/PersistenceStatusContext";
-import { getTabById } from "../../../data/spellbookTabs";
-import SpellHoverPopup from "../../popups/SpellHoverPopup";
-import MetamagicHoverPopup from "../../popups/MetamagicHoverPopup";
 import V2ResourcePips from "./V2ResourcePips";
 import {
   DEFAULT_RESOURCE_MAX,
   buildInitialResources,
 } from "./actions/resources";
 import {
-  DEFAULT_PREPARED_LIMITS_BY_CLASS,
-  DEFAULT_PREPARED_SPELL_IDS,
   PREPARED_TAB_LABELS_BY_CLASS,
   isActionLockedForPreparation,
   sanitizePreparedLimitsByClass,
@@ -36,7 +26,6 @@ import {
   DEFAULT_SECTION_COLUMNS,
   FILTER_TABS,
   SECTION_CONFIG,
-  SECTION_IDS,
   SECTION_SLOT_COUNT,
   TOTAL_SECTION_COLUMNS,
   createInitialSectionLayouts,
@@ -55,10 +44,15 @@ import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
 import { useDividerDrag } from "./actions/useDividerDrag";
 import { useSpellbookOverlayPosition } from "./actions/useSpellbookOverlayPosition";
 import { useActionResources } from "./actions/useActionResources";
-import {
-  SPELLBOOK_TABS,
-  SPELLBOOK_TIER_ORDER,
-} from "./actions/spellbookConfig";
+import { useSpellbookIconRenderers } from "./actions/useSpellbookIconRenderers";
+import { useSpellbookData } from "./actions/useSpellbookData";
+import { useActionDragDrop } from "./actions/useActionDragDrop";
+import { useLayoutTransfer } from "./actions/useLayoutTransfer";
+import { usePreparedSpellsState } from "./actions/usePreparedSpellsState";
+import { useActionsPersistence } from "./actions/useActionsPersistence";
+import { useRollToast } from "./actions/useRollToast";
+import { useActionsCatalog } from "./actions/useActionsCatalog";
+import { useEscapeKey } from "./actions/useEscapeKey";
 
 const PERSISTED_CHARACTER_ID = "default";
 
@@ -76,8 +70,16 @@ const V2ActionsPanel = () => {
   const [sectionLayouts, setSectionLayouts] = useState(
     createInitialSectionLayouts,
   );
-  const [draggedAction, setDraggedAction] = useState(null);
-  const [dropTarget, setDropTarget] = useState(null);
+  const {
+    draggedAction,
+    dropTarget,
+    handleSpellbookDragStart,
+    handleSpellbookDragEnd,
+    handleTileDragStart,
+    handleTileDragEnd,
+    handleTileDragOver,
+    handleTileDrop,
+  } = useActionDragDrop({ setSectionLayouts, activeFilter });
   const [isSpellbookOpen, setIsSpellbookOpen] = useState(false);
   const [activeSpellbookTab, setActiveSpellbookTab] = useState("paladin");
   const {
@@ -86,15 +88,23 @@ const V2ActionsPanel = () => {
     spellbookDragState,
     handleHeaderPointerDown: handleSpellbookHeaderPointerDown,
   } = useSpellbookOverlayPosition({ isOpen: isSpellbookOpen });
-  const [layoutTransferMessage, setLayoutTransferMessage] = useState(null);
-  const [preparedSpellIds, setPreparedSpellIds] = useState(
-    DEFAULT_PREPARED_SPELL_IDS,
-  );
-  const [preparedLimitsByClass, setPreparedLimitsByClass] = useState(
-    DEFAULT_PREPARED_LIMITS_BY_CLASS,
-  );
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [rollToast, setRollToast] = useState(null);
+  const {
+    transferMessage: layoutTransferMessage,
+    fileInputRef: layoutFileInputRef,
+    exportLayoutAsJson,
+    triggerLayoutImport,
+    importLayoutFromJson,
+  } = useLayoutTransfer({ sectionLayouts, setSectionLayouts });
+  const {
+    preparedSpellIds,
+    setPreparedSpellIds,
+    preparedLimitsByClass,
+    setPreparedLimitsByClass,
+    togglePreparedSpell,
+    updatePreparedLimit,
+    resetPreparedLimits,
+  } = usePreparedSpellsState();
+  const { rollToast, setRollToast } = useRollToast();
   const [isGwmActive, setIsGwmActive] = useState(false);
   const { activeConditions, applyCondition, tickConditions } = useConditions();
   const { tokenValues } = useCharacterStats();
@@ -116,97 +126,56 @@ const V2ActionsPanel = () => {
     extraActions,
     onTickConditions: tickConditions,
   });
-  const layoutFileInputRef = useRef(null);
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    const hydrate = async () => {
-      try {
-        const response = await fetch(
-          `/api/state/${PERSISTED_CHARACTER_ID}`,
-        );
-
-        if (isCancelled) {
-          return;
-        }
-
-        if (response.ok) {
-          const saved = await response.json();
-
-          if (isCancelled) {
-            return;
-          }
-
-          if (saved && typeof saved === "object") {
-            if (saved.resourceMax && typeof saved.resourceMax === "object") {
-              setResourceMax({
-                ...DEFAULT_RESOURCE_MAX,
-                ...saved.resourceMax,
-                spellSlots: {
-                  ...DEFAULT_RESOURCE_MAX.spellSlots,
-                  ...(saved.resourceMax.spellSlots ?? {}),
-                },
-              });
-            }
-            if (saved.resources && typeof saved.resources === "object") {
-              setResources({
-                ...buildInitialResources(DEFAULT_RESOURCE_MAX),
-                ...saved.resources,
-                spellSlots: {
-                  ...DEFAULT_RESOURCE_MAX.spellSlots,
-                  ...(saved.resources.spellSlots ?? {}),
-                },
-              });
-            }
-            if (saved.sectionLayouts) {
-              setSectionLayouts(normalizeImportedLayouts(saved.sectionLayouts));
-            }
-            const effectivePreparedLimits = sanitizePreparedLimitsByClass(
-              saved.preparedLimitsByClass,
-            );
-            setPreparedLimitsByClass(effectivePreparedLimits);
-            if (saved.preparedSpellIds) {
-              setPreparedSpellIds(
-                sanitizePreparedSpellIds(
-                  saved.preparedSpellIds,
-                  effectivePreparedLimits,
-                ),
-              );
-            }
-            if (
-              Array.isArray(saved.sectionColumns) &&
-              saved.sectionColumns.length === DEFAULT_SECTION_COLUMNS.length
-            ) {
-              setSectionColumns(saved.sectionColumns);
-            }
-          }
-        }
-      } catch {
-        // Server unavailable — fall back to defaults silently.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-    // setSectionColumns now comes from useDividerDrag — stable per
-    // useState contract, so it doesn't need to live in the dep array.
+  const handleHydrate = useCallback((saved) => {
+    if (saved.resourceMax && typeof saved.resourceMax === "object") {
+      setResourceMax({
+        ...DEFAULT_RESOURCE_MAX,
+        ...saved.resourceMax,
+        spellSlots: {
+          ...DEFAULT_RESOURCE_MAX.spellSlots,
+          ...(saved.resourceMax.spellSlots ?? {}),
+        },
+      });
+    }
+    if (saved.resources && typeof saved.resources === "object") {
+      setResources({
+        ...buildInitialResources(DEFAULT_RESOURCE_MAX),
+        ...saved.resources,
+        spellSlots: {
+          ...DEFAULT_RESOURCE_MAX.spellSlots,
+          ...(saved.resources.spellSlots ?? {}),
+        },
+      });
+    }
+    if (saved.sectionLayouts) {
+      setSectionLayouts(normalizeImportedLayouts(saved.sectionLayouts));
+    }
+    const effectivePreparedLimits = sanitizePreparedLimitsByClass(
+      saved.preparedLimitsByClass,
+    );
+    setPreparedLimitsByClass(effectivePreparedLimits);
+    if (saved.preparedSpellIds) {
+      setPreparedSpellIds(
+        sanitizePreparedSpellIds(
+          saved.preparedSpellIds,
+          effectivePreparedLimits,
+        ),
+      );
+    }
+    if (
+      Array.isArray(saved.sectionColumns) &&
+      saved.sectionColumns.length === DEFAULT_SECTION_COLUMNS.length
+    ) {
+      setSectionColumns(saved.sectionColumns);
+    }
+    // setters from hooks are stable; safe to omit from deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useTrackHydration(isHydrated);
-
-  usePersistedDebounce({
-    enabled: isHydrated,
-    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
-    body: {
+  useActionsPersistence({
+    characterId: PERSISTED_CHARACTER_ID,
+    state: {
       resources,
       resourceMax,
       sectionLayouts,
@@ -214,324 +183,21 @@ const V2ActionsPanel = () => {
       preparedSpellIds,
       preparedLimitsByClass,
     },
+    onHydrate: handleHydrate,
   });
 
-  useEffect(() => {
-    if (!rollToast) {
-      return undefined;
-    }
+  const closeSpellbook = useCallback(() => setIsSpellbookOpen(false), []);
+  useEscapeKey(isSpellbookOpen, closeSpellbook);
 
-    const timeoutId = setTimeout(() => setRollToast(null), 1800);
+  const {
+    spellbookActionsByTab,
+    spellbookActionRows,
+    activeSpellbookConfig,
+    spellbookSectionItems,
+  } = useSpellbookData({ activeSpellbookTab, preparedSpellIds });
 
-    return () => clearTimeout(timeoutId);
-  }, [rollToast]);
-
-  useEffect(() => {
-    if (!isSpellbookOpen) {
-      return undefined;
-    }
-
-    const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        setIsSpellbookOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [isSpellbookOpen]);
-
-
-  const exportLayoutAsJson = () => {
-    const now = new Date();
-    const timestamp = now.toISOString().replace(/[.:]/g, "-");
-    const exportPayload = {
-      type: "v2-actions-layout",
-      version: 2,
-      exportedAt: now.toISOString(),
-      sectionLayouts,
-    };
-    const jsonBlob = new Blob([JSON.stringify(exportPayload, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(jsonBlob);
-    const downloadLink = document.createElement("a");
-
-    downloadLink.href = url;
-    downloadLink.download = `v2-actions-layout-${timestamp}.json`;
-    document.body.append(downloadLink);
-    downloadLink.click();
-    downloadLink.remove();
-    URL.revokeObjectURL(url);
-    setLayoutTransferMessage({
-      type: "success",
-      text: "Layout exported.",
-    });
-  };
-
-  const triggerLayoutImport = () => {
-    layoutFileInputRef.current?.click();
-  };
-
-  const importLayoutFromJson = async (event) => {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    try {
-      const rawText = await file.text();
-      const parsedJson = JSON.parse(rawText);
-      const importedLayouts =
-        parsedJson &&
-        typeof parsedJson === "object" &&
-        "sectionLayouts" in parsedJson
-          ? parsedJson.sectionLayouts
-          : parsedJson &&
-              typeof parsedJson === "object" &&
-              "layouts" in parsedJson
-            ? parsedJson.layouts
-            : parsedJson &&
-                typeof parsedJson === "object" &&
-                "actionLayouts" in parsedJson
-              ? parsedJson.actionLayouts
-              : parsedJson;
-
-      setSectionLayouts(normalizeImportedLayouts(importedLayouts));
-      setLayoutTransferMessage({
-        type: "success",
-        text: `Imported layout from ${file.name}.`,
-      });
-    } catch {
-      setLayoutTransferMessage({
-        type: "error",
-        text: "Import failed. Use a valid layout JSON file.",
-      });
-    } finally {
-      event.target.value = "";
-    }
-  };
-
-  const spellbookActions = useMemo(
-    () =>
-      ACTIONS.filter(
-        (action) =>
-          action.category === "paladin" ||
-          (typeof action.iconKey === "string" &&
-            action.iconKey.startsWith("spells/")),
-      ),
-    [],
-  );
-
-  const spellbookActionsByTab = useMemo(() => {
-    const map = {};
-
-    SPELLBOOK_TABS.forEach((tab) => {
-      map[tab.id] = tab.getItems(spellbookActions);
-    });
-
-    return map;
-  }, [spellbookActions]);
-
-  const activeSpellbookActions = useMemo(
-    () =>
-      spellbookActionsByTab[activeSpellbookTab] ??
-      spellbookActionsByTab.paladin ??
-      [],
-    [spellbookActionsByTab, activeSpellbookTab],
-  );
-
-  const spellbookActionRows = useMemo(() => {
-    const classActions = activeSpellbookActions.filter(
-      (action) => action.kind === "action",
-    );
-    const spellActions = activeSpellbookActions.filter(
-      (action) => action.kind !== "action",
-    );
-    const preparedActions = activeSpellbookActions.slice(0, 18);
-    const tierRows = SPELLBOOK_TIER_ORDER.map((tierId) => ({
-      tierId,
-      actions: activeSpellbookActions.filter(
-        (action) => action.tier === tierId,
-      ),
-    })).filter((row) => row.actions.length > 0);
-
-    return {
-      classActions,
-      spellActions,
-      preparedActions,
-      tierRows,
-    };
-  }, [activeSpellbookActions]);
-
-  const activeSpellbookConfig = useMemo(
-    () => getTabById(activeSpellbookTab),
-    [activeSpellbookTab],
-  );
-
-  const spellbookSectionItems = useMemo(() => {
-    if (!activeSpellbookConfig) {
-      return {};
-    }
-
-    const classActions = ACTIONS.filter(
-      (action) => action.class === activeSpellbookConfig.id,
-    );
-    const map = {};
-
-    activeSpellbookConfig.sections.forEach((section) => {
-      if (section.source === "prepared") {
-        const preparedIds =
-          preparedSpellIds[activeSpellbookConfig.id] ?? [];
-        const actionsById = new Map(
-          classActions
-            .filter((action) => action.spellbookRow !== "class-action")
-            .map((action) => [action.id, action]),
-        );
-        map[section.id] = preparedIds
-          .map((actionId) => actionsById.get(actionId))
-          .filter(Boolean);
-        return;
-      }
-
-      if (section.source === "metamagic") {
-        map[section.id] = [];
-        return;
-      }
-
-      const allowedRowKeys = Array.isArray(section.rowKeys)
-        ? section.rowKeys
-        : section.rowKey
-          ? [section.rowKey]
-          : [];
-
-      map[section.id] = classActions.filter((action) =>
-        allowedRowKeys.includes(action.spellbookRow),
-      );
-    });
-
-    return map;
-  }, [activeSpellbookConfig, preparedSpellIds]);
-
-  const togglePreparedSpell = useCallback(
-    (classId, actionId) => {
-      const cap =
-        preparedLimitsByClass[classId] ??
-        DEFAULT_PREPARED_LIMITS_BY_CLASS[classId];
-
-      setPreparedSpellIds((current) => {
-        const currentList = current[classId] ?? [];
-
-        if (currentList.includes(actionId)) {
-          return {
-            ...current,
-            [classId]: currentList.filter((id) => id !== actionId),
-          };
-        }
-
-        if (typeof cap === "number" && currentList.length >= cap) {
-          return current;
-        }
-
-        return {
-          ...current,
-          [classId]: [...currentList, actionId],
-        };
-      });
-    },
-    [preparedLimitsByClass],
-  );
-
-  const updatePreparedLimit = useCallback((classId, value) => {
-    const safeValue = Math.max(0, Math.floor(Number(value) || 0));
-
-    setPreparedLimitsByClass((current) => ({
-      ...current,
-      [classId]: safeValue,
-    }));
-  }, []);
-
-  const getSectionIdForAction = useCallback(
-    (action) =>
-      SECTION_CONFIG.find((section) => section.categoryId === action.category)
-        ?.id ?? null,
-    [],
-  );
-
-  const handleSpellbookDragStart = (event, action) => {
-    const sectionId = getSectionIdForAction(action);
-
-    if (!sectionId) {
-      event.preventDefault();
-      return;
-    }
-
-    setDraggedAction({
-      source: "spellbook",
-      sectionId,
-      itemId: action.id,
-    });
-    event.dataTransfer.effectAllowed = "copyMove";
-    event.dataTransfer.setData("text/plain", action.id);
-  };
-
-  const handleSpellbookDragEnd = () => {
-    setDraggedAction(null);
-    setDropTarget(null);
-  };
-
-  const actionsBySection = useMemo(() => {
-    const map = {};
-
-    SECTION_CONFIG.forEach((section) => {
-      map[section.id] = ACTION_LIBRARY[section.categoryId] ?? [];
-    });
-
-    return map;
-  }, []);
-
-  const actionBySection = useMemo(() => {
-    const map = {};
-
-    SECTION_IDS.forEach((sectionId) => {
-      const actions = actionsBySection[sectionId] ?? [];
-      map[sectionId] = Object.fromEntries(
-        actions.map((item) => [item.id, item]),
-      );
-    });
-
-    return map;
-  }, [actionsBySection]);
-
-  const filteredActionIdsBySection = useMemo(() => {
-    const map = {};
-
-    SECTION_IDS.forEach((sectionId) => {
-      const actions = actionsBySection[sectionId] ?? [];
-      let filteredActions = actions;
-
-      if (activeFilter !== "all") {
-        filteredActions = ["action", "bonus", "reaction", "utility"].includes(
-          activeFilter,
-        )
-          ? actions.filter((item) => item.kind === activeFilter)
-          : actions.filter((item) => item.tier === activeFilter);
-      }
-
-      map[sectionId] = new Set(filteredActions.map((item) => item.id));
-    });
-
-    return map;
-  }, [actionsBySection, activeFilter]);
-
-  useEffect(() => {
-    setDraggedAction(null);
-    setDropTarget(null);
-  }, [activeFilter]);
+  const { actionBySection, filteredActionIdsBySection } =
+    useActionsCatalog(activeFilter);
 
   const maximizedSectionId = useMemo(() => {
     const maxIndex = sectionColumns.findIndex(
@@ -572,7 +238,7 @@ const V2ActionsPanel = () => {
 
   const resetResourceDefaults = () => {
     resetResourcesOnly();
-    setPreparedLimitsByClass(DEFAULT_PREPARED_LIMITS_BY_CLASS);
+    resetPreparedLimits();
   };
 
   const handleActionClick = (item, event) => {
@@ -612,80 +278,6 @@ const V2ActionsPanel = () => {
         }));
       }
     }
-  };
-
-  const handleActionDrop = (targetSectionId, targetIndex) => {
-    if (!draggedAction || draggedAction.sectionId !== targetSectionId) {
-      return;
-    }
-
-    setSectionLayouts((currentLayouts) => {
-      const currentSlots =
-        currentLayouts[targetSectionId] ?? Array(SECTION_SLOT_COUNT).fill(null);
-      const nextSlots = [...currentSlots];
-
-      if (draggedAction.source === "spellbook") {
-        const itemId = draggedAction.itemId;
-        const existingIndex = nextSlots.indexOf(itemId);
-        const displacedValue = nextSlots[targetIndex] ?? null;
-
-        if (existingIndex === targetIndex) {
-          return currentLayouts;
-        }
-
-        if (existingIndex !== -1) {
-          nextSlots[existingIndex] = displacedValue;
-        } else if (displacedValue !== null) {
-          const emptySlotIndex = nextSlots.indexOf(null);
-
-          if (emptySlotIndex !== -1) {
-            nextSlots[emptySlotIndex] = displacedValue;
-          }
-        }
-
-        nextSlots[targetIndex] = itemId;
-      } else {
-        const sourceValue = nextSlots[draggedAction.slotIndex] ?? null;
-        const targetValue = nextSlots[targetIndex] ?? null;
-
-        if (sourceValue === null && targetValue === null) {
-          return currentLayouts;
-        }
-
-        nextSlots[draggedAction.slotIndex] = targetValue;
-        nextSlots[targetIndex] = sourceValue;
-      }
-
-      return {
-        ...currentLayouts,
-        [targetSectionId]: nextSlots,
-      };
-    });
-  };
-
-  const handleTileDragStart = (event, item, sectionId, slotIndex) => {
-    setDraggedAction({
-      source: "bar",
-      sectionId,
-      slotIndex,
-      itemId: item.id,
-    });
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", item.id);
-  };
-
-  const handleTileDragEnd = () => {
-    setDraggedAction(null);
-    setDropTarget(null);
-  };
-
-  const handleTileDragOver = (sectionId, slotIndex) => {
-    setDropTarget({ sectionId, slotIndex });
-  };
-
-  const handleTileDrop = (sectionId, slotIndex) => {
-    handleActionDrop(sectionId, slotIndex);
-    setDropTarget(null);
   };
 
   const renderTilesForSection = (sectionId) => {
@@ -741,102 +333,11 @@ const V2ActionsPanel = () => {
     });
   };
 
-  const renderSpellbookIcons = (actions, options = {}) => {
-    const { onSpellClick, preparedSet, isCapReached } = options;
-
-    if (!actions.length) {
-      return (
-        <span className="v2-spellbook-row-empty">No spells in this group.</span>
-      );
-    }
-
-    return actions.map((action) => {
-      const isPrepared = preparedSet?.has(action.id) ?? false;
-      const isClickable = typeof onSpellClick === "function";
-      const isAddDisabled = isClickable && !isPrepared && isCapReached;
-      const className = [
-        "v2-spellbook-icon",
-        isClickable ? "is-clickable" : "",
-        isPrepared ? "is-prepared" : "",
-        isAddDisabled ? "is-cap-reached" : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-      const titleSuffix = isClickable
-        ? isPrepared
-          ? " — click to unprepare"
-          : isAddDisabled
-            ? " — prepared limit reached"
-            : " — click to prepare"
-        : "";
-
-      const iconButton = (
-        <button
-          type="button"
-          className={className}
-          title={`${action.name} (${action.tier})${titleSuffix}`}
-          draggable
-          onDragStart={(event) => handleSpellbookDragStart(event, action)}
-          onDragEnd={handleSpellbookDragEnd}
-          onClick={
-            isClickable
-              ? () => {
-                  if (isAddDisabled) {
-                    return;
-                  }
-                  onSpellClick(action);
-                }
-              : undefined
-          }
-        >
-          {action.icon ? (
-            <img src={action.icon} alt="" draggable={false} />
-          ) : (
-            <span className="v2-spellbook-icon-text">
-              {action.fallbackIconText ?? action.short}
-            </span>
-          )}
-        </button>
-      );
-
-      return (
-        <SpellHoverPopup
-          key={action.id}
-          spell={action}
-          positionPreference="vertical"
-        >
-          {iconButton}
-        </SpellHoverPopup>
-      );
+  const { renderSpellbookIcons, renderMetamagicSpellbookIcons } =
+    useSpellbookIconRenderers({
+      onDragStart: handleSpellbookDragStart,
+      onDragEnd: handleSpellbookDragEnd,
     });
-  };
-
-  const renderMetamagicSpellbookIcons = (options) => {
-    if (!options.length) {
-      return (
-        <span className="v2-spellbook-row-empty">
-          No metamagic available.
-        </span>
-      );
-    }
-
-    return options.map((option) => (
-      <MetamagicHoverPopup
-        key={option.id}
-        metamagic={option}
-        positionPreference="vertical"
-      >
-        <button
-          type="button"
-          className="v2-spellbook-icon v2-spellbook-icon-metamagic"
-          title={option.name}
-          aria-label={option.name}
-        >
-          <img src={option.icon} alt="" draggable={false} />
-        </button>
-      </MetamagicHoverPopup>
-    ));
-  };
 
   return (
     <article className="v2-overview-panel v2-actions-panel">
