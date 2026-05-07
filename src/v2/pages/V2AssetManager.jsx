@@ -1,98 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "../styles/pages/v2-asset-manager.scss";
-
-const CATEGORY_OPTIONS = [
-  { value: "common", label: "Common" },
-  { value: "paladin", label: "Paladin" },
-  { value: "items", label: "Items" },
-  { value: "passives", label: "Passives" },
-  { value: "custom", label: "Custom" },
-];
-
-const SECTION_OPTIONS = [
-  { value: "mobility", label: "Mobility" },
-  { value: "offense", label: "Offense" },
-  { value: "support", label: "Support" },
-];
-
-const KIND_OPTIONS = [
-  { value: "action", label: "Action" },
-  { value: "bonus", label: "Bonus" },
-  { value: "reaction", label: "Reaction" },
-  { value: "utility", label: "Utility" },
-];
-
-const TIER_OPTIONS = [
-  { value: "C", label: "C" },
-  { value: "I", label: "I" },
-  { value: "II", label: "II" },
-  { value: "III", label: "III" },
-  { value: "IV", label: "IV" },
-  { value: "V", label: "V" },
-];
-
-const TONE_OPTIONS = [
-  { value: "steel", label: "Steel" },
-  { value: "red", label: "Red" },
-  { value: "gold", label: "Gold" },
-  { value: "blue", label: "Blue" },
-  { value: "purple", label: "Purple" },
-  { value: "green", label: "Green" },
-  { value: "neutral", label: "Neutral" },
-];
-
-const ICON_GROUP_OPTIONS = [
-  { value: "common", label: "Common" },
-  { value: "weapons", label: "Weapons" },
-  { value: "spells", label: "Spells" },
-  { value: "items", label: "Items" },
-  { value: "passives", label: "Passives" },
-  { value: "custom", label: "Custom" },
-];
-
-const CATEGORY_TO_GROUP = {
-  common: "common",
-  paladin: "spells",
-  items: "items",
-  passives: "passives",
-  custom: "custom",
-};
-
-const createBlankAbility = () => ({
-  id: "",
-  name: "",
-  short: "",
-  category: "common",
-  section: "offense",
-  kind: "action",
-  tier: "I",
-  tone: "steel",
-  keybind: "",
-  icon: "",
-});
-
-const toAbilityId = (name) =>
-  name
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-const readApiErrorMessage = async (response) => {
-  try {
-    const payload = await response.json();
-
-    if (payload && typeof payload.message === "string") {
-      return payload.message;
-    }
-  } catch {
-    // fall through to default message
-  }
-
-  return `Request failed with status ${response.status}.`;
-};
+import {
+  CATEGORY_TO_GROUP,
+  createBlankAbility,
+  readApiErrorMessage,
+  toAbilityId,
+} from "./assetManager/constants";
+import IconUploadCard from "./assetManager/IconUploadCard";
+import AbilityEntryForm from "./assetManager/AbilityEntryForm";
+import ManifestTable from "./assetManager/ManifestTable";
 
 const V2AssetManager = () => {
   const [manifest, setManifest] = useState({ version: 1, abilities: [] });
@@ -249,9 +165,7 @@ const V2AssetManager = () => {
       setStatusMessage({
         type: "error",
         text:
-          error instanceof Error
-            ? error.message
-            : "Upload failed unexpectedly.",
+          error instanceof Error ? error.message : "Upload failed unexpectedly.",
       });
     } finally {
       setIsUploading(false);
@@ -265,9 +179,7 @@ const V2AssetManager = () => {
     try {
       const response = await fetch("/api/asset-manager/abilities", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...abilityForm,
           id: toAbilityId(abilityForm.id || abilityForm.name),
@@ -327,270 +239,27 @@ const V2AssetManager = () => {
   return (
     <section className="v2-page v2-asset-manager-page">
       <div className="v2-asset-manager-grid">
-        <article className="v2-asset-manager-card">
-          <header>
-            <h2>Icon Upload</h2>
-            <p>Drop icons into `src/assets/actions/*` through the local API.</p>
-          </header>
+        <IconUploadCard
+          uploadGroup={uploadGroup}
+          onChangeUploadGroup={setUploadGroup}
+          onChangeFiles={setUploadFiles}
+          onSubmit={handleUploadSubmit}
+          isUploading={isUploading}
+        />
 
-          <form className="v2-asset-manager-form" onSubmit={handleUploadSubmit}>
-            <label>
-              Icon Group
-              <select
-                value={uploadGroup}
-                onChange={(event) => setUploadGroup(event.target.value)}
-              >
-                {ICON_GROUP_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+        <AbilityEntryForm
+          abilityForm={abilityForm}
+          onUpdateField={updateAbilityForm}
+          onSubmit={handleAbilitySubmit}
+          isSaving={isSavingAbility}
+          iconOptions={iconOptionsForCategory}
+        />
 
-            <label>
-              Files
-              <input
-                type="file"
-                accept=".webp,.png,.jpg,.jpeg"
-                multiple
-                onChange={(event) => {
-                  const nextFiles = event.target.files
-                    ? Array.from(event.target.files)
-                    : [];
-                  setUploadFiles(nextFiles);
-                }}
-              />
-            </label>
-
-            <button type="submit" disabled={isUploading}>
-              {isUploading ? "Uploading..." : "Upload Icons"}
-            </button>
-          </form>
-        </article>
-
-        <article className="v2-asset-manager-card">
-          <header>
-            <h2>Ability Entry</h2>
-            <p>
-              Create or update an ability in
-              `src/v2/data/actions-manifest.json`.
-            </p>
-          </header>
-
-          <form
-            className="v2-asset-manager-form"
-            onSubmit={handleAbilitySubmit}
-          >
-            <label>
-              Name
-              <input
-                type="text"
-                value={abilityForm.name}
-                onChange={(event) =>
-                  updateAbilityForm("name", event.target.value)
-                }
-                placeholder="Divine Smite"
-                required
-              />
-            </label>
-
-            <label>
-              ID
-              <input
-                type="text"
-                value={abilityForm.id}
-                onChange={(event) =>
-                  updateAbilityForm("id", event.target.value)
-                }
-                placeholder="divine-smite"
-              />
-            </label>
-
-            <div className="v2-asset-manager-form-row">
-              <label>
-                Short
-                <input
-                  type="text"
-                  value={abilityForm.short}
-                  onChange={(event) =>
-                    updateAbilityForm("short", event.target.value.toUpperCase())
-                  }
-                  placeholder="SM"
-                  maxLength={4}
-                  required
-                />
-              </label>
-
-              <label>
-                Keybind
-                <input
-                  type="text"
-                  value={abilityForm.keybind}
-                  onChange={(event) =>
-                    updateAbilityForm(
-                      "keybind",
-                      event.target.value.toUpperCase(),
-                    )
-                  }
-                  placeholder="Z"
-                  maxLength={4}
-                />
-              </label>
-            </div>
-
-            <div className="v2-asset-manager-form-row">
-              <label>
-                Category
-                <select
-                  value={abilityForm.category}
-                  onChange={(event) =>
-                    updateAbilityForm("category", event.target.value)
-                  }
-                >
-                  {CATEGORY_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Section
-                <select
-                  value={abilityForm.section}
-                  onChange={(event) =>
-                    updateAbilityForm("section", event.target.value)
-                  }
-                >
-                  {SECTION_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="v2-asset-manager-form-row v2-asset-manager-form-row-three">
-              <label>
-                Kind
-                <select
-                  value={abilityForm.kind}
-                  onChange={(event) =>
-                    updateAbilityForm("kind", event.target.value)
-                  }
-                >
-                  {KIND_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Tier
-                <select
-                  value={abilityForm.tier}
-                  onChange={(event) =>
-                    updateAbilityForm("tier", event.target.value)
-                  }
-                >
-                  {TIER_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Tone
-                <select
-                  value={abilityForm.tone}
-                  onChange={(event) =>
-                    updateAbilityForm("tone", event.target.value)
-                  }
-                >
-                  {TONE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <label>
-              Icon Key
-              <input
-                type="text"
-                list="v2-asset-manager-icon-keys"
-                value={abilityForm.icon}
-                onChange={(event) =>
-                  updateAbilityForm("icon", event.target.value)
-                }
-                placeholder="spells/Divine_Smite_Unfaded_Icon.webp"
-              />
-              <datalist id="v2-asset-manager-icon-keys">
-                {iconOptionsForCategory.map((iconKey) => (
-                  <option key={iconKey} value={iconKey} />
-                ))}
-              </datalist>
-              <small className="v2-asset-manager-form-hint">
-                Optional. Paladin spells without an icon automatically show
-                initials in the action tile.
-              </small>
-            </label>
-
-            <button type="submit" disabled={isSavingAbility}>
-              {isSavingAbility ? "Saving..." : "Save Ability"}
-            </button>
-          </form>
-        </article>
-
-        <article className="v2-asset-manager-card v2-asset-manager-library-card">
-          <header>
-            <h2>Current Manifest</h2>
-            <p>
-              Version {manifest.version} • {manifest.abilities.length} ability
-              {manifest.abilities.length === 1 ? "" : "ies"}
-            </p>
-          </header>
-
-          {isLoading ? (
-            <p className="v2-asset-manager-empty">
-              Loading asset manager data...
-            </p>
-          ) : (
-            <div className="v2-asset-manager-table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Section</th>
-                    <th>Icon</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedAbilities.map((ability) => (
-                    <tr key={ability.id}>
-                      <td>{ability.id}</td>
-                      <td>{ability.name}</td>
-                      <td>{ability.category}</td>
-                      <td>{ability.section}</td>
-                      <td>{ability.icon ?? "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </article>
+        <ManifestTable
+          manifest={manifest}
+          sortedAbilities={sortedAbilities}
+          isLoading={isLoading}
+        />
 
         <aside
           className={
