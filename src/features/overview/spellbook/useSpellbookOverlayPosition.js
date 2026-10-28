@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { clamp } from "./sectionLayout";
+import { clamp } from "../actions/sectionLayout";
 import { SPELLBOOK_VIEWPORT_MARGIN } from "./spellbookConfig";
 
 // Owns the SpellbookOverlay's drag-to-reposition state. Returns the

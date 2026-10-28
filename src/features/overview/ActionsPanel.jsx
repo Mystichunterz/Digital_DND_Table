@@ -20,7 +20,7 @@ import {
   isActionLockedForPreparation,
   sanitizePreparedLimitsByClass,
   sanitizePreparedSpellIds,
-} from "./actions/preparedSpells";
+} from "./spellbook/preparedSpells";
 import {
   CATEGORY_TABS,
   DEFAULT_SECTION_COLUMNS,
@@ -39,16 +39,16 @@ import ActionsLayoutControls from "./actions/ActionsLayoutControls";
 // (and never on the Overview boot path). Code-split it so its
 // metamagic icon imports + SpellbookRow popup tree don't sit on
 // the initial chunk.
-const SpellbookOverlay = lazy(() => import("./actions/SpellbookOverlay"));
+const SpellbookOverlay = lazy(() => import("./spellbook/SpellbookOverlay"));
 import { ActionTile, EmptyActionTile } from "./actions/ActionTile";
 import { useDividerDrag } from "./actions/useDividerDrag";
-import { useSpellbookOverlayPosition } from "./actions/useSpellbookOverlayPosition";
+import { useSpellbookOverlayPosition } from "./spellbook/useSpellbookOverlayPosition";
 import { useActionResources } from "./actions/useActionResources";
-import { useSpellbookIconRenderers } from "./actions/useSpellbookIconRenderers";
-import { useSpellbookData } from "./actions/useSpellbookData";
+import { useSpellbookIconRenderers } from "./spellbook/useSpellbookIconRenderers";
+import { useSpellbookData } from "./spellbook/useSpellbookData";
 import { useActionDragDrop } from "./actions/useActionDragDrop";
 import { useLayoutTransfer } from "./actions/useLayoutTransfer";
-import { usePreparedSpellsState } from "./actions/usePreparedSpellsState";
+import { usePreparedSpellsState } from "./spellbook/usePreparedSpellsState";
 import { useActionsPersistence } from "./actions/useActionsPersistence";
 import { useRollToast } from "./actions/useRollToast";
 import { useActionsCatalog } from "./actions/useActionsCatalog";

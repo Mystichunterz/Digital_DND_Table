@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import SpellHoverPopup from "@/components/popups/SpellHoverPopup";
 import { canAffordAction, isSpellAction } from "./resources";
-import { isActionLockedForPreparation } from "./preparedSpells";
+import { isActionLockedForPreparation } from "../spellbook/preparedSpells";
 
 const LockOverlay = () => (
   <span className="action-lock-overlay" aria-hidden="true">

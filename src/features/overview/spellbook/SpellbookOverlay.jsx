@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import SpellbookRow from "./SpellbookRow";
 import { getTabById } from "@/data/character/spellbookTabs";
 import { SPELLBOOK_TABS } from "./spellbookConfig";
-import { METAMAGIC_OPTIONS } from "./metamagicOptions";
+import { METAMAGIC_OPTIONS } from "../actions/metamagicOptions";
 import { PREPARED_TOGGLE_ROW_KEYS } from "./preparedSpells";
 import SpellSlotIcon from "@/assets/resources/spell_slot.png";
 
