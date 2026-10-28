@@ -87,11 +87,7 @@ const DamageBreakdownPopup = ({ anchorRef, rawRows, tokenValues }) => {
         <span className="spell-damage-breakdown-label">Damage Roll: </span>
         {terms.map((term, index) => {
           const leading =
-            index === 0
-              ? term.sign === "-"
-                ? "- "
-                : ""
-              : ` ${term.sign} `;
+            index === 0 ? (term.sign === "-" ? "- " : "") : ` ${term.sign} `;
 
           if (term.kind === "dice") {
             return (

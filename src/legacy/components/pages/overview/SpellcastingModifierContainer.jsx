@@ -23,7 +23,11 @@ const SpellcastingModifierContainer = () => {
       </div>
 
       <div className="spell-save-dc">
-        <img className="spell-save-icon" src={Spell_Save_Icon} alt="Spell Save" />
+        <img
+          className="spell-save-icon"
+          src={Spell_Save_Icon}
+          alt="Spell Save"
+        />
         13
       </div>
 

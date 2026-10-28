@@ -199,7 +199,9 @@
   border-radius: 6px;
   background: rgba(20, 16, 13, 0.55);
   cursor: help;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-companion-attack:hover {
@@ -232,7 +234,9 @@
   color: var(--v2-overview-highlight);
   font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
   cursor: help;
-  transition: border-color 160ms ease, color 160ms ease;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease;
 }
 
 .v2-companion-trait:hover {
@@ -246,4 +250,3 @@
   color: var(--v2-overview-muted);
   font-style: italic;
 }
-

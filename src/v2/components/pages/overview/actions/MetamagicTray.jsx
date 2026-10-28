@@ -1,14 +1,8 @@
 import MetamagicHoverPopup from "../../../popups/MetamagicHoverPopup";
-import {
-  METAMAGIC_OPTIONS,
-  METAMAGIC_SLOT_COUNT,
-} from "./metamagicOptions";
+import { METAMAGIC_OPTIONS, METAMAGIC_SLOT_COUNT } from "./metamagicOptions";
 
 const MetamagicTray = () => (
-  <aside
-    className="v2-actions-metamagic-rail"
-    aria-label="Metamagic options"
-  >
+  <aside className="v2-actions-metamagic-rail" aria-label="Metamagic options">
     {Array.from({ length: METAMAGIC_SLOT_COUNT }).map((_, slotIndex) => {
       const option = METAMAGIC_OPTIONS[slotIndex];
 

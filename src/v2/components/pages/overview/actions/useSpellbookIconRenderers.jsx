@@ -81,9 +81,7 @@ export const useSpellbookIconRenderers = ({ onDragStart, onDragEnd }) => {
   const renderMetamagicSpellbookIcons = useCallback((options) => {
     if (!options.length) {
       return (
-        <span className="v2-spellbook-row-empty">
-          No metamagic available.
-        </span>
+        <span className="v2-spellbook-row-empty">No metamagic available.</span>
       );
     }
 

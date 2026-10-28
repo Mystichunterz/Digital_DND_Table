@@ -13,13 +13,13 @@ const V2Journal = () => {
   );
 
   const selectedNote = state.selectedId
-    ? state.byId[state.selectedId] ?? null
+    ? (state.byId[state.selectedId] ?? null)
     : null;
   const selectedStatus = state.selectedId
-    ? state.status[state.selectedId] ?? "idle"
+    ? (state.status[state.selectedId] ?? "idle")
     : "idle";
   const selectedError = state.selectedId
-    ? state.errors[state.selectedId] ?? null
+    ? (state.errors[state.selectedId] ?? null)
     : null;
 
   return (

@@ -1,4 +1,3 @@
-
 .v2-personality-panel {
   min-height: 0;
   overflow-y: auto;
@@ -89,7 +88,9 @@
   overflow: hidden;
   white-space: pre-wrap;
   word-break: break-word;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-personality-item-input:hover {
@@ -111,7 +112,9 @@
   font-size: 1rem;
   line-height: 1;
   opacity: 0;
-  transition: color 160ms ease, opacity 160ms ease;
+  transition:
+    color 160ms ease,
+    opacity 160ms ease;
 }
 
 .v2-personality-card ul li:hover .v2-personality-item-remove,
@@ -132,7 +135,9 @@
   padding: 0.2rem 0.7rem;
   font-size: clamp(0.72rem, 0.08vw + 0.66rem, 0.8rem);
   letter-spacing: 0.04em;
-  transition: color 160ms ease, border-color 160ms ease;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
 }
 
 .v2-personality-add:hover {
@@ -153,7 +158,9 @@
   border-radius: 4px;
   background: transparent;
   padding: 0.15rem 0.3rem;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-personality-note-input::placeholder {
@@ -170,4 +177,3 @@
   border-color: var(--color-accent-gold);
   background: rgba(20, 16, 13, 0.5);
 }
-

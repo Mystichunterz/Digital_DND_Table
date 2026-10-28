@@ -16,9 +16,7 @@ const AbilityEntryForm = ({
   <article className="v2-asset-manager-card">
     <header>
       <h2>Ability Entry</h2>
-      <p>
-        Create or update an ability in `src/v2/data/actions-manifest.json`.
-      </p>
+      <p>Create or update an ability in `src/v2/data/actions-manifest.json`.</p>
     </header>
 
     <form className="v2-asset-manager-form" onSubmit={onSubmit}>

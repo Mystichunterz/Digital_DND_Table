@@ -22,7 +22,9 @@ describe("V2ActionsPanel — smoke", () => {
     ).toBeTruthy();
 
     // Filter tabs (the OptionTabStrip extraction)
-    expect(screen.getByRole("tablist", { name: /Action filters/i })).toBeTruthy();
+    expect(
+      screen.getByRole("tablist", { name: /Action filters/i }),
+    ).toBeTruthy();
 
     // Category tabs (the second OptionTabStrip)
     expect(
@@ -36,8 +38,12 @@ describe("V2ActionsPanel — smoke", () => {
 
     // Layout controls (the ActionsLayoutControls extraction)
     expect(screen.getByRole("button", { name: /^Spellbook$/ })).toBeTruthy();
-    expect(screen.getByRole("button", { name: /^Export Layout$/ })).toBeTruthy();
-    expect(screen.getByRole("button", { name: /^Import Layout$/ })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /^Export Layout$/ }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /^Import Layout$/ }),
+    ).toBeTruthy();
   });
 
   it("opens the SpellbookOverlay when the Spellbook button is clicked", async () => {

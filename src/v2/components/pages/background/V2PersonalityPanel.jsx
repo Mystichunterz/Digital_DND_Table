@@ -37,7 +37,8 @@ const sanitizePersonality = (incoming) => {
     const items = Array.isArray(match.items)
       ? match.items.filter((value) => typeof value === "string")
       : [...group.items];
-    const note = typeof match.note === "string" ? match.note : group.note ?? "";
+    const note =
+      typeof match.note === "string" ? match.note : (group.note ?? "");
     return { key: group.key, label: group.label, items, note };
   });
 };
@@ -95,7 +96,9 @@ const V2PersonalityPanel = () => {
     setGroups((prev) =>
       prev.map((group) => {
         if (group.key !== groupKey) return group;
-        const items = group.items.map((item, i) => (i === index ? value : item));
+        const items = group.items.map((item, i) =>
+          i === index ? value : item,
+        );
         return { ...group, items };
       }),
     );

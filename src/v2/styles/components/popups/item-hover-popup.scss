@@ -9,11 +9,21 @@ body.v2-active {
     color: #e9dbc2;
   }
 
-  .item-hover-popup.is-rarity-common { --item-rarity: #d9c8a8; }
-  .item-hover-popup.is-rarity-uncommon { --item-rarity: #7fc380; }
-  .item-hover-popup.is-rarity-rare { --item-rarity: #5ca6e6; }
-  .item-hover-popup.is-rarity-very-rare { --item-rarity: #b78cff; }
-  .item-hover-popup.is-rarity-legendary { --item-rarity: #ff8a3a; }
+  .item-hover-popup.is-rarity-common {
+    --item-rarity: #d9c8a8;
+  }
+  .item-hover-popup.is-rarity-uncommon {
+    --item-rarity: #7fc380;
+  }
+  .item-hover-popup.is-rarity-rare {
+    --item-rarity: #5ca6e6;
+  }
+  .item-hover-popup.is-rarity-very-rare {
+    --item-rarity: #b78cff;
+  }
+  .item-hover-popup.is-rarity-legendary {
+    --item-rarity: #ff8a3a;
+  }
 
   .item-hover-popup-art {
     position: absolute;

@@ -1,4 +1,3 @@
-
 .v2-health-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -14,7 +13,9 @@
   border-radius: 999px;
   background: rgba(20, 16, 13, 0.62);
   padding: 0.28rem 0.7rem 0.28rem 0.85rem;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
   cursor: text;
 }
 
@@ -92,7 +93,9 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .v2-health-stepper-symbol {
@@ -239,7 +242,9 @@
 .v2-health-bar-fill {
   height: 100%;
   border-radius: inherit;
-  transition: width 220ms ease, background-color 220ms ease;
+  transition:
+    width 220ms ease,
+    background-color 220ms ease;
   background: var(--gradient-status-success);
 
   .v2-health-bar.tone-wounded & {
@@ -309,20 +314,21 @@
   border: 1px solid rgba(122, 90, 62, 0.75);
   border-radius: 10px;
   background: rgba(18, 14, 12, 0.78);
-  padding: clamp(0.45rem, 0.7vw, 0.65rem)
-    clamp(0.55rem, 0.8vw, 0.75rem);
+  padding: clamp(0.45rem, 0.7vw, 0.65rem) clamp(0.55rem, 0.8vw, 0.75rem);
   display: grid;
   gap: 0.35rem;
 
   &.is-stabilized {
     border-color: rgba(108, 229, 186, 0.55);
-    box-shadow: 0 0 0 1px rgba(108, 229, 186, 0.25),
+    box-shadow:
+      0 0 0 1px rgba(108, 229, 186, 0.25),
       inset 0 0 14px rgba(108, 229, 186, 0.12);
   }
 
   &.is-dead {
     border-color: rgba(231, 115, 115, 0.6);
-    box-shadow: 0 0 0 1px rgba(231, 115, 115, 0.25),
+    box-shadow:
+      0 0 0 1px rgba(231, 115, 115, 0.25),
       inset 0 0 14px rgba(231, 115, 115, 0.16);
   }
 }
@@ -395,7 +401,9 @@
   border: 1.5px solid rgba(160, 130, 95, 0.85);
   background: rgba(14, 10, 9, 0.85);
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease,
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
     transform 120ms ease;
   padding: 0;
 }

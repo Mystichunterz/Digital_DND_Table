@@ -51,7 +51,10 @@
   text-transform: uppercase;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-moodboard-action:hover:not(:disabled) {
@@ -156,7 +159,9 @@
   color: var(--v2-overview-highlight);
   text-align: left;
   cursor: pointer;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-moodboard-snapshot-load:hover,
@@ -194,7 +199,9 @@
   font-size: 1rem;
   line-height: 1;
   cursor: pointer;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-moodboard-snapshot-delete:hover {
@@ -224,7 +231,10 @@
   color: var(--v2-overview-highlight);
   font-size: 1.25rem;
   cursor: pointer;
-  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
 }
 
 .v2-moodboard-sticker-pick:hover {
@@ -239,8 +249,7 @@
   min-height: 0;
   border: 1px dashed rgba(122, 90, 62, 0.55);
   border-radius: 10px;
-  background:
-    radial-gradient(
+  background: radial-gradient(
       circle at 1px 1px,
       rgba(122, 90, 62, 0.18) 1px,
       transparent 1px
@@ -393,7 +402,9 @@
   font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .v2-moodboard-item-controls button:hover {
@@ -430,7 +441,9 @@
   background: rgba(15, 11, 8, 0.92);
   cursor: nwse-resize;
   padding: 0;
-  transition: background 160ms ease, border-color 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
 }
 
 .v2-moodboard-item:hover .v2-moodboard-resize-handle,

@@ -210,7 +210,10 @@ export const useJournal = () => {
 
         clearTimer(savingDelayTimerRef, id);
 
-        const stillDirty = isDirty(localByIdRef.current[id], syncedRef.current[id]);
+        const stillDirty = isDirty(
+          localByIdRef.current[id],
+          syncedRef.current[id],
+        );
         if (stillDirty) {
           setStatusWithFade(id, "dirty");
           clearTimer(debounceTimerRef, id);
@@ -353,30 +356,27 @@ export const useJournal = () => {
     }
   }, []);
 
-  const remove = useCallback(
-    async (id) => {
-      const note = stateRef.current.byId[id];
-      if (!note) return false;
-      const confirmed = window.confirm(
-        `Delete "${note.title || "Untitled"}"? This cannot be undone.`,
-      );
-      if (!confirmed) return false;
-      clearTimer(debounceTimerRef, id);
-      clearTimer(savingDelayTimerRef, id);
-      clearTimer(savedFadeTimerRef, id);
-      try {
-        await apiDelete(id);
-        delete syncedRef.current[id];
-        delete localByIdRef.current[id];
-        dispatch({ type: "noteDeleted", id });
-        return true;
-      } catch (err) {
-        dispatch({ type: "globalError", message: err.message });
-        return false;
-      }
-    },
-    [],
-  );
+  const remove = useCallback(async (id) => {
+    const note = stateRef.current.byId[id];
+    if (!note) return false;
+    const confirmed = window.confirm(
+      `Delete "${note.title || "Untitled"}"? This cannot be undone.`,
+    );
+    if (!confirmed) return false;
+    clearTimer(debounceTimerRef, id);
+    clearTimer(savingDelayTimerRef, id);
+    clearTimer(savedFadeTimerRef, id);
+    try {
+      await apiDelete(id);
+      delete syncedRef.current[id];
+      delete localByIdRef.current[id];
+      dispatch({ type: "noteDeleted", id });
+      return true;
+    } catch (err) {
+      dispatch({ type: "globalError", message: err.message });
+      return false;
+    }
+  }, []);
 
   const retry = useCallback(
     (id) => {

@@ -16,13 +16,13 @@ describe("V2MoodboardPanel — smoke", () => {
   it("renders the toolbar, sticker palette, and the empty-state hint", () => {
     renderWithProviders(<V2MoodboardPanel />);
 
-    expect(
-      screen.getByRole("heading", { name: /Moodboard/i }),
-    ).toBeTruthy();
+    expect(screen.getByRole("heading", { name: /Moodboard/i })).toBeTruthy();
 
     // Toolbar buttons
     expect(screen.getByRole("button", { name: /^Add Image$/ })).toBeTruthy();
-    expect(screen.getByRole("button", { name: /^Save Snapshot$/ })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /^Save Snapshot$/ }),
+    ).toBeTruthy();
     expect(screen.getByRole("button", { name: /^Load…/ })).toBeTruthy();
     expect(screen.getByRole("button", { name: /^Clear$/ })).toBeTruthy();
 
@@ -36,10 +36,14 @@ describe("V2MoodboardPanel — smoke", () => {
   it("opens the SnapshotMenu list when Load… is clicked", () => {
     renderWithProviders(<V2MoodboardPanel />);
 
-    expect(screen.queryByRole("listbox", { name: /Past snapshots/i })).toBeNull();
+    expect(
+      screen.queryByRole("listbox", { name: /Past snapshots/i }),
+    ).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: /^Load…/ }));
 
-    expect(screen.getByRole("listbox", { name: /Past snapshots/i })).toBeTruthy();
+    expect(
+      screen.getByRole("listbox", { name: /Past snapshots/i }),
+    ).toBeTruthy();
   });
 });

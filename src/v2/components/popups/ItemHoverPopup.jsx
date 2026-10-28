@@ -39,8 +39,7 @@ const ItemHoverPopup = ({
   const properties = Array.isArray(item.properties) ? item.properties : [];
   const notes = Array.isArray(item.notes) ? item.notes : [];
 
-  const showFooterMeta =
-    item.weight !== undefined || item.value !== undefined;
+  const showFooterMeta = item.weight !== undefined || item.value !== undefined;
   const showFooterTags = item.actionType || item.useType;
 
   return (
@@ -67,7 +66,10 @@ const ItemHoverPopup = ({
           <p className="item-hover-popup-subtitle">{subtitle}</p>
           {equippedBy && (
             <p className="item-hover-popup-equipped">
-              <span className="item-hover-popup-equipped-bullet" aria-hidden="true" />
+              <span
+                className="item-hover-popup-equipped-bullet"
+                aria-hidden="true"
+              />
               Equipped by {equippedBy}
             </p>
           )}

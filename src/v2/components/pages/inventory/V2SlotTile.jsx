@@ -23,7 +23,7 @@ const V2SlotTile = ({
   const tileRef = useRef(null);
 
   const sizeClass = size ? `is-size-${size}` : "is-size-flex";
-  const rarityClass = item ? RARITY_CLASS[item.rarity] ?? "" : "";
+  const rarityClass = item ? (RARITY_CLASS[item.rarity] ?? "") : "";
   const stateClass = item ? "is-filled" : "is-empty";
 
   return (
@@ -31,7 +31,9 @@ const V2SlotTile = ({
       ref={tileRef}
       className={`v2-slot-tile ${stateClass} ${sizeClass} ${rarityClass}`.trim()}
       role="img"
-      aria-label={ariaLabel ?? (item ? item.name : `Empty ${slotLabel ?? "slot"}`)}
+      aria-label={
+        ariaLabel ?? (item ? item.name : `Empty ${slotLabel ?? "slot"}`)
+      }
       onMouseEnter={() => {
         if (item) setIsHovered(true);
       }}

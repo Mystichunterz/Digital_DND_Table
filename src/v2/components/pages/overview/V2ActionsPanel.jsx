@@ -256,7 +256,12 @@ const V2ActionsPanel = () => {
     }
 
     const kind = pickRollKind(item, event);
-    const command = toAvraeCommand(item, kind, { gwm: isGwmActive }, tokenValues);
+    const command = toAvraeCommand(
+      item,
+      kind,
+      { gwm: isGwmActive },
+      tokenValues,
+    );
 
     if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(command).catch(() => {});

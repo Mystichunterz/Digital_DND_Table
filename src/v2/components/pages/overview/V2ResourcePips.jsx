@@ -278,9 +278,7 @@ const V2ResourcePips = ({
                             <ConfigRow
                               key={`prepared-${classId}`}
                               iconSrc={PreparedSpellsIcon}
-                              label={
-                                preparedClassLabels?.[classId] ?? classId
-                              }
+                              label={preparedClassLabels?.[classId] ?? classId}
                               value={value ?? 0}
                               onChange={(nextValue) =>
                                 onUpdatePreparedLimit?.(classId, nextValue)

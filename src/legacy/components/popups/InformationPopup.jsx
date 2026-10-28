@@ -12,7 +12,14 @@ import "../../styles/components/popups/information-popup.scss";
 //----------------------
 //  main
 //----------------------
-const InformationPopup = ({ icon, title, subtitle, description, children, positionPreference = "vertical" }) => {
+const InformationPopup = ({
+  icon,
+  title,
+  subtitle,
+  description,
+  children,
+  positionPreference = "vertical",
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const triggerRef = useRef(null);
 
@@ -40,15 +47,24 @@ const InformationPopup = ({ icon, title, subtitle, description, children, positi
   }, [isHovered]);
 
   return (
-    <div className="information-popup-wrapper" ref={triggerRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div
+      className="information-popup-wrapper"
+      ref={triggerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {children}
       {isHovered && (
         <Popup triggerRef={triggerRef} positionPreference={positionPreference}>
           <div className="information-popup-content">
             <div className="information-popup-text">
               <h5 className="popup-title">{title}</h5>
-              {subtitle && <p className="popup-subtitle">{renderStyledText(subtitle)}</p>}
-              <p className="popup-description">{renderStyledText(description)}</p>
+              {subtitle && (
+                <p className="popup-subtitle">{renderStyledText(subtitle)}</p>
+              )}
+              <p className="popup-description">
+                {renderStyledText(description)}
+              </p>
             </div>
             {icon && (
               <div className="popup-image-container">

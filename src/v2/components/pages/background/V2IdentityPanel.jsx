@@ -58,14 +58,20 @@ const sanitizeCoins = (incoming) => {
   const incomingByCode = new Map();
   if (Array.isArray(incoming)) {
     for (const entry of incoming) {
-      if (entry && typeof entry === "object" && typeof entry.code === "string") {
+      if (
+        entry &&
+        typeof entry === "object" &&
+        typeof entry.code === "string"
+      ) {
         incomingByCode.set(entry.code, entry);
       }
     }
   }
   return defaultCoinsData.map((coin) => {
     const match = incomingByCode.get(coin.code);
-    const value = match ? Math.max(parseNumberInput(match.value), 0) : coin.value;
+    const value = match
+      ? Math.max(parseNumberInput(match.value), 0)
+      : coin.value;
     return { ...coin, value };
   });
 };
@@ -91,7 +97,9 @@ const formatXp = (value) => value.toLocaleString("en-US");
 
 const V2IdentityPanel = () => {
   const [inspiration, setInspiration] = useState(false);
-  const [persona, setPersona] = useState(() => sanitizePersona(defaultPersonaData));
+  const [persona, setPersona] = useState(() =>
+    sanitizePersona(defaultPersonaData),
+  );
   const [languages, setLanguages] = useState(() => [...defaultLanguagesData]);
   const [coins, setCoins] = useState(() => sanitizeCoins(defaultCoinsData));
   const [attunements, setAttunements] = useState(() =>
@@ -212,9 +220,7 @@ const V2IdentityPanel = () => {
   const handleAttunementChange = (index) => (event) => {
     const raw = event.target.value;
     setAttunements((prev) =>
-      prev.map((slot, i) =>
-        i === index ? { ...slot, item: raw } : slot,
-      ),
+      prev.map((slot, i) => (i === index ? { ...slot, item: raw } : slot)),
     );
   };
 

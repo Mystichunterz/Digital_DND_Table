@@ -85,9 +85,7 @@ export const useMoodboardSnapshots = ({
       await fetchSnapshots();
       setIsMenuOpen(true);
     } catch (caught) {
-      setError(
-        caught instanceof Error ? caught.message : "Snapshot failed.",
-      );
+      setError(caught instanceof Error ? caught.message : "Snapshot failed.");
     } finally {
       setIsCreating(false);
     }

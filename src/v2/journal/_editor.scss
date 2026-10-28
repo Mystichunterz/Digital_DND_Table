@@ -2,8 +2,11 @@
   flex: 1;
   min-height: 0;
   display: flex;
-  background:
-    radial-gradient(circle at top left, rgba(255, 240, 200, 0.06), transparent 60%),
+  background: radial-gradient(
+      circle at top left,
+      rgba(255, 240, 200, 0.06),
+      transparent 60%
+    ),
     var(--gradient-parchment);
   color: var(--color-text-on-parchment);
   overflow: hidden;
@@ -43,7 +46,8 @@
   border: none;
   background: transparent;
   color: var(--color-text-on-parchment);
-  font-family: "Quadraat", "Aldine 721 BT", "Crimson Text", Georgia, "Times New Roman", serif;
+  font-family: "Quadraat", "Aldine 721 BT", "Crimson Text", Georgia,
+    "Times New Roman", serif;
   font-size: 1.05rem;
   line-height: 1.55;
   outline: none;
@@ -57,7 +61,8 @@
 }
 
 .v2-journal-rendered {
-  font-family: "Quadraat", "Aldine 721 BT", "Crimson Text", Georgia, "Times New Roman", serif;
+  font-family: "Quadraat", "Aldine 721 BT", "Crimson Text", Georgia,
+    "Times New Roman", serif;
   font-size: 1.05rem;
   line-height: 1.55;
   color: var(--color-text-on-parchment);
@@ -66,7 +71,12 @@
     margin-top: 0;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: "Cinzel", "Trajan Pro", serif;
     color: #5a3a14;
     border-bottom: 1px solid rgba(var(--color-accent-gold-rgb), 0.55);
@@ -76,10 +86,20 @@
     letter-spacing: 0.03em;
   }
 
-  h1 { font-size: 1.55rem; }
-  h2 { font-size: 1.3rem; }
-  h3 { font-size: 1.12rem; }
-  h4, h5, h6 { font-size: 1rem; }
+  h1 {
+    font-size: 1.55rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1.12rem;
+  }
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
 
   p {
     margin: 0.55rem 0;
@@ -120,7 +140,8 @@
     text-decoration: underline;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding-left: 1.5rem;
     margin: 0.4rem 0;
   }

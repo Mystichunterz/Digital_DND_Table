@@ -13,7 +13,11 @@ export const pickRollKind = (action, event) => {
     return "damage";
   }
 
-  if (event?.shiftKey && !hasRoll(action, "damage") && hasRoll(action, "attack")) {
+  if (
+    event?.shiftKey &&
+    !hasRoll(action, "damage") &&
+    hasRoll(action, "attack")
+  ) {
     return "attack";
   }
 

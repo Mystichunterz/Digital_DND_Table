@@ -88,7 +88,9 @@
   font-weight: inherit;
   text-align: right;
   font-variant-numeric: tabular-nums;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-persona-input:hover {
@@ -152,7 +154,9 @@
   border: 1px solid transparent;
   border-left: 3px solid rgba(212, 175, 55, 0.6);
   font-family: inherit;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-persona-mark-input:hover {
@@ -182,7 +186,10 @@
   text-transform: uppercase;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
 }
 
 .v2-inspiration-toggle img {
@@ -315,7 +322,9 @@
   text-align: center;
   font-variant-numeric: tabular-nums;
   padding: 0.05rem 0.2rem;
-  transition: border-color 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
   -moz-appearance: textfield;
 }
 
@@ -335,11 +344,21 @@
   background: rgba(20, 16, 13, 0.5);
 }
 
-.v2-coins-table td.tone-cp { color: #c89272; }
-.v2-coins-table td.tone-sp { color: #d8d8d8; }
-.v2-coins-table td.tone-ep { color: #b8d4c0; }
-.v2-coins-table td.tone-gp { color: var(--color-accent-gold-light); }
-.v2-coins-table td.tone-pp { color: #d6e8f5; }
+.v2-coins-table td.tone-cp {
+  color: #c89272;
+}
+.v2-coins-table td.tone-sp {
+  color: #d8d8d8;
+}
+.v2-coins-table td.tone-ep {
+  color: #b8d4c0;
+}
+.v2-coins-table td.tone-gp {
+  color: var(--color-accent-gold-light);
+}
+.v2-coins-table td.tone-pp {
+  color: #d6e8f5;
+}
 
 /* ---------- Attunements ---------- */
 

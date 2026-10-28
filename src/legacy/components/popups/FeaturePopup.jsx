@@ -47,7 +47,12 @@ const FeaturePopup = ({ icon, title, subtitle, text, children }) => {
   }, [isHovered]);
 
   return (
-    <div className="feature-popup-wrapper" ref={triggerRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div
+      className="feature-popup-wrapper"
+      ref={triggerRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {children}
       {isHovered && (
         <Popup triggerRef={triggerRef}>

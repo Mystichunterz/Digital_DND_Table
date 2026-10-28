@@ -10,8 +10,7 @@ import {
 export const createId = () =>
   `mb-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-export const clamp = (value, min, max) =>
-  Math.min(Math.max(value, min), max);
+export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 export const sanitizeItem = (raw, fallbackZ) => {
   if (!raw || typeof raw !== "object") return null;

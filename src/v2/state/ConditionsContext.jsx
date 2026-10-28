@@ -1,5 +1,14 @@
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { getCondition, PERMANENT_CONDITION_IDS } from "../data/conditionsCatalog";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import {
+  getCondition,
+  PERMANENT_CONDITION_IDS,
+} from "../data/conditionsCatalog";
 
 const ConditionsContext = createContext(null);
 

@@ -111,8 +111,7 @@ const AbilityScorePopup = ({
                     −
                   </button>
                   <span className="popup-score-base">
-                    Base{" "}
-                    <strong>{baseValue ?? value}</strong>
+                    Base <strong>{baseValue ?? value}</strong>
                     {modifierDelta !== 0 && (
                       <em className="popup-score-delta">
                         {" "}

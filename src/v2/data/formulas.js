@@ -14,7 +14,10 @@ export const TOKEN_LABELS = {
   SPELL_DC: "Spell Save DC",
 };
 
-export const substituteTokens = (formula, tokenValues = DEFAULT_TOKEN_VALUES) => {
+export const substituteTokens = (
+  formula,
+  tokenValues = DEFAULT_TOKEN_VALUES,
+) => {
   if (typeof formula !== "string") {
     return "";
   }
@@ -32,7 +35,10 @@ const TYPED_TERM_PATTERN = /([+-])?\s*(\d*d\d+|\{\w+\}|\d+)/gi;
 // token names. Returns [{ kind: "dice"|"token"|"flat", sign, ... }]. Dice
 // terms have `text` (e.g. "1d10"); token terms have `tokenKey`, `label`, and
 // `value` (substituted from tokenValues); flat terms have `value`.
-export const parseFormulaTerms = (formula, tokenValues = DEFAULT_TOKEN_VALUES) => {
+export const parseFormulaTerms = (
+  formula,
+  tokenValues = DEFAULT_TOKEN_VALUES,
+) => {
   if (typeof formula !== "string" || formula.trim() === "") {
     return [];
   }
