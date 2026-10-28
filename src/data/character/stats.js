@@ -7,11 +7,11 @@ export const BASE_SCORES = {
   CHA: 14,
 };
 
-export const CLASS_LEVEL = 6;
-export const SPELL_CASTING_ABILITY = "CHA";
+const CLASS_LEVEL = 6;
+const SPELL_CASTING_ABILITY = "CHA";
 
-export const abilityModifier = (score) => Math.floor((score - 10) / 2);
-export const proficiencyBonusFor = (level) => Math.floor((level - 1) / 4) + 2;
+const abilityModifier = (score) => Math.floor((score - 10) / 2);
+const proficiencyBonusFor = (level) => Math.floor((level - 1) / 4) + 2;
 
 const ABILITY_KEYS = Object.keys(BASE_SCORES);
 
@@ -49,12 +49,6 @@ export const computeDerived = (baseScores, abilityScoreModifiers = {}) => {
   };
 };
 
-// Back-compat exports computed from default base scores (no condition mods).
-// Live values flow through CharacterStatsContext at runtime.
-const DEFAULTS = computeDerived(BASE_SCORES);
-export const ABILITY_SCORES = BASE_SCORES;
-export const MODIFIERS = DEFAULTS.modifiers;
-export const PROFICIENCY_BONUS = DEFAULTS.proficiencyBonus;
-export const SPELL_ATTACK = DEFAULTS.spellAttack;
-export const SPELL_DC = DEFAULTS.spellDc;
-export const DEFAULT_TOKEN_VALUES = DEFAULTS.tokenValues;
+// Token values from the base scores (no condition mods), used as the
+// formula fallback. Live values flow through CharacterStatsContext.
+export const DEFAULT_TOKEN_VALUES = computeDerived(BASE_SCORES).tokenValues;

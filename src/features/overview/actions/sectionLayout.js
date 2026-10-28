@@ -47,7 +47,7 @@ const LEGACY_LAYOUT_SECTION_IDS = ["mobility", "offense", "support"];
 
 export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-export const buildInitialSectionLayout = (sectionConfig) => {
+const buildInitialSectionLayout = (sectionConfig) => {
   const actions = ACTION_LIBRARY[sectionConfig.categoryId] ?? [];
   const slots = Array(SECTION_SLOT_COUNT).fill(null);
 

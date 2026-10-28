@@ -6,7 +6,7 @@ import { ConditionsProvider } from "@/state/ConditionsContext";
 import { CharacterStatsProvider } from "@/state/CharacterStatsContext";
 import { PersistenceStatusProvider } from "@/state/PersistenceStatusContext";
 
-export const AllProviders = ({ children }) => (
+const AllProviders = ({ children }) => (
   <PersistenceStatusProvider>
     <ConditionsProvider>
       <CharacterStatsProvider>{children}</CharacterStatsProvider>

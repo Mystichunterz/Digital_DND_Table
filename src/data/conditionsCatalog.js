@@ -94,13 +94,6 @@ export const sumAcBonus = (activeConditions) =>
 export const sumExtraActions = (activeConditions) =>
   sumStatic(activeConditions, "extraActions");
 
-export const sumSavingThrowBonus = (activeConditions, context = {}) =>
-  activeConditions.reduce((total, active) => {
-    const condition = CONDITIONS[active.id];
-    const value = evalEffect(condition?.effects?.savingThrowBonus, context);
-    return total + (typeof value === "number" ? value : 0);
-  }, 0);
-
 export const getActiveSavingThrowSources = (activeConditions, context = {}) =>
   activeConditions
     .map((entry) => CONDITIONS[entry.id])

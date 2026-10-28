@@ -1,6 +1,6 @@
 import manifest from "./actions-manifest.json";
 
-export const CATEGORY_IDS = [
+const CATEGORY_IDS = [
   "common",
   "paladin",
   "items",
@@ -115,8 +115,6 @@ export const ACTION_LIBRARY = CATEGORY_IDS.reduce((library, categoryId) => {
   );
   return library;
 }, {});
-
-export const ACTION_MANIFEST_VERSION = manifest?.version ?? 1;
 
 const warmImageCache = (urls) => {
   if (typeof window === "undefined" || typeof Image === "undefined") {
