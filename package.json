@@ -5,16 +5,16 @@
   "description": "BG3-styled D&D companion app: character sheet, action HUD, spellbook, journal and asset manager.",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.12"
   },
   "scripts": {
     "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"vite\"",
     "dev:web": "vite",
-    "dev:api": "node scripts/asset-manager-server.mjs",
+    "dev:api": "node server/index.mjs",
     "build": "vite build",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{js,jsx,scss,css}\" \"scripts/**/*.mjs\"",
-    "format:check": "prettier --check \"src/**/*.{js,jsx,scss,css}\" \"scripts/**/*.mjs\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,scss,css}\" \"server/**/*.mjs\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,scss,css}\" \"server/**/*.mjs\" \"scripts/**/*.mjs\"",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

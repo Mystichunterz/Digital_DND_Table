@@ -3,18 +3,28 @@ import path from "node:path";
 import {
   registerJournalRoutes,
   ensureNotesDirectoryExists,
-} from "./server/journal.mjs";
+} from "./journal.mjs";
 import {
   createAssetManagerStore,
   registerAssetManagerRoutes,
-} from "./server/asset-manager.mjs";
+} from "./asset-manager.mjs";
 import {
   createStateStore,
   registerStateRoutes,
   registerMoodboardSnapshotRoutes,
-} from "./server/state.mjs";
+} from "./state.mjs";
 
-const PORT = Number(process.env.ASSET_MANAGER_PORT ?? 5180);
+// Optional .env in the project root (see .env.example).
+try {
+  process.loadEnvFile();
+} catch {
+  // No .env — defaults apply.
+}
+
+// ASSET_MANAGER_PORT is the variable's pre-rename name.
+const PORT = Number(
+  process.env.API_PORT || process.env.ASSET_MANAGER_PORT || 5180,
+);
 const ROOT_DIR = process.cwd();
 const ACTIONS_MANIFEST_PATH = path.join(
   ROOT_DIR,
@@ -52,5 +62,5 @@ await assetManager.ensureManifestExists();
 await ensureNotesDirectoryExists();
 
 app.listen(PORT, () => {
-  console.log(`[asset-manager-api] listening on http://localhost:${PORT}`);
+  console.log(`[api] listening on http://localhost:${PORT}`);
 });
