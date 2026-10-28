@@ -1,7 +1,7 @@
 {
   "name": "digital_dnd_table",
   "private": true,
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "BG3-styled D&D companion app: character sheet, action HUD, spellbook, journal and asset manager.",
   "type": "module",
   "engines": {

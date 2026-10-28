@@ -3,3 +3,8 @@
 
 # style: Apply Prettier formatting across src and scripts
 c9e73be2000668bbb3c5f02341251247fb6cf4e1
+
+# refactor!: Reorganise src into feature folders and drop the v2 naming
+73f10af1ff017f5365e883955383c5b688f1695b
+# refactor(styles): Drop the body.v2-active scope from sidebar and popup CSS
+8fa3f84c2bebeb79545fb01032012826131008ac
