@@ -1,10 +1,3 @@
-//----------------------
-//  src > data > featuresData.js
-//----------------------
-
-//----------------------
-//  imports
-//----------------------
 import Great_Weapon_Master_All_In from "@/assets/popups/features/120px-Great_Weapon_Master_All_In_Icon.webp.png";
 import Great_Weapon_Master_Bonus_Attack from "@/assets/popups/features/120px-Great_Weapon_Master_Icon.webp.png";
 import Divine_Health_Icon from "@/assets/popups/features/120px-Divine_Health_Icon.png";
@@ -19,9 +12,6 @@ import Aura_of_Protection_Icon from "@/assets/actions/passives/Aura_of_Protectio
 import Curse_Icon from "@/assets/popups/features/120px-Bestow_Curse_Debuff_Ability_Icon.webp.png";
 import Seras_Benevolence_Icon from "@/assets/popups/spells/Bless_Icon.webp";
 
-//----------------------
-//  main
-//----------------------
 const featuresData = [
   {
     icon: Great_Weapon_Master_All_In,
@@ -103,7 +93,4 @@ const featuresData = [
   },
 ];
 
-//----------------------
-//  exports
-//----------------------
 export default featuresData;

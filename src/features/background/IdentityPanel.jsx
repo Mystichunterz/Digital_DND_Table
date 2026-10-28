@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Gold_Star_Icon from "@/assets/layout/left_display/Gold_Star_Icon.png";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 import {
@@ -7,10 +7,9 @@ import {
   languagesData as defaultLanguagesData,
   personaData as defaultPersonaData,
 } from "@/data/character/background";
+import { characterStateUrl } from "@/api/characterState";
 import { usePersistedDebounce } from "@/state/usePersistedDebounce";
-import { useTrackHydration } from "@/state/PersistenceStatusContext";
-
-const PERSISTED_CHARACTER_ID = "default";
+import { useCharacterStateHydration } from "@/state/useCharacterStateHydration";
 
 const personaRows = [
   { label: "Player", key: "playerName" },
@@ -105,63 +104,29 @@ const IdentityPanel = () => {
   const [attunements, setAttunements] = useState(() =>
     sanitizeAttunements(defaultAttunementSlots),
   );
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useCharacterStateHydration((saved) => {
+    if (saved.background && typeof saved.background === "object") {
+      setInspiration(Boolean(saved.background.inspiration));
+    }
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    const hydrate = async () => {
-      try {
-        const response = await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`);
-
-        if (isCancelled || !response.ok) {
-          return;
-        }
-
-        const saved = await response.json();
-
-        if (isCancelled || !saved || typeof saved !== "object") {
-          return;
-        }
-
-        if (saved.background && typeof saved.background === "object") {
-          setInspiration(Boolean(saved.background.inspiration));
-        }
-
-        const identity = saved.identity;
-        if (identity && typeof identity === "object") {
-          setPersona(sanitizePersona(identity.persona));
-          setLanguages(sanitizeLanguages(identity.languages));
-          setCoins(sanitizeCoins(identity.coins));
-          setAttunements(sanitizeAttunements(identity.attunements));
-        }
-      } catch {
-        // Server unavailable — keep defaults.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  useTrackHydration(isHydrated);
+    const identity = saved.identity;
+    if (identity && typeof identity === "object") {
+      setPersona(sanitizePersona(identity.persona));
+      setLanguages(sanitizeLanguages(identity.languages));
+      setCoins(sanitizeCoins(identity.coins));
+      setAttunements(sanitizeAttunements(identity.attunements));
+    }
+  });
 
   usePersistedDebounce({
     enabled: isHydrated,
-    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    url: characterStateUrl(),
     body: { background: { inspiration } },
   });
 
   usePersistedDebounce({
     enabled: isHydrated,
-    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    url: characterStateUrl(),
     body: { identity: { persona, languages, coins, attunements } },
   });
 

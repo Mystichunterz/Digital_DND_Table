@@ -1,7 +1,3 @@
-//----------------------
-//  src > data > abilityScoresData.js
-//----------------------
-
 import Strength_Icon from "@/assets/popups/attributes/Strength_Icon.png";
 import Dexterity_Icon from "@/assets/popups/attributes/Dexterity_Icon.png";
 import Constitution_Icon from "@/assets/popups/attributes/Constitution_Icon.png";
@@ -9,9 +5,6 @@ import Intelligence_Icon from "@/assets/popups/attributes/Intelligence_Icon.png"
 import Wisdom_Icon from "@/assets/popups/attributes/Wisdom_Icon.png";
 import Charisma_Icon from "@/assets/popups/attributes/Charisma_Icon.png";
 
-//----------------------
-//  main
-//----------------------
 const abilityScoresData = [
   {
     icon: Strength_Icon,
@@ -85,7 +78,4 @@ const abilityScoresData = [
     sources: ["**16** Base", "**-2** from Rhea's Divine Punishment"],
   },
 ];
-//----------------------
-//  exports
-//----------------------
 export default abilityScoresData;

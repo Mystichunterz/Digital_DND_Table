@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AutoGrowTextarea from "./AutoGrowTextarea";
 import { personalityData as defaultPersonalityData } from "@/data/character/background";
+import { characterStateUrl } from "@/api/characterState";
 import { usePersistedDebounce } from "@/state/usePersistedDebounce";
-import { useTrackHydration } from "@/state/PersistenceStatusContext";
-
-const PERSISTED_CHARACTER_ID = "default";
+import { useCharacterStateHydration } from "@/state/useCharacterStateHydration";
 
 const cloneDefaults = () =>
   defaultPersonalityData.map((group) => ({
@@ -45,49 +44,15 @@ const sanitizePersonality = (incoming) => {
 
 const PersonalityPanel = () => {
   const [groups, setGroups] = useState(() => cloneDefaults());
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    const hydrate = async () => {
-      try {
-        const response = await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`);
-
-        if (isCancelled || !response.ok) {
-          return;
-        }
-
-        const saved = await response.json();
-
-        if (isCancelled || !saved || typeof saved !== "object") {
-          return;
-        }
-
-        if (saved.personality !== undefined) {
-          setGroups(sanitizePersonality(saved.personality));
-        }
-      } catch {
-        // Server unavailable — keep defaults.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  useTrackHydration(isHydrated);
+  const isHydrated = useCharacterStateHydration((saved) => {
+    if (saved.personality !== undefined) {
+      setGroups(sanitizePersonality(saved.personality));
+    }
+  });
 
   usePersistedDebounce({
     enabled: isHydrated,
-    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    url: characterStateUrl(),
     body: { personality: groups },
   });
 

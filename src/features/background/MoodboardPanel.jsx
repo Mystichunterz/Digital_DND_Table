@@ -12,8 +12,7 @@ import MoodboardItem from "./moodboard/MoodboardItem";
 import { useMoodboardPointerOps } from "./moodboard/useMoodboardPointerOps";
 import { useMoodboardPersistence } from "./moodboard/useMoodboardPersistence";
 import { useMoodboardSnapshots } from "./moodboard/useMoodboardSnapshots";
-
-const PERSISTED_CHARACTER_ID = "default";
+import { CHARACTER_ID } from "@/api/characterState";
 
 const sanitizeMoodboardItems = (raw) => {
   const rawItems = Array.isArray(raw?.items) ? raw.items : [];
@@ -49,7 +48,7 @@ const MoodboardPanel = () => {
   }, []);
 
   const { isHydrated, saveStatus, flushPendingSave } = useMoodboardPersistence({
-    characterId: PERSISTED_CHARACTER_ID,
+    characterId: CHARACTER_ID,
     items,
     onHydrate: applyMoodboardItems,
   });
@@ -67,7 +66,7 @@ const MoodboardPanel = () => {
     loadSnapshot,
     deleteSnapshot,
   } = useMoodboardSnapshots({
-    characterId: PERSISTED_CHARACTER_ID,
+    characterId: CHARACTER_ID,
     flushPendingSave,
     onLoadSnapshot: (payload) => applyMoodboardItems(payload?.moodboard),
   });

@@ -54,8 +54,6 @@ import { useRollToast } from "./actions/useRollToast";
 import { useActionsCatalog } from "./actions/useActionsCatalog";
 import { useEscapeKey } from "./actions/useEscapeKey";
 
-const PERSISTED_CHARACTER_ID = "default";
-
 const ActionsPanel = () => {
   const [activeFilter, setActiveFilter] = useState("all");
   const {
@@ -174,7 +172,6 @@ const ActionsPanel = () => {
   }, []);
 
   useActionsPersistence({
-    characterId: PERSISTED_CHARACTER_ID,
     state: {
       resources,
       resourceMax,

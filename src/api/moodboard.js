@@ -3,9 +3,10 @@
 // non-OK response, so the UI layer can translate to a user-facing
 // status string.
 
-const STATE_BASE = (characterId) => `/api/state/${characterId}`;
+import { characterStateUrl } from "./characterState";
+
 const SNAPSHOTS_BASE = (characterId) =>
-  `${STATE_BASE(characterId)}/moodboard/snapshots`;
+  `${characterStateUrl(characterId)}/moodboard/snapshots`;
 
 const failedResponse = (response, fallbackMessage) => {
   const error = new Error(`${fallbackMessage} (${response.status}).`);
@@ -14,7 +15,7 @@ const failedResponse = (response, fallbackMessage) => {
 };
 
 export const patchMoodboardItems = async (characterId, items) => {
-  await fetch(STATE_BASE(characterId), {
+  await fetch(characterStateUrl(characterId), {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ moodboard: { items } }),

@@ -76,17 +76,3 @@ export const toAbilityId = (name) =>
     .replace(/[^a-z0-9-]/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "");
-
-export const readApiErrorMessage = async (response) => {
-  try {
-    const payload = await response.json();
-
-    if (payload && typeof payload.message === "string") {
-      return payload.message;
-    }
-  } catch {
-    // fall through to default message
-  }
-
-  return `Request failed with status ${response.status}.`;
-};

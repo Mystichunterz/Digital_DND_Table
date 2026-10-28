@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { characterStateUrl } from "@/api/characterState";
 import { usePersistedDebounce } from "@/state/usePersistedDebounce";
-import { useTrackHydration } from "@/state/PersistenceStatusContext";
-
-const PERSISTED_CHARACTER_ID = "default";
+import { useCharacterStateHydration } from "@/state/useCharacterStateHydration";
 
 const DEFAULT_HEALTH = {
   currentHp: 61,
@@ -56,53 +55,19 @@ const HealthPanel = () => {
   const [deathSaves, setDeathSaves] = useState(() => ({
     ...DEFAULT_HEALTH.deathSaves,
   }));
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useCharacterStateHydration((saved) => {
+    const health = sanitizeHealth(saved.health);
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    const hydrate = async () => {
-      try {
-        const response = await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`);
-
-        if (isCancelled || !response.ok) {
-          return;
-        }
-
-        const saved = await response.json();
-
-        if (isCancelled || !saved || typeof saved !== "object") {
-          return;
-        }
-
-        const health = sanitizeHealth(saved.health);
-
-        setCurrentHp(health.currentHp);
-        setMaxHp(health.maxHp);
-        setTempHp(health.tempHp);
-        setAdjustment(health.adjustment);
-        setDeathSaves(health.deathSaves);
-      } catch {
-        // Server unavailable — keep defaults.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  useTrackHydration(isHydrated);
+    setCurrentHp(health.currentHp);
+    setMaxHp(health.maxHp);
+    setTempHp(health.tempHp);
+    setAdjustment(health.adjustment);
+    setDeathSaves(health.deathSaves);
+  });
 
   usePersistedDebounce({
     enabled: isHydrated,
-    url: `/api/state/${PERSISTED_CHARACTER_ID}`,
+    url: characterStateUrl(),
     body: {
       health: { currentHp, maxHp, tempHp, adjustment, deathSaves },
     },

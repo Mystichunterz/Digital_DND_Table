@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import LeftPanel from "./LeftPanel";
 import TabBar from "./TabBar";
+import CharacterSidebar from "@/features/character-sidebar/CharacterSidebar";
 import PersistenceIndicator from "./PersistenceIndicator";
 import { ConditionsProvider } from "@/state/ConditionsContext";
 import { CharacterStatsProvider } from "@/state/CharacterStatsContext";
@@ -38,7 +38,9 @@ const AppLayout = () => {
         <CharacterStatsProvider>
           <div className="shell">
             <aside className="left-panel">
-              <LeftPanel />
+              <div className="left-display-wrap">
+                <CharacterSidebar />
+              </div>
             </aside>
 
             <main className="right-panel">

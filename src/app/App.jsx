@@ -1,16 +1,6 @@
-//----------------------
-// src > App.jsx
-//----------------------
-
-//----------------------
-//  imports
-//----------------------
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
 
-//----------------------
-//  main
-//----------------------
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,7 +9,4 @@ const App = () => {
   );
 };
 
-//----------------------
-//  exports
-//----------------------
 export default App;

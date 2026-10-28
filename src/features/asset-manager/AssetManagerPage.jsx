@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./asset-manager.scss";
+import { fetchCatalog, saveAbility, uploadIcons } from "@/api/assetManager";
 import {
   CATEGORY_TO_GROUP,
   createBlankAbility,
-  readApiErrorMessage,
   toAbilityId,
 } from "./constants";
 import IconUploadCard from "./IconUploadCard";
@@ -22,21 +22,8 @@ const AssetManagerPage = () => {
   const [statusMessage, setStatusMessage] = useState(null);
 
   const loadCatalog = useCallback(async () => {
-    const [manifestResponse, iconsResponse] = await Promise.all([
-      fetch("/api/asset-manager/manifest"),
-      fetch("/api/asset-manager/icons"),
-    ]);
-
-    if (!manifestResponse.ok) {
-      throw new Error(await readApiErrorMessage(manifestResponse));
-    }
-
-    if (!iconsResponse.ok) {
-      throw new Error(await readApiErrorMessage(iconsResponse));
-    }
-
-    const nextManifest = await manifestResponse.json();
-    const nextIconsPayload = await iconsResponse.json();
+    const { manifest: nextManifest, icons: nextIconsPayload } =
+      await fetchCatalog();
 
     setManifest({
       version: Number(nextManifest?.version ?? 1),
@@ -128,23 +115,7 @@ const AssetManagerPage = () => {
     setIsUploading(true);
 
     try {
-      const payload = new FormData();
-      payload.append("group", uploadGroup);
-
-      uploadFiles.forEach((file) => {
-        payload.append("icons", file);
-      });
-
-      const response = await fetch("/api/asset-manager/upload-icons", {
-        method: "POST",
-        body: payload,
-      });
-
-      if (!response.ok) {
-        throw new Error(await readApiErrorMessage(response));
-      }
-
-      const result = await response.json();
+      const result = await uploadIcons(uploadGroup, uploadFiles);
       const uploaded = Array.isArray(result?.uploaded) ? result.uploaded : [];
 
       await loadCatalog();
@@ -179,22 +150,12 @@ const AssetManagerPage = () => {
     setIsSavingAbility(true);
 
     try {
-      const response = await fetch("/api/asset-manager/abilities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...abilityForm,
-          id: toAbilityId(abilityForm.id || abilityForm.name),
-          keybind: abilityForm.keybind || undefined,
-          icon: abilityForm.icon || undefined,
-        }),
+      const result = await saveAbility({
+        ...abilityForm,
+        id: toAbilityId(abilityForm.id || abilityForm.name),
+        keybind: abilityForm.keybind || undefined,
+        icon: abilityForm.icon || undefined,
       });
-
-      if (!response.ok) {
-        throw new Error(await readApiErrorMessage(response));
-      }
-
-      const result = await response.json();
 
       await loadCatalog();
 

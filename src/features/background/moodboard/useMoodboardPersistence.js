@@ -1,59 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useTrackHydration } from "@/state/PersistenceStatusContext";
+import { useCharacterStateHydration } from "@/state/useCharacterStateHydration";
 import { PERSIST_DEBOUNCE_MS } from "./constants";
+import { characterStateUrl } from "@/api/characterState";
 import { patchMoodboardItems } from "@/api/moodboard";
 
 const formatPayloadTooLargeMessage = (status, sizeMb) =>
   `Save failed (${status}): ${sizeMb} MB body exceeds the running API server's limit. Stop the dev:api process (Ctrl+C in its terminal) and restart it with \`npm run dev:api\` — file edits don't take effect until restart.`;
 
 export const useMoodboardPersistence = ({ characterId, items, onHydrate }) => {
-  const [isHydrated, setIsHydrated] = useState(false);
   const [saveStatus, setSaveStatus] = useState({ kind: "idle", message: "" });
   const pendingItemsRef = useRef(null);
 
-  // Hydrate from server.
-  useEffect(() => {
-    let isCancelled = false;
-
-    const hydrate = async () => {
-      try {
-        const response = await fetch(`/api/state/${characterId}`);
-
-        if (isCancelled || !response.ok) {
-          return;
-        }
-
-        const saved = await response.json();
-        if (
-          isCancelled ||
-          !saved ||
-          typeof saved !== "object" ||
-          !saved.moodboard ||
-          typeof saved.moodboard !== "object"
-        ) {
-          return;
-        }
-
-        onHydrate(saved.moodboard);
-      } catch {
-        // Server unavailable — keep empty state.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-    // onHydrate captures setters; intentionally omitted to avoid refetch loops.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characterId]);
-
-  useTrackHydration(isHydrated);
+  const isHydrated = useCharacterStateHydration((saved) => {
+    if (saved.moodboard && typeof saved.moodboard === "object") {
+      onHydrate(saved.moodboard);
+    }
+  }, characterId);
 
   // Persist (debounced) with surfaced error state.
   useEffect(() => {
@@ -74,7 +36,7 @@ export const useMoodboardPersistence = ({ characterId, items, onHydrate }) => {
       setSaveStatus({ kind: "saving", message: `${sizeMb} MB` });
 
       try {
-        const response = await fetch(`/api/state/${characterId}`, {
+        const response = await fetch(characterStateUrl(characterId), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body,
@@ -127,7 +89,7 @@ export const useMoodboardPersistence = ({ characterId, items, onHydrate }) => {
       if (!snapshot) return;
       pendingItemsRef.current = null;
       try {
-        fetch(`/api/state/${characterId}`, {
+        fetch(characterStateUrl(characterId), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ moodboard: { items: snapshot } }),

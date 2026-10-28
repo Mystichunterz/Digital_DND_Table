@@ -1,7 +1,3 @@
-//----------------------
-//  src > data > skillsData.js
-//----------------------
-
 import Acrobatics_Icon from "@/assets/skills/Acrobatics_Icon.png";
 import Animal_Handling_Icon from "@/assets/skills/Animal_Handling_Icon.png";
 import Arcana_Icon from "@/assets/skills/Arcana_Icon.png";
