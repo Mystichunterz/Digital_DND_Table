@@ -35,9 +35,20 @@ export default [
       ],
       'react/react-in-jsx-scope': 'off',
       'react/jsx-no-target-blank': 'off',
+      // Context modules in src/v2/state export their consumer hook next
+      // to the Provider. Edits there fall back to a full reload instead
+      // of fast refresh, which is fine for files that rarely change.
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true },
+        {
+          allowConstantExport: true,
+          allowExportNames: [
+            'useCharacterStats',
+            'useConditions',
+            'usePersistenceStatus',
+            'useTrackHydration',
+          ],
+        },
       ],
       'react/prop-types': 'off',
     },

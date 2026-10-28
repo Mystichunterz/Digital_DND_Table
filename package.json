@@ -1,17 +1,24 @@
 {
   "name": "digital_dnd_table",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
+  "description": "BG3-styled D&D companion app: character sheet, action HUD, spellbook, journal and asset manager.",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"vite\"",
     "dev:web": "vite",
     "dev:api": "node scripts/asset-manager-server.mjs",
     "build": "vite build",
     "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{js,jsx,scss}\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,scss}\" \"scripts/**/*.mjs\"",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "backup:moodboard": "node scripts/backup-moodboard.mjs"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0",
@@ -46,8 +53,6 @@
     "vite": "^6.0.5",
     "vitest": "^4.1.12"
   },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "eslint.config.js",
   "author": "",
   "license": "ISC"
 }
