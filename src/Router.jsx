@@ -18,17 +18,13 @@ import V2NotFound from "./v2/pages/V2NotFound";
 // V2Inventory pulls in the paper-doll grids, V2AssetManager pulls
 // in the largest amount of icon-loading code, V2Journal pulls in
 // react-markdown — all are rare-entry pages so they don't pay on
-// the Overview boot path. Legacy is reference-only.
+// the Overview boot path.
 const V2Inventory = lazy(() => import("./v2/pages/V2Inventory"));
 const V2Background = lazy(() => import("./v2/pages/V2Background"));
 const V2Companions = lazy(() => import("./v2/pages/V2Companions"));
 const V2Calculator = lazy(() => import("./v2/pages/V2Calculator"));
 const V2Journal = lazy(() => import("./v2/journal/V2Journal"));
 const V2AssetManager = lazy(() => import("./v2/pages/V2AssetManager"));
-const LegacyLayout = lazy(() => import("./legacy/layout/AppLayout"));
-const LegacyOverview = lazy(() => import("./legacy/pages/Overview"));
-const LegacyBackground = lazy(() => import("./legacy/pages/Background"));
-const LegacyNotFound = lazy(() => import("./legacy/pages/NotFound"));
 
 const lazyRoute = (Component) => (
   <Suspense fallback={null}>
@@ -43,13 +39,6 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/v2/overview" replace />} />
-
-      <Route path="/legacy" element={lazyRoute(LegacyLayout)}>
-        <Route index element={<Navigate to="overview" replace />} />
-        <Route path="overview" element={lazyRoute(LegacyOverview)} />
-        <Route path="background" element={lazyRoute(LegacyBackground)} />
-        <Route path="*" element={lazyRoute(LegacyNotFound)} />
-      </Route>
 
       <Route path="/v2" element={<V2Layout />}>
         <Route index element={<Navigate to="overview" replace />} />
