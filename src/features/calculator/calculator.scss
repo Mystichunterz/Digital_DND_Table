@@ -1,0 +1,230 @@
+.calculator-page {
+  --calculator-border: var(--color-border-brown-light);
+  --calculator-panel-bg: rgba(31, 24, 19, 0.86);
+  --calculator-panel-bg-soft: rgba(22, 17, 14, 0.78);
+  --calculator-muted: #ccb190;
+  --calculator-highlight: #f5e6ca;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: clamp(0.65rem, 0.9vw, 1.05rem);
+  overflow: auto;
+}
+
+.calculator-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--calculator-panel-bg);
+  border: 1px solid var(--calculator-border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  gap: 0.9rem;
+  color: var(--color-text-primary, #f3e6cb);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.calculator-subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--calculator-muted);
+  font-size: 0.9rem;
+
+  code {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0.05em 0.4em;
+    border-radius: 3px;
+  }
+}
+
+.calculator-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.calculator-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.calculator-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--calculator-muted);
+}
+
+.calculator-input {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 1.05rem;
+  background: var(--calculator-panel-bg-soft);
+  border: 1px solid var(--calculator-border);
+  border-radius: 4px;
+  color: var(--calculator-highlight);
+  padding: 0.6rem 0.75rem;
+
+  &:focus {
+    outline: 2px solid var(--color-accent-gold, #c9a559);
+    outline-offset: 1px;
+  }
+}
+
+.calculator-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.calculator-chip-group-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--calculator-muted);
+  margin-right: 0.35rem;
+}
+
+.calculator-chip {
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: var(--calculator-panel-bg-soft);
+  border: 1px solid var(--calculator-border);
+  color: var(--calculator-highlight);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  &:hover {
+    border-color: var(--color-accent-gold, #c9a559);
+  }
+}
+
+.calculator-chip-token {
+  font-variant-numeric: tabular-nums;
+}
+
+.calculator-chip-value {
+  font-size: 0.7rem;
+  color: var(--calculator-muted);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  padding: 0 0.35rem;
+}
+
+.calculator-output {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--calculator-panel-bg-soft);
+  border: 1px solid var(--calculator-border);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  flex-wrap: wrap;
+}
+
+.calculator-output-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--calculator-muted);
+}
+
+.calculator-output-command {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 1rem;
+  color: var(--calculator-highlight);
+}
+
+.calculator-output-range {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--calculator-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.calculator-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.calculator-action {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent-gold, #c9a559);
+  border: none;
+  border-radius: 4px;
+  color: #1d140b;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &.is-secondary {
+    background: transparent;
+    color: var(--calculator-highlight);
+    border: 1px solid var(--calculator-border);
+  }
+}
+
+.calculator-history {
+  border-top: 1px solid var(--calculator-border);
+  padding-top: 0.85rem;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--calculator-muted);
+    font-weight: 500;
+  }
+}
+
+.calculator-history-empty {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--calculator-muted);
+}
+
+.calculator-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.calculator-history-entry {
+  width: 100%;
+  text-align: left;
+  background: var(--calculator-panel-bg-soft);
+  border: 1px solid var(--calculator-border);
+  border-radius: 4px;
+  color: var(--calculator-highlight);
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover {
+    border-color: var(--color-accent-gold, #c9a559);
+  }
+
+  code {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,11 @@
+// Character sidebar styles, split into partials under ./styles/. Most
+// partials wrap their content in a fresh copy of the parent selector; the
+// @use order is the original source order, so the cascade is unchanged.
+
+@use "styles/container";
+@use "styles/attributes";
+@use "styles/conditions";
+@use "styles/features";
+@use "styles/typography";
+@use "styles/overrides";
+@use "styles/media";

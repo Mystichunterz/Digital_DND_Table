@@ -1,7 +1,0 @@
-// Journal styles. Split from a 712-line monolith into focused partials;
-// @use order preserves original source order so the cascade is identical.
-
-@use "layout";
-@use "note-list";
-@use "main";
-@use "editor";

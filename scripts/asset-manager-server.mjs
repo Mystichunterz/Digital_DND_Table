@@ -19,7 +19,6 @@ const ROOT_DIR = process.cwd();
 const ACTIONS_MANIFEST_PATH = path.join(
   ROOT_DIR,
   "src",
-  "v2",
   "data",
   "actions-manifest.json",
 );

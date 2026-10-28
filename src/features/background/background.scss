@@ -1,0 +1,8 @@
+// Background page styles, split into partials under ./styles/. The @use
+// order is the original source order, so the cascade is unchanged.
+
+@use "styles/layout";
+@use "styles/identity";
+@use "styles/personality";
+@use "styles/backstory";
+@use "styles/moodboard";

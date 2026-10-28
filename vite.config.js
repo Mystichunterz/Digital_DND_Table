@@ -1,10 +1,16 @@
 /// <reference types="vitest/config" />
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
   server: {
     proxy: {
       "/api": {
@@ -28,10 +34,10 @@ export default defineConfig({
           // keeps the boot path lean and lets the browser cache
           // them across panel reloads.
           "actions-data": [
-            "./src/v2/data/actionsCatalog",
-            "./src/v2/data/spellbookTabs",
-            "./src/v2/data/conditionsCatalog",
-            "./src/v2/data/actions-manifest.json",
+            "./src/data/actionsCatalog",
+            "./src/data/character/spellbookTabs",
+            "./src/data/conditionsCatalog",
+            "./src/data/actions-manifest.json",
           ],
         },
       },
