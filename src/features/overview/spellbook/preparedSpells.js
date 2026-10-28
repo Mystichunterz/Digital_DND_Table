@@ -5,9 +5,7 @@ export const PREPARED_TOGGLE_ROW_KEYS = new Set(["tier-1", "tier-2"]);
 
 export const DEFAULT_PREPARED_SPELL_IDS = { paladin: [] };
 
-const PREPARABLE_CLASS_IDS = new Set(
-  Object.keys(DEFAULT_PREPARED_SPELL_IDS),
-);
+const PREPARABLE_CLASS_IDS = new Set(Object.keys(DEFAULT_PREPARED_SPELL_IDS));
 
 export const sanitizePreparedSpellIds = (raw, preparedLimitByClass = {}) => {
   const validClasses = Object.keys(DEFAULT_PREPARED_SPELL_IDS);

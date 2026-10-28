@@ -1,12 +1,6 @@
 import manifest from "./actions-manifest.json";
 
-const CATEGORY_IDS = [
-  "common",
-  "paladin",
-  "items",
-  "passives",
-  "custom",
-];
+const CATEGORY_IDS = ["common", "paladin", "items", "passives", "custom"];
 
 const iconModules = import.meta.glob(
   "/src/assets/actions/**/*.{webp,png,jpg,jpeg}",
