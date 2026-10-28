@@ -9,14 +9,6 @@ import { PersistenceStatusProvider } from "@/state/PersistenceStatusContext";
 import "./app-layout.scss";
 
 const AppLayout = () => {
-  useEffect(() => {
-    document.body.classList.add("v2-active");
-
-    return () => {
-      document.body.classList.remove("v2-active");
-    };
-  }, []);
-
   // Warm the lazy journal chunk in the background after the shell is
   // interactive so the first navigation to /journal doesn't pay the
   // module-compile + chunk-fetch cost.
