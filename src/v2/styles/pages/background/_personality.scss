@@ -1,0 +1,173 @@
+
+.v2-personality-panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: clamp(0.5rem, 0.7vw, 0.8rem);
+}
+
+.v2-personality-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.v2-personality-panel::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 4px;
+}
+
+.v2-personality-panel::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.v2-personality-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 0.7vw, 0.8rem);
+}
+
+.v2-personality-card {
+  border: 1px solid rgba(122, 90, 62, 0.55);
+  border-radius: 8px;
+  background: var(--v2-overview-panel-bg-soft);
+  padding: clamp(0.55rem, 0.7vw, 0.8rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.v2-personality-card h3 {
+  margin: 0;
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.9rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold-light);
+  font-weight: 600;
+}
+
+.v2-personality-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.85rem, 0.12vw + 0.8rem, 0.95rem);
+  color: var(--v2-overview-highlight);
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.v2-personality-card ul li {
+  padding-left: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.v2-personality-card ul li::before {
+  content: "✦";
+  flex: 0 0 auto;
+  color: var(--color-accent-gold-light);
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+.v2-personality-card ul li.v2-personality-add-row::before {
+  content: none;
+}
+
+.v2-personality-item-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  padding: 0.1rem 0.3rem;
+  resize: none;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.v2-personality-item-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.v2-personality-item-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}
+
+.v2-personality-item-remove {
+  border: none;
+  background: transparent;
+  color: var(--v2-overview-muted);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0;
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+.v2-personality-card ul li:hover .v2-personality-item-remove,
+.v2-personality-item-remove:focus {
+  opacity: 1;
+}
+
+.v2-personality-item-remove:hover {
+  color: var(--color-status-error-text);
+}
+
+.v2-personality-add {
+  border: 1px dashed rgba(122, 90, 62, 0.6);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--v2-overview-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  font-size: clamp(0.72rem, 0.08vw + 0.66rem, 0.8rem);
+  letter-spacing: 0.04em;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.v2-personality-add:hover {
+  color: var(--color-accent-gold-light);
+  border-color: var(--color-accent-gold);
+}
+
+.v2-personality-note {
+  margin: 0.15rem 0 0;
+  font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
+  color: var(--v2-overview-muted);
+  font-style: italic;
+}
+
+.v2-personality-note-input {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0.15rem 0.3rem;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.v2-personality-note-input::placeholder {
+  color: var(--v2-overview-muted);
+  opacity: 0.6;
+}
+
+.v2-personality-note-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.v2-personality-note-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}
+

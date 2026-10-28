@@ -1,0 +1,30 @@
+
+.v2-spellcasting-grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.4rem, 0.55vw, 0.65rem);
+}
+
+.v2-spellcasting-card {
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 8px;
+  background: rgba(20, 16, 13, 0.62);
+  padding: clamp(0.35rem, 0.5vw, 0.55rem);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.18rem;
+}
+
+.v2-spellcasting-card img {
+  width: clamp(1rem, 1.05vw, 1.25rem);
+  height: clamp(1rem, 1.05vw, 1.25rem);
+}
+
+.v2-spellcasting-card strong {
+  color: var(--v2-overview-highlight);
+  font-size: clamp(1rem, 0.2vw + 0.92rem, 1.15rem);
+  line-height: 1.15;
+}
+

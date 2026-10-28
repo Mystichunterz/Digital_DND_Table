@@ -1,209 +1,76 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useTrackHydration } from "../../../state/PersistenceStatusContext";
 import {
   DEFAULT_IMAGE_WIDTH,
   DEFAULT_STICKER_SIZE,
-  PERSIST_DEBOUNCE_MS,
 } from "./moodboard/constants";
 import { downscaleToDataUrl } from "./moodboard/imageProcessing";
 import { createId, sanitizeItem } from "./moodboard/items";
-import {
-  formatSnapshotTimestamp,
-  isEditableTarget,
-} from "./moodboard/utils";
+import { isEditableTarget } from "./moodboard/utils";
 import StickerPalette from "./moodboard/StickerPalette";
 import SnapshotMenu from "./moodboard/SnapshotMenu";
 import MoodboardItem from "./moodboard/MoodboardItem";
 import { useMoodboardPointerOps } from "./moodboard/useMoodboardPointerOps";
-import {
-  createMoodboardSnapshot,
-  deleteMoodboardSnapshot,
-  getMoodboardSnapshot,
-  listMoodboardSnapshots,
-  patchMoodboardItems,
-} from "./moodboard/api";
+import { useMoodboardPersistence } from "./moodboard/useMoodboardPersistence";
+import { useMoodboardSnapshots } from "./moodboard/useMoodboardSnapshots";
 
 const PERSISTED_CHARACTER_ID = "default";
 
+const sanitizeMoodboardItems = (raw) => {
+  const rawItems = Array.isArray(raw?.items) ? raw.items : [];
+  return rawItems
+    .map((item, index) => sanitizeItem(item, index + 1))
+    .filter(Boolean);
+};
+
 const V2MoodboardPanel = () => {
   const [items, setItems] = useState([]);
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [saveStatus, setSaveStatus] = useState({ kind: "idle", message: "" });
-  const [snapshots, setSnapshots] = useState([]);
-  const [isSnapshotMenuOpen, setIsSnapshotMenuOpen] = useState(false);
-  const [isCreatingSnapshot, setIsCreatingSnapshot] = useState(false);
-  const [isLoadingSnapshot, setIsLoadingSnapshot] = useState(false);
   const [bulkPendingIds, setBulkPendingIds] = useState(() => new Set());
-  const [snapshotError, setSnapshotError] = useState("");
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
-  const snapshotMenuRef = useRef(null);
   const nextZIndexRef = useRef(1);
-  const pendingItemsRef = useRef(null);
 
-  // Hydrate from server.
-  useEffect(() => {
-    let isCancelled = false;
+  const applyMoodboardItems = useCallback((raw) => {
+    const sanitized = sanitizeMoodboardItems(raw);
 
-    const hydrate = async () => {
-      try {
-        const response = await fetch(`/api/state/${PERSISTED_CHARACTER_ID}`);
-
-        if (isCancelled || !response.ok) {
-          return;
-        }
-
-        const saved = await response.json();
-        if (
-          isCancelled ||
-          !saved ||
-          typeof saved !== "object" ||
-          !saved.moodboard ||
-          typeof saved.moodboard !== "object"
-        ) {
-          return;
-        }
-
-        const rawItems = Array.isArray(saved.moodboard.items)
-          ? saved.moodboard.items
-          : [];
-        const sanitized = rawItems
-          .map((raw, index) => sanitizeItem(raw, index + 1))
-          .filter(Boolean);
-
-        if (sanitized.length > 0) {
-          const maxZ = sanitized.reduce(
-            (acc, item) => Math.max(acc, item.zIndex ?? 0),
-            0,
-          );
-          nextZIndexRef.current = Math.max(maxZ, sanitized.length);
-        }
-
-        setBulkPendingIds(
-          new Set(
-            sanitized.filter((item) => item.type === "image").map((item) => item.id),
-          ),
-        );
-        setItems(sanitized);
-      } catch {
-        // Server unavailable — keep empty state.
-      } finally {
-        if (!isCancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    hydrate();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  useTrackHydration(isHydrated);
-
-  // Persist (debounced) with surfaced error state.
-  useEffect(() => {
-    if (!isHydrated) {
-      return undefined;
-    }
-
-    pendingItemsRef.current = items;
-    setSaveStatus((current) =>
-      current.kind === "error" ? current : { kind: "pending", message: "" },
+    const maxZ = sanitized.reduce(
+      (acc, item) => Math.max(acc, item.zIndex ?? 0),
+      0,
     );
+    nextZIndexRef.current = Math.max(maxZ, sanitized.length, 1);
 
-    const timeoutId = setTimeout(async () => {
-      const snapshot = pendingItemsRef.current;
-      pendingItemsRef.current = null;
-      const body = JSON.stringify({ moodboard: { items: snapshot } });
-      const sizeMb = (body.length / (1024 * 1024)).toFixed(2);
-      setSaveStatus({ kind: "saving", message: `${sizeMb} MB` });
-
-      try {
-        const response = await fetch(
-          `/api/state/${PERSISTED_CHARACTER_ID}`,
-          {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body,
-          },
-        );
-
-        if (!response.ok) {
-          let serverMessage = "";
-          try {
-            const payload = await response.clone().json();
-            if (payload && typeof payload.message === "string") {
-              serverMessage = payload.message;
-            }
-          } catch {
-            // Non-JSON error body — fall back to status text.
-          }
-
-          const isPayloadTooLarge =
-            response.status === 413 ||
-            /too large|entity too large|payloadtoolarge/i.test(serverMessage);
-
-          const message = isPayloadTooLarge
-            ? `Save failed (${response.status}): ${sizeMb} MB body exceeds the running API server's limit. Stop the dev:api process (Ctrl+C in its terminal) and restart it with \`npm run dev:api\` — file edits don't take effect until restart.`
-            : `Save failed (${response.status}${serverMessage ? ` — ${serverMessage}` : ""}; ${sizeMb} MB)`;
-
-          setSaveStatus({ kind: "error", message });
-          return;
-        }
-
-        setSaveStatus({ kind: "saved", message: `${sizeMb} MB` });
-      } catch (error) {
-        setSaveStatus({
-          kind: "error",
-          message:
-            error instanceof Error
-              ? `Save failed: ${error.message}`
-              : "Save failed: network error.",
-        });
-      }
-    }, PERSIST_DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isHydrated, items]);
-
-  // Best-effort flush before the page unloads / hides.
-  useEffect(() => {
-    const flush = () => {
-      const snapshot = pendingItemsRef.current;
-      if (!snapshot) return;
-      pendingItemsRef.current = null;
-      try {
-        fetch(`/api/state/${PERSISTED_CHARACTER_ID}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ moodboard: { items: snapshot } }),
-          keepalive: true,
-        }).catch(() => {});
-      } catch {
-        // keepalive bodies > ~64 KB are rejected; nothing more we can do.
-      }
-    };
-
-    const handleVisibility = () => {
-      if (document.visibilityState === "hidden") flush();
-    };
-
-    window.addEventListener("pagehide", flush);
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      window.removeEventListener("pagehide", flush);
-      document.removeEventListener("visibilitychange", handleVisibility);
-      // Tab navigation within the SPA unmounts this component without
-      // firing pagehide, so flush any pending body here too.
-      flush();
-    };
+    setBulkPendingIds(
+      new Set(
+        sanitized
+          .filter((item) => item.type === "image")
+          .map((item) => item.id),
+      ),
+    );
+    setItems(sanitized);
   }, []);
+
+  const { isHydrated, saveStatus, flushPendingSave } = useMoodboardPersistence({
+    characterId: PERSISTED_CHARACTER_ID,
+    items,
+    onHydrate: applyMoodboardItems,
+  });
+
+  const {
+    snapshots,
+    snapshotMenuRef,
+    isSnapshotMenuOpen,
+    isCreatingSnapshot,
+    isLoadingSnapshot,
+    snapshotError,
+    openSnapshotMenu,
+    closeSnapshotMenu,
+    createSnapshot,
+    loadSnapshot,
+    deleteSnapshot,
+  } = useMoodboardSnapshots({
+    characterId: PERSISTED_CHARACTER_ID,
+    flushPendingSave,
+    onLoadSnapshot: (payload) => applyMoodboardItems(payload?.moodboard),
+  });
 
   const bringToFront = useCallback((id) => {
     setItems((current) => {
@@ -307,10 +174,6 @@ const V2MoodboardPanel = () => {
     setItems([]);
   };
 
-  // ---------- Pointer ops ----------
-
-  // ---------- Drop / paste ----------
-
   const handleCanvasDragOver = (event) => {
     if (Array.from(event.dataTransfer?.types ?? []).includes("Files")) {
       event.preventDefault();
@@ -352,157 +215,6 @@ const V2MoodboardPanel = () => {
 
   const triggerUpload = () => {
     fileInputRef.current?.click();
-  };
-
-  // ---------- Snapshots ----------
-
-  const fetchSnapshots = useCallback(async () => {
-    try {
-      const list = await listMoodboardSnapshots(PERSISTED_CHARACTER_ID);
-      setSnapshots(list);
-      setSnapshotError("");
-    } catch (error) {
-      setSnapshotError(
-        error instanceof Error ? error.message : "Could not load snapshots.",
-      );
-    }
-  }, []);
-
-  const openSnapshotMenu = () => {
-    setIsSnapshotMenuOpen(true);
-    fetchSnapshots();
-  };
-
-  const closeSnapshotMenu = useCallback(() => {
-    setIsSnapshotMenuOpen(false);
-  }, []);
-
-  // Close snapshot menu on outside click / Escape.
-  useEffect(() => {
-    if (!isSnapshotMenuOpen) return undefined;
-
-    const handlePointerDown = (event) => {
-      if (!snapshotMenuRef.current?.contains(event.target)) {
-        closeSnapshotMenu();
-      }
-    };
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") closeSnapshotMenu();
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isSnapshotMenuOpen, closeSnapshotMenu]);
-
-  const flushPendingSave = useCallback(async () => {
-    const snapshot = pendingItemsRef.current;
-    if (!snapshot) return;
-    pendingItemsRef.current = null;
-    try {
-      await patchMoodboardItems(PERSISTED_CHARACTER_ID, snapshot);
-    } catch {
-      // Surfaced by the regular debounced save effect.
-    }
-  }, []);
-
-  const createSnapshot = async () => {
-    if (isCreatingSnapshot) return;
-    setIsCreatingSnapshot(true);
-    setSnapshotError("");
-
-    // Make sure the snapshot reflects what's currently on the board.
-    await flushPendingSave();
-
-    const label = window.prompt(
-      "Label this snapshot (optional):",
-      `Snapshot ${formatSnapshotTimestamp(Date.now())}`,
-    );
-
-    // User cancelled.
-    if (label === null) {
-      setIsCreatingSnapshot(false);
-      return;
-    }
-
-    try {
-      await createMoodboardSnapshot(PERSISTED_CHARACTER_ID, label);
-      await fetchSnapshots();
-      setIsSnapshotMenuOpen(true);
-    } catch (error) {
-      setSnapshotError(
-        error instanceof Error ? error.message : "Snapshot failed.",
-      );
-    } finally {
-      setIsCreatingSnapshot(false);
-    }
-  };
-
-  const loadSnapshot = async (snapshot) => {
-    const labelText = snapshot.label
-      ? `"${snapshot.label}"`
-      : `from ${formatSnapshotTimestamp(snapshot.createdAt)}`;
-    const confirmed = window.confirm(
-      `Replace the current board with snapshot ${labelText}?\n\nThe current board will be auto-saved over and replaced. Take a snapshot first if you want to keep it.`,
-    );
-    if (!confirmed) return;
-
-    setIsLoadingSnapshot(true);
-    try {
-      const payload = await getMoodboardSnapshot(
-        PERSISTED_CHARACTER_ID,
-        snapshot.id,
-      );
-      const rawItems = Array.isArray(payload?.moodboard?.items)
-        ? payload.moodboard.items
-        : [];
-      const sanitized = rawItems
-        .map((raw, index) => sanitizeItem(raw, index + 1))
-        .filter(Boolean);
-
-      const maxZ = sanitized.reduce(
-        (acc, item) => Math.max(acc, item.zIndex ?? 0),
-        0,
-      );
-      nextZIndexRef.current = Math.max(maxZ, sanitized.length, 1);
-
-      setBulkPendingIds(
-        new Set(
-          sanitized.filter((item) => item.type === "image").map((item) => item.id),
-        ),
-      );
-      setItems(sanitized);
-      setIsSnapshotMenuOpen(false);
-      setSnapshotError("");
-    } catch (error) {
-      setSnapshotError(
-        error instanceof Error ? error.message : "Could not load snapshot.",
-      );
-    } finally {
-      setIsLoadingSnapshot(false);
-    }
-  };
-
-  const deleteSnapshot = async (snapshot) => {
-    const labelText = snapshot.label
-      ? `"${snapshot.label}"`
-      : `from ${formatSnapshotTimestamp(snapshot.createdAt)}`;
-    const confirmed = window.confirm(
-      `Permanently delete snapshot ${labelText}?`,
-    );
-    if (!confirmed) return;
-
-    try {
-      await deleteMoodboardSnapshot(PERSISTED_CHARACTER_ID, snapshot.id);
-      await fetchSnapshots();
-    } catch (error) {
-      setSnapshotError(
-        error instanceof Error ? error.message : "Could not delete snapshot.",
-      );
-    }
   };
 
   const handleImageSettled = useCallback((id) => {

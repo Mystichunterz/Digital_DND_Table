@@ -1,0 +1,114 @@
+@media (max-width: 1350px) {
+  .v2-overview-grid {
+    gap: 0.65rem;
+  }
+
+  .v2-overview-right-stack {
+    grid-template-rows: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  }
+}
+
+@media (max-width: 1180px) {
+  .v2-overview-grid {
+    grid-template-columns: minmax(0, 36%) minmax(0, 64%);
+  }
+
+  .v2-spellcasting-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-environment-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-actions-filter-strip {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .v2-actions-layout-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .v2-actions-layout-status {
+    grid-column: 1 / -1;
+  }
+
+  .v2-spellbook-popup {
+    width: min(66rem, 97vw);
+  }
+
+  .v2-actions-menu-body {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .v2-actions-metamagic-rail {
+    width: clamp(4rem, 8.5vw, 5.6rem);
+  }
+
+  .v2-actions-category-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .v2-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-overview-left-stack,
+  .v2-overview-right-stack {
+    grid-template-rows: auto;
+  }
+
+  .v2-actions-menu-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+  }
+
+  .v2-actions-grid-cluster {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-actions-section-divider {
+    display: none;
+  }
+
+  .v2-actions-metamagic-divider {
+    display: none;
+  }
+
+  .v2-actions-metamagic-rail {
+    width: 100%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-actions-category-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-spellbook-popup {
+    top: 0.6rem;
+    width: min(56rem, 98vw);
+    max-height: calc(100vh - 1.2rem);
+    padding: var(--space-md);
+  }
+
+  .v2-spellbook-header,
+  .v2-spellbook-subheader,
+  .v2-spellbook-body,
+  .v2-spellbook-prepared-row,
+  .v2-spellbook-tier-row {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-spellbook-tab-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v2-spellbook-class-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    align-items: center;
+  }
+}
