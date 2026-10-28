@@ -2,6 +2,18 @@
 
 *Snapshot as of 2026-04-28.*
 
+> **Status note (2026-10-28):** this is a historical snapshot; the
+> README is the current reference. Since it was written: the README
+> was refreshed and `npm run dev` now starts both servers; `.gitattributes`
+> and `.env.example` were added; `notes/` is gitignored; the API server
+> was split into `scripts/server/*`; Vitest + Testing Library landed
+> (10 files, 72 tests); routes are lazy-loaded; the Calculator shipped;
+> resource pips, layout and the moodboard persist to SQLite. The journal
+> was rebuilt under `src/v2/journal/`, so references below to
+> `useDebouncedSave` and the old journal components are stale.
+> **Still open:** character stats/features are hard-coded,
+> `src/legacy/` is still routed, and Companions is read-only.
+
 ## TL;DR
 
 A personal-use D&D companion app, React 18 + Vite frontend, with a small Express side-server for asset uploads and journal persistence. Single-character, single-user, BG3-styled. The active codebase is `src/v2/`; an older `src/legacy/` tree is kept around but not where new work goes. Three substantive features are wired end-to-end: the v2 Overview HUD (character sidebar + actions panel), the Asset Manager (icon uploads + ability metadata), and the Journal (markdown notes with auto-save and search). Several README-listed features (Character Sheet detail, Calculator, Pets) remain unstarted. No tests, no character-data persistence yet, dual codebase.
