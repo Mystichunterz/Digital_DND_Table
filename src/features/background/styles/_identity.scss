@@ -63,14 +63,14 @@
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 600;
 }
 
 .persona-row dd {
   margin: 0;
   font-size: clamp(0.85rem, 0.12vw + 0.8rem, 0.95rem);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 500;
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -140,7 +140,7 @@
   background: rgba(20, 16, 13, 0.55);
   border-radius: 4px;
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
-  color: var(--overview-text);
+  color: var(--panel-text);
   font-style: italic;
   line-height: 1.4;
 }
@@ -180,7 +180,7 @@
   border: 1px solid rgba(122, 90, 62, 0.7);
   border-radius: 999px;
   background: rgba(20, 16, 13, 0.62);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -201,7 +201,7 @@
 
 .inspiration-toggle:hover {
   border-color: rgba(245, 230, 202, 0.55);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
 }
 
 .inspiration-toggle.is-active {
@@ -234,7 +234,7 @@
   border-radius: 999px;
   background: rgba(20, 16, 13, 0.55);
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.9rem);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   letter-spacing: 0.02em;
 }
 
@@ -257,7 +257,7 @@
 .language-add {
   border: none;
   background: transparent;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   cursor: pointer;
   padding: 0;
   font-size: 1rem;
@@ -300,14 +300,14 @@
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 600;
   border-bottom: 1px solid rgba(122, 90, 62, 0.5);
 }
 
 .coins-table td {
   font-size: clamp(0.95rem, 0.18vw + 0.88rem, 1.1rem);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 600;
 }
 
@@ -364,7 +364,7 @@
 
 .attunements-count {
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.05em;
 }
@@ -383,7 +383,7 @@
   border-radius: 6px;
   background: rgba(20, 16, 13, 0.4);
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
   text-align: center;
 }
@@ -392,7 +392,7 @@
   border-style: solid;
   border-color: var(--color-accent-gold);
   background: rgba(212, 175, 55, 0.08);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-style: normal;
 }
 
@@ -408,7 +408,7 @@
 }
 
 .attunement-input::placeholder {
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
 }
 

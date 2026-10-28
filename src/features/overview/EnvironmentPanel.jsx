@@ -25,8 +25,8 @@ const EnvironmentPanel = () => {
   };
 
   return (
-    <article className="overview-panel environment-panel">
-      <header className="overview-panel-header">
+    <article className="panel environment-panel">
+      <header className="panel-header">
         <h2>Environment</h2>
       </header>
 

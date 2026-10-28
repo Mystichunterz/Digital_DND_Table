@@ -66,7 +66,7 @@
   z-index: 1;
   font-size: clamp(0.55rem, 0.08vw + 0.52rem, 0.66rem);
   letter-spacing: 0.08em;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   line-height: 1;
   text-transform: uppercase;
   transform: translateY(0.2rem);
@@ -140,7 +140,7 @@
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 0.4rem;
   background: rgba(8, 6, 5, 0.92);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.5rem, 0.08vw + 0.47rem, 0.6rem);
   font-weight: 600;
   line-height: 0.78rem;
@@ -211,7 +211,7 @@
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 50%;
   background: rgba(33, 25, 19, 0.85);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.78rem, 0.18vw + 0.7rem, 0.96rem);
   font-weight: 600;
   letter-spacing: 0;

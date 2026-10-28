@@ -6,6 +6,7 @@ import PersistenceIndicator from "./PersistenceIndicator";
 import { ConditionsProvider } from "@/state/ConditionsContext";
 import { CharacterStatsProvider } from "@/state/CharacterStatsContext";
 import { PersistenceStatusProvider } from "@/state/PersistenceStatusContext";
+import "@/styles/panels.scss";
 import "./app-layout.scss";
 
 const AppLayout = () => {

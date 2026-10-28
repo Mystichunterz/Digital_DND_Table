@@ -28,8 +28,8 @@ const spellcastingStats = [
 
 const SpellcastingPanel = () => {
   return (
-    <article className="overview-panel spellcasting-panel">
-      <header className="overview-panel-header">
+    <article className="panel spellcasting-panel">
+      <header className="panel-header">
         <h2>Spellcasting</h2>
       </header>
 

@@ -342,8 +342,8 @@ const ActionsPanel = () => {
     });
 
   return (
-    <article className="overview-panel actions-panel">
-      <header className="overview-panel-header">
+    <article className="panel actions-panel">
+      <header className="panel-header">
         <h2>Actions / Spells</h2>
       </header>
 

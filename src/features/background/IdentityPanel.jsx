@@ -200,8 +200,8 @@ const IdentityPanel = () => {
   };
 
   return (
-    <article className="overview-panel background-panel identity-panel">
-      <header className="overview-panel-header identity-header">
+    <article className="panel identity-panel">
+      <header className="panel-header identity-header">
         <h2>Identity</h2>
         <button
           type="button"

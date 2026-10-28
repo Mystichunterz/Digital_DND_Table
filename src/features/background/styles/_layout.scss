@@ -1,13 +1,4 @@
 .background-page {
-  --overview-border: var(--color-border-brown-light);
-  --overview-panel-bg: rgba(31, 24, 19, 0.86);
-  --overview-panel-bg-soft: rgba(22, 17, 14, 0.78);
-  --overview-text: var(--color-text-primary);
-  --overview-muted: #ccb190;
-  --overview-highlight: #f5e6ca;
-  --overview-good: var(--color-status-success);
-  --overview-bad: var(--color-status-error);
-
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -33,51 +24,4 @@
   gap: clamp(0.65rem, 0.9vw, 1.05rem);
   grid-template-rows: minmax(0, auto) minmax(0, auto) minmax(0, 1fr);
   overflow: hidden;
-}
-
-.companions-page-grid {
-  width: 100%;
-  height: 100%;
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  overflow: hidden;
-}
-
-.background-panel {
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.55rem, 0.75vw, 0.85rem);
-  padding: clamp(0.75rem, 0.9vw, 1.1rem);
-  border: 2px solid var(--overview-border);
-  border-radius: 10px;
-  background: linear-gradient(
-      170deg,
-      rgba(245, 233, 209, 0.08) 0%,
-      rgba(245, 233, 209, 0.03) 40%,
-      rgba(14, 12, 11, 0.2) 100%
-    ),
-    var(--overview-panel-bg);
-  box-shadow:
-    0 5px 8px rgba(0, 0, 0, 0.28),
-    inset 0 4px 10px rgba(58, 47, 38, 0.2),
-    inset 0 4px 9px rgba(58, 47, 38, 0.08);
-  color: var(--overview-text);
-  overflow: hidden;
-}
-
-.background-panel .overview-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.background-panel .overview-panel-header h2 {
-  margin: 0;
-  font-size: clamp(1.02rem, 0.35vw + 0.88rem, 1.3rem);
-  color: var(--overview-highlight);
-  letter-spacing: 0.01em;
 }

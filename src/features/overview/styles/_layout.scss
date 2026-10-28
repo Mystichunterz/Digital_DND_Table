@@ -1,16 +1,4 @@
 .overview-page {
-  // Page-scoped aliases: where a global token exists, ride it so palette
-  // tweaks cascade. Where the page wants a different shade (creamier
-  // muted/highlight, semi-opaque panel bgs), keep the local literal.
-  --overview-border: var(--color-border-brown-light);
-  --overview-panel-bg: rgba(31, 24, 19, 0.86);
-  --overview-panel-bg-soft: rgba(22, 17, 14, 0.78);
-  --overview-text: var(--color-text-primary);
-  --overview-muted: #ccb190;
-  --overview-highlight: #f5e6ca;
-  --overview-good: var(--color-status-success);
-  --overview-bad: var(--color-status-error);
-
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -49,47 +37,10 @@
   grid-template-rows: minmax(0, 0.78fr) minmax(0, 1.22fr);
 }
 
-.overview-panel {
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.55rem, 0.75vw, 0.85rem);
-  padding: clamp(0.75rem, 0.9vw, 1.1rem);
-  border: 2px solid var(--overview-border);
-  border-radius: 10px;
-  background: linear-gradient(
-      170deg,
-      rgba(245, 233, 209, 0.08) 0%,
-      rgba(245, 233, 209, 0.03) 40%,
-      rgba(14, 12, 11, 0.2) 100%
-    ),
-    var(--overview-panel-bg);
-  box-shadow:
-    0 5px 8px rgba(0, 0, 0, 0.28),
-    inset 0 4px 10px rgba(58, 47, 38, 0.2),
-    inset 0 4px 9px rgba(58, 47, 38, 0.08);
-  color: var(--overview-text);
-  overflow: hidden;
-}
-
-.overview-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.overview-panel-header h2 {
-  margin: 0;
-  font-size: clamp(1.02rem, 0.35vw + 0.88rem, 1.3rem);
-  color: var(--overview-highlight);
-  letter-spacing: 0.01em;
-}
-
 .label {
   display: block;
   margin: 0;
   font-size: clamp(0.8rem, 0.15vw + 0.75rem, 0.92rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   line-height: 1.2;
 }

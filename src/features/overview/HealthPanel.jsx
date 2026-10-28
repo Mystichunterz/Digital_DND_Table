@@ -188,10 +188,8 @@ const HealthPanel = () => {
   };
 
   return (
-    <article
-      className={`overview-panel health-panel is-${status} tone-${tone}`}
-    >
-      <header className="overview-panel-header health-panel-header">
+    <article className={`panel health-panel is-${status} tone-${tone}`}>
+      <header className="panel-header health-panel-header">
         <h2>Health</h2>
         {status !== "alive" && (
           <span className={`health-status-badge is-${status}`}>

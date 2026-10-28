@@ -3,8 +3,8 @@ import companionsData from "@/data/character/companions";
 
 const CompanionsPanel = () => {
   return (
-    <article className="overview-panel background-panel companions-panel">
-      <header className="overview-panel-header">
+    <article className="panel companions-panel">
+      <header className="panel-header">
         <h2>Companions</h2>
       </header>
 

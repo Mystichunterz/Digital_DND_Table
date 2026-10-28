@@ -16,7 +16,7 @@
 .moodboard-status {
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.06em;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 500;
   min-width: 4rem;
   text-align: right;
@@ -45,7 +45,7 @@
   border: 1px solid rgba(122, 90, 62, 0.7);
   border-radius: 999px;
   background: rgba(20, 16, 13, 0.62);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -59,7 +59,7 @@
 
 .moodboard-action:hover:not(:disabled) {
   border-color: rgba(245, 230, 202, 0.55);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
 }
 
 .moodboard-action:disabled {
@@ -117,7 +117,7 @@
   margin: 0;
   padding: 0.5rem 0.55rem;
   font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
   text-align: center;
 }
@@ -156,7 +156,7 @@
   border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   text-align: left;
   cursor: pointer;
   transition:
@@ -182,7 +182,7 @@
 
 .moodboard-snapshot-meta {
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.76rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
 }
@@ -228,7 +228,7 @@
   border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: 1.25rem;
   cursor: pointer;
   transition:
@@ -286,7 +286,7 @@
   padding: 1rem;
   text-align: center;
   font-size: clamp(0.85rem, 0.13vw + 0.8rem, 0.95rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
   pointer-events: none;
 }
@@ -324,7 +324,7 @@
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 @keyframes moodboard-spin {
@@ -398,7 +398,7 @@
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;

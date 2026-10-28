@@ -17,7 +17,7 @@
 
 .environment-empty {
   margin: 0;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.9rem, 0.18vw + 0.84rem, 1rem);
 }
 
@@ -62,7 +62,7 @@
   border: 1px solid #85664a;
   border-radius: 6px;
   background: rgba(20, 16, 13, 0.72);
-  color: var(--overview-text);
+  color: var(--panel-text);
   font-size: clamp(0.82rem, 0.18vw + 0.76rem, 0.95rem);
   cursor: pointer;
 }

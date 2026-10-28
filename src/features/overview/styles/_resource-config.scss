@@ -15,7 +15,7 @@
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 50%;
   background: rgba(33, 25, 19, 0.85);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: calc(var(--resource-box-size) * 0.7);
   line-height: 1;
   cursor: pointer;
@@ -45,7 +45,7 @@
   box-shadow:
     0 10px 24px rgba(0, 0, 0, 0.55),
     inset 0 1px 0 rgba(245, 233, 209, 0.06);
-  color: var(--overview-text);
+  color: var(--panel-text);
 }
 
 .resource-config-header {
@@ -59,7 +59,7 @@
 .resource-config-header span {
   font-size: clamp(0.85rem, 0.15vw + 0.8rem, 0.95rem);
   font-weight: 600;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -68,7 +68,7 @@
   border: 1px solid rgba(122, 90, 62, 0.85);
   border-radius: 6px;
   background: rgba(33, 25, 19, 0.85);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   padding: 0.2rem 0.55rem;
   font-size: clamp(0.62rem, 0.1vw + 0.58rem, 0.74rem);
   letter-spacing: 0.04em;
@@ -109,7 +109,7 @@ button.resource-config-reset:hover {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   opacity: 0.85;
 }
 
@@ -128,7 +128,7 @@ button.resource-config-reset:hover {
   border: 1px solid transparent;
   border-radius: 6px;
   font-size: clamp(0.74rem, 0.12vw + 0.7rem, 0.84rem);
-  color: var(--overview-text);
+  color: var(--panel-text);
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease;
@@ -149,7 +149,7 @@ button.resource-config-reset:hover {
   border: 1px solid transparent;
   border-radius: 50%;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   cursor: pointer;
   transition:
     color 0.15s ease,
@@ -169,7 +169,7 @@ button.resource-config-reset:hover {
 }
 
 .resource-config-eye.is-hidden {
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   opacity: 0.7;
 }
 
@@ -218,7 +218,7 @@ button.resource-config-reset:hover {
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: 0.95rem;
   font-weight: 600;
   line-height: 1;
@@ -243,7 +243,7 @@ button.resource-config-reset:hover {
   border-right: 1px solid rgba(122, 90, 62, 0.45);
   border-radius: 0;
   background: transparent;
-  color: var(--overview-text);
+  color: var(--panel-text);
   font-size: clamp(0.78rem, 0.13vw + 0.74rem, 0.9rem);
   text-align: center;
   appearance: textfield;
@@ -264,6 +264,6 @@ button.resource-config-reset:hover {
 .resource-config-hint {
   margin: 0.6rem 0 0;
   font-size: clamp(0.66rem, 0.1vw + 0.62rem, 0.74rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
 }

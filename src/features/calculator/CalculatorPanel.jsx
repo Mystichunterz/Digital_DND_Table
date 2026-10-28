@@ -106,8 +106,8 @@ const CalculatorPanel = () => {
   }, []);
 
   return (
-    <article className="overview-panel calculator-panel">
-      <header className="overview-panel-header">
+    <article className="panel calculator-panel">
+      <header className="panel-header">
         <h2>Calculator</h2>
         <p className="calculator-subtitle">
           Build an Avrae <code>!roll</code> command. Tokens substitute from your

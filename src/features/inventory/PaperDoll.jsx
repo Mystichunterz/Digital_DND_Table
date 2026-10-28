@@ -20,7 +20,7 @@ const PaperDoll = ({ equipped = {}, itemById = {} }) => {
   const itemFor = (slotId) => itemById[equipped[slotId]] ?? null;
 
   return (
-    <article className="overview-panel inventory-doll-panel">
+    <article className="panel inventory-doll-panel">
       <div className="doll-stage">
         <div className="doll-rail is-left" aria-label="Armor slots">
           {LEFT_RAIL.map((slot) => {

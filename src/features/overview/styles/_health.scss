@@ -36,7 +36,7 @@
   font-size: clamp(0.7rem, 0.1vw + 0.66rem, 0.78rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 600;
 }
 
@@ -46,7 +46,7 @@
   text-align: right;
   border: none;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(1rem, 0.25vw + 0.92rem, 1.15rem);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -87,7 +87,7 @@
   padding: clamp(0.55rem, 0.8vw, 0.75rem) clamp(0.6rem, 1vw, 0.95rem);
   border: none;
   background: transparent;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 600;
   font-size: clamp(0.92rem, 0.2vw + 0.86rem, 1.05rem);
   letter-spacing: 0.08em;
@@ -162,7 +162,7 @@
   width: clamp(2.8rem, 5vw, 3.6rem);
   border: none;
   background: rgba(10, 8, 7, 0.55);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(1.15rem, 0.3vw + 1.05rem, 1.35rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -209,11 +209,11 @@
   }
 
   &.is-stabilized {
-    color: var(--overview-good);
+    color: var(--panel-good);
   }
 
   &.is-dead {
-    color: var(--overview-bad);
+    color: var(--panel-bad);
     background: rgba(120, 24, 24, 0.35);
   }
 }
@@ -281,7 +281,7 @@
   justify-content: flex-end;
   gap: 0.3rem;
   font-variant-numeric: tabular-nums;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(1rem, 0.3vw + 0.9rem, 1.2rem);
   line-height: 1;
 }
@@ -292,7 +292,7 @@
 
 .health-bar-divider,
 .health-bar-max {
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: 0.85em;
 }
 
@@ -344,29 +344,29 @@
   font-size: clamp(0.78rem, 0.12vw + 0.74rem, 0.88rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
 }
 
 .death-saves.is-stabilized .death-saves-title {
-  color: var(--overview-good);
+  color: var(--panel-good);
 }
 
 .death-saves.is-dead .death-saves-title {
-  color: var(--overview-bad);
+  color: var(--panel-bad);
 }
 
 .death-saves-reset {
   border: 1px solid rgba(122, 90, 62, 0.75);
   border-radius: 6px;
   background: rgba(24, 18, 15, 0.7);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   padding: 0.18rem 0.55rem;
   font-size: clamp(0.7rem, 0.1vw + 0.66rem, 0.78rem);
   cursor: pointer;
 }
 
 .death-saves-reset:hover {
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
 }
 
 .death-save-row {
@@ -378,15 +378,15 @@
 
 .death-save-label {
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.86rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 .death-save-row-successes .death-save-label {
-  color: var(--overview-good);
+  color: var(--panel-good);
 }
 
 .death-save-row-failures .death-save-label {
-  color: var(--overview-bad);
+  color: var(--panel-bad);
 }
 
 .death-save-pips {
@@ -414,12 +414,12 @@
 
 .death-save-pip.is-filled.is-successes {
   background: radial-gradient(circle at 32% 32%, #a8f4d4, #4ea876 70%);
-  border-color: var(--overview-good);
+  border-color: var(--panel-good);
   box-shadow: 0 0 6px rgba(108, 229, 186, 0.55);
 }
 
 .death-save-pip.is-filled.is-failures {
   background: radial-gradient(circle at 32% 32%, #ff9c9c, #b53b3b 70%);
-  border-color: var(--overview-bad);
+  border-color: var(--panel-bad);
   box-shadow: 0 0 6px rgba(231, 115, 115, 0.55);
 }

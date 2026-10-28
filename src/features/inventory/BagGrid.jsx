@@ -22,8 +22,8 @@ const BagGrid = ({ items = [], activeCategory = "All", searchQuery = "" }) => {
   const filledCount = filtered.length;
 
   return (
-    <article className="overview-panel inventory-bag-panel">
-      <header className="overview-panel-header">
+    <article className="panel inventory-bag-panel">
+      <header className="panel-header">
         <h2>Inventory</h2>
         <span className="bag-capacity-readout">
           {filledCount} / {SLOT_COUNT}

@@ -228,8 +228,8 @@ const ProficienciesPanel = () => {
   const isScrollView = viewMode === "scroll";
 
   return (
-    <article className="overview-panel proficiencies-panel">
-      <header className="overview-panel-header proficiencies-header">
+    <article className="panel proficiencies-panel">
+      <header className="panel-header proficiencies-header">
         <div className="proficiencies-heading-group">
           <h2>{isScrollView ? "Proficiencies" : "Character"}</h2>
         </div>

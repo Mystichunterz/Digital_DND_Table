@@ -1,4 +1,20 @@
-/* ---------- Companions ---------- */
+.companions-page {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.companions-page-grid {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+}
 
 .companions-panel {
   min-height: 0;
@@ -30,7 +46,7 @@
 .companion-card {
   border: 1px solid rgba(122, 90, 62, 0.65);
   border-radius: 10px;
-  background: var(--overview-panel-bg-soft);
+  background: var(--panel-bg-soft);
   padding: clamp(0.65rem, 0.8vw, 0.9rem);
   display: flex;
   flex-direction: column;
@@ -59,14 +75,14 @@
 .companion-meta {
   margin: 0.1rem 0 0;
   font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 .companion-role {
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 .companion-tags {
@@ -80,7 +96,7 @@
   font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 .companion-stat-strip {
@@ -105,20 +121,20 @@
   font-size: clamp(0.65rem, 0.08vw + 0.6rem, 0.72rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
 }
 
 .companion-stat-strip dd {
   margin: 0;
   font-size: clamp(0.92rem, 0.18vw + 0.86rem, 1.05rem);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .companion-stat-divider {
   margin: 0 0.15rem;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 400;
 }
 
@@ -146,13 +162,13 @@
   font-size: clamp(0.65rem, 0.08vw + 0.6rem, 0.72rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-weight: 600;
 }
 
 .companion-abilities strong {
   font-size: clamp(0.92rem, 0.16vw + 0.86rem, 1.02rem);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 600;
 }
 
@@ -210,7 +226,7 @@
 }
 
 .companion-attack-name {
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-weight: 500;
 }
 
@@ -221,7 +237,7 @@
 }
 
 .companion-attack-damage {
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   text-align: right;
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
 }
@@ -231,7 +247,7 @@
   border: 1px solid rgba(122, 90, 62, 0.5);
   border-radius: 999px;
   background: rgba(20, 16, 13, 0.5);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
   cursor: help;
   transition:
@@ -247,6 +263,6 @@
 .companion-empty-note {
   margin: 0;
   font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-style: italic;
 }

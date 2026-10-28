@@ -230,8 +230,8 @@ const MoodboardPanel = () => {
   const isLoading = !isHydrated || isLoadingSnapshot || bulkPendingIds.size > 0;
 
   return (
-    <article className="overview-panel background-panel moodboard-panel">
-      <header className="overview-panel-header moodboard-header">
+    <article className="panel moodboard-panel">
+      <header className="panel-header moodboard-header">
         <h2>Moodboard</h2>
         <div className="moodboard-toolbar">
           <span

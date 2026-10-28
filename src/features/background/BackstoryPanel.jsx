@@ -2,8 +2,8 @@ import { backstoryParagraphs } from "@/data/character/background";
 
 const BackstoryPanel = () => {
   return (
-    <article className="overview-panel background-panel backstory-panel">
-      <header className="overview-panel-header">
+    <article className="panel backstory-panel">
+      <header className="panel-header">
         <h2>Backstory</h2>
       </header>
 

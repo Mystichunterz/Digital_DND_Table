@@ -112,8 +112,8 @@ const PersonalityPanel = () => {
   };
 
   return (
-    <article className="overview-panel background-panel personality-panel">
-      <header className="overview-panel-header">
+    <article className="panel personality-panel">
+      <header className="panel-header">
         <h2>Personality</h2>
       </header>
 

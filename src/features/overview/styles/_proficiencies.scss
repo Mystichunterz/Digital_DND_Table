@@ -20,7 +20,7 @@
 .proficiency-view-toggle button {
   border: 0;
   background: transparent;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.78rem, 0.14vw + 0.74rem, 0.9rem);
   line-height: 1.2;
   padding: 0.28rem 0.65rem;
@@ -29,7 +29,7 @@
 
 .proficiency-view-toggle button.is-active {
   background: rgba(122, 90, 62, 0.45);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
 }
 
 .proficiencies-panel {
@@ -62,7 +62,7 @@
   gap: 0.3rem;
   margin: 0;
   padding: 0;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.76rem, 0.15vw + 0.72rem, 0.9rem);
 }
 
@@ -110,12 +110,12 @@
 }
 
 .detailed-label {
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.9rem, 0.18vw + 0.84rem, 1.02rem);
 }
 
 .detailed-value {
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.98rem, 0.2vw + 0.9rem, 1.1rem);
   text-align: right;
 }
@@ -127,7 +127,7 @@
 }
 
 .detailed-note {
-  color: var(--overview-text);
+  color: var(--panel-text);
   font-size: clamp(0.9rem, 0.16vw + 0.84rem, 1rem);
   text-align: right;
 }
@@ -138,7 +138,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(1rem, 0.2vw + 0.92rem, 1.16rem);
   font-weight: 500;
 }
@@ -160,12 +160,12 @@
 
 .proficiency-summary-count {
   min-width: 2.2rem;
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.96rem, 0.18vw + 0.9rem, 1.08rem);
 }
 
 .proficiency-summary-label {
-  color: var(--overview-text);
+  color: var(--panel-text);
   font-size: clamp(0.94rem, 0.18vw + 0.88rem, 1.06rem);
 }
 
@@ -199,7 +199,7 @@
 .saving-throw-chip {
   border: 1px solid rgba(122, 90, 62, 0.75);
   background: rgba(19, 15, 12, 0.78);
-  color: var(--overview-highlight);
+  color: var(--panel-highlight);
   border-radius: 6px;
   min-width: 2rem;
   aspect-ratio: 1 / 1;
@@ -234,7 +234,7 @@
   border: 1px solid rgba(153, 122, 92, 0.75);
   border-radius: 999px;
   padding: 0.15rem 0.45rem;
-  color: var(--overview-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.78rem, 0.14vw + 0.74rem, 0.9rem);
 }
 
