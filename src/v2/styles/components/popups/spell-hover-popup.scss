@@ -64,7 +64,7 @@ body.v2-active {
 
   .spell-hover-popup-title-block .popup-title {
     margin: 0;
-    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.50rem);
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.5rem);
     font-weight: 500;
     line-height: 1.1;
     color: #ffffff;
@@ -81,10 +81,12 @@ body.v2-active {
     margin: 0.85rem 0 0;
     color: #ffffff;
     font-weight: 500;
-    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.50rem);
+    font-size: clamp(1.55rem, 0.35vw + 1.4rem, 1.5rem);
     line-height: 1.1;
     letter-spacing: 0.005em;
-    transition: color 0.12s ease, text-shadow 0.12s ease;
+    transition:
+      color 0.12s ease,
+      text-shadow 0.12s ease;
   }
 
   .spell-hover-popup-damage-headline.is-inspectable {
@@ -335,7 +337,9 @@ body.v2-active {
     flex-shrink: 0;
   }
 
-  .spell-hover-popup-footer-tags [class^="is-kind-"] .spell-hover-popup-tag-icon {
+  .spell-hover-popup-footer-tags
+    [class^="is-kind-"]
+    .spell-hover-popup-tag-icon {
     width: 1.8rem;
     height: 1.8rem;
   }

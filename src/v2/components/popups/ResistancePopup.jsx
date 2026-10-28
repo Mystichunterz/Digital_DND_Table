@@ -44,7 +44,9 @@ const ResistancePopup = ({
                   className="resistance-popup-rule"
                 >
                   <ResistanceArrow
-                    variant={rule.kind === "magical" ? "magical" : "non-magical"}
+                    variant={
+                      rule.kind === "magical" ? "magical" : "non-magical"
+                    }
                     className="resistance-popup-rule-icon"
                   />
                   <p className="resistance-popup-rule-text">{rule.text}</p>

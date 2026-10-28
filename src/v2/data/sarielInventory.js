@@ -25,9 +25,7 @@ const ITEMS = [
     description: "+6 to hit · 1d10+3 slashing · Versatile",
     subtitle: "Common Martial Weapon",
     hero: { kind: "effect", headline: "1d10+3 Slashing", formula: "+6 to hit" },
-    properties: [
-      { title: "Versatile", text: "1d10 when wielded two-handed." },
-    ],
+    properties: [{ title: "Versatile", text: "1d10 when wielded two-handed." }],
     flavor: "Standard issue for soldiers of the Emperor's guard.",
     actionType: "Action",
   },

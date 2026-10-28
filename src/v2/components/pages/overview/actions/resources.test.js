@@ -49,9 +49,9 @@ describe("isSpellAction", () => {
   });
 
   it("rejects non-spell actions", () => {
-    expect(isSpellAction({ category: "common", iconKey: "common/dash.webp" })).toBe(
-      false,
-    );
+    expect(
+      isSpellAction({ category: "common", iconKey: "common/dash.webp" }),
+    ).toBe(false);
     expect(isSpellAction(null)).toBe(false);
   });
 });
@@ -69,15 +69,15 @@ describe("canAffordAction", () => {
   });
 
   it("blocks an action when no action economy is left", () => {
-    expect(canAffordAction({ kind: "action" }, { ...fullResources, action: 0 })).toBe(
-      false,
-    );
+    expect(
+      canAffordAction({ kind: "action" }, { ...fullResources, action: 0 }),
+    ).toBe(false);
   });
 
   it("blocks a bonus action when no bonus is left", () => {
-    expect(canAffordAction({ kind: "bonus" }, { ...fullResources, bonus: 0 })).toBe(
-      false,
-    );
+    expect(
+      canAffordAction({ kind: "bonus" }, { ...fullResources, bonus: 0 }),
+    ).toBe(false);
   });
 
   it("blocks a reaction when no reaction is left", () => {
@@ -88,13 +88,18 @@ describe("canAffordAction", () => {
 
   it("treats cantrips as always affordable in spell-slot terms", () => {
     const item = { kind: "action", category: "paladin", tier: "C" };
-    expect(canAffordAction(item, { ...fullResources, spellSlots: {} })).toBe(true);
+    expect(canAffordAction(item, { ...fullResources, spellSlots: {} })).toBe(
+      true,
+    );
   });
 
   it("blocks a spell when its slot tier is empty", () => {
     const item = { kind: "action", category: "paladin", tier: "II" };
     expect(
-      canAffordAction(item, { ...fullResources, spellSlots: { 1: 1, 2: 0, 3: 1 } }),
+      canAffordAction(item, {
+        ...fullResources,
+        spellSlots: { 1: 1, 2: 0, 3: 1 },
+      }),
     ).toBe(false);
   });
 

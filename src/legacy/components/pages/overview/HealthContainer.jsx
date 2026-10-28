@@ -39,11 +39,24 @@ const HealthContainer = () => {
   return (
     <div className="health-container">
       <div className="health-actions">
-        <button onClick={() => setHealth((prev) => Math.min(prev + inputValue, maxHealth))} className="heal-button">
+        <button
+          onClick={() =>
+            setHealth((prev) => Math.min(prev + inputValue, maxHealth))
+          }
+          className="heal-button"
+        >
           Heal
         </button>
-        <input type="number" placeholder="Enter HP" value={inputValue} onChange={handleInputChange} />
-        <button onClick={() => setHealth((prev) => Math.max(prev - inputValue, 0))} className="damage-button">
+        <input
+          type="number"
+          placeholder="Enter HP"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <button
+          onClick={() => setHealth((prev) => Math.max(prev - inputValue, 0))}
+          className="damage-button"
+        >
           Damage
         </button>
       </div>
@@ -52,11 +65,21 @@ const HealthContainer = () => {
       <div className="health-info">
         <p className="label">Current&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max</p>
         <p className="value">
-          <span contentEditable suppressContentEditableWarning onBlur={handleHealthChange} className="editable">
+          <span
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={handleHealthChange}
+            className="editable"
+          >
             {health}
           </span>
           &nbsp;/&nbsp;
-          <span contentEditable suppressContentEditableWarning onBlur={handleMaxHealthChange} className="editable">
+          <span
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={handleMaxHealthChange}
+            className="editable"
+          >
             {maxHealth}
           </span>
         </p>
@@ -66,7 +89,12 @@ const HealthContainer = () => {
       {/* Right section: Temp HP */}
       <div className="health-temp">
         <p className="label">Temp</p>
-        <p className="value editable" contentEditable suppressContentEditableWarning onBlur={handleTempHealthChange}>
+        <p
+          className="value editable"
+          contentEditable
+          suppressContentEditableWarning
+          onBlur={handleTempHealthChange}
+        >
           {tempHealth || "-"}
         </p>
         <p className="label">&nbsp;</p>

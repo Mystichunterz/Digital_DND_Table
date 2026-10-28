@@ -9,11 +9,20 @@ const V2InventoryFilterBar = ({
   maxWeight,
 }) => {
   const ratio = maxWeight > 0 ? Math.min(currentWeight / maxWeight, 1) : 0;
-  const tone = ratio > 0.95 ? "is-overburdened" : ratio > 0.75 ? "is-strained" : "is-clear";
+  const tone =
+    ratio > 0.95
+      ? "is-overburdened"
+      : ratio > 0.75
+        ? "is-strained"
+        : "is-clear";
 
   return (
     <header className="v2-inventory-filter-bar">
-      <div className="v2-inventory-filter-chips" role="tablist" aria-label="Item category">
+      <div
+        className="v2-inventory-filter-chips"
+        role="tablist"
+        aria-label="Item category"
+      >
         {CATEGORIES.map((category) => (
           <button
             key={category}

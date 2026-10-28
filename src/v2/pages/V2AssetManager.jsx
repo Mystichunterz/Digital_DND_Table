@@ -165,7 +165,9 @@ const V2AssetManager = () => {
       setStatusMessage({
         type: "error",
         text:
-          error instanceof Error ? error.message : "Upload failed unexpectedly.",
+          error instanceof Error
+            ? error.message
+            : "Upload failed unexpectedly.",
       });
     } finally {
       setIsUploading(false);

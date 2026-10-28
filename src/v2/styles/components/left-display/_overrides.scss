@@ -1,4 +1,8 @@
-body.v2-active .v2-left-display-wrap .left-display-content .attributes .primary-icon {
+body.v2-active
+  .v2-left-display-wrap
+  .left-display-content
+  .attributes
+  .primary-icon {
   width: clamp(1rem, 1.4vw, 1rem);
   height: clamp(1rem, 1.4vw, 1rem);
 }
@@ -194,4 +198,3 @@ body.v2-active
   .resistance-icon {
   width: clamp(1.7rem, 1.6vw, 2.1rem);
 }
-

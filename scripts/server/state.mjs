@@ -138,7 +138,9 @@ export const registerStateRoutes = (app, { stmts }) => {
       }
 
       const existingRow = stmts.getCharacterState.get(characterId);
-      const existingState = existingRow ? JSON.parse(existingRow.state_json) : {};
+      const existingState = existingRow
+        ? JSON.parse(existingRow.state_json)
+        : {};
       const mergedState = { ...existingState, ...request.body };
 
       stmts.upsertCharacterState.run(
@@ -187,7 +189,9 @@ export const registerMoodboardSnapshotRoutes = (app, { stmts }) => {
 
         const items = Array.isArray(moodboard.items) ? moodboard.items : [];
         const rawLabel =
-          typeof request.body?.label === "string" ? request.body.label.trim() : "";
+          typeof request.body?.label === "string"
+            ? request.body.label.trim()
+            : "";
         const label = rawLabel.slice(0, 120) || null;
         const createdAt = Date.now();
 

@@ -71,22 +71,14 @@ const SpellbookRow = ({
 
   return (
     <section className={className} aria-label={label}>
-      {showLabel && (
-        <span className="v2-spellbook-row-title">{label}</span>
-      )}
-      <span className={glyphClassName}>
-        {renderGlyph(glyphKey, label)}
-      </span>
+      {showLabel && <span className="v2-spellbook-row-title">{label}</span>}
+      <span className={glyphClassName}>{renderGlyph(glyphKey, label)}</span>
       <div className="v2-spellbook-icon-row">
         {children}
         {trailingSlots}
       </div>
       {slotsMax > 0 && (
-        <SlotPipGrid
-          remaining={slotsRemaining}
-          max={slotsMax}
-          label={label}
-        />
+        <SlotPipGrid remaining={slotsRemaining} max={slotsMax} label={label} />
       )}
     </section>
   );

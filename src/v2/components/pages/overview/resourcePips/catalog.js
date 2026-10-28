@@ -8,7 +8,14 @@ import DivineSenseIcon from "../../../../../assets/resources/divine_sense.webp";
 import LayOnHandsIcon from "../../../../../assets/resources/lay_on_hands.png";
 import SorceryPointsIcon from "../../../../../assets/resources/sorcery_points.png";
 
-export const TIER_LABELS = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI" };
+export const TIER_LABELS = {
+  1: "I",
+  2: "II",
+  3: "III",
+  4: "IV",
+  5: "V",
+  6: "VI",
+};
 export const TIER_KEYS = [1, 2, 3, 4, 5, 6];
 
 export const SINGLE_RESOURCES = [
@@ -19,7 +26,12 @@ export const SINGLE_RESOURCES = [
     kind: "bonus",
     label: "Bonus action",
   },
-  { key: "reaction", iconSrc: ReactionIcon, kind: "reaction", label: "Reaction" },
+  {
+    key: "reaction",
+    iconSrc: ReactionIcon,
+    kind: "reaction",
+    label: "Reaction",
+  },
   {
     key: "channelOath",
     iconSrc: ChannelOathIcon,

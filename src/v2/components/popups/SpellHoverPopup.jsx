@@ -98,7 +98,8 @@ const SpellHoverPopup = ({
 
     return min === max ? `${min} Damage` : `${min}~${max} Damage`;
   }, [damageRows]);
-  const damageHeadline = computedDamageHeadline ?? spell?.damageHeadline ?? null;
+  const damageHeadline =
+    computedDamageHeadline ?? spell?.damageHeadline ?? null;
   const mechanics = Array.isArray(spell?.mechanics) ? spell.mechanics : [];
   const popupArt = spell?.popupIcon ?? spell?.icon ?? null;
   const diceIcon = pickDiceIcon(damageRows);
@@ -130,7 +131,10 @@ const SpellHoverPopup = ({
             }
           >
             {popupArt && (
-              <div className="spell-hover-popup-art-overflow" aria-hidden="true">
+              <div
+                className="spell-hover-popup-art-overflow"
+                aria-hidden="true"
+              >
                 <img src={popupArt} alt="" decoding="async" />
               </div>
             )}
@@ -156,10 +160,11 @@ const SpellHoverPopup = ({
               </div>
 
               {!popupArt && (
-                <div className="spell-hover-popup-art-fallback" aria-hidden="true">
-                  <span>
-                    {spell?.fallbackIconText ?? spell?.short ?? "SP"}
-                  </span>
+                <div
+                  className="spell-hover-popup-art-fallback"
+                  aria-hidden="true"
+                >
+                  <span>{spell?.fallbackIconText ?? spell?.short ?? "SP"}</span>
                 </div>
               )}
             </div>
@@ -204,9 +209,7 @@ const SpellHoverPopup = ({
               </div>
             )}
 
-            {summaryText && (
-              <p className="popup-description">{summaryText}</p>
-            )}
+            {summaryText && <p className="popup-description">{summaryText}</p>}
 
             {spell?.onSave && (
               <p className="spell-hover-popup-on-save">

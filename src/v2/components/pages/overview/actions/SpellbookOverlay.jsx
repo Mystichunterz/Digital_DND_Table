@@ -30,7 +30,7 @@ const SpellbookTabStrip = ({
       const preparedLimit =
         preparedLimitsByClass[tab.id] ?? tabConfig?.preparedLimit ?? 0;
       const preparedCount = preparedLimit
-        ? preparedSpellIds[tab.id]?.length ?? 0
+        ? (preparedSpellIds[tab.id]?.length ?? 0)
         : 0;
       const fallbackCount = spellbookActionsByTab[tab.id]?.length ?? 0;
       const tabCountLabel = preparedLimit
@@ -97,7 +97,10 @@ const SpellbookConfiguredBody = ({
             <span className="v2-spellbook-stat-glyph">★</span>
             <strong>{config.abilityLabel}</strong>
           </span>
-          <span className="v2-spellbook-stat-pill" title="Spell Attack Modifier">
+          <span
+            className="v2-spellbook-stat-pill"
+            title="Spell Attack Modifier"
+          >
             <img src={SpellSlotIcon} alt="" draggable={false} />
             <strong>{config.spellAttackMod}</strong>
           </span>
@@ -114,12 +117,12 @@ const SpellbookConfiguredBody = ({
           const isMetamagic = section.source === "metamagic";
           const items = isMetamagic
             ? METAMAGIC_OPTIONS
-            : spellbookSectionItems[section.id] ?? [];
+            : (spellbookSectionItems[section.id] ?? []);
           const tier = section.slotPipsKey;
           const slotsMax =
-            tier !== undefined ? resourceMax.spellSlots?.[tier] ?? 0 : 0;
+            tier !== undefined ? (resourceMax.spellSlots?.[tier] ?? 0) : 0;
           const slotsRemaining =
-            tier !== undefined ? resources.spellSlots?.[tier] ?? 0 : 0;
+            tier !== undefined ? (resources.spellSlots?.[tier] ?? 0) : 0;
           const effectivePreparedLimit =
             preparedLimitsByClass[config.id] ?? config.preparedLimit;
           const trailingEmpty =

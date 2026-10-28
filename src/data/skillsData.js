@@ -92,8 +92,7 @@ const skillsData = {
     icon: Medicine_Icon,
     ability: "Wisdom",
     description: "Treat wounds and stabilise the dying.",
-    effect:
-      "Helps you diagnose ailments and stop a fallen ally from dying.",
+    effect: "Helps you diagnose ailments and stop a fallen ally from dying.",
   },
   Perception: {
     icon: Perception_Icon,

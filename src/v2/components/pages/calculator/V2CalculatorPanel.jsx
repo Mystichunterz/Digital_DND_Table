@@ -19,7 +19,16 @@ const TOKEN_KEYS = [
   "SPELL_DC",
 ];
 
-const QUICK_DICE = ["1d4", "1d6", "1d8", "1d10", "1d12", "1d20", "2d6", "1d100"];
+const QUICK_DICE = [
+  "1d4",
+  "1d6",
+  "1d8",
+  "1d10",
+  "1d12",
+  "1d20",
+  "2d6",
+  "1d100",
+];
 
 const buildCommand = (expression) => {
   const trimmed = expression.trim();
@@ -105,8 +114,8 @@ const V2CalculatorPanel = () => {
       <header className="v2-overview-panel-header">
         <h2>Calculator</h2>
         <p className="v2-calculator-subtitle">
-          Build an Avrae <code>!roll</code> command. Tokens substitute from
-          your live ability modifiers; copy the result into Discord.
+          Build an Avrae <code>!roll</code> command. Tokens substitute from your
+          live ability modifiers; copy the result into Discord.
         </p>
       </header>
 
@@ -165,9 +174,7 @@ const V2CalculatorPanel = () => {
           aria-label="Resolved command"
         >
           <span className="v2-calculator-output-label">Command</span>
-          <code className="v2-calculator-output-command">
-            {command || "—"}
-          </code>
+          <code className="v2-calculator-output-command">{command || "—"}</code>
           {command && (
             <span className="v2-calculator-output-range" title="Min–max range">
               {range.min}–{range.max}

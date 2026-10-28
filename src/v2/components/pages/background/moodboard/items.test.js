@@ -125,8 +125,8 @@ describe("clamp boundaries", () => {
     expect(clamp(9999, MIN_STICKER_SIZE, MAX_STICKER_SIZE)).toBe(
       MAX_STICKER_SIZE,
     );
-    expect(clamp(DEFAULT_STICKER_SIZE, MIN_STICKER_SIZE, MAX_STICKER_SIZE)).toBe(
-      DEFAULT_STICKER_SIZE,
-    );
+    expect(
+      clamp(DEFAULT_STICKER_SIZE, MIN_STICKER_SIZE, MAX_STICKER_SIZE),
+    ).toBe(DEFAULT_STICKER_SIZE);
   });
 });

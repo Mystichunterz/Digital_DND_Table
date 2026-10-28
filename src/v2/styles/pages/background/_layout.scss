@@ -53,8 +53,7 @@
   padding: clamp(0.75rem, 0.9vw, 1.1rem);
   border: 2px solid var(--v2-overview-border);
   border-radius: 10px;
-  background:
-    linear-gradient(
+  background: linear-gradient(
       170deg,
       rgba(245, 233, 209, 0.08) 0%,
       rgba(245, 233, 209, 0.03) 40%,
@@ -82,4 +81,3 @@
   color: var(--v2-overview-highlight);
   letter-spacing: 0.01em;
 }
-

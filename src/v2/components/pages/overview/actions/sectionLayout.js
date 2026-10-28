@@ -45,8 +45,7 @@ export const SECTION_IDS = SECTION_CONFIG.map((section) => section.id);
 
 const LEGACY_LAYOUT_SECTION_IDS = ["mobility", "offense", "support"];
 
-export const clamp = (value, min, max) =>
-  Math.min(Math.max(value, min), max);
+export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 export const buildInitialSectionLayout = (sectionConfig) => {
   const actions = ACTION_LIBRARY[sectionConfig.categoryId] ?? [];

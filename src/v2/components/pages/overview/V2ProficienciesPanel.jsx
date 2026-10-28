@@ -361,10 +361,7 @@ const V2ProficienciesPanel = () => {
 
               if (!ability) {
                 return (
-                  <div
-                    className="v2-saving-throw-chip"
-                    key={save.ability}
-                  >
+                  <div className="v2-saving-throw-chip" key={save.ability}>
                     <span>{save.ability}</span>
                     <strong>{save.bonus}</strong>
                   </div>

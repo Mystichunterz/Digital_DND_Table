@@ -82,7 +82,9 @@ body.v2-active .v2-left-display-wrap .left-display-content {
         cursor: pointer;
         width: 100%;
         text-align: left;
-        transition: background-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
 
         &:hover {
           background: rgba(255, 255, 255, 0.08);
@@ -112,7 +114,9 @@ body.v2-active .v2-left-display-wrap .left-display-content {
         font-size: 0.85rem;
         cursor: pointer;
         text-align: left;
-        transition: background-color 0.15s ease, color 0.15s ease;
+        transition:
+          background-color 0.15s ease,
+          color 0.15s ease;
 
         &:hover {
           background: rgba(255, 255, 255, 0.16);

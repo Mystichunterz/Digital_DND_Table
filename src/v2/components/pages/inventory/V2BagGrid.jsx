@@ -3,7 +3,11 @@ import V2SlotTile from "./V2SlotTile";
 
 const SLOT_COUNT = 64;
 
-const V2BagGrid = ({ items = [], activeCategory = "All", searchQuery = "" }) => {
+const V2BagGrid = ({
+  items = [],
+  activeCategory = "All",
+  searchQuery = "",
+}) => {
   const filtered = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 

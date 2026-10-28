@@ -53,8 +53,7 @@ export const CONDITIONS = {
       `**+${Math.max(1, modifiers?.CHA ?? 0)}** bonus to all **Saving Throws** ` +
       "(your Charisma modifier, minimum +1).",
     effects: {
-      savingThrowBonus: ({ modifiers }) =>
-        Math.max(1, modifiers?.CHA ?? 0),
+      savingThrowBonus: ({ modifiers }) => Math.max(1, modifiers?.CHA ?? 0),
     },
     onExpire: null,
   },

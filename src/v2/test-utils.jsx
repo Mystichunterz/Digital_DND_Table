@@ -23,7 +23,11 @@ export const renderWithProviders = (ui, options) =>
 export const stubFetch = (vi) => {
   const handler = (url, init = {}) => {
     const method = (init.method ?? "GET").toUpperCase();
-    if (typeof url === "string" && url.includes("/snapshots") && method === "GET") {
+    if (
+      typeof url === "string" &&
+      url.includes("/snapshots") &&
+      method === "GET"
+    ) {
       return Promise.resolve(
         new Response(JSON.stringify({ snapshots: [] }), { status: 200 }),
       );

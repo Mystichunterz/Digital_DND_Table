@@ -36,12 +36,7 @@ const personalityData = [
   {
     key: "flaws",
     label: "Flaws",
-    items: [
-      "Haunted by Guilt",
-      "Stubborn",
-      "Reckless",
-      "Blinded by Vengeance",
-    ],
+    items: ["Haunted by Guilt", "Stubborn", "Reckless", "Blinded by Vengeance"],
   },
 ];
 

@@ -197,7 +197,9 @@ const V2MoodboardPanel = () => {
 
       const items = Array.from(event.clipboardData?.items ?? []);
       const imageFiles = items
-        .filter((item) => item.kind === "file" && item.type.startsWith("image/"))
+        .filter(
+          (item) => item.kind === "file" && item.type.startsWith("image/"),
+        )
         .map((item) => item.getAsFile())
         .filter(Boolean);
 
@@ -242,7 +244,8 @@ const V2MoodboardPanel = () => {
             {saveStatus.kind === "saving" && "Saving…"}
             {saveStatus.kind === "pending" && "Pending…"}
             {saveStatus.kind === "saved" && "Saved"}
-            {saveStatus.kind === "error" && (saveStatus.message || "Save failed")}
+            {saveStatus.kind === "error" &&
+              (saveStatus.message || "Save failed")}
             {saveStatus.kind === "idle" && ""}
           </span>
           <button
@@ -303,8 +306,9 @@ const V2MoodboardPanel = () => {
       >
         {items.length === 0 && !isLoading && (
           <p className="v2-moodboard-empty">
-            Drop images here, paste from clipboard, click <strong>Add Image</strong>,
-            or pick a sticker above to start your board.
+            Drop images here, paste from clipboard, click{" "}
+            <strong>Add Image</strong>, or pick a sticker above to start your
+            board.
           </p>
         )}
 

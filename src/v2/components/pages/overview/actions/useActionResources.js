@@ -107,10 +107,7 @@ export const useActionResources = ({ extraActions, onTickConditions }) => {
       const next = { ...current, spellSlots: { ...current.spellSlots } };
 
       if (tier !== undefined) {
-        next.spellSlots[tier] = Math.min(
-          next.spellSlots[tier] ?? 0,
-          safeValue,
-        );
+        next.spellSlots[tier] = Math.min(next.spellSlots[tier] ?? 0, safeValue);
       } else {
         next[resourceKey] = Math.min(next[resourceKey] ?? 0, safeValue);
       }

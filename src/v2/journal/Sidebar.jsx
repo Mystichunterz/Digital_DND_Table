@@ -23,8 +23,8 @@ const formatRelative = (iso) => {
 
 const matchesSearch = (note, query) => {
   if (!query) return true;
-  const haystack = `${note.title}\n${note.tags.join(" ")}\n${note.body}`
-    .toLowerCase();
+  const haystack =
+    `${note.title}\n${note.tags.join(" ")}\n${note.body}`.toLowerCase();
   return haystack.includes(query);
 };
 
@@ -139,11 +139,7 @@ const Sidebar = ({ notes, selectedId, onSelect, onCreate, loading }) => {
       ) : null}
 
       {loading && notes.length === 0 ? (
-        <div
-          className="v2-journal-loading"
-          role="status"
-          aria-live="polite"
-        >
+        <div className="v2-journal-loading" role="status" aria-live="polite">
           <span className="v2-journal-spinner" aria-hidden="true" />
           <span className="v2-journal-loading-label">Loading entries…</span>
         </div>

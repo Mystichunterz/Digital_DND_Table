@@ -27,12 +27,23 @@ const EnvironmentContainer = () => {
   };
 
   return (
-    <div className="environment-container" onClick={() => setSelectedElement(null)}>
+    <div
+      className="environment-container"
+      onClick={() => setSelectedElement(null)}
+    >
       {" "}
       {/* Deselect when clicking outside */}
       {/* Top Section */}
       <div className="environment-display">
-        {backgroundImage ? <img src={backgroundImage} alt="Background" className="background-image" /> : <p>Upload an image to begin</p>}
+        {backgroundImage ? (
+          <img
+            src={backgroundImage}
+            alt="Background"
+            className="background-image"
+          />
+        ) : (
+          <p>Upload an image to begin</p>
+        )}
 
         {leftCharacter && (
           <Draggable bounds="parent">
@@ -48,7 +59,11 @@ const EnvironmentContainer = () => {
                 setSelectedElement("left");
               }}
             >
-              <img src={leftCharacter} alt="Left Character" className="character" />
+              <img
+                src={leftCharacter}
+                alt="Left Character"
+                className="character"
+              />
             </ResizableBox>
           </Draggable>
         )}
@@ -67,7 +82,11 @@ const EnvironmentContainer = () => {
                 setSelectedElement("right");
               }}
             >
-              <img src={rightCharacter} alt="Right Character" className="character" />
+              <img
+                src={rightCharacter}
+                alt="Right Character"
+                className="character"
+              />
             </ResizableBox>
           </Draggable>
         )}
@@ -76,15 +95,27 @@ const EnvironmentContainer = () => {
       <div className="upload-controls">
         <label>
           Background Image
-          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setBackgroundImage)} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e, setBackgroundImage)}
+          />
         </label>
         <label>
           Left Character
-          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setLeftCharacter)} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e, setLeftCharacter)}
+          />
         </label>
         <label>
           Right Character
-          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, setRightCharacter)} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e, setRightCharacter)}
+          />
         </label>
       </div>
     </div>

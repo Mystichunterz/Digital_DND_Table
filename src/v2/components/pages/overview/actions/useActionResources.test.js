@@ -79,9 +79,7 @@ describe("useActionResources", () => {
     act(() => result.current.adjustResource("layOnHands", -10));
     act(() => result.current.restoreLongRestResources());
 
-    expect(result.current.resources.action).toBe(
-      DEFAULT_RESOURCE_MAX.action,
-    );
+    expect(result.current.resources.action).toBe(DEFAULT_RESOURCE_MAX.action);
     expect(result.current.resources.layOnHands).toBe(
       DEFAULT_RESOURCE_MAX.layOnHands,
     );

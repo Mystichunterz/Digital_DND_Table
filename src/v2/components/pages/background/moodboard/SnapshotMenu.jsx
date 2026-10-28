@@ -3,15 +3,7 @@ import { formatSnapshotTimestamp } from "./utils";
 
 const SnapshotMenu = forwardRef(
   (
-    {
-      isOpen,
-      snapshots,
-      snapshotError,
-      onOpen,
-      onClose,
-      onLoad,
-      onDelete,
-    },
+    { isOpen, snapshots, snapshotError, onOpen, onClose, onLoad, onDelete },
     rootRef,
   ) => (
     <div className="v2-moodboard-snapshot-menu" ref={rootRef}>
@@ -64,9 +56,7 @@ const SnapshotMenu = forwardRef(
                 type="button"
                 className="v2-moodboard-snapshot-delete"
                 onClick={() => onDelete(snapshot)}
-                aria-label={`Delete snapshot ${
-                  snapshot.label || snapshot.id
-                }`}
+                aria-label={`Delete snapshot ${snapshot.label || snapshot.id}`}
                 title="Delete snapshot"
               >
                 ×

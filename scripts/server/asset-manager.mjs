@@ -80,8 +80,10 @@ const validateAbilityShape = (rawAbility) => {
   if (!id) throw new Error("Ability id is required.");
   if (!name) throw new Error("Ability name is required.");
   if (!short) throw new Error("Ability short label is required.");
-  if (!VALID_CATEGORIES.has(category)) throw new Error(`Invalid category: ${category}`);
-  if (!VALID_SECTIONS.has(section)) throw new Error(`Invalid section: ${section}`);
+  if (!VALID_CATEGORIES.has(category))
+    throw new Error(`Invalid category: ${category}`);
+  if (!VALID_SECTIONS.has(section))
+    throw new Error(`Invalid section: ${section}`);
   if (!VALID_KINDS.has(kind)) throw new Error(`Invalid kind: ${kind}`);
   if (!VALID_TIERS.has(tier)) throw new Error(`Invalid tier: ${tier}`);
   if (!VALID_TONES.has(tone)) throw new Error(`Invalid tone: ${tone}`);
@@ -249,7 +251,14 @@ export const createAssetManagerStore = ({ manifestPath, assetRoot }) => {
 
 export const registerAssetManagerRoutes = (
   app,
-  { upload, readManifest, writeManifest, getAllIconKeys, validateAbilityPayload, assetRoot },
+  {
+    upload,
+    readManifest,
+    writeManifest,
+    getAllIconKeys,
+    validateAbilityPayload,
+    assetRoot,
+  },
 ) => {
   app.get("/api/asset-manager/manifest", async (request, response, next) => {
     try {

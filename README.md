@@ -24,7 +24,13 @@ and functionality. Many of the icons are sourced from the BG3 wiki.
       `src/assets/actions/*` and `src/v2/data/actions-manifest.json`;
       `V2ActionsPanel` reads this manifest and resolves icons
       automatically — no code edits needed to add an ability.
-- [x] **Background** (`/v2/background`) — battle-map image upload.
+- [x] **Inventory** (`/v2/inventory`) — paper-doll equipment slots,
+      bag grid with category filter + search, carry weight, and a
+      combat readout. Item data lives in `src/v2/data/sarielInventory.js`.
+- [x] **Background** (`/v2/background`) — identity, personality and
+      backstory panels, plus a moodboard: drop in images (downscaled
+      client-side), place stickers, and save/restore named snapshots
+      (persisted to SQLite).
 - [x] **Journal** (`/v2/journal`) — markdown notes with YAML
       frontmatter, full-text search, tag filters, debounced auto-save,
       and an Edit ↔ Preview toggle. Notes persist as `.md` files
@@ -35,13 +41,18 @@ and functionality. Many of the icons are sourced from the BG3 wiki.
       `!roll` command into Discord. Tracks recent commands for
       one-click replay. Reads live ability modifiers from the
       character context, so token substitution stays in sync.
-- [ ] **Pets** — track pet HP, actions, etc. Not started.
+- [ ] **Companions** (`/v2/companions`) — read-only stat cards for
+      pets and mounts from `src/v2/data/companionsData.js`. HP and
+      action tracking not started yet.
 
 A `/legacy/*` route still mounts the original (pre-v2) UI for
 reference; toggle between them with the Version Switcher in the
 top-right.
 
 ## Installation
+
+Requires Node 20 or newer (`better-sqlite3` ships prebuilt binaries
+for current Node releases).
 
 ```bash
 git clone https://github.com/Mystichunterz/Digital_DND_Table.git
@@ -70,30 +81,38 @@ Other scripts:
 | `npm run dev:api` | API only — `node scripts/asset-manager-server.mjs`. |
 | `npm run build` | Production build to `dist/`. |
 | `npm run preview` | Serve the production build locally. |
-| `npm run lint` | ESLint over `src/` and `scripts/`. |
+| `npm run lint` | ESLint over the whole repo. |
+| `npm run format` | Prettier over `src/` and `scripts/` (`format:check` to verify only). |
+| `npm test` | Vitest, single run (`npm run test:watch` to watch). |
+| `npm run backup:moodboard -- [characterId] [label]` | Snapshot the current moodboard into SQLite (`characterId` defaults to `default`). |
 
 ## Architecture at a glance
 
 ```
 src/
   v2/             — current UI (default mount; routed under /v2/*)
-    api/          — HTTP clients for the local API server
-    components/   — UI components grouped by feature
-    hooks/        — generic hooks (useDebouncedSave, …)
+    components/   — UI components grouped by page, plus popups
+    data/         — actions catalog + manifest, character stats,
+                    inventory, companions, conditions
+    journal/      — self-contained journal feature (UI, state, API client)
     layout/       — V2Layout shell, left panel, tab bar
     pages/        — route components
+    state/        — React contexts (character stats, conditions,
+                    persistence status) + usePersistedDebounce
     styles/       — SCSS organised by feature
-    data/         — actions catalog + manifest
   legacy/         — pre-v2 UI, mounted under /legacy/* (reference only)
   components/     — shared (VersionSwitcher)
-  data/           — shared character data
+  data/           — character data shared by v2 and legacy
   assets/         — shared images
 scripts/
   asset-manager-server.mjs  — local API entrypoint (port 5180)
+  backup-moodboard.mjs      — CLI moodboard snapshot (npm run backup:moodboard)
   server/
-    journal.mjs   — journal endpoints + helpers
-    utils.mjs     — shared server helpers (path-safe checks)
-notes/            — markdown journal entries (.md per note)
+    asset-manager.mjs — icon upload + ability manifest endpoints
+    journal.mjs       — journal endpoints + helpers
+    state.mjs         — per-character state + moodboard snapshot endpoints
+    utils.mjs         — shared server helpers (path-safe checks)
+notes/            — markdown journal entries, one .md per note (gitignored)
 data/             — local SQLite database for character state (gitignored)
 ```
 

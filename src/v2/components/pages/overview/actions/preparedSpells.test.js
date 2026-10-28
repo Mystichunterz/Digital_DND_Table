@@ -29,17 +29,17 @@ describe("requiresPreparation", () => {
   });
 
   it("is false for unknown classes", () => {
-    expect(requiresPreparation({ class: "wizard", spellbookRow: "tier-1" })).toBe(
-      false,
-    );
+    expect(
+      requiresPreparation({ class: "wizard", spellbookRow: "tier-1" }),
+    ).toBe(false);
   });
 });
 
 describe("isActionLockedForPreparation", () => {
   it("locks a preparable spell when no class list is provided", () => {
-    expect(isActionLockedForPreparation(preparablePaladinSpell, undefined)).toBe(
-      true,
-    );
+    expect(
+      isActionLockedForPreparation(preparablePaladinSpell, undefined),
+    ).toBe(true);
   });
 
   it("unlocks a preparable spell when its id is in the prepared list", () => {
@@ -51,7 +51,9 @@ describe("isActionLockedForPreparation", () => {
   });
 
   it("never locks actions that don't require preparation", () => {
-    expect(isActionLockedForPreparation(classFeature, { paladin: [] })).toBe(false);
+    expect(isActionLockedForPreparation(classFeature, { paladin: [] })).toBe(
+      false,
+    );
   });
 });
 
