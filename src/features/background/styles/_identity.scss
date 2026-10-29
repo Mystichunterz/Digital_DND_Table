@@ -1,0 +1,420 @@
+/* ---------- Identity (merged) ---------- */
+
+.identity-panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: clamp(0.5rem, 0.7vw, 0.8rem);
+}
+
+.identity-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.identity-panel::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 4px;
+}
+
+.identity-panel::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.identity-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(122, 90, 62, 0.45);
+}
+
+.identity-section h3 {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.9rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold-light);
+  font-weight: 600;
+}
+
+/* ---------- Persona ---------- */
+
+.persona-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem 0.7rem;
+}
+
+.persona-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 0.18rem 0;
+  border-bottom: 1px dashed rgba(122, 90, 62, 0.35);
+}
+
+.persona-row dt {
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  font-weight: 600;
+}
+
+.persona-row dd {
+  margin: 0;
+  font-size: clamp(0.85rem, 0.12vw + 0.8rem, 0.95rem);
+  color: var(--panel-highlight);
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.persona-input {
+  width: 100%;
+  margin: 0;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.persona-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.persona-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}
+
+.persona-input.is-number {
+  width: 5rem;
+  -moz-appearance: textfield;
+}
+
+.persona-input.is-number::-webkit-outer-spin-button,
+.persona-input.is-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.persona-xp {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.persona-xp .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.persona-mark {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid rgba(212, 175, 55, 0.6);
+  background: rgba(20, 16, 13, 0.55);
+  border-radius: 4px;
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
+  color: var(--panel-text);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.persona-mark-input {
+  width: 100%;
+  display: block;
+  resize: none;
+  overflow: hidden;
+  min-height: 3rem;
+  border: 1px solid transparent;
+  border-left: 3px solid rgba(212, 175, 55, 0.6);
+  font-family: inherit;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.persona-mark-input:hover {
+  border-top-color: rgba(122, 90, 62, 0.45);
+  border-right-color: rgba(122, 90, 62, 0.45);
+  border-bottom-color: rgba(122, 90, 62, 0.45);
+}
+
+.persona-mark-input:focus {
+  outline: none;
+  border-top-color: var(--color-accent-gold);
+  border-right-color: var(--color-accent-gold);
+  border-bottom-color: var(--color-accent-gold);
+}
+
+.inspiration-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 999px;
+  background: rgba(20, 16, 13, 0.62);
+  color: var(--panel-muted);
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.inspiration-toggle img {
+  width: 0.95rem;
+  height: 0.95rem;
+  opacity: 0.4;
+  transition: opacity 160ms ease;
+}
+
+.inspiration-toggle:hover {
+  border-color: rgba(245, 230, 202, 0.55);
+  color: var(--panel-highlight);
+}
+
+.inspiration-toggle.is-active {
+  border-color: var(--color-accent-gold);
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--color-accent-gold-light);
+}
+
+.inspiration-toggle.is-active img {
+  opacity: 1;
+}
+
+/* ---------- Languages ---------- */
+
+.languages-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.languages-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid rgba(122, 90, 62, 0.7);
+  border-radius: 999px;
+  background: rgba(20, 16, 13, 0.55);
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.9rem);
+  color: var(--panel-highlight);
+  letter-spacing: 0.02em;
+}
+
+.language-input {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  padding: 0;
+  min-width: 4ch;
+}
+
+.language-input:focus {
+  outline: none;
+  color: var(--color-accent-gold-light);
+}
+
+.language-remove,
+.language-add {
+  border: none;
+  background: transparent;
+  color: var(--panel-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  transition: color 160ms ease;
+}
+
+.language-remove:hover {
+  color: var(--color-status-error-text);
+}
+
+.language-add {
+  padding: 0.25rem 0.6rem;
+  border: 1px dashed rgba(122, 90, 62, 0.65);
+  border-radius: 999px;
+  font-size: clamp(0.75rem, 0.08vw + 0.7rem, 0.85rem);
+  letter-spacing: 0.02em;
+}
+
+.language-add:hover {
+  color: var(--color-accent-gold-light);
+  border-color: var(--color-accent-gold);
+}
+
+/* ---------- Coins ---------- */
+
+.coins-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.coins-table th,
+.coins-table td {
+  padding: 0.35rem 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.coins-table th {
+  font-size: clamp(0.7rem, 0.08vw + 0.66rem, 0.78rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(122, 90, 62, 0.5);
+}
+
+.coins-table td {
+  font-size: clamp(0.95rem, 0.18vw + 0.88rem, 1.1rem);
+  color: var(--panel-highlight);
+  font-weight: 600;
+}
+
+.coin-input {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  padding: 0.05rem 0.2rem;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+  -moz-appearance: textfield;
+}
+
+.coin-input::-webkit-outer-spin-button,
+.coin-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.coin-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.coin-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}
+
+.coins-table td.tone-cp {
+  color: #c89272;
+}
+.coins-table td.tone-sp {
+  color: #d8d8d8;
+}
+.coins-table td.tone-ep {
+  color: #b8d4c0;
+}
+.coins-table td.tone-gp {
+  color: var(--color-accent-gold-light);
+}
+.coins-table td.tone-pp {
+  color: #d6e8f5;
+}
+
+/* ---------- Attunements ---------- */
+
+.attunements-count {
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
+  color: var(--panel-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
+.attunements-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.attunement-slot {
+  padding: 0.45rem 0.7rem;
+  border: 1px dashed rgba(122, 90, 62, 0.55);
+  border-radius: 6px;
+  background: rgba(20, 16, 13, 0.4);
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.88rem);
+  color: var(--panel-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.attunement-slot.is-filled {
+  border-style: solid;
+  border-color: var(--color-accent-gold);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--panel-highlight);
+  font-style: normal;
+}
+
+.attunement-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-style: inherit;
+  text-align: center;
+  padding: 0;
+}
+
+.attunement-input::placeholder {
+  color: var(--panel-muted);
+  font-style: italic;
+}
+
+.attunement-input:focus {
+  outline: none;
+  color: var(--color-accent-gold-light);
+}
+
+/* ---------- Personality ---------- */

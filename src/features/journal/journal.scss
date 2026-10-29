@@ -1,0 +1,7 @@
+// Journal styles, split into partials under ./styles/. The @use order is
+// the original source order, so the cascade is unchanged.
+
+@use "styles/layout";
+@use "styles/note-list";
+@use "styles/main";
+@use "styles/editor";

@@ -1,0 +1,15 @@
+// Overview page styles, split into partials under ./styles/. The @use
+// order is the original source order, so the cascade is unchanged.
+
+@use "styles/layout";
+@use "styles/health";
+@use "styles/proficiencies";
+@use "styles/spellcasting";
+@use "styles/environment";
+@use "styles/resources";
+@use "styles/resource-config";
+@use "styles/action-tiles";
+@use "styles/metamagic";
+@use "styles/spellbook-overlay";
+@use "styles/spellbook-content";
+@use "styles/media-queries";

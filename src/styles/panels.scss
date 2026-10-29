@@ -1,0 +1,60 @@
+// Shared surface for every tab: the panel palette and the bordered panel
+// card + header each page builds on. Loaded with the app shell, ahead of
+// the feature stylesheets, so page-specific rules can still override it.
+
+// Every page that renders .panel cards needs the palette, or the card's
+// border and background silently drop out.
+.overview-page,
+.background-page,
+.companions-page,
+.inventory-page,
+.calculator-page {
+  // Where a global token exists, ride it so palette tweaks cascade. Where
+  // panels want a different shade (creamier muted/highlight, semi-opaque
+  // backgrounds), keep the local literal.
+  --panel-border: var(--color-border-brown-light);
+  --panel-bg: rgba(31, 24, 19, 0.86);
+  --panel-bg-soft: rgba(22, 17, 14, 0.78);
+  --panel-text: var(--color-text-primary);
+  --panel-muted: #ccb190;
+  --panel-highlight: #f5e6ca;
+  --panel-good: var(--color-status-success);
+  --panel-bad: var(--color-status-error);
+}
+
+.panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.55rem, 0.75vw, 0.85rem);
+  padding: clamp(0.75rem, 0.9vw, 1.1rem);
+  border: 2px solid var(--panel-border);
+  border-radius: 10px;
+  background: linear-gradient(
+      170deg,
+      rgba(245, 233, 209, 0.08) 0%,
+      rgba(245, 233, 209, 0.03) 40%,
+      rgba(14, 12, 11, 0.2) 100%
+    ),
+    var(--panel-bg);
+  box-shadow:
+    0 5px 8px rgba(0, 0, 0, 0.28),
+    inset 0 4px 10px rgba(58, 47, 38, 0.2),
+    inset 0 4px 9px rgba(58, 47, 38, 0.08);
+  color: var(--panel-text);
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: clamp(1.02rem, 0.35vw + 0.88rem, 1.3rem);
+  color: var(--panel-highlight);
+  letter-spacing: 0.01em;
+}

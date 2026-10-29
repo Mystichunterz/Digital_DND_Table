@@ -1,0 +1,179 @@
+.personality-panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: clamp(0.5rem, 0.7vw, 0.8rem);
+}
+
+.personality-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.personality-panel::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 4px;
+}
+
+.personality-panel::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.personality-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 0.7vw, 0.8rem);
+}
+
+.personality-card {
+  border: 1px solid rgba(122, 90, 62, 0.55);
+  border-radius: 8px;
+  background: var(--panel-bg-soft);
+  padding: clamp(0.55rem, 0.7vw, 0.8rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.personality-card h3 {
+  margin: 0;
+  font-size: clamp(0.78rem, 0.1vw + 0.74rem, 0.9rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold-light);
+  font-weight: 600;
+}
+
+.personality-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.85rem, 0.12vw + 0.8rem, 0.95rem);
+  color: var(--panel-highlight);
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.personality-card ul li {
+  padding-left: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.personality-card ul li::before {
+  content: "✦";
+  flex: 0 0 auto;
+  color: var(--color-accent-gold-light);
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+.personality-card ul li.personality-add-row::before {
+  content: none;
+}
+
+.personality-item-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  padding: 0.1rem 0.3rem;
+  resize: none;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.personality-item-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.personality-item-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}
+
+.personality-item-remove {
+  border: none;
+  background: transparent;
+  color: var(--panel-muted);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0;
+  transition:
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.personality-card ul li:hover .personality-item-remove,
+.personality-item-remove:focus {
+  opacity: 1;
+}
+
+.personality-item-remove:hover {
+  color: var(--color-status-error-text);
+}
+
+.personality-add {
+  border: 1px dashed rgba(122, 90, 62, 0.6);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--panel-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  font-size: clamp(0.72rem, 0.08vw + 0.66rem, 0.8rem);
+  letter-spacing: 0.04em;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.personality-add:hover {
+  color: var(--color-accent-gold-light);
+  border-color: var(--color-accent-gold);
+}
+
+.personality-note {
+  margin: 0.15rem 0 0;
+  font-size: clamp(0.75rem, 0.1vw + 0.7rem, 0.82rem);
+  color: var(--panel-muted);
+  font-style: italic;
+}
+
+.personality-note-input {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0.15rem 0.3rem;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.personality-note-input::placeholder {
+  color: var(--panel-muted);
+  opacity: 0.6;
+}
+
+.personality-note-input:hover {
+  border-color: rgba(122, 90, 62, 0.45);
+}
+
+.personality-note-input:focus {
+  outline: none;
+  border-color: var(--color-accent-gold);
+  background: rgba(20, 16, 13, 0.5);
+}

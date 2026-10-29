@@ -1,20 +1,20 @@
 {
   "name": "digital_dnd_table",
   "private": true,
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "BG3-styled D&D companion app: character sheet, action HUD, spellbook, journal and asset manager.",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.12"
   },
   "scripts": {
     "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"vite\"",
     "dev:web": "vite",
-    "dev:api": "node scripts/asset-manager-server.mjs",
+    "dev:api": "node server/index.mjs",
     "build": "vite build",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{js,jsx,scss}\" \"scripts/**/*.mjs\"",
-    "format:check": "prettier --check \"src/**/*.{js,jsx,scss}\" \"scripts/**/*.mjs\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,scss,css}\" \"server/**/*.mjs\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,scss,css}\" \"server/**/*.mjs\" \"scripts/**/*.mjs\"",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -27,9 +27,7 @@
     "multer": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-draggable": "^4.4.6",
     "react-markdown": "^10.1.0",
-    "react-resizable": "^3.0.5",
     "react-router-dom": "^7.1.1"
   },
   "devDependencies": {

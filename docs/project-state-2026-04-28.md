@@ -13,6 +13,12 @@
 > `useDebouncedSave` and the old journal components are stale.
 > **Still open:** character stats/features are hard-coded,
 > `src/legacy/` is still routed, and Companions is read-only.
+>
+> **Later the same day:** the legacy UI was deleted (tag `legacy-ui-final`),
+> `src/` was reorganised into feature folders (`src/v2/*` →
+> `src/features/*`, `src/app`, `src/state`, `src/api`, `src/data`), routes
+> moved from `/v2/*` to `/*`, and the API server moved to `server/`. File
+> paths below predate that move.
 
 ## TL;DR
 

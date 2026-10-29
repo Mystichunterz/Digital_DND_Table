@@ -1,0 +1,44 @@
+import MetamagicHoverPopup from "@/components/popups/MetamagicHoverPopup";
+import { METAMAGIC_OPTIONS, METAMAGIC_SLOT_COUNT } from "./metamagicOptions";
+
+const MetamagicTray = () => (
+  <aside className="actions-metamagic-rail" aria-label="Metamagic options">
+    {Array.from({ length: METAMAGIC_SLOT_COUNT }).map((_, slotIndex) => {
+      const option = METAMAGIC_OPTIONS[slotIndex];
+
+      if (!option) {
+        return (
+          <div
+            key={`metamagic-empty-${slotIndex}`}
+            className="metamagic-tile metamagic-tile-empty"
+            aria-hidden="true"
+          />
+        );
+      }
+
+      return (
+        <MetamagicHoverPopup
+          key={option.id}
+          metamagic={option}
+          positionPreference="horizontal"
+        >
+          <button
+            type="button"
+            className="metamagic-tile"
+            title={option.name}
+            aria-label={option.name}
+          >
+            <img
+              src={option.icon}
+              alt=""
+              className="metamagic-icon"
+              draggable={false}
+            />
+          </button>
+        </MetamagicHoverPopup>
+      );
+    })}
+  </aside>
+);
+
+export default MetamagicTray;

@@ -1,0 +1,56 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+/* Form controls don't inherit typography from their ancestor by default —
+ * make them match the surrounding text instead of the user-agent default. */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:root {
+  font-family: var(--font-display);
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  /* Body fallback bg — deeper than --color-bg-page, which is the
+   * warm-dark surface color used inside panels. */
+  background-color: var(--color-bg-body);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--color-accent-gold-light);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}

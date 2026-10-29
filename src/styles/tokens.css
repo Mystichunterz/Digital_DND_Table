@@ -65,16 +65,41 @@
   /* gradients — reach for these before introducing a new gradient inline.
    * Stops resolve to existing tokens where one exists; literal hexes
    * elsewhere mark colors with no broader role yet. */
-  --gradient-accent-gold: linear-gradient(180deg, var(--color-accent-gold), var(--color-accent-gold-dark));
-  --gradient-parchment: linear-gradient(180deg, var(--color-bg-parchment) 0%, #ecdfba 100%);
-  --gradient-status-success: linear-gradient(90deg, #4ea876, var(--color-status-success));
-  --gradient-status-warning: linear-gradient(90deg, #c69a3a, var(--color-status-warning));
-  --gradient-status-error: linear-gradient(90deg, #b53b3b, var(--color-status-error));
-  --gradient-error-fill: linear-gradient(180deg, var(--color-status-error-bg), #3a1212);
+  --gradient-accent-gold: linear-gradient(
+    180deg,
+    var(--color-accent-gold),
+    var(--color-accent-gold-dark)
+  );
+  --gradient-parchment: linear-gradient(
+    180deg,
+    var(--color-bg-parchment) 0%,
+    #ecdfba 100%
+  );
+  --gradient-status-success: linear-gradient(
+    90deg,
+    #4ea876,
+    var(--color-status-success)
+  );
+  --gradient-status-warning: linear-gradient(
+    90deg,
+    #c69a3a,
+    var(--color-status-warning)
+  );
+  --gradient-status-error: linear-gradient(
+    90deg,
+    #b53b3b,
+    var(--color-status-error)
+  );
+  --gradient-error-fill: linear-gradient(
+    180deg,
+    var(--color-status-error-bg),
+    #3a1212
+  );
   --gradient-error-fill-hover: linear-gradient(180deg, #8a3232, #4a1818);
 
   /* fonts */
-  --font-display: 'Quadraat', 'Aldine 721 BT', 'Palatino Linotype', Georgia, serif;
+  --font-display: "Quadraat", "Aldine 721 BT", "Palatino Linotype", Georgia,
+    serif;
 
   /* type scale (rem) — derived from current SCSS usage */
   --font-size-xs: 0.72rem;
