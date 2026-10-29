@@ -2,12 +2,13 @@
 // card + header each page builds on. Loaded with the app shell, ahead of
 // the feature stylesheets, so page-specific rules can still override it.
 
-// Pages whose panels use the framed card. Inventory and Calculator keep
-// their own copies of these values (--inventory-*, --calculator-*), so
-// .panel's border and background don't resolve on those two pages.
+// Every page that renders .panel cards needs the palette, or the card's
+// border and background silently drop out.
 .overview-page,
 .background-page,
-.companions-page {
+.companions-page,
+.inventory-page,
+.calculator-page {
   // Where a global token exists, ride it so palette tweaks cascade. Where
   // panels want a different shade (creamier muted/highlight, semi-opaque
   // backgrounds), keep the local literal.

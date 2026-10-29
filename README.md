@@ -131,7 +131,8 @@ The Vite dev server proxies `/api/*` to the API server.
   and `<name>.scss`, registered in `src/app/Router.jsx` and
   `src/app/TabBar.jsx`.
 - Panels use the `.panel` / `.panel-header` card from
-  `src/styles/panels.scss`.
+  `src/styles/panels.scss`; add the page's class to the palette selector
+  there, or the card renders without its border and background.
 - Per-character persistence: load with `useCharacterStateHydration`,
   save with `usePersistedDebounce({ url: characterStateUrl(), ... })`.
 

@@ -1,10 +1,4 @@
 .inventory-page {
-  --inventory-border: var(--color-border-brown-light);
-  --inventory-panel-bg: rgba(31, 24, 19, 0.86);
-  --inventory-text: var(--color-text-primary);
-  --inventory-muted: #ccb190;
-  --inventory-highlight: #f5e6ca;
-
   --rarity-common: #d9c8a8;
   --rarity-uncommon: #7fc380;
   --rarity-rare: #5ca6e6;
@@ -28,14 +22,14 @@
   align-items: center;
   gap: clamp(0.6rem, 1vw, 1.1rem);
   padding: 0.45rem 0.75rem;
-  border: 1px solid var(--inventory-border);
+  border: 1px solid var(--panel-border);
   border-radius: 10px;
   background: linear-gradient(
       170deg,
       rgba(245, 233, 209, 0.06) 0%,
       rgba(14, 12, 11, 0.18) 100%
     ),
-    var(--inventory-panel-bg);
+    var(--panel-bg);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.24);
 }
 
@@ -48,7 +42,7 @@
 .inventory-filter-chip {
   appearance: none;
   background: rgba(20, 16, 13, 0.62);
-  color: var(--inventory-muted);
+  color: var(--panel-muted);
   border: 1px solid rgba(122, 90, 62, 0.6);
   border-radius: 999px;
   padding: 0.32rem 0.85rem;
@@ -62,12 +56,12 @@
 }
 
 .inventory-filter-chip:hover {
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   border-color: rgba(245, 230, 202, 0.45);
 }
 
 .inventory-filter-chip.is-active {
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   border-color: rgba(245, 230, 202, 0.7);
   background: rgba(245, 230, 202, 0.1);
 }
@@ -76,7 +70,7 @@
   width: 100%;
   appearance: none;
   background: rgba(14, 11, 9, 0.7);
-  color: var(--inventory-text);
+  color: var(--panel-text);
   border: 1px solid rgba(122, 90, 62, 0.55);
   border-radius: 6px;
   padding: 0.42rem 0.75rem;
@@ -93,7 +87,7 @@
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  color: var(--inventory-muted);
+  color: var(--panel-muted);
   font-size: clamp(0.85rem, 0.12vw + 0.82rem, 0.95rem);
 }
 
@@ -245,7 +239,7 @@
 }
 
 .combat-ac-value {
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 1;
@@ -259,21 +253,21 @@
 }
 
 .combat-tile-label {
-  color: var(--inventory-muted);
+  color: var(--panel-muted);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .combat-tile-value {
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   font-size: 1.1rem;
   font-weight: 500;
   line-height: 1.1;
 }
 
 .combat-tile-detail {
-  color: var(--inventory-text);
+  color: var(--panel-text);
   font-size: 0.85rem;
 }
 
@@ -287,7 +281,7 @@
 }
 
 .bag-capacity-readout {
-  color: var(--inventory-muted);
+  color: var(--panel-muted);
   font-size: 0.85rem;
   letter-spacing: 0.04em;
 }
@@ -375,7 +369,7 @@
   position: absolute;
   bottom: 0.15rem;
   right: 0.25rem;
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   font-size: 0.78rem;
   font-weight: 500;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
@@ -404,7 +398,7 @@
 }
 
 .slot-tile-fallback {
-  color: var(--inventory-highlight);
+  color: var(--panel-highlight);
   font-size: clamp(0.72rem, 0.4vw + 0.6rem, 0.95rem);
   font-weight: 500;
   letter-spacing: 0.04em;
